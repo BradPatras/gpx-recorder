@@ -3,12 +3,13 @@ package com.iboism.gpxrecorder.model
 import com.iboism.gpxrecorder.util.UUIDHelper
 import io.realm.RealmList
 import io.realm.RealmObject
+import io.realm.annotations.PrimaryKey
 
 /**
  * Created by Brad on 11/18/2017.
  */
 open class Track(
-        var identifier: Long = UUIDHelper.random(),
+        @PrimaryKey var identifier: Long = UUIDHelper.random(),
         var name: String = "",
         var description: String = "",
         var segments: RealmList<Segment> = RealmList()

@@ -13,6 +13,7 @@ import com.fasterxml.jackson.dataformat.xml.XmlMapper
 import com.iboism.gpxrecorder.model.Segment
 import com.iboism.gpxrecorder.model.Track
 import com.iboism.gpxrecorder.model.TrackPoint
+import com.iboism.gpxrecorder.util.FileHelper
 import io.realm.RealmList
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.app_bar_main.*
@@ -39,7 +40,10 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         val segment = Segment(points = RealmList(TrackPoint(), TrackPoint()))
         val track = Track(name = "test", segments = RealmList(segment))
 
-        val trackXml = track.getXmlString()
+        val fileHelper = FileHelper(applicationContext)
+
+        val file = fileHelper.gpxFileWith(listOf(track))
+        fileHelper.shareFile(file)
 
         nav_view.setNavigationItemSelectedListener(this)
     }
