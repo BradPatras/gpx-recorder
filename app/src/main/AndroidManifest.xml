@@ -11,7 +11,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
-            android:name=".MainActivity"
+            android:name=".activity.MainActivity"
             android:label="@string/app_name"
             android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
@@ -32,12 +32,12 @@
         </provider>
 
         <activity
-            android:name=".RecordingConfigurationActivity"
+            android:name=".activity.RecordingConfigurationActivity"
             android:label="@string/title_activity_recording_configuration"
-            android:parentActivityName=".MainActivity">
+            android:parentActivityName=".activity.MainActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.iboism.gpxrecorder.MainActivity"/>
+                android:value="com.iboism.gpxrecorder.activity.MainActivity"/>
         </activity>
     </application>
 

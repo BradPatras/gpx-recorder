@@ -1,4 +1,4 @@
-package com.iboism.gpxrecorder
+package com.iboism.gpxrecorder.activity
 
 import android.content.res.Configuration
 import android.os.Bundle

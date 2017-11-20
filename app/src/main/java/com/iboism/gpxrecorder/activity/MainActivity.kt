@@ -1,16 +1,15 @@
-package com.iboism.gpxrecorder
+package com.iboism.gpxrecorder.activity
 
 import android.content.Intent
 import android.os.Bundle
-import android.support.design.widget.Snackbar
 import android.support.design.widget.NavigationView
 import android.support.v4.view.GravityCompat
 import android.support.v7.app.ActionBarDrawerToggle
 import android.support.v7.app.AppCompatActivity
 import android.view.Menu
 import android.view.MenuItem
-import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.dataformat.xml.XmlMapper
+import com.iboism.gpxrecorder.R
 import com.iboism.gpxrecorder.model.*
 import com.iboism.gpxrecorder.util.FileHelper
 import io.realm.RealmList
@@ -25,7 +24,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         setSupportActionBar(toolbar)
 
         fab.setOnClickListener { view ->
-            startActivity(Intent(applicationContext,RecordingConfigurationActivity::class.java))
+            startActivity(Intent(applicationContext, RecordingConfigurationActivity::class.java))
         }
 
         val toggle = ActionBarDrawerToggle(

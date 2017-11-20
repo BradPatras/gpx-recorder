@@ -1,4 +1,4 @@
-package com.iboism.gpxrecorder
+package com.iboism.gpxrecorder.activity
 
 import android.annotation.TargetApi
 import android.content.Context
@@ -17,6 +17,7 @@ import android.preference.RingtonePreference
 import android.text.TextUtils
 import android.view.MenuItem
 import android.support.v4.app.NavUtils
+import com.iboism.gpxrecorder.R
 
 /**
  * A [PreferenceActivity] that presents a set of application settings. On
