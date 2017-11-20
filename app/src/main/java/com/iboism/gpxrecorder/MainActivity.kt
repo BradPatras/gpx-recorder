@@ -1,5 +1,6 @@
 package com.iboism.gpxrecorder
 
+import android.content.Intent
 import android.os.Bundle
 import android.support.design.widget.Snackbar
 import android.support.design.widget.NavigationView
@@ -10,9 +11,7 @@ import android.view.Menu
 import android.view.MenuItem
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.dataformat.xml.XmlMapper
-import com.iboism.gpxrecorder.model.Segment
-import com.iboism.gpxrecorder.model.Track
-import com.iboism.gpxrecorder.model.TrackPoint
+import com.iboism.gpxrecorder.model.*
 import com.iboism.gpxrecorder.util.FileHelper
 import io.realm.RealmList
 import kotlinx.android.synthetic.main.activity_main.*
@@ -26,8 +25,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         setSupportActionBar(toolbar)
 
         fab.setOnClickListener { view ->
-            Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                    .setAction("Action", null).show()
+            startActivity(Intent(applicationContext,RecordingConfigurationActivity::class.java))
         }
 
         val toggle = ActionBarDrawerToggle(
@@ -37,12 +35,15 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
         var xmlMapper = XmlMapper()
 
-        val segment = Segment(points = RealmList(TrackPoint(), TrackPoint()))
-        val track = Track(name = "test", segments = RealmList(segment))
+        val segment = Segment(points = RealmList(TrackPoint(lat = 59.4408327f, lon = 24.74516185f), TrackPoint(lat = 59.4408330f, lon = 24.74516179f)))
+        val track = Track(name = "test track", segments = RealmList(segment))
+        val gpxContent = GpxContent(trackList = RealmList(track), title = "are you still there")
 
         val fileHelper = FileHelper(applicationContext)
 
-        val file = fileHelper.gpxFileWith(listOf(track))
+
+
+        val file = fileHelper.gpxFileWith(gpxContent)
         fileHelper.shareFile(file)
 
         nav_view.setNavigationItemSelectedListener(this)

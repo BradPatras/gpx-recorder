@@ -10,7 +10,7 @@ import java.util.*
 class DateTimeFormatHelper {
     companion object {
         fun formatDate(date: Date = Date()): String {
-            return SimpleDateFormat.getDateTimeInstance().format(date)
+            return SimpleDateFormat("yyyy-MM-dd'T'hh:mm:ss'Z'").format(date)
         }
     }
 }

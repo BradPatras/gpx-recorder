@@ -20,15 +20,25 @@
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
+
         <provider
-            android:authorities="com.iboism.gpxrecorder.fileprovider"
             android:name="android.support.v4.content.FileProvider"
-            android:grantUriPermissions="true"
-            android:exported="false">
+            android:authorities="com.iboism.gpxrecorder.fileprovider"
+            android:exported="false"
+            android:grantUriPermissions="true">
             <meta-data
                 android:name="android.support.FILE_PROVIDER_PATHS"
-                android:resource="@xml/filepaths" />
+                android:resource="@xml/filepaths"/>
         </provider>
+
+        <activity
+            android:name=".RecordingConfigurationActivity"
+            android:label="@string/title_activity_recording_configuration"
+            android:parentActivityName=".MainActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.iboism.gpxrecorder.MainActivity"/>
+        </activity>
     </application>
 
 </manifest>
