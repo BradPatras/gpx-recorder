@@ -40,7 +40,7 @@ dependencies {
 
     compile group: 'com.fasterxml.jackson.dataformat', name: 'jackson-dataformat-xml', version: '2.9.2'
     compile group: 'javax.xml.stream', name: 'stax-api', version: '1.0-2'
-
+    compile 'com.karumi:dexter:4.2.0'
     compile group: 'commons-io', name: 'commons-io', version: '2.6'
 
 }

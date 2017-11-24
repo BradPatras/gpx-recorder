@@ -12,11 +12,13 @@ import com.fasterxml.jackson.dataformat.xml.XmlMapper
 import com.iboism.gpxrecorder.R
 import com.iboism.gpxrecorder.model.*
 import com.iboism.gpxrecorder.util.FileHelper
+import com.iboism.gpxrecorder.util.PermissionHelper
 import io.realm.RealmList
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.app_bar_main.*
 
 class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener {
+    val permissionHelper: PermissionHelper by lazy { PermissionHelper.getInstance(this) }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -24,7 +26,9 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         setSupportActionBar(toolbar)
 
         fab.setOnClickListener { view ->
-            startActivity(Intent(applicationContext, RecordingConfigurationActivity::class.java))
+            permissionHelper.checkLocationPermissions(
+                    onAllowed = { startActivity(Intent(applicationContext, RecordingConfigurationActivity::class.java)) },
+                    onDenied = { /* do nothing for now*/  })
         }
 
         val toggle = ActionBarDrawerToggle(
@@ -32,15 +36,11 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         drawer_layout.addDrawerListener(toggle)
         toggle.syncState()
 
-        var xmlMapper = XmlMapper()
-
         val segment = Segment(points = RealmList(TrackPoint(lat = 59.4408327f, lon = 24.74516185f), TrackPoint(lat = 59.4408330f, lon = 24.74516179f)))
         val track = Track(name = "test track", segments = RealmList(segment))
         val gpxContent = GpxContent(trackList = RealmList(track), title = "are you still there")
 
         val fileHelper = FileHelper(applicationContext)
-
-
 
         val file = fileHelper.gpxFileWith(gpxContent)
         fileHelper.shareFile(file)
