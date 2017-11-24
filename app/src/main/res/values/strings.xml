@@ -1,6 +1,10 @@
 <resources>
     <string name="app_name">GPX Recorder</string>
 
+    <!-- Permissions request -->
+    <string name="permission_denied_dialog_title">Location Permissions</string>
+    <string name="permission_denied_dialog_description">Location is required to create a GPX recording</string>
+
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
 
@@ -65,7 +69,7 @@
         <item>3</item>
     </string-array>
 
-    <string-array name="multi_select_list_preference_default_value"/>
+    <string-array name="multi_select_list_preference_default_value" />
 
     <string name="pref_title_system_sync_settings">System sync settings</string>
 
