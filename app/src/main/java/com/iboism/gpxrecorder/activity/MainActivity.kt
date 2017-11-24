@@ -8,9 +8,11 @@ import android.support.v7.app.ActionBarDrawerToggle
 import android.support.v7.app.AppCompatActivity
 import android.view.Menu
 import android.view.MenuItem
-import com.fasterxml.jackson.dataformat.xml.XmlMapper
 import com.iboism.gpxrecorder.R
-import com.iboism.gpxrecorder.model.*
+import com.iboism.gpxrecorder.model.GpxContent
+import com.iboism.gpxrecorder.model.Segment
+import com.iboism.gpxrecorder.model.Track
+import com.iboism.gpxrecorder.model.TrackPoint
 import com.iboism.gpxrecorder.util.FileHelper
 import com.iboism.gpxrecorder.util.PermissionHelper
 import io.realm.RealmList
