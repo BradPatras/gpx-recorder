@@ -1,6 +1,7 @@
 package com.iboism.gpxrecorder.activity
 
 import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import android.support.design.widget.NavigationView
 import android.support.v4.view.GravityCompat
@@ -8,11 +9,13 @@ import android.support.v7.app.ActionBarDrawerToggle
 import android.support.v7.app.AppCompatActivity
 import android.view.Menu
 import android.view.MenuItem
+import com.iboism.gpxrecorder.BuildConfig
 import com.iboism.gpxrecorder.R
 import com.iboism.gpxrecorder.model.GpxContent
 import com.iboism.gpxrecorder.model.Segment
 import com.iboism.gpxrecorder.model.Track
 import com.iboism.gpxrecorder.model.TrackPoint
+import com.iboism.gpxrecorder.util.Alerts
 import com.iboism.gpxrecorder.util.FileHelper
 import com.iboism.gpxrecorder.util.PermissionHelper
 import io.realm.RealmList
@@ -20,18 +23,14 @@ import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.app_bar_main.*
 
 class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener {
-    val permissionHelper: PermissionHelper by lazy { PermissionHelper.getInstance(this) }
+    private val permissionHelper: PermissionHelper by lazy { PermissionHelper.getInstance(this) }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         setSupportActionBar(toolbar)
 
-        fab.setOnClickListener { view ->
-            permissionHelper.checkLocationPermissions(
-                    onAllowed = { startActivity(Intent(applicationContext, RecordingConfigurationActivity::class.java)) },
-                    onDenied = { /* do nothing for now*/  })
-        }
+        fab.setOnClickListener { _ -> checkPermissions() }
 
         val toggle = ActionBarDrawerToggle(
                 this, drawer_layout, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close)
@@ -48,6 +47,13 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         fileHelper.shareFile(file)
 
         nav_view.setNavigationItemSelectedListener(this)
+    }
+
+    private fun checkPermissions() {
+        permissionHelper.checkLocationPermissions(
+                onAllowed = {
+                    startActivity(Intent(this@MainActivity, RecordingConfigurationActivity::class.java))
+                })
     }
 
     override fun onBackPressed() {

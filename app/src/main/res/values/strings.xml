@@ -7,6 +7,12 @@
     <string name="action_settings">Settings</string>
     <string name="title_activity_recording_configuration">New Recording</string>
 
+    <!-- Alert stuff -->
+    <string name="denied_alert_title">Permissions Required</string>
+    <string name="denied_alert_message">Cannot record GPX tracks without location permissions</string>
+    <string name="denied_alert_button">Grant permissions</string>
+
+    <string name="denied_forever_alert_message">Please enable Location permissions in the app settings</string>
     <!-- Strings related to Settings -->
 
     <!-- Example General settings -->
