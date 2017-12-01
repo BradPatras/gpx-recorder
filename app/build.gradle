@@ -40,5 +40,6 @@ dependencies {
 
     compile 'com.karumi:dexter:4.2.0'
     compile group: 'commons-io', name: 'commons-io', version: '2.6'
+    compile 'com.google.android.gms:play-services-location:11.6.0'
 
 }

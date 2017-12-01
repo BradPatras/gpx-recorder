@@ -16,19 +16,25 @@ class LocationRecorderService: Service() {
 
     override fun onCreate() {
         super.onCreate()
-        Toast.makeText(applicationContext, "Service created", Toast.LENGTH_LONG)
+        Toast.makeText(applicationContext, "Service created", Toast.LENGTH_LONG).show()
     }
 
     override fun onDestroy() {
         super.onDestroy()
-        Toast.makeText(applicationContext, "Service destroyed", Toast.LENGTH_LONG)
+        Toast.makeText(applicationContext, "Service destroyed", Toast.LENGTH_LONG).show()
     }
 
     override fun onBind(intent: Intent?): IBinder {
-        Toast.makeText(applicationContext, "Service bound", Toast.LENGTH_LONG)
+        Toast.makeText(applicationContext, "Service bound", Toast.LENGTH_LONG).show()
+
+        return serviceBinder
+    }
+
+    override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
+        Toast.makeText(applicationContext, "Service started", Toast.LENGTH_LONG).show()
         //harvest realm id from intent to post the data to
         gpxId = intent?.extras?.get(Keys.GpxId) as? Long
-        return serviceBinder
+        return super.onStartCommand(intent, flags, startId)
     }
 
     /*

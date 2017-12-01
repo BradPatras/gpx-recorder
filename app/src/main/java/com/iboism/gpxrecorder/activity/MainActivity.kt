@@ -1,6 +1,9 @@
 package com.iboism.gpxrecorder.activity
 
+import android.annotation.SuppressLint
 import android.content.Intent
+import android.location.LocationManager
+import android.location.LocationProvider
 import android.net.Uri
 import android.os.Bundle
 import android.support.design.widget.NavigationView
@@ -9,6 +12,9 @@ import android.support.v7.app.ActionBarDrawerToggle
 import android.support.v7.app.AppCompatActivity
 import android.view.Menu
 import android.view.MenuItem
+import com.google.android.gms.location.FusedLocationProviderClient
+import com.google.android.gms.location.LocationRequest
+import com.google.android.gms.location.LocationSettingsRequest
 import com.iboism.gpxrecorder.BuildConfig
 import com.iboism.gpxrecorder.R
 import com.iboism.gpxrecorder.model.GpxContent
@@ -21,16 +27,31 @@ import com.iboism.gpxrecorder.util.PermissionHelper
 import io.realm.RealmList
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.app_bar_main.*
+import android.app.PendingIntent
+import android.support.annotation.RequiresPermission
+import com.google.android.gms.location.LocationRequest.PRIORITY_BALANCED_POWER_ACCURACY
+import com.google.android.gms.location.LocationServices
+import com.iboism.gpxrecorder.Keys
+import com.iboism.gpxrecorder.service.LocationRecorderService
+import java.util.jar.Manifest
+
 
 class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener {
-    private val permissionHelper: PermissionHelper by lazy { PermissionHelper.getInstance(this) }
+    private val permissionHelper: PermissionHelper by lazy { PermissionHelper.getInstance(this@MainActivity) }
+    private val fusedLocation: FusedLocationProviderClient by lazy { LocationServices.getFusedLocationProviderClient(this@MainActivity);}
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         setSupportActionBar(toolbar)
 
-        fab.setOnClickListener { _ -> checkPermissions() }
+        fab.setOnClickListener { _ ->
+            permissionHelper.checkLocationPermissions(
+                onAllowed = {
+                    // open recording creator
+                    startRecording()
+                })
+        }
 
         val toggle = ActionBarDrawerToggle(
                 this, drawer_layout, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close)
@@ -49,19 +70,30 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         nav_view.setNavigationItemSelectedListener(this)
     }
 
-    private fun checkPermissions() {
-        permissionHelper.checkLocationPermissions(
-                onAllowed = {
-                    startActivity(Intent(this@MainActivity, RecordingConfigurationActivity::class.java))
-                })
-    }
-
     override fun onBackPressed() {
         if (drawer_layout.isDrawerOpen(GravityCompat.START)) {
             drawer_layout.closeDrawer(GravityCompat.START)
         } else {
             super.onBackPressed()
         }
+    }
+
+    @SuppressLint("MissingPermission")
+    fun startRecording() {
+
+        val locationRequest = LocationRequest()
+                .setInterval(10000)
+                .setSmallestDisplacement(5f)
+                .setMaxWaitTime(2000)
+                .setPriority(PRIORITY_BALANCED_POWER_ACCURACY)
+                .setFastestInterval(5000)
+                .setNumUpdates(10)
+
+        val intent = Intent(this@MainActivity, LocationRecorderService::class.java)
+        intent.putExtra(Keys.GpxId, GpxContent().identifier)
+        val pi = PendingIntent.getService(this@MainActivity, 0, intent, 0)
+
+        fusedLocation.requestLocationUpdates(locationRequest, pi)
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
