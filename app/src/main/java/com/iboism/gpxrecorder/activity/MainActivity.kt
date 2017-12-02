@@ -33,12 +33,12 @@ import com.google.android.gms.location.LocationRequest.PRIORITY_BALANCED_POWER_A
 import com.google.android.gms.location.LocationServices
 import com.iboism.gpxrecorder.Keys
 import com.iboism.gpxrecorder.service.LocationRecorderService
+import io.realm.Realm
 import java.util.jar.Manifest
 
 
 class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener {
     private val permissionHelper: PermissionHelper by lazy { PermissionHelper.getInstance(this@MainActivity) }
-    private val fusedLocation: FusedLocationProviderClient by lazy { LocationServices.getFusedLocationProviderClient(this@MainActivity);}
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -58,14 +58,15 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         drawer_layout.addDrawerListener(toggle)
         toggle.syncState()
 
-        val segment = Segment(points = RealmList(TrackPoint(lat = 59.4408327f, lon = 24.74516185f), TrackPoint(lat = 59.4408330f, lon = 24.74516179f)))
-        val track = Track(name = "test track", segments = RealmList(segment))
-        val gpxContent = GpxContent(trackList = RealmList(track), title = "are you still there")
-
-        val fileHelper = FileHelper(applicationContext)
-
-        val file = fileHelper.gpxFileWith(gpxContent)
-        fileHelper.shareFile(file)
+        //uncomment to share sample gpx
+//        val segment = Segment(points = RealmList(TrackPoint(lat = 59.4408327, lon = 24.74516185), TrackPoint(lat = 59.4408330, lon = 24.74516179)))
+//        val track = Track(name = "test track", segments = RealmList(segment))
+//        val gpxContent = GpxContent(trackList = RealmList(track), title = "are you still there")
+//
+//        val fileHelper = FileHelper(applicationContext)
+//
+//        val file = fileHelper.gpxFileWith(gpxContent)
+//        fileHelper.shareFile(file)
 
         nav_view.setNavigationItemSelectedListener(this)
     }
@@ -81,19 +82,15 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
     @SuppressLint("MissingPermission")
     fun startRecording() {
 
-        val locationRequest = LocationRequest()
-                .setInterval(10000)
-                .setSmallestDisplacement(5f)
-                .setMaxWaitTime(2000)
-                .setPriority(PRIORITY_BALANCED_POWER_ACCURACY)
-                .setFastestInterval(5000)
-                .setNumUpdates(10)
+        val newGpx = GpxContent(trackList = RealmList(Track(segments = RealmList(Segment()))))
+
+        Realm.getDefaultInstance().executeTransaction {
+            Realm.getDefaultInstance().copyToRealm(newGpx)
+        }
 
         val intent = Intent(this@MainActivity, LocationRecorderService::class.java)
-        intent.putExtra(Keys.GpxId, GpxContent().identifier)
-        val pi = PendingIntent.getService(this@MainActivity, 0, intent, 0)
-
-        fusedLocation.requestLocationUpdates(locationRequest, pi)
+        intent.putExtra(Keys.GpxId, newGpx.identifier)
+        startService(intent)
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
