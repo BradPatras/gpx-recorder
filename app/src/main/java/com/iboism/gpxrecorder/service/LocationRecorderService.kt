@@ -15,10 +15,7 @@ import android.widget.Toast
 import com.google.android.gms.location.*
 import com.iboism.gpxrecorder.Keys
 import com.iboism.gpxrecorder.R
-import com.iboism.gpxrecorder.model.GpxContent
-import com.iboism.gpxrecorder.model.Segment
-import com.iboism.gpxrecorder.model.Track
-import com.iboism.gpxrecorder.model.TrackPoint
+import com.iboism.gpxrecorder.model.*
 import io.realm.Realm
 import io.realm.RealmList
 
@@ -27,9 +24,20 @@ import io.realm.RealmList
  */
 class LocationRecorderService: Service() {
     val serviceBinder = ServiceBinder()
-    var gpxId : Long? = null
-    private val fusedLocation: FusedLocationProviderClient by lazy { LocationServices.getFusedLocationProviderClient(this@LocationRecorderService);}
+    private var gpxId : Long? = null
 
+    private val fusedLocation by lazy {
+        LocationServices.getFusedLocationProviderClient(this@LocationRecorderService);
+    }
+
+    private val notification by lazy {
+        NotificationCompat.Builder(this, Notification.CATEGORY_SERVICE)
+            .setContentTitle("GPX Recorder")
+            .setContentText("Location recording in progress")
+            .setSmallIcon(R.mipmap.ic_launcher6)
+            .setTicker("what is this")
+            .build()
+    }
 
     override fun onCreate() {
         super.onCreate()
@@ -38,6 +46,7 @@ class LocationRecorderService: Service() {
 
     override fun onDestroy() {
         super.onDestroy()
+        stopForeground(true)
         Toast.makeText(applicationContext, "Service destroyed", Toast.LENGTH_LONG).show()
     }
 
@@ -52,30 +61,17 @@ class LocationRecorderService: Service() {
         Toast.makeText(applicationContext, "Service started", Toast.LENGTH_LONG).show()
         //harvest realm id from intent to post the data to
 
-        val notification = NotificationCompat.Builder(this, Notification.CATEGORY_SERVICE)
-                .setContentTitle("GPX Recorder")
-                .setContentText("Location recording in progress")
-                .setSmallIcon(R.mipmap.ic_launcher6)
-                .setTicker("what is this")
-                .build()
         startForeground(FOREGROUND_SERVICE_KEY, notification)
 
         gpxId = intent?.extras?.get(Keys.GpxId) as? Long
 
-        val locationRequest = LocationRequest()
-                .setInterval(10000)
-                .setSmallestDisplacement(5f)
-                .setMaxWaitTime(2000)
-                .setPriority(LocationRequest.PRIORITY_BALANCED_POWER_ACCURACY)
-                .setFastestInterval(5000)
-                .setNumUpdates(10)
-
-        fusedLocation.requestLocationUpdates(locationRequest, object : LocationCallback() {
-            override fun onLocationResult(locationResult: LocationResult?) {
-                // do work here
-                onLocationChanged(locationResult?.getLastLocation());
-            }
-        },
+        fusedLocation.requestLocationUpdates(RecordingConfiguration().locationRequest(),
+                object : LocationCallback() {
+                    override fun onLocationResult(locationResult: LocationResult?) {
+                        // do work here
+                        onLocationChanged(locationResult?.getLastLocation());
+                    }
+                },
                 mainLooper)
 
         return super.onStartCommand(intent, flags, startId)
@@ -84,15 +80,11 @@ class LocationRecorderService: Service() {
     fun onLocationChanged(location: Location?) {
         // New location has now been determined
         location?.let {
-            val msg = "Updated Location: " +
-                    java.lang.Double.toString(it.getLatitude()) + "," +
-                    java.lang.Double.toString(it.getLongitude())
-            Toast.makeText(this, msg, Toast.LENGTH_SHORT).show()
-            // You can now create a LatLng Object for use with maps
+            if (location.accuracy > 40) return // disregard inaccurate locations
 
             Realm.getDefaultInstance().executeTransaction {
                 val trkpt = TrackPoint(lat = location.latitude, lon = location.longitude, ele = location.altitude)
-                val gpx = Realm.getDefaultInstance().where(GpxContent::class.java).equalTo("identifier",gpxId).findFirst()
+                val gpx = Realm.getDefaultInstance().where(GpxContent::class.java).equalTo(GpxContent.Keys.primaryKey,gpxId).findFirst()
                 gpx?.trackList?.last()?.segments?.last()?.points?.add(trkpt)
             }
             (getSystemService(Context.VIBRATOR_SERVICE) as Vibrator).vibrate(500)

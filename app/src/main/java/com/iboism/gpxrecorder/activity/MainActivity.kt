@@ -123,4 +123,9 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         drawer_layout.closeDrawer(GravityCompat.START)
         return true
     }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        stopService(Intent(this@MainActivity, LocationRecorderService::class.java))
+    }
 }

@@ -27,4 +27,8 @@ open class GpxContent(
 
         return "$metaDataXml$contentXml"
     }
+
+    companion object Keys {
+        val primaryKey = "identifier"
+    }
 }
