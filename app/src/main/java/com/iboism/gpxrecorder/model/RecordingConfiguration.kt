@@ -1,7 +1,6 @@
 package com.iboism.gpxrecorder.model
 
 import com.google.android.gms.location.LocationRequest
-import com.iboism.gpxrecorder.service.LocationRecorderService
 
 /**
  * Created by bradpatras on 12/2/17.

@@ -8,16 +8,18 @@ import android.content.Intent
 import android.location.Location
 import android.os.Binder
 import android.os.IBinder
-import android.os.VibrationEffect
 import android.os.Vibrator
 import android.support.v4.app.NotificationCompat
 import android.widget.Toast
-import com.google.android.gms.location.*
+import com.google.android.gms.location.LocationCallback
+import com.google.android.gms.location.LocationResult
+import com.google.android.gms.location.LocationServices
 import com.iboism.gpxrecorder.Keys
 import com.iboism.gpxrecorder.R
-import com.iboism.gpxrecorder.model.*
+import com.iboism.gpxrecorder.model.GpxContent
+import com.iboism.gpxrecorder.model.RecordingConfiguration
+import com.iboism.gpxrecorder.model.TrackPoint
 import io.realm.Realm
-import io.realm.RealmList
 
 /**
  * Created by Brad on 11/19/2017.
@@ -78,7 +80,6 @@ class LocationRecorderService: Service() {
     }
 
     fun onLocationChanged(location: Location?) {
-        // New location has now been determined
         location?.let {
             if (location.accuracy > 40) return // disregard inaccurate locations
 
@@ -91,12 +92,6 @@ class LocationRecorderService: Service() {
             Toast.makeText(applicationContext, "Track point recorded", Toast.LENGTH_LONG).show()
         }
     }
-
-    /*
-        this class will record the current location and then create a new
-        trackpoint realm object.  Possibly started via the requestlocationUpdates
-        with pendingIntent method
-     */
 
     companion object {
         const val FOREGROUND_SERVICE_KEY = 98072347

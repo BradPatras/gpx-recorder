@@ -2,9 +2,6 @@ package com.iboism.gpxrecorder.activity
 
 import android.annotation.SuppressLint
 import android.content.Intent
-import android.location.LocationManager
-import android.location.LocationProvider
-import android.net.Uri
 import android.os.Bundle
 import android.support.design.widget.NavigationView
 import android.support.v4.view.GravityCompat
@@ -12,29 +9,17 @@ import android.support.v7.app.ActionBarDrawerToggle
 import android.support.v7.app.AppCompatActivity
 import android.view.Menu
 import android.view.MenuItem
-import com.google.android.gms.location.FusedLocationProviderClient
-import com.google.android.gms.location.LocationRequest
-import com.google.android.gms.location.LocationSettingsRequest
-import com.iboism.gpxrecorder.BuildConfig
+import com.iboism.gpxrecorder.Keys
 import com.iboism.gpxrecorder.R
 import com.iboism.gpxrecorder.model.GpxContent
 import com.iboism.gpxrecorder.model.Segment
 import com.iboism.gpxrecorder.model.Track
-import com.iboism.gpxrecorder.model.TrackPoint
-import com.iboism.gpxrecorder.util.Alerts
-import com.iboism.gpxrecorder.util.FileHelper
+import com.iboism.gpxrecorder.service.LocationRecorderService
 import com.iboism.gpxrecorder.util.PermissionHelper
+import io.realm.Realm
 import io.realm.RealmList
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.app_bar_main.*
-import android.app.PendingIntent
-import android.support.annotation.RequiresPermission
-import com.google.android.gms.location.LocationRequest.PRIORITY_BALANCED_POWER_ACCURACY
-import com.google.android.gms.location.LocationServices
-import com.iboism.gpxrecorder.Keys
-import com.iboism.gpxrecorder.service.LocationRecorderService
-import io.realm.Realm
-import java.util.jar.Manifest
 
 
 class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener {
