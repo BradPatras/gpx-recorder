@@ -35,6 +35,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
                 onAllowed = {
                     // open recording creator
                     startRecording()
+
                 })
         }
 
