@@ -11,7 +11,9 @@ import android.view.Menu
 import android.view.MenuItem
 import com.iboism.gpxrecorder.Keys
 import com.iboism.gpxrecorder.R
+import com.iboism.gpxrecorder.fragment.RecordingConfiguratorDialog
 import com.iboism.gpxrecorder.model.GpxContent
+import com.iboism.gpxrecorder.model.RecordingConfiguration
 import com.iboism.gpxrecorder.model.Segment
 import com.iboism.gpxrecorder.model.Track
 import com.iboism.gpxrecorder.service.LocationRecorderService
@@ -33,9 +35,8 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         fab.setOnClickListener { _ ->
             permissionHelper.checkLocationPermissions(
                 onAllowed = {
-                    // open recording creator
-                    startRecording()
-
+                    RecordingConfiguratorDialog.instance(this@MainActivity::startRecording)
+                            .show(fragmentManager,"fric")
                 })
         }
 
@@ -66,7 +67,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
     }
 
     @SuppressLint("MissingPermission")
-    fun startRecording() {
+    fun startRecording(configuration: RecordingConfiguration) {
 
         val newGpx = GpxContent(trackList = RealmList(Track(segments = RealmList(Segment()))))
 
