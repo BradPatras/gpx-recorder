@@ -20,7 +20,6 @@ class RecordingConfiguration(
                 .setMaxWaitTime(interval * 3)
                 .setPriority(LocationRequest.PRIORITY_BALANCED_POWER_ACCURACY)
                 .setFastestInterval(interval / 2)
-                .setNumUpdates(10)
     }
 
     fun toBundle(): Bundle {

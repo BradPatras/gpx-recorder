@@ -98,8 +98,6 @@ class LocationRecorderService: Service() {
                 val gpx = Realm.getDefaultInstance().where(GpxContent::class.java).equalTo(GpxContent.Keys.primaryKey,gpxId).findFirst()
                 gpx?.trackList?.last()?.segments?.last()?.points?.add(trkpt)
             }
-            (getSystemService(Context.VIBRATOR_SERVICE) as Vibrator).vibrate(500)
-            Toast.makeText(applicationContext, "Track point recorded", Toast.LENGTH_LONG).show()
         }
     }
 
