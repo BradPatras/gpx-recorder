@@ -20,6 +20,9 @@ import com.iboism.gpxrecorder.model.GpxContent
 import com.iboism.gpxrecorder.model.RecordingConfiguration
 import com.iboism.gpxrecorder.model.TrackPoint
 import io.realm.Realm
+import android.app.PendingIntent
+import com.iboism.gpxrecorder.activity.MainActivity
+
 
 /**
  * Created by Brad on 11/19/2017.
@@ -33,12 +36,16 @@ class LocationRecorderService: Service() {
     }
 
     private val notification by lazy {
+
+        val notificationIntent = Intent(this, MainActivity::class.java)
+        val pendingIntent = PendingIntent.getActivity(this, 0, notificationIntent, 0)
+
         NotificationCompat.Builder(this, Notification.CATEGORY_SERVICE)
-            .setContentTitle("GPX Recorder")
-            .setContentText("Location recording in progress")
-            .setSmallIcon(R.mipmap.ic_launcher6)
-            .setTicker("what is this")
-            .build()
+                .setContentTitle("GPX Recorder")
+                .setContentIntent(pendingIntent)
+                .setContentText("Location recording in progress")
+                .setSmallIcon(R.mipmap.ic_launcher6)
+                .build()
     }
 
     override fun onCreate() {
@@ -67,7 +74,11 @@ class LocationRecorderService: Service() {
 
         gpxId = intent?.extras?.get(Keys.GpxId) as? Long
 
-        fusedLocation.requestLocationUpdates(RecordingConfiguration().locationRequest(),
+        val config = intent?.extras?.getBundle(RecordingConfiguration.configKey)?.let {
+            return@let RecordingConfiguration.fromBundle(it)
+        } ?: RecordingConfiguration()
+
+        fusedLocation.requestLocationUpdates(config.locationRequest(),
                 object : LocationCallback() {
                     override fun onLocationResult(locationResult: LocationResult?) {
                         // do work here

@@ -70,14 +70,17 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
     fun startRecording(configuration: RecordingConfiguration) {
 
         val newGpx = GpxContent(trackList = RealmList(Track(segments = RealmList(Segment()))))
-
         Realm.getDefaultInstance().executeTransaction {
             Realm.getDefaultInstance().copyToRealm(newGpx)
         }
 
         val intent = Intent(this@MainActivity, LocationRecorderService::class.java)
         intent.putExtra(Keys.GpxId, newGpx.identifier)
+        intent.putExtra(RecordingConfiguration.configKey, configuration.toBundle())
+
         startService(intent)
+
+        LocationRecorderService
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
@@ -87,9 +90,6 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
         when (item.itemId) {
             R.id.action_settings -> return true
             else -> return super.onOptionsItemSelected(item)

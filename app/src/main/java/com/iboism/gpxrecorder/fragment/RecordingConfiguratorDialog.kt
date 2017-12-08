@@ -37,12 +37,12 @@ class RecordingConfiguratorDialog: DialogFragment() {
     override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?, savedInstanceState: Bundle?): View {
         val view = inflater?.inflate(R.layout.config_dialog, container)
         view?.let {
-            intervalSlider = interval_seekBar
-            displacementSlider = displacement_seekBar
-            titleEditText = config_title_editText
-            intervalValue = interval_value
-            displacementValue = displacement_value
-            doneButton = start_button
+            intervalSlider = it.findViewById(R.id.interval_seekBar)
+            displacementSlider = it.findViewById(R.id.displacement_seekBar)
+            titleEditText = it.findViewById(R.id.config_title_editText)
+            intervalValue = it.findViewById(R.id.interval_value)
+            displacementValue = it.findViewById(R.id.displacement_value)
+            doneButton = it.findViewById(R.id.start_button)
 
             displacementSlider?.getProgressDrawable()?.setColorFilter(ContextCompat.getColor(activity, R.color.colorPrimary), PorterDuff.Mode.SRC_IN);
             displacementSlider?.getThumb()?.setColorFilter(ContextCompat.getColor(activity, R.color.colorPrimary), PorterDuff.Mode.SRC_IN);
@@ -80,6 +80,7 @@ class RecordingConfiguratorDialog: DialogFragment() {
                                 interval = intervalSlider?.progress?.toLong() ?: 15,
                                 minDisplacement = displacementSlider?.progress?.toFloat() ?: 5f
                         ))
+                this.dismiss()
             }
         }
 
