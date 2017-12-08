@@ -42,5 +42,6 @@ dependencies {
     compile group: 'commons-io', name: 'commons-io', version: '2.6'
     compile 'com.google.android.gms:play-services-location:11.6.2'
     compile 'com.crystal:crystalrangeseekbar:1.1.1'
+    compile 'io.realm:android-adapters:2.1.1'
 
 }

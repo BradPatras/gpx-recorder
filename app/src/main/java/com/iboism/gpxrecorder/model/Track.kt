@@ -16,7 +16,8 @@ open class Track(
 
 ) : RealmObject(), XmlSerializable {
     override fun getXmlString(): String {
-        val segmentsXml = segments.map { it.getXmlString() }.reduce { segmentList, segmentString -> segmentList + segmentString }
+        val segmentsXml = segments.map { it.getXmlString() }
+                .fold("") { segmentList, segmentString -> segmentList + segmentString }
         val nameXml = "<name>$name</name>"
         return "<trk>$nameXml$segmentsXml</trk>"
     }

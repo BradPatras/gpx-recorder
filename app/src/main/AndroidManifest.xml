@@ -13,14 +13,14 @@
     <application
         android:name=".GPXRecorderApplication"
         android:allowBackup="true"
-        android:icon="@mipmap/ic_launcher"
+        android:icon="@mipmap/ic_launcher6"
         android:label="@string/app_name"
-        android:roundIcon="@mipmap/ic_launcher_round"
+        android:roundIcon="@mipmap/ic_launcher6_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <service android:name=".service.LocationRecorderService" />
         <activity
-            android:name=".activity.MainActivity"
+            android:name=".primary.MainActivity"
             android:label="@string/app_name"
             android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
@@ -41,12 +41,12 @@
         </provider>
 
         <activity
-            android:name=".activity.RecordingConfigurationActivity"
+            android:name=".primary.RecordingConfigurationActivity"
             android:label="@string/title_activity_recording_configuration"
-            android:parentActivityName=".activity.MainActivity">
+            android:parentActivityName=".primary.MainActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.iboism.gpxrecorder.activity.MainActivity"/>
+                android:value="com.iboism.gpxrecorder.primary.MainActivity"/>
         </activity>
     </application>
 

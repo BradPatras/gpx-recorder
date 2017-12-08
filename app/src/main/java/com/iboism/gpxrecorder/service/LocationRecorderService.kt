@@ -14,15 +14,14 @@ import android.widget.Toast
 import com.google.android.gms.location.LocationCallback
 import com.google.android.gms.location.LocationResult
 import com.google.android.gms.location.LocationServices
-import com.iboism.gpxrecorder.Keys
+import com.iboism.gpxrecorder.util.Keys
 import com.iboism.gpxrecorder.R
 import com.iboism.gpxrecorder.model.GpxContent
 import com.iboism.gpxrecorder.model.RecordingConfiguration
 import com.iboism.gpxrecorder.model.TrackPoint
 import io.realm.Realm
 import android.app.PendingIntent
-import com.iboism.gpxrecorder.activity.MainActivity
-
+import com.iboism.gpxrecorder.primary.MainActivity
 
 /**
  * Created by Brad on 11/19/2017.
@@ -44,7 +43,7 @@ class LocationRecorderService: Service() {
                 .setContentTitle("GPX Recorder")
                 .setContentIntent(pendingIntent)
                 .setContentText("Location recording in progress")
-                .setSmallIcon(R.mipmap.ic_launcher6)
+                .setSmallIcon(R.drawable.gpx_notification)
                 .build()
     }
 

@@ -17,7 +17,7 @@ open class Segment(
     override fun getXmlString(): String {
         val pointsList = points
                 .map { it.getXmlString() }
-                .reduce { xmlString: String, pointString: String -> xmlString + pointString }
+                .fold("") { xmlString: String, pointString: String -> xmlString + pointString }
 
         return "<trkseg>$pointsList</trkseg>"
     }

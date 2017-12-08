@@ -23,7 +23,7 @@ open class GpxContent(
         val metaDataXml = "<metadata>$titleXml$descXml</metadata>"
         val contentXml = trackList // in the future, do flatmap of all entity types first
                 .map { it.getXmlString() }
-                .reduce { content, entity -> content + entity }
+                .fold("") { content, entity -> content + entity }
 
         return "$metaDataXml$contentXml"
     }
