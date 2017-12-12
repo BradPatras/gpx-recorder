@@ -26,8 +26,6 @@
         android:id="@+id/note_editText"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="16dp"
-        android:layout_marginStart="16dp"
         android:layout_marginTop="24dp"
         android:ems="10"
         android:hint="Add note..."
@@ -42,13 +40,15 @@
     <Button
         android:id="@+id/done_button"
         style="@style/Widget.AppCompat.Button.Borderless.Colored"
-        android:layout_width="wrap_content"
+        android:layout_width="64dp"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="8dp"
-        android:layout_marginTop="16dp"
+        android:layout_marginBottom="4dp"
+        android:layout_marginTop="24dp"
         android:text="done"
+        android:textColor="@color/colorPrimary"
         android:textSize="12sp"
-        app:layout_constraintEnd_toEndOf="@+id/note_editText"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/note_editText"/>
 
 </android.support.constraint.ConstraintLayout>
