@@ -1,14 +1,12 @@
-package com.iboism.gpxrecorder.service
+package com.iboism.gpxrecorder.recording
 
 import android.annotation.SuppressLint
 import android.app.Notification
 import android.app.Service
-import android.content.Context
 import android.content.Intent
 import android.location.Location
 import android.os.Binder
 import android.os.IBinder
-import android.os.Vibrator
 import android.support.v4.app.NotificationCompat
 import android.widget.Toast
 import com.google.android.gms.location.LocationCallback
@@ -31,19 +29,23 @@ class LocationRecorderService: Service() {
     private var gpxId : Long? = null
 
     private val fusedLocation by lazy {
-        LocationServices.getFusedLocationProviderClient(this@LocationRecorderService);
+        LocationServices.getFusedLocationProviderClient(this@LocationRecorderService)
     }
 
     private val notification by lazy {
 
-        val notificationIntent = Intent(this, MainActivity::class.java)
-        val pendingIntent = PendingIntent.getActivity(this, 0, notificationIntent, 0)
+        val appIntent = Intent(this, MainActivity::class.java)
+        val appPendingIntent = PendingIntent.getActivity(this, 0, appIntent, 0)
+
+        val waypointIntent = Intent(this, CreateWaypointDialogActivity::class.java)
+        val waypointPendingIntent = PendingIntent.getActivity(this, 0, waypointIntent, 0)
 
         NotificationCompat.Builder(this, Notification.CATEGORY_SERVICE)
                 .setContentTitle("GPX Recorder")
-                .setContentIntent(pendingIntent)
+                .setContentIntent(appPendingIntent)
                 .setContentText("Location recording in progress")
                 .setSmallIcon(R.drawable.gpx_notification)
+                .addAction(R.drawable.ic_add_location, "Add Waypoint", waypointPendingIntent)
                 .build()
     }
 

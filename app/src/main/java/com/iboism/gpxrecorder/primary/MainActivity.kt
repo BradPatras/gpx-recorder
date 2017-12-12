@@ -15,7 +15,8 @@ import com.iboism.gpxrecorder.model.GpxContent
 import com.iboism.gpxrecorder.model.RecordingConfiguration
 import com.iboism.gpxrecorder.model.Segment
 import com.iboism.gpxrecorder.model.Track
-import com.iboism.gpxrecorder.service.LocationRecorderService
+import com.iboism.gpxrecorder.recording.RecordingConfiguratorDialog
+import com.iboism.gpxrecorder.recording.LocationRecorderService
 import com.iboism.gpxrecorder.util.PermissionHelper
 import io.realm.Realm
 import io.realm.RealmList
@@ -57,7 +58,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         nav_view.setNavigationItemSelectedListener(this)
 
         supportFragmentManager.beginTransaction()
-                .add(R.id.content_container, GpxList())
+                .add(R.id.content_container, GpxList.newInstance())
                 .disallowAddToBackStack()
                 .commit()
     }
@@ -71,7 +72,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
     }
 
     @SuppressLint("MissingPermission")
-    fun startRecording(configuration: RecordingConfiguration) {
+    private fun startRecording(configuration: RecordingConfiguration) {
 
         val newGpx = GpxContent(title = configuration.title, trackList = RealmList(Track(segments = RealmList(Segment()))))
         Realm.getDefaultInstance().executeTransaction {
@@ -94,9 +95,9 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        when (item.itemId) {
-            R.id.action_settings -> return true
-            else -> return super.onOptionsItemSelected(item)
+        return when (item.itemId) {
+            R.id.action_settings -> true
+            else -> super.onOptionsItemSelected(item)
         }
     }
 

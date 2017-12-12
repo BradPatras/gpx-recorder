@@ -1,4 +1,4 @@
-package com.iboism.gpxrecorder.primary
+package com.iboism.gpxrecorder.recording
 
 import android.app.DialogFragment
 import android.graphics.PorterDuff
