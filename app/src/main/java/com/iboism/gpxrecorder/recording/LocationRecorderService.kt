@@ -45,6 +45,7 @@ class LocationRecorderService: Service() {
                 .setContentIntent(appPendingIntent)
                 .setContentText("Location recording in progress")
                 .setSmallIcon(R.drawable.gpx_notification)
+                .setStyle(NotificationCompat.BigTextStyle().bigText("Location recording in progress"))
                 .addAction(R.drawable.ic_add_location, "Add Waypoint", waypointPendingIntent)
                 .build()
     }

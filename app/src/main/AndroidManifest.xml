@@ -46,6 +46,8 @@
             android:name=".recording.CreateWaypointDialogActivity"
             android:theme="@style/Theme.NoActionBarDialog"
             android:excludeFromRecents="true"
+            android:launchMode="singleTask"
+            android:taskAffinity="com.iboism.gpxrecorder.addWaypoint"
             >
 
         </activity>
