@@ -7,7 +7,6 @@ import android.widget.ListAdapter
 import android.widget.TextView
 import com.iboism.gpxrecorder.R
 import com.iboism.gpxrecorder.model.GpxContent
-import com.iboism.gpxrecorder.util.DateTimeFormatHelper
 import com.iboism.gpxrecorder.util.FileHelper
 import io.realm.RealmBaseAdapter
 import io.realm.RealmResults

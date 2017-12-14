@@ -32,28 +32,6 @@ class LocationRecorderService: Service() {
         LocationServices.getFusedLocationProviderClient(this@LocationRecorderService)
     }
 
-    private val notification by lazy {
-
-        val appIntent = Intent(this, MainActivity::class.java)
-        val appPendingIntent = PendingIntent.getActivity(this, 0, appIntent, 0)
-
-        val waypointIntent = Intent(this, CreateWaypointDialogActivity::class.java)
-        val waypointPendingIntent = PendingIntent.getActivity(this, 0, waypointIntent, 0)
-
-        NotificationCompat.Builder(this, Notification.CATEGORY_SERVICE)
-                .setContentTitle("GPX Recorder")
-                .setContentIntent(appPendingIntent)
-                .setContentText("Location recording in progress")
-                .setSmallIcon(R.drawable.gpx_notification)
-                .setStyle(NotificationCompat.BigTextStyle().bigText("Location recording in progress"))
-                .addAction(R.drawable.ic_add_location, "Add Waypoint", waypointPendingIntent)
-                .build()
-    }
-
-    override fun onCreate() {
-        super.onCreate()
-    }
-
     override fun onDestroy() {
         super.onDestroy()
         stopForeground(true)
@@ -65,19 +43,18 @@ class LocationRecorderService: Service() {
 
     @SuppressLint("MissingPermission")
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
+        val gpxId = intent?.extras?.get(Keys.GpxId) as? Long ?: return super.onStartCommand(intent, flags, startId)
+        this.gpxId = gpxId
 
-        startForeground(FOREGROUND_SERVICE_KEY, notification)
+        startForeground(FOREGROUND_SERVICE_KEY, RecordingNotification(applicationContext).forGpxId(gpxId))
 
-        gpxId = intent?.extras?.get(Keys.GpxId) as? Long
-
-        val config = intent?.extras?.getBundle(RecordingConfiguration.configKey)?.let {
+        val config = intent.extras?.getBundle(RecordingConfiguration.configKey)?.let {
             return@let RecordingConfiguration.fromBundle(it)
         } ?: RecordingConfiguration()
 
         fusedLocation.requestLocationUpdates(config.locationRequest(),
                 object : LocationCallback() {
                     override fun onLocationResult(locationResult: LocationResult?) {
-                        // do work here
                         onLocationChanged(locationResult?.getLastLocation());
                     }
                 },
@@ -88,11 +65,15 @@ class LocationRecorderService: Service() {
 
     fun onLocationChanged(location: Location?) {
         location?.let {
-            if (location.accuracy > 40) return // disregard inaccurate locations
+            if (location.accuracy > 20) return
 
             Realm.getDefaultInstance().executeTransaction {
                 val trkpt = TrackPoint(lat = location.latitude, lon = location.longitude, ele = location.altitude)
-                val gpx = Realm.getDefaultInstance().where(GpxContent::class.java).equalTo(GpxContent.Keys.primaryKey,gpxId).findFirst()
+                val gpx = Realm.getDefaultInstance()
+                        .where(GpxContent::class.java)
+                        .equalTo(GpxContent.Keys.primaryKey,gpxId)
+                        .findFirst()
+
                 gpx?.trackList?.last()?.segments?.last()?.points?.add(trkpt)
             }
         }
