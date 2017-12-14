@@ -9,17 +9,17 @@ import java.util.*
  */
 class RecordingConfiguration(
         var title: String = "Unititled Recording",
-        var minDisplacement: Float = 25f,
-        var interval: Long = 300000
+        var minDisplacement: Float = 5f, // 5 meters
+        var interval: Long = 300000 // 5 minues
 ) {
 
     fun locationRequest(): LocationRequest {
         return LocationRequest()
                 .setInterval(interval)
                 .setSmallestDisplacement(minDisplacement)
-                .setMaxWaitTime(interval * 3)
-                .setPriority(LocationRequest.PRIORITY_BALANCED_POWER_ACCURACY)
-                .setFastestInterval(interval / 2)
+                .setMaxWaitTime(interval * 2)
+                .setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY)
+                .setFastestInterval(interval / 4)
     }
 
     fun toBundle(): Bundle {
@@ -46,25 +46,6 @@ class RecordingConfiguration(
                     bundle.getFloat(displacementKey),
                     bundle.getLong(intervalKey)
             )
-        }
-    }
-
-    inner class Builder() {
-        var config = RecordingConfiguration()
-
-        fun setMinDisplacement(displacement: Float): RecordingConfiguration {
-            config.minDisplacement = displacement
-            return config
-        }
-
-        fun setInterval(interval: Long): RecordingConfiguration {
-            config.interval = interval
-            return config
-        }
-
-        fun setTitle(title: String): RecordingConfiguration {
-            config.title = title
-            return config
         }
     }
 }
