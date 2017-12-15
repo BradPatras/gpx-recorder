@@ -10,9 +10,9 @@ import io.realm.annotations.PrimaryKey
  */
 open class Waypoint(
         @PrimaryKey var identifier: Long = UUIDHelper.random(),
-        var lat: Float = 0f,
-        var lon: Float = 0f,
-        var ele: Float = 0f,
+        var lat: Double = 0.0,
+        var lon: Double = 0.0,
+        var ele: Double = 0.0,
         var time: String = DateTimeFormatHelper.formatDate(),
         var title: String = "Waypoint",
         var desc: String = ""
