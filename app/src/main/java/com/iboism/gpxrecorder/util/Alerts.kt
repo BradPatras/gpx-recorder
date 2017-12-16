@@ -2,6 +2,9 @@ package com.iboism.gpxrecorder.util
 
 import android.app.AlertDialog
 import android.content.Context
+import android.content.DialogInterface
+import android.support.v4.content.ContextCompat
+import android.support.v4.content.res.ResourcesCompat
 import com.iboism.gpxrecorder.R
 
 /**
@@ -23,6 +26,15 @@ class Alerts(val context: Context) {
                 .setMessage(context.getString(R.string.denied_forever_alert_message))
                 .setPositiveButton(context.getString(R.string.denied_alert_button), { _, _ -> action.invoke() })
                 .setCancelable(true)
+                .create()
+    }
+
+    fun genericError(messageResId: Int, onDismiss: (DialogInterface) -> Unit): AlertDialog {
+        return AlertDialog.Builder(context)
+                .setTitle(R.string.error)
+                .setMessage(messageResId)
+                .setCancelable(true)
+                .setOnDismissListener(onDismiss)
                 .create()
     }
 }

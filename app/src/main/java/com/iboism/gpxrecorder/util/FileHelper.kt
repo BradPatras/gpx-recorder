@@ -45,7 +45,7 @@ class FileHelper(
         val inputStream = context.resources.openRawResource(R.raw.gpx_stub)
         val gpxStub = IOUtils.toString(inputStream, StandardCharsets.UTF_8)
 
-        var gpxFull = gpxStub.replaceFirst(REPLACE_CONTENT_TAG, content.getXmlString())
+        val gpxFull = gpxStub.replaceFirst(REPLACE_CONTENT_TAG, content.getXmlString())
 
         val gpxSharedFile = File(sharedFilesPath, SHARE_FILENAME)
         FileUtils.writeStringToFile(gpxSharedFile, gpxFull, StandardCharsets.UTF_8)

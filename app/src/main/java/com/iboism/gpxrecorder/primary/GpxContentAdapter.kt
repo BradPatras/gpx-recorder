@@ -25,13 +25,16 @@ class GpxContentAdapter(val realmResults: RealmResults<GpxContent>?) : RealmBase
 
         realmResults?.get(position)?.let { gpxContent ->
             val titleView: TextView = view!!.findViewById(R.id.gpx_content_title)
-            val dateView: TextView = view!!.findViewById(R.id.gpx_content_date)
-            val exportButton: TextView = view!!.findViewById(R.id.gpx_content_export_button)
-            val pointCountView: TextView = view!!.findViewById(R.id.gpx_content_point_count)
+            val dateView: TextView = view.findViewById(R.id.gpx_content_date)
+            val exportButton: TextView = view.findViewById(R.id.gpx_content_export_button)
+            val pointCountView: TextView = view.findViewById(R.id.gpx_content_point_count)
+            val waypointCountView: TextView = view.findViewById(R.id.gpx_content_waypoint_count)
 
             titleView.text = gpxContent.title
             dateView.text = gpxContent.date
             pointCountView.text = (gpxContent.trackList.get(0)?.segments?.get(0)?.points?.count() ?: 0).toString()
+            waypointCountView.text = (gpxContent?.waypointList?.size).toString()
+
             exportButton.setOnClickListener {
                 val fileHelper = FileHelper(parent!!.context)
                 val file = fileHelper.gpxFileWith(gpxContent)

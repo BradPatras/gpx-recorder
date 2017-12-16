@@ -1,25 +1,19 @@
 package com.iboism.gpxrecorder.recording
 
 import android.annotation.SuppressLint
-import android.app.Notification
 import android.app.Service
 import android.content.Intent
 import android.location.Location
 import android.os.Binder
 import android.os.IBinder
-import android.support.v4.app.NotificationCompat
-import android.widget.Toast
 import com.google.android.gms.location.LocationCallback
 import com.google.android.gms.location.LocationResult
 import com.google.android.gms.location.LocationServices
-import com.iboism.gpxrecorder.util.Keys
-import com.iboism.gpxrecorder.R
 import com.iboism.gpxrecorder.model.GpxContent
 import com.iboism.gpxrecorder.model.RecordingConfiguration
 import com.iboism.gpxrecorder.model.TrackPoint
+import com.iboism.gpxrecorder.util.Keys
 import io.realm.Realm
-import android.app.PendingIntent
-import com.iboism.gpxrecorder.primary.MainActivity
 
 /**
  * Created by Brad on 11/19/2017.

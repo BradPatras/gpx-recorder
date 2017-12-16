@@ -20,7 +20,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <service android:name=".recording.LocationRecorderService"/>
-
+        <receiver android:name=".recording.CreateWaypointService"/>
         <activity
             android:name=".primary.MainActivity"
             android:label="@string/app_name"

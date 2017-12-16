@@ -11,8 +11,6 @@ import android.widget.ListView
 import com.iboism.gpxrecorder.R
 import com.iboism.gpxrecorder.model.GpxContent
 import io.realm.Realm
-import io.realm.RealmBaseAdapter
-
 
 class GpxList : Fragment() {
 
@@ -24,9 +22,9 @@ class GpxList : Fragment() {
 
     override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
-        val root = inflater!!.inflate(R.layout.fragment_gpx_list, container, false)
+        val root = checkNotNull(inflater?.inflate(R.layout.fragment_gpx_list, container, false)) { return null }
 
-        listView = root.findViewById(R.id.gpx_listView)
+        listView = root.findViewById<ListView>(R.id.gpx_listView)
         val gpxContentList = Realm.getDefaultInstance().where(GpxContent::class.java).findAll()
         listView?.adapter = GpxContentAdapter(gpxContentList)
 
