@@ -23,6 +23,6 @@ open class Waypoint(
         val timeXml = "<time>$time</time>"
         val nameXml = "<name>$title</name>"
         val descXml = "<desc>$desc</desc>"
-        return "<trkpt lat=\"$lat\" lon=\"$lon\">$eleXml$timeXml$nameXml$descXml</trkpt> "
+        return "<wpt lat=\"$lat\" lon=\"$lon\">$nameXml$descXml$eleXml$timeXml</wpt> "
     }
 }
