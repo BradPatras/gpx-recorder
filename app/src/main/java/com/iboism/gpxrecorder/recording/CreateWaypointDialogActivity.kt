@@ -34,7 +34,7 @@ class CreateWaypointDialogActivity : AppCompatActivity() {
         val gpxId = checkNotNull(intent.extras[Keys.GpxId] as? Long) { waypointError() }
 
         done_button.setOnClickListener {
-            startWaypointService(gpxId, note_editText.text.toString())
+            startWaypointService(gpxId,title_editText.text.toString(), note_editText.text.toString())
         }
     }
 
@@ -45,8 +45,8 @@ class CreateWaypointDialogActivity : AppCompatActivity() {
     }
 
     @SuppressLint("MissingPermission")
-    private fun startWaypointService(gpxId: Long, note: String) {
-        val waypointIntent = CreateWaypointService.startServiceIntent(applicationContext, gpxId, note)
+    private fun startWaypointService(gpxId: Long, title: String, note: String) {
+        val waypointIntent = CreateWaypointService.startServiceIntent(applicationContext, gpxId, title, note)
         val waypointPendingIntent = PendingIntent.getBroadcast(applicationContext, 0, waypointIntent, 0)
         PermissionHelper.getInstance(this@CreateWaypointDialogActivity)
                 .checkLocationPermissions {

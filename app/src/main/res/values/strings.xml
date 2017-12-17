@@ -17,6 +17,7 @@
 
     <string name="done">done</string>
     <string name="add_note_hint">Add note...</string>
+    <string name="add_title_hint">Add title...</string>
     <string name="add_waypoint">Add Waypoint</string>
 
     <string name="error">Error</string>

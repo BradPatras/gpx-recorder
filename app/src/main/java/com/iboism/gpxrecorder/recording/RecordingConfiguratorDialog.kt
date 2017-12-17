@@ -39,11 +39,21 @@ class RecordingConfiguratorDialog: DialogFragment() {
             displacementValue = it.findViewById(R.id.displacement_value)
             doneButton = it.findViewById(R.id.start_button)
 
-            displacementSlider?.getProgressDrawable()?.setColorFilter(ContextCompat.getColor(activity, R.color.colorPrimary), PorterDuff.Mode.SRC_IN);
-            displacementSlider?.getThumb()?.setColorFilter(ContextCompat.getColor(activity, R.color.colorPrimary), PorterDuff.Mode.SRC_IN);
+            displacementSlider?.let {
+                it.progressDrawable
+                        ?.setColorFilter(ContextCompat.getColor(activity, R.color.colorPrimary), PorterDuff.Mode.SRC_IN);
+                it.thumb
+                        ?.setColorFilter(ContextCompat.getColor(activity, R.color.colorPrimary), PorterDuff.Mode.SRC_IN);
+                it.max -= displacementMin
+            }
 
-            intervalSlider?.getProgressDrawable()?.setColorFilter(ContextCompat.getColor(activity, R.color.colorPrimary), PorterDuff.Mode.SRC_IN);
-            intervalSlider?.getThumb()?.setColorFilter(ContextCompat.getColor(activity, R.color.colorPrimary), PorterDuff.Mode.SRC_IN);
+            intervalSlider?.let {
+                it.progressDrawable
+                        ?.setColorFilter(ContextCompat.getColor(activity, R.color.colorPrimary), PorterDuff.Mode.SRC_IN);
+                it.thumb
+                        ?.setColorFilter(ContextCompat.getColor(activity, R.color.colorPrimary), PorterDuff.Mode.SRC_IN);
+                it.max -= intervalMin
+            }
 
             intervalValue?.text = intervalSlider?.progress.toString()
             displacementValue?.text = displacementSlider?.progress.toString()
@@ -53,8 +63,10 @@ class RecordingConfiguratorDialog: DialogFragment() {
 
                 override fun onStopTrackingTouch(p0: SeekBar?) {}
 
-                override fun onProgressChanged(p0: SeekBar?, p1: Int, p2: Boolean) {
-                    intervalValue?.text = intervalSlider?.progress.toString()
+                override fun onProgressChanged(seekBar: SeekBar?, p1: Int, p2: Boolean) {
+                    seekBar?.let {
+                        intervalValue?.text = (seekBar.progress + intervalMin).toString()
+                    }
                 }
             })
 
@@ -63,15 +75,17 @@ class RecordingConfiguratorDialog: DialogFragment() {
 
                 override fun onStopTrackingTouch(p0: SeekBar?) {}
 
-                override fun onProgressChanged(p0: SeekBar?, p1: Int, p2: Boolean) {
-                    displacementValue?.text = displacementSlider?.progress.toString()
+                override fun onProgressChanged(seekBar: SeekBar?, p1: Int, p2: Boolean) {
+                    seekBar?.let {
+                        displacementValue?.text = (seekBar.progress + displacementMin).toString()
+                    }
                 }
             })
 
             doneButton?.setOnClickListener {
                 onComplete?.invoke(
                         RecordingConfiguration(
-                                title = titleEditText?.text.toString() ?: "Untitled",
+                                title = titleEditText?.text.toString().takeIf { it.isNotEmpty() } ?: "Untitled",
                                 interval = intervalSlider?.progress?.toLong()?.times(60) ?: 15 * 60,
                                 minDisplacement = displacementSlider?.progress?.toFloat() ?: 5f
                         ))
@@ -83,6 +97,8 @@ class RecordingConfiguratorDialog: DialogFragment() {
     }
 
     companion object {
+        private val intervalMin = 1
+        private val displacementMin = 2
         fun instance(onComplete :((RecordingConfiguration) -> Unit)) : RecordingConfiguratorDialog {
             var dialog = RecordingConfiguratorDialog()
             dialog.onComplete = onComplete

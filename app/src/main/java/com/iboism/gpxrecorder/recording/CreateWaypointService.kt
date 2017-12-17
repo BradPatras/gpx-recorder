@@ -16,9 +16,9 @@ import io.realm.Realm
 class CreateWaypointService : BroadcastReceiver()  {
     override fun onReceive(context: Context?, intent: Intent?) {
         val intent = intent ?: return
-        val (gpxId, note) = harvestParameters(intent) ?: return
+        val (gpxId, title, note) = harvestParameters(intent) ?: return
 
-        createWaypoint(LocationResult.extractResult(intent), note)?.let { waypoint ->
+        createWaypoint(LocationResult.extractResult(intent), title, note)?.let { waypoint ->
             Realm.getDefaultInstance().executeTransaction {
                 it.where(GpxContent::class.java)
                         .equalTo(GpxContent.primaryKey, gpxId)
@@ -27,13 +27,14 @@ class CreateWaypointService : BroadcastReceiver()  {
         }
     }
 
-    private fun createWaypoint(locationResult: LocationResult?, note: String) : Waypoint? {
+    private fun createWaypoint(locationResult: LocationResult?, title: String, note: String) : Waypoint? {
         val loc = locationResult?.lastLocation ?: return null
 
         return Waypoint(
                 lat = loc.latitude,
                 lon = loc.longitude,
                 ele = loc.altitude,
+                title = title,
                 desc = note
         )
     }
@@ -41,26 +42,29 @@ class CreateWaypointService : BroadcastReceiver()  {
     companion object {
         const val gpxIdKey = "kgpxId"
         const val waypointNoteKey = "kwaypointNote"
-        fun startServiceIntent(context: Context, gpxId: Long, note: String): Intent {
+        const val waypointTitleKey = "kwaypointTitle"
+        fun startServiceIntent(context: Context, gpxId: Long, title: String, note: String): Intent {
             return Intent(context, CreateWaypointService::class.java)
-                    .setData(serializeParameters(gpxId, note))
+                    .setData(serializeParameters(gpxId, title, note))
 
         }
 
-        private fun serializeParameters(gpxId: Long, note: String): Uri {
+        private fun serializeParameters(gpxId: Long, title: String, note: String): Uri {
             return Uri.Builder().scheme("http")
                     .authority("ugh.com")
                     .appendPath("extra")
                     .appendQueryParameter(gpxIdKey, gpxId.toString())
                     .appendQueryParameter(waypointNoteKey, note)
+                    .appendQueryParameter(waypointTitleKey, title)
                     .build()
         }
 
-        private fun harvestParameters(intent: Intent): Pair<Long, String>? {
+        private fun harvestParameters(intent: Intent): Triple<Long, String, String>? {
             val gpxId = intent.data.getQueryParameter(gpxIdKey)?.toLong() ?: return null
             val note = intent.data.getQueryParameter(waypointNoteKey) ?: return null
+            val title = intent.data.getQueryParameter(waypointTitleKey) ?: return null
 
-            return Pair(gpxId, note)
+            return Triple(gpxId, title, note)
         }
     }
 }
