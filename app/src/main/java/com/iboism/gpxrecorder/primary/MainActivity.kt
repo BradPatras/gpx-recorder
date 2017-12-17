@@ -45,16 +45,6 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         drawer_layout.addDrawerListener(toggle)
         toggle.syncState()
 
-        //uncomment to share sample gpx
-//        val segment = Segment(points = RealmList(TrackPoint(lat = 59.4408327, lon = 24.74516185), TrackPoint(lat = 59.4408330, lon = 24.74516179)))
-//        val track = Track(name = "test track", segments = RealmList(segment))
-//        val gpxContent = GpxContent(trackList = RealmList(track), title = "are you still there")
-//
-//        val fileHelper = FileHelper(applicationContext)
-//
-//        val file = fileHelper.gpxFileWith(gpxContent)
-//        fileHelper.shareFile(file)
-
         nav_view.setNavigationItemSelectedListener(this)
 
         supportFragmentManager.beginTransaction()
@@ -84,8 +74,6 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         intent.putExtra(RecordingConfiguration.configKey, configuration.toBundle())
 
         startService(intent)
-
-        LocationRecorderService
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {

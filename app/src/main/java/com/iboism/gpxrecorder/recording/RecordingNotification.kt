@@ -19,7 +19,7 @@ class RecordingNotification(val context: Context) {
 
         val setWaypointIntent = Intent(context, CreateWaypointDialogActivity::class.java)
         setWaypointIntent.putExtra(Keys.GpxId, id)
-        val setWaypointPendingIntent = PendingIntent.getActivity(context, 0, setWaypointIntent, 0)
+        val setWaypointPendingIntent = PendingIntent.getActivity(context, id.toInt(), setWaypointIntent, 0)
 
         return NotificationCompat.Builder(context, Notification.CATEGORY_SERVICE)
                 .setContentTitle("GPX Recorder")
