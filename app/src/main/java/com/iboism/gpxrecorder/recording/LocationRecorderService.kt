@@ -37,6 +37,9 @@ class LocationRecorderService: Service() {
 
     @SuppressLint("MissingPermission")
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
+        // if stop key exists, stop recorder service
+        intent?.extras?.get(Keys.StopService)?.let { stopSelf() }
+
         val gpxId = intent?.extras?.get(Keys.GpxId) as? Long ?: return super.onStartCommand(intent, flags, startId)
         this.gpxId = gpxId
 
@@ -58,11 +61,11 @@ class LocationRecorderService: Service() {
     }
 
     fun onLocationChanged(location: Location?) {
-        location?.let {
-            if (location.accuracy > 20) return
+        location?.let { loc ->
+            if (loc.accuracy > 20) return
 
             Realm.getDefaultInstance().executeTransaction {
-                val trkpt = TrackPoint(lat = location.latitude, lon = location.longitude, ele = location.altitude)
+                val trkpt = TrackPoint(lat = loc.latitude, lon = loc.longitude, ele = loc.altitude)
                 val gpx = Realm.getDefaultInstance()
                         .where(GpxContent::class.java)
                         .equalTo(GpxContent.Keys.primaryKey,gpxId)

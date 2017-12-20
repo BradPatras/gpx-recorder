@@ -5,21 +5,21 @@
 
     <group android:checkableBehavior="single">
         <item
-            android:id="@+id/nav_settings"
-            android:icon="@drawable/ic_settings"
-            android:title="Settings"/>
+            android:id="@+id/nav_delete_recordings"
+            android:icon="@drawable/ic_delete_sweep"
+            android:title="@string/delete_recordings"/>
     </group>
 
-    <item android:title="Developer Contact">
+    <item android:title="@string/developer_contact">
         <menu>
             <item
-                android:id="@+id/nav_share"
+                android:id="@+id/nav_twitter"
                 android:icon="@drawable/ic_twitter"
-                android:title="Twitter"/>
+                android:title="@string/twitter"/>
             <item
-                android:id="@+id/nav_send"
-                android:icon="@android:drawable/ic_dialog_email"
-                android:title="Email"/>
+                android:id="@+id/nav_github"
+                android:icon="@drawable/ic_github"
+                android:title="@string/github"/>
         </menu>
     </item>
 

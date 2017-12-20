@@ -18,7 +18,7 @@ import com.iboism.gpxrecorder.model.RecordingConfiguration
 /**
  * Created by Brad on 12/5/2017.
  */
-class RecordingConfiguratorDialog: DialogFragment() {
+class RecordingConfiguratorDialogFragment : DialogFragment() {
 
     var intervalSlider: SeekBar? = null
     var intervalValue: TextView? = null
@@ -99,8 +99,8 @@ class RecordingConfiguratorDialog: DialogFragment() {
     companion object {
         private val intervalMin = 1
         private val displacementMin = 2
-        fun instance(onComplete :((RecordingConfiguration) -> Unit)) : RecordingConfiguratorDialog {
-            var dialog = RecordingConfiguratorDialog()
+        fun instance(onComplete :((RecordingConfiguration) -> Unit)) : RecordingConfiguratorDialogFragment {
+            var dialog = RecordingConfiguratorDialogFragment()
             dialog.onComplete = onComplete
             return dialog
         }

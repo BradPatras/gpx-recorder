@@ -26,4 +26,8 @@
     <string name="points">points</string>
     <string name="waypoints">waypoints</string>
     <string name="date">Date</string>
+    <string name="delete_recordings">Delete Recordings</string>
+    <string name="developer_contact">Developer Contact</string>
+    <string name="twitter">Twitter</string>
+    <string name="github">Github</string>
 </resources>

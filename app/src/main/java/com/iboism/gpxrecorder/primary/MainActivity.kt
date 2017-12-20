@@ -15,7 +15,7 @@ import com.iboism.gpxrecorder.model.GpxContent
 import com.iboism.gpxrecorder.model.RecordingConfiguration
 import com.iboism.gpxrecorder.model.Segment
 import com.iboism.gpxrecorder.model.Track
-import com.iboism.gpxrecorder.recording.RecordingConfiguratorDialog
+import com.iboism.gpxrecorder.recording.RecordingConfiguratorDialogFragment
 import com.iboism.gpxrecorder.recording.LocationRecorderService
 import com.iboism.gpxrecorder.util.PermissionHelper
 import io.realm.Realm
@@ -34,10 +34,10 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
         fab.setOnClickListener { _ ->
             permissionHelper.checkLocationPermissions(
-                onAllowed = {
-                    RecordingConfiguratorDialog.instance(this@MainActivity::startRecording)
-                            .show(fragmentManager,"fric")
-                })
+                    onAllowed = {
+                        RecordingConfiguratorDialogFragment.instance(this@MainActivity::startRecording)
+                                .show(fragmentManager, "fric")
+                    })
         }
 
         val toggle = ActionBarDrawerToggle(
@@ -47,10 +47,12 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
         nav_view.setNavigationItemSelectedListener(this)
 
-        supportFragmentManager.beginTransaction()
-                .add(R.id.content_container, GpxList.newInstance())
-                .disallowAddToBackStack()
-                .commit()
+        if (savedInstanceState == null) {
+            supportFragmentManager.beginTransaction()
+                    .add(R.id.content_container, GpxList.newInstance())
+                    .disallowAddToBackStack()
+                    .commit()
+        }
     }
 
     override fun onBackPressed() {
@@ -76,38 +78,16 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         startService(intent)
     }
 
-    override fun onCreateOptionsMenu(menu: Menu): Boolean {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        menuInflater.inflate(R.menu.main, menu)
-        return true
-    }
-
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        return when (item.itemId) {
-            R.id.action_settings -> true
-            else -> super.onOptionsItemSelected(item)
-        }
-    }
-
     override fun onNavigationItemSelected(item: MenuItem): Boolean {
         // Handle navigation view item clicks here.
         when (item.itemId) {
-            R.id.nav_share -> {
-
-            }
-            R.id.nav_send -> {
-                Realm.getDefaultInstance().executeTransaction {
-                    it.delete(GpxContent::class.java)
-                }
+            R.id.nav_delete_recordings -> Realm.getDefaultInstance().executeTransaction {
+                it.delete(GpxContent::class.java)
+                stopService(Intent(this@MainActivity, LocationRecorderService::class.java))
             }
         }
 
         drawer_layout.closeDrawer(GravityCompat.START)
         return true
-    }
-
-    override fun onDestroy() {
-        super.onDestroy()
-        stopService(Intent(this@MainActivity, LocationRecorderService::class.java))
     }
 }

@@ -1,6 +1,8 @@
 package com.iboism.gpxrecorder
 
 import android.app.Application
+import android.content.Intent
+import com.iboism.gpxrecorder.recording.LocationRecorderService
 import io.realm.Realm
 import io.realm.RealmConfiguration
 

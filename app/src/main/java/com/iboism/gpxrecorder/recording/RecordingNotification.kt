@@ -21,6 +21,10 @@ class RecordingNotification(val context: Context) {
         setWaypointIntent.putExtra(Keys.GpxId, id)
         val setWaypointPendingIntent = PendingIntent.getActivity(context, id.toInt(), setWaypointIntent, 0)
 
+        val stopRecordingIntent = Intent(context, LocationRecorderService::class.java)
+        stopRecordingIntent.putExtra(Keys.StopService, true)
+        val stopRecordingPendingIntent = PendingIntent.getService(context, id.toInt(), stopRecordingIntent, PendingIntent.FLAG_UPDATE_CURRENT)
+
         return NotificationCompat.Builder(context, Notification.CATEGORY_SERVICE)
                 .setContentTitle("GPX Recorder")
                 .setContentIntent(openAppPendingIntent)
@@ -28,6 +32,7 @@ class RecordingNotification(val context: Context) {
                 .setSmallIcon(R.drawable.gpx_notification)
                 .setStyle(NotificationCompat.BigTextStyle().bigText("Location recording in progress"))
                 .addAction(R.drawable.ic_add_location, "Add Waypoint", setWaypointPendingIntent)
+                .addAction(R.drawable.abc_ic_clear_material, "Stop Recording", stopRecordingPendingIntent)
                 .build()
     }
 }

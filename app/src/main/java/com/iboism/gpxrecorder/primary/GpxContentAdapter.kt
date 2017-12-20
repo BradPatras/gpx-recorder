@@ -8,6 +8,7 @@ import android.widget.TextView
 import com.iboism.gpxrecorder.R
 import com.iboism.gpxrecorder.model.GpxContent
 import com.iboism.gpxrecorder.util.FileHelper
+import com.iboism.gpxrecorder.util.ShareHelper
 import io.realm.RealmBaseAdapter
 import io.realm.RealmResults
 
@@ -36,9 +37,11 @@ class GpxContentAdapter(val realmResults: RealmResults<GpxContent>?) : RealmBase
             waypointCountView.text = (gpxContent?.waypointList?.size).toString()
 
             exportButton.setOnClickListener {
-                val fileHelper = FileHelper(parent!!.context)
-                val file = fileHelper.gpxFileWith(gpxContent)
-                fileHelper.shareFile(file)
+                parent?.let {
+                    val file = FileHelper(it.context).gpxFileWith(gpxContent)
+                    ShareHelper(it.context).shareFile(file);
+                }
+
             }
         }
 

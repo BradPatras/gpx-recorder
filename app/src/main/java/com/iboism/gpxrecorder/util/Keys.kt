@@ -7,5 +7,6 @@ package com.iboism.gpxrecorder.util
 class Keys {
     companion object {
         val GpxId = "kgpxid"
+        val StopService = "kStopService"
     }
 }
