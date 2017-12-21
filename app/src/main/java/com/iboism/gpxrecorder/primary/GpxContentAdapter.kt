@@ -35,12 +35,12 @@ class GpxContentAdapter(val realmResults: RealmResults<GpxContent>?) : RealmBase
             val waypointCountView: TextView = view.findViewById(R.id.gpx_content_waypoint_count)
 
             val distance = Distance(Realm.getDefaultInstance())
-            val formatter = DecimalFormat()
-            formatter.maximumFractionDigits = 2
+            val kmDistance = distance.ofSegment(gpxContent.trackList
+                    .getOrNull(0)?.segments?.firstOrNull()?.identifier ?: 0)
 
             titleView.text = gpxContent.title
             dateView.text = gpxContent.date
-            distanceView.text = formatter.format(distance.ofSegment(gpxContent.trackList.getOrNull(0)?.segments?.firstOrNull()?.identifier ?: 0))
+            distanceView.text = String.format("%.2f", kmDistance)
             waypointCountView.text = (gpxContent?.waypointList?.size).toString()
 
             exportButton.setOnClickListener {
