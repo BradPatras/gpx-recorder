@@ -6,11 +6,14 @@ import android.view.ViewGroup
 import android.widget.ListAdapter
 import android.widget.TextView
 import com.iboism.gpxrecorder.R
+import com.iboism.gpxrecorder.analysis.Distance
 import com.iboism.gpxrecorder.model.GpxContent
 import com.iboism.gpxrecorder.util.FileHelper
 import com.iboism.gpxrecorder.util.ShareHelper
+import io.realm.Realm
 import io.realm.RealmBaseAdapter
 import io.realm.RealmResults
+import java.text.DecimalFormat
 
 /**
  * Created by bradpatras on 12/8/17.
@@ -28,12 +31,16 @@ class GpxContentAdapter(val realmResults: RealmResults<GpxContent>?) : RealmBase
             val titleView: TextView = view!!.findViewById(R.id.gpx_content_title)
             val dateView: TextView = view.findViewById(R.id.gpx_content_date)
             val exportButton: TextView = view.findViewById(R.id.gpx_content_export_button)
-            val pointCountView: TextView = view.findViewById(R.id.gpx_content_point_count)
+            val distanceView: TextView = view.findViewById(R.id.gpx_content_distance)
             val waypointCountView: TextView = view.findViewById(R.id.gpx_content_waypoint_count)
+
+            val distance = Distance(Realm.getDefaultInstance())
+            val formatter = DecimalFormat()
+            formatter.maximumFractionDigits = 2
 
             titleView.text = gpxContent.title
             dateView.text = gpxContent.date
-            pointCountView.text = (gpxContent.trackList.get(0)?.segments?.get(0)?.points?.count() ?: 0).toString()
+            distanceView.text = formatter.format(distance.ofSegment(gpxContent.trackList.getOrNull(0)?.segments?.firstOrNull()?.identifier ?: 0))
             waypointCountView.text = (gpxContent?.waypointList?.size).toString()
 
             exportButton.setOnClickListener {

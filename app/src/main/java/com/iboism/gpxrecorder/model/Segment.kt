@@ -21,4 +21,8 @@ open class Segment(
 
         return "<trkseg>$pointsList</trkseg>"
     }
+
+    companion object Keys {
+        val primaryKey = "identifier"
+    }
 }

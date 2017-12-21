@@ -24,6 +24,7 @@
     <string name="cannot_create_waypoint">Cannot create waypoint at this time</string>
     <string name="failed_to_place_waypoint">Failed to place waypoint</string>
     <string name="points">points</string>
+    <string name="km">km</string>
     <string name="waypoints">waypoints</string>
     <string name="date">Date</string>
     <string name="delete_recordings">Delete Recordings</string>
