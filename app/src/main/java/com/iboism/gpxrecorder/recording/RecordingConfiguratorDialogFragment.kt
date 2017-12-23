@@ -86,9 +86,10 @@ class RecordingConfiguratorDialogFragment : DialogFragment() {
                 onComplete?.invoke(
                         RecordingConfiguration(
                                 title = titleEditText?.text.toString().takeIf { it.isNotEmpty() } ?: "Untitled",
-                                interval = intervalSlider?.progress?.toLong()?.times(60) ?: 15 * 60,
-                                minDisplacement = displacementSlider?.progress?.toFloat() ?: 5f
+                                interval = intervalSlider?.progress?.toLong()?.plus(intervalMin)?.times(60 * 1000) ?: 900000,
+                                minDisplacement = displacementSlider?.progress?.plus(displacementMin)?.toFloat() ?: 5f
                         ))
+
                 this.dismiss()
             }
         }
