@@ -1,5 +1,6 @@
 package com.iboism.gpxrecorder.model
 
+import com.iboism.gpxrecorder.analysis.Distance
 import com.iboism.gpxrecorder.util.UUIDHelper
 import io.realm.RealmList
 import io.realm.RealmObject
@@ -11,7 +12,8 @@ import io.realm.annotations.PrimaryKey
 
 open class Segment(
         @PrimaryKey var identifier: Long = UUIDHelper.random(),
-        var points: RealmList<TrackPoint> = RealmList()
+        var points: RealmList<TrackPoint> = RealmList(),
+        var distance: Float = 0f
 ) : RealmObject(), XmlSerializable {
 
     override fun getXmlString(): String {
@@ -20,6 +22,14 @@ open class Segment(
                 .fold("") { xmlString: String, pointString: String -> xmlString + pointString }
 
         return "<trkseg>$pointsList</trkseg>"
+    }
+
+    fun addPoint(point: TrackPoint) {
+        points.lastOrNull()?.let {
+            distance += Distance.haversineKm(it, point)
+        }
+
+        points.add(point)
     }
 
     companion object Keys {

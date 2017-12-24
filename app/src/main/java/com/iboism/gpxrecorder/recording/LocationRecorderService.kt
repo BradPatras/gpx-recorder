@@ -11,6 +11,7 @@ import com.google.android.gms.location.LocationResult
 import com.google.android.gms.location.LocationServices
 import com.iboism.gpxrecorder.model.GpxContent
 import com.iboism.gpxrecorder.model.RecordingConfiguration
+import com.iboism.gpxrecorder.model.Segment
 import com.iboism.gpxrecorder.model.TrackPoint
 import com.iboism.gpxrecorder.util.Keys
 import io.realm.Realm
@@ -71,7 +72,7 @@ class LocationRecorderService: Service() {
                         .equalTo(GpxContent.Keys.primaryKey,gpxId)
                         .findFirst()
 
-                gpx?.trackList?.last()?.segments?.last()?.points?.add(trkpt)
+                gpx?.trackList?.last()?.segments?.last()?.addPoint(trkpt)
             }
         }
     }
