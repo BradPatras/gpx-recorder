@@ -7,16 +7,12 @@ import android.support.design.widget.NavigationView
 import android.support.v4.view.GravityCompat
 import android.support.v7.app.ActionBarDrawerToggle
 import android.support.v7.app.AppCompatActivity
-import android.view.Menu
 import android.view.MenuItem
 import com.iboism.gpxrecorder.util.Keys
 import com.iboism.gpxrecorder.R
-import com.iboism.gpxrecorder.model.GpxContent
-import com.iboism.gpxrecorder.model.RecordingConfiguration
-import com.iboism.gpxrecorder.model.Segment
-import com.iboism.gpxrecorder.model.Track
-import com.iboism.gpxrecorder.recording.RecordingConfiguratorDialogFragment
+import com.iboism.gpxrecorder.model.*
 import com.iboism.gpxrecorder.recording.LocationRecorderService
+import com.iboism.gpxrecorder.recording.RecordingConfiguratorModal
 import com.iboism.gpxrecorder.util.PermissionHelper
 import io.realm.Realm
 import io.realm.RealmList
@@ -24,7 +20,8 @@ import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.app_bar_main.*
 
 
-class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener {
+class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener, RecordingConfiguratorModal.Listener {
+
     private val permissionHelper: PermissionHelper by lazy { PermissionHelper.getInstance(this@MainActivity) }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -35,8 +32,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         fab.setOnClickListener { _ ->
             permissionHelper.checkLocationPermissions(
                     onAllowed = {
-                        RecordingConfiguratorDialogFragment.instance(this@MainActivity::startRecording)
-                                .show(fragmentManager, "fric")
+                        RecordingConfiguratorModal.instance().show(supportFragmentManager, "dialog")
                     })
         }
 
@@ -54,6 +50,9 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
                     .commit()
         }
     }
+
+    override fun configurationCreated(configuration: RecordingConfiguration) = startRecording(configuration)
+
 
     override fun onBackPressed() {
         if (drawer_layout.isDrawerOpen(GravityCompat.START)) {

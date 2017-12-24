@@ -16,10 +16,6 @@ class GpxList : Fragment() {
 
     var listView: ListView? = null
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-    }
-
     override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
         val root = checkNotNull(inflater?.inflate(R.layout.fragment_gpx_list, container, false)) { return null }
@@ -32,10 +28,6 @@ class GpxList : Fragment() {
     }
 
     companion object {
-
-        fun newInstance(): GpxList {
-            val fragment = GpxList()
-            return fragment
-        }
+        fun newInstance() = GpxList()
     }
 }

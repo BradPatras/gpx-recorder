@@ -31,4 +31,5 @@
     <string name="developer_contact">Developer Contact</string>
     <string name="twitter">Twitter</string>
     <string name="github">Github</string>
+    <string name="calculating_placeholder">calculating..</string>
 </resources>

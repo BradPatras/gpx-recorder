@@ -54,15 +54,6 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         />
-    <TextView
-        android:id="@+id/km"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="2dp"
-        android:text="@string/km"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/gpx_content_distance"
-        />
 
     <TextView
         android:id="@+id/textView8"
@@ -72,7 +63,7 @@
         android:layout_marginTop="8dp"
         android:text="|"
         android:textAppearance="@style/TextAppearance.AppCompat.Body2"
-        app:layout_constraintStart_toEndOf="@+id/km"
+        app:layout_constraintStart_toEndOf="@+id/gpx_content_distance"
         app:layout_constraintBottom_toBottomOf="parent"
         />
 
