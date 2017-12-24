@@ -22,7 +22,7 @@ import java.text.DecimalFormat
  */
 class GpxContentAdapter(val realmResults: RealmResults<GpxContent>?) : RealmBaseAdapter<GpxContent>(realmResults), ListAdapter {
 
-    var cachedDistances: Array<Float?> = Array(realmResults?.size ?: 0, { null })
+    private var cachedDistances: Array<Float?> = Array(realmResults?.size ?: 0, { null })
 
     override fun getView(position: Int, convertView: View?, parent: ViewGroup?): View? {
         val view: View
@@ -50,12 +50,15 @@ class GpxContentAdapter(val realmResults: RealmResults<GpxContent>?) : RealmBase
                 ShareHelper(it.context).shareFile(file)
             }
         }
+
         if (cachedDistances[position] == null) {
             viewHolder.distanceView.text = view.context.getString(R.string.calculating_placeholder)
-            Distance().ofSegment(gpx.trackList?.first()?.segments?.first()?.identifier ?: 0)
+            Distance().ofSegment(gpx.trackList.first()?.segments?.first()?.identifier ?: 0)
                     .observeOn(AndroidSchedulers.mainThread())
                     .subscribe { distance ->
-                        viewHolder.distanceView.text = String.format("%.2f", distance)
+                        if (viewHolder.position == position) {
+                            viewHolder.distanceView.text = String.format("%.2f", distance)
+                        }
                         cachedDistances[position] = distance
                     }
         } else {
@@ -68,47 +71,6 @@ class GpxContentAdapter(val realmResults: RealmResults<GpxContent>?) : RealmBase
     override fun getItemId(position: Int): Long {
         return position.toLong()
     }
-
-//    var view = convertView
-//    if (view == null) {
-//        view = LayoutInflater.from(parent!!.getContext())
-//                .inflate(R.layout.list_row_gpx_content, parent, false);
-//    }
-//
-//    realmResults?.get(position)?.let { gpxContent ->
-//        val titleView: TextView = view!!.findViewById(R.id.gpx_content_title)
-//        val dateView: TextView = view.findViewById(R.id.gpx_content_date)
-//        val exportButton: TextView = view.findViewById(R.id.gpx_content_export_button)
-//        val distanceView: TextView = view.findViewById(R.id.gpx_content_distance)
-//        val waypointCountView: TextView = view.findViewById(R.id.gpx_content_waypoint_count)
-//
-//        val viewHolder = ViewHolder(position, gpxContent.title, gpxContent.date,
-//                "...", gpxContent.waypointList.size)
-//
-//        titleView.text = viewHolder.title
-//        dateView.text = viewHolder.date
-//        distanceView.text = viewHolder.distance //
-//        waypointCountView.text = "${viewHolder.waypointCount}"
-//
-//        gpxContent.trackList.getOrNull(0)?.segments?.firstOrNull()?.identifier?.let {
-//            Distance(Realm.getDefaultInstance()).ofSegment(it)
-//                    .subscribeOn(AndroidSchedulers.mainThread())
-//                    .subscribe { distance ->
-//                        if (position == viewHolder.position) {
-//                            viewHolder.distance = String.format("%.2f", distance)
-//                        }
-//                    }
-//        }
-//
-//        exportButton.setOnClickListener {
-//            parent?.let {
-//                val file = FileHelper(it.context).gpxFileWith(gpxContent)
-//                ShareHelper(it.context).shareFile(file)
-//            }
-//        }
-//    }
-//
-//    return view ?: View(parent!!.context)
 
     private inner class ViewHolder(val position: Int, view: View?) {
         val titleView = view?.findViewById(R.id.gpx_content_title) as TextView
