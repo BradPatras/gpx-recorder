@@ -29,7 +29,7 @@ class Alerts(val context: Context) {
                 .create()
     }
 
-    fun genericError(messageResId: Int, onDismiss: (DialogInterface) -> Unit): AlertDialog {
+    fun genericError(messageResId: Int, onDismiss: (DialogInterface) -> Unit = {}): AlertDialog {
         return AlertDialog.Builder(context)
                 .setTitle(R.string.error)
                 .setMessage(messageResId)

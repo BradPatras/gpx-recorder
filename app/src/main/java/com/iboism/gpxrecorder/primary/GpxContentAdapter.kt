@@ -5,13 +5,19 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.ListAdapter
+import android.widget.ProgressBar
 import android.widget.TextView
 import com.iboism.gpxrecorder.R
 import com.iboism.gpxrecorder.model.GpxContent
+import com.iboism.gpxrecorder.util.Alerts
 import com.iboism.gpxrecorder.util.FileHelper
 import com.iboism.gpxrecorder.util.ShareHelper
+import io.reactivex.android.schedulers.AndroidSchedulers
 import io.realm.RealmBaseAdapter
 import io.realm.RealmResults
+import android.widget.RelativeLayout
+
+
 
 /**
  * Created by bradpatras on 12/8/17.
@@ -41,8 +47,19 @@ class GpxContentAdapter(val realmResults: RealmResults<GpxContent>?) : RealmBase
 
         viewHolder.exportButton.setOnClickListener {
             parent?.let {
-                val file = FileHelper(it.context).gpxFileWith(gpx)
-                ShareHelper(it.context).shareFile(file)
+                // show indicator
+                FileHelper(it.context).gpxFileWith(gpx)
+                        .subscribeOn(AndroidSchedulers.mainThread())
+                        .subscribe { file, error ->
+                            if (error != null) {
+                                // hide indicator
+                                Alerts(view.context).genericError(R.string.file_share_failed)
+                            } else {
+                                ShareHelper(it.context).shareFile(file)
+                                // hide indicator
+                            }
+                        }
+
             }
         }
 

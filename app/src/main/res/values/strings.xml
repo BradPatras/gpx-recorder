@@ -12,6 +12,7 @@
     <string name="denied_alert_message">Cannot record GPX tracks without location permissions</string>
     <string name="denied_alert_button">Grant permissions</string>
     <string name="denied_forever_alert_message">Please enable Location permissions in the app settings</string>
+    <string name="file_share_failed">Something went wrong while trying to share the file.</string>
 
     <!-- Strings related to Settings -->
 
