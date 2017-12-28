@@ -2,6 +2,7 @@ package com.iboism.gpxrecorder.primary
 
 import android.annotation.SuppressLint
 import android.content.Intent
+import android.graphics.Point
 import android.os.Bundle
 import android.support.design.widget.NavigationView
 import android.support.v4.view.GravityCompat
@@ -43,6 +44,18 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
         nav_view.setNavigationItemSelectedListener(this)
 
+        // uncomment to create random 10,000 point track and add it to realm
+//        val seg = Segment()
+//        for (i in 0..10000) {
+//            seg.addPoint(TrackPoint(lat = Math.random(), lon = Math.random()))
+//        }
+//
+//        val trk = Track(segments = RealmList(seg))
+//        val gpx = GpxContent(trackList = RealmList(trk))
+//
+//        Realm.getDefaultInstance().executeTransaction {
+//            it.copyToRealm(gpx)
+//        }
         if (savedInstanceState == null) {
             supportFragmentManager.beginTransaction()
                     .add(R.id.content_container, GpxList.newInstance())
