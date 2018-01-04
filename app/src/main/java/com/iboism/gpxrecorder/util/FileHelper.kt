@@ -1,8 +1,6 @@
 package com.iboism.gpxrecorder.util
 
-import android.app.Activity
 import android.content.Context
-import com.iboism.gpxrecorder.GPXRecorderApplication
 import com.iboism.gpxrecorder.R
 import com.iboism.gpxrecorder.model.GpxContent
 import io.reactivex.Single

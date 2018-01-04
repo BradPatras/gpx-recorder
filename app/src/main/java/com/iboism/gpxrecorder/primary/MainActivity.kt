@@ -2,18 +2,20 @@ package com.iboism.gpxrecorder.primary
 
 import android.annotation.SuppressLint
 import android.content.Intent
-import android.graphics.Point
 import android.os.Bundle
 import android.support.design.widget.NavigationView
 import android.support.v4.view.GravityCompat
 import android.support.v7.app.ActionBarDrawerToggle
 import android.support.v7.app.AppCompatActivity
 import android.view.MenuItem
-import com.iboism.gpxrecorder.util.Keys
 import com.iboism.gpxrecorder.R
-import com.iboism.gpxrecorder.model.*
+import com.iboism.gpxrecorder.model.GpxContent
+import com.iboism.gpxrecorder.model.RecordingConfiguration
+import com.iboism.gpxrecorder.model.Segment
+import com.iboism.gpxrecorder.model.Track
 import com.iboism.gpxrecorder.recording.LocationRecorderService
 import com.iboism.gpxrecorder.recording.RecordingConfiguratorModal
+import com.iboism.gpxrecorder.util.Keys
 import com.iboism.gpxrecorder.util.PermissionHelper
 import io.realm.Realm
 import io.realm.RealmList

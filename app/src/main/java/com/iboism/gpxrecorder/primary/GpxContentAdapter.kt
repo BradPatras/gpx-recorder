@@ -15,7 +15,6 @@ import com.iboism.gpxrecorder.util.ShareHelper
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.realm.RealmBaseAdapter
 import io.realm.RealmResults
-import java.io.File
 
 /**
  * Created by bradpatras on 12/8/17.
