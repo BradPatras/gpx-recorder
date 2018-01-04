@@ -19,16 +19,25 @@ import io.realm.Realm
 /**
  * Created by Brad on 11/19/2017.
  */
-class LocationRecorderService: Service() {
-    val serviceBinder = ServiceBinder()
-    private var gpxId : Long? = null
+class LocationRecorderService : Service() {
+    private val serviceBinder = ServiceBinder()
+    private var gpxId: Long? = null
 
     private val fusedLocation by lazy {
         LocationServices.getFusedLocationProviderClient(this@LocationRecorderService)
     }
 
+    private val locationCallback by lazy {
+        object : LocationCallback() {
+            override fun onLocationResult(locationResult: LocationResult?) {
+                onLocationChanged(locationResult?.lastLocation)
+            }
+        }
+    }
+
     override fun onDestroy() {
         super.onDestroy()
+        fusedLocation.removeLocationUpdates(locationCallback)
         stopForeground(true)
     }
 
@@ -51,11 +60,7 @@ class LocationRecorderService: Service() {
         } ?: RecordingConfiguration()
 
         fusedLocation.requestLocationUpdates(config.locationRequest(),
-                object : LocationCallback() {
-                    override fun onLocationResult(locationResult: LocationResult?) {
-                        onLocationChanged(locationResult?.getLastLocation());
-                    }
-                },
+                locationCallback,
                 mainLooper)
 
         return super.onStartCommand(intent, flags, startId)
