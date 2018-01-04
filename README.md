@@ -10,5 +10,5 @@ Android app to record gps routes in the background and allow user to export rout
 - [Apache Commons IO](https://commons.apache.org/proper/commons-io/) for file writing
 - [Kotlin](https://kotlinlang.org/) for kicks
 - [CrystalRangeSeekbar](https://github.com/syedowaisali/crystal-range-seekbar) for no good reason
-
+- [RxJava](https://github.com/ReactiveX/RxJava) for handling everything asynchronous 
 
