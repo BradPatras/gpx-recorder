@@ -7,6 +7,9 @@
     <ListView
         android:id="@+id/gpx_listView"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"/>
+        android:layout_height="match_parent"
+        android:background="#7a7a7a"
+        android:clipToPadding="false"
+        android:clipChildren="false"/>
 
 </FrameLayout>
