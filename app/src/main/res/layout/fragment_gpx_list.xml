@@ -1,15 +1,26 @@
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context="com.iboism.gpxrecorder.primary.GpxList">
 
     <ListView
         android:id="@+id/gpx_listView"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="#7a7a7a"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:background="@android:color/transparent"
+        android:clipChildren="false"
         android:clipToPadding="false"
-        android:clipChildren="false"/>
+        android:divider="@android:color/transparent"
+        android:dividerHeight="6dp"
+        android:footerDividersEnabled="true"
+        android:headerDividersEnabled="true"
+        android:paddingTop="6dp"
+        android:scrollbars="none"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
-</FrameLayout>
+</android.support.constraint.ConstraintLayout>

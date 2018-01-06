@@ -1,5 +1,6 @@
 package com.iboism.gpxrecorder.recording
 
+import android.app.Fragment
 import android.content.Context
 import android.graphics.PorterDuff
 import android.os.Bundle
@@ -18,7 +19,7 @@ import com.iboism.gpxrecorder.model.RecordingConfiguration
 private const val INTERVAL_MIN = 1
 private const val DISPLACEMENT_MIN = 2
 
-class RecordingConfiguratorModal : BottomSheetDialogFragment() {
+class RecordingConfiguratorModal : Fragment() {
 
     var intervalSlider: SeekBar? = null
     var intervalValue: TextView? = null
@@ -95,7 +96,6 @@ class RecordingConfiguratorModal : BottomSheetDialogFragment() {
                             interval = intervalSlider?.progress?.toLong()?.plus(INTERVAL_MIN)?.times(60 * 1000) ?: 900000,
                             minDisplacement = displacementSlider?.progress?.plus(DISPLACEMENT_MIN)?.toFloat() ?: 5f
                     ))
-            this.dismiss()
         }
     }
 

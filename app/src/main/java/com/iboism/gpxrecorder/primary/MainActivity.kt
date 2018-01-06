@@ -3,10 +3,12 @@ package com.iboism.gpxrecorder.primary
 import android.annotation.SuppressLint
 import android.content.Intent
 import android.os.Bundle
+import android.support.constraint.ConstraintSet
 import android.support.design.widget.NavigationView
 import android.support.v4.view.GravityCompat
 import android.support.v7.app.ActionBarDrawerToggle
 import android.support.v7.app.AppCompatActivity
+import android.transition.TransitionManager
 import android.view.MenuItem
 import com.iboism.gpxrecorder.R
 import com.iboism.gpxrecorder.model.GpxContent
@@ -35,7 +37,8 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         fab.setOnClickListener { _ ->
             permissionHelper.checkLocationPermissions(
                     onAllowed = {
-                        RecordingConfiguratorModal.instance().show(supportFragmentManager, "dialog")
+                        setConfigModalHidden(false)
+                        //RecordingConfiguratorModal.instance().show(supportFragmentManager, "dialog")
                     })
         }
 
@@ -59,14 +62,47 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 //            it.copyToRealm(gpx)
 //        }
         if (savedInstanceState == null) {
-            supportFragmentManager.beginTransaction()
-                    .add(R.id.content_container, GpxList.newInstance())
-                    .disallowAddToBackStack()
-                    .commit()
+//            supportFragmentManager.beginTransaction()
+//                    .add(R.id.content_container, GpxList.newInstance())
+//                    .disallowAddToBackStack()
+//                    .commit()
         }
     }
 
-    override fun configurationCreated(configuration: RecordingConfiguration) = startRecording(configuration)
+//    val constraintSet1 = ConstraintSet()
+//    constraintSet1.clone(constraintLayout)
+//    val constraintSet2 = ConstraintSet()
+//    constraintSet2.clone(constraintLayout)
+//    constraintSet2.centerVertically(R.id.image, 0)
+//
+//    var changed = false
+//    findViewById(R.id.button).setOnClickListener {
+//        TransitionManager.beginDelayedTransition(constraintLayout)
+//        val constraint = if (changed) constraintSet1 else constraintSet2
+//        constraint.applyTo(constraintLayout)
+//        changed = !changed
+
+    private fun setConfigModalHidden(hide: Boolean) {
+        val showing = ConstraintSet()
+        val hidden = ConstraintSet()
+
+        showing.clone(layout_app_bar_main)
+        hidden.clone(showing)
+
+        showing.clear(R.id.fragment_recording_config, ConstraintSet.TOP)
+        showing.connect(R.id.fragment_recording_config, ConstraintSet.BOTTOM, R.id.layout_app_bar_main, ConstraintSet.BOTTOM)
+
+        hidden.clear(R.id.fragment_recording_config, ConstraintSet.BOTTOM)
+        hidden.connect(R.id.fragment_recording_config, ConstraintSet.TOP, R.id.fab, ConstraintSet.TOP)
+
+        (if (hide) hidden else showing).applyTo(layout_app_bar_main)
+        TransitionManager.beginDelayedTransition(layout_app_bar_main)
+    }
+
+    override fun configurationCreated(configuration: RecordingConfiguration) {
+        setConfigModalHidden(true)
+        startRecording(configuration)
+    }
 
     override fun onBackPressed() {
         if (drawer_layout.isDrawerOpen(GravityCompat.START)) {
