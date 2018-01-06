@@ -38,7 +38,6 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
             permissionHelper.checkLocationPermissions(
                     onAllowed = {
                         setConfigModalHidden(false)
-                        //RecordingConfiguratorModal.instance().show(supportFragmentManager, "dialog")
                     })
         }
 
@@ -61,26 +60,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 //        Realm.getDefaultInstance().executeTransaction {
 //            it.copyToRealm(gpx)
 //        }
-        if (savedInstanceState == null) {
-//            supportFragmentManager.beginTransaction()
-//                    .add(R.id.content_container, GpxList.newInstance())
-//                    .disallowAddToBackStack()
-//                    .commit()
-        }
     }
-
-//    val constraintSet1 = ConstraintSet()
-//    constraintSet1.clone(constraintLayout)
-//    val constraintSet2 = ConstraintSet()
-//    constraintSet2.clone(constraintLayout)
-//    constraintSet2.centerVertically(R.id.image, 0)
-//
-//    var changed = false
-//    findViewById(R.id.button).setOnClickListener {
-//        TransitionManager.beginDelayedTransition(constraintLayout)
-//        val constraint = if (changed) constraintSet1 else constraintSet2
-//        constraint.applyTo(constraintLayout)
-//        changed = !changed
 
     private fun setConfigModalHidden(hide: Boolean) {
         val showing = ConstraintSet()
