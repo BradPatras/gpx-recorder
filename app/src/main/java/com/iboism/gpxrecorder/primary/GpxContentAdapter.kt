@@ -10,6 +10,7 @@ import android.widget.TextView
 import com.iboism.gpxrecorder.R
 import com.iboism.gpxrecorder.model.GpxContent
 import com.iboism.gpxrecorder.util.Alerts
+import com.iboism.gpxrecorder.util.DateTimeFormatHelper
 import com.iboism.gpxrecorder.util.FileHelper
 import com.iboism.gpxrecorder.util.ShareHelper
 import io.reactivex.android.schedulers.AndroidSchedulers
@@ -43,7 +44,7 @@ class GpxContentAdapter(private val realmResults: RealmResults<GpxContent>?) : R
 
         val gpx = realmResults?.get(position) ?: return view
 
-        viewHolder.dateView.text = gpx.date
+        viewHolder.dateView.text = DateTimeFormatHelper.toReadableString(gpx.date)
         viewHolder.titleView.text = gpx.title
         viewHolder.waypointCountView.text = "${gpx.waypointList.count()}"
         viewHolder.distanceView.text = String.format("%.2f km", gpx.trackList.get(0)?.segments?.get(0)?.distance ?: 0f)
