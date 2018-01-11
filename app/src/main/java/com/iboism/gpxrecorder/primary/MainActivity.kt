@@ -3,12 +3,10 @@ package com.iboism.gpxrecorder.primary
 import android.annotation.SuppressLint
 import android.content.Intent
 import android.os.Bundle
-import android.support.constraint.ConstraintSet
 import android.support.design.widget.NavigationView
 import android.support.v4.view.GravityCompat
 import android.support.v7.app.ActionBarDrawerToggle
 import android.support.v7.app.AppCompatActivity
-import android.transition.TransitionManager
 import android.view.MenuItem
 import com.iboism.gpxrecorder.R
 import com.iboism.gpxrecorder.model.GpxContent
@@ -37,7 +35,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         fab.setOnClickListener { _ ->
             permissionHelper.checkLocationPermissions(
                     onAllowed = {
-                        setConfigModalHidden(false)
+                        RecordingConfiguratorModal.instance().show(supportFragmentManager, "dialog")
                     })
         }
 
@@ -62,25 +60,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 //        }
     }
 
-    private fun setConfigModalHidden(hide: Boolean) {
-        val showing = ConstraintSet()
-        val hidden = ConstraintSet()
-
-        showing.clone(layout_app_bar_main)
-        hidden.clone(showing)
-
-        showing.clear(R.id.fragment_recording_config, ConstraintSet.TOP)
-        showing.connect(R.id.fragment_recording_config, ConstraintSet.BOTTOM, R.id.layout_app_bar_main, ConstraintSet.BOTTOM)
-
-        hidden.clear(R.id.fragment_recording_config, ConstraintSet.BOTTOM)
-        hidden.connect(R.id.fragment_recording_config, ConstraintSet.TOP, R.id.fab, ConstraintSet.TOP)
-
-        (if (hide) hidden else showing).applyTo(layout_app_bar_main)
-        TransitionManager.beginDelayedTransition(layout_app_bar_main)
-    }
-
     override fun configurationCreated(configuration: RecordingConfiguration) {
-        setConfigModalHidden(true)
         startRecording(configuration)
     }
 
