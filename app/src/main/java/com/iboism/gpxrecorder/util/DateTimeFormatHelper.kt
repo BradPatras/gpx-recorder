@@ -19,7 +19,5 @@ class DateTimeFormatHelper {
             val date = SimpleDateFormat(dataPattern).parse(dateString)
             return SimpleDateFormat(readablePattern).format(date)
         }
-
-
     }
 }
