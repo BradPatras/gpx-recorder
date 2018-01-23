@@ -19,10 +19,6 @@
         app:layout_constraintTop_toTopOf="parent"
         tools:layout="@layout/fragment_gpx_list" />
 
-    <include
-        android:id="@+id/include"
-        layout="@layout/content_main" />
-
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/fab"
         android:layout_width="wrap_content"

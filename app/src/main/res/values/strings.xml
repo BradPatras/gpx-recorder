@@ -33,4 +33,7 @@
     <string name="twitter">Twitter</string>
     <string name="github">Github</string>
     <string name="calculating_placeholder">calculating..</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>
