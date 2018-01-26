@@ -17,8 +17,9 @@ import java.nio.charset.StandardCharsets
  */
 
 private const val SHARE_PATH = "shared"
-private const val SHARE_FILENAME = "recorded.gpx"
+private const val SHARE_FILENAME = "recorded"
 private const val REPLACE_CONTENT_TAG = "replacemewithcontent"
+private const val FILE_EXTENSION = ".gpx"
 
 class FileHelper(var context: Context) {
     private var exporting: Long? = null
@@ -42,13 +43,22 @@ class FileHelper(var context: Context) {
                     val gpxStub = IOUtils.toString(inputStream, StandardCharsets.UTF_8)
 
                     val gpxFull = gpxStub.replaceFirst(REPLACE_CONTENT_TAG, content?.getXmlString() ?: "")
-
-                    val gpxSharedFile = File(sharedFilesPath, SHARE_FILENAME)
+                    val fileName = content?.title?.getLegalFilename()?.withGpxExt() ?: SHARE_FILENAME.withGpxExt()
+                    val gpxSharedFile = File(sharedFilesPath, fileName)
                     FileUtils.writeStringToFile(gpxSharedFile, gpxFull, StandardCharsets.UTF_8)
                     exporting = null
                     gpxSharedFile
                 }
                 .doOnError { exporting = null }
+    }
+
+    private fun String.getLegalFilename(): String {
+        return this.replace(Regex.fromLiteral("[^a-zA-Z0-9\\.\\-]"), "_")
+                .replace(" ", "_")
+    }
+
+    private fun String.withGpxExt(): String {
+        return "$this$FILE_EXTENSION"
     }
 
     companion object : SingletonHolder<FileHelper, Context>(::FileHelper)
