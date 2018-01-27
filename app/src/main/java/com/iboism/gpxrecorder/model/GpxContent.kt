@@ -2,6 +2,7 @@ package com.iboism.gpxrecorder.model
 
 import com.iboism.gpxrecorder.util.DateTimeFormatHelper
 import com.iboism.gpxrecorder.util.UUIDHelper
+import io.realm.Realm
 import io.realm.RealmList
 import io.realm.RealmObject
 import io.realm.annotations.PrimaryKey
@@ -32,5 +33,11 @@ open class GpxContent(
 
     companion object Keys {
         val primaryKey = "identifier"
+
+        fun withId(realm: Realm, identifier: Long): GpxContent? {
+            return realm.where(GpxContent::class.java)
+                    .equalTo(GpxContent.primaryKey, identifier)
+                    .findFirst()
+        }
     }
 }

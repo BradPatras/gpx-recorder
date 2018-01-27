@@ -31,25 +31,23 @@ class FileHelper(var context: Context) {
         return Single.just(gpxContentId)
                 .observeOn(Schedulers.io())
                 .map {
-                    val content = Realm.getDefaultInstance()
-                            .where(GpxContent::class.java)
-                            .equalTo(GpxContent.primaryKey, gpxContentId)
-                            .findFirst()
-
+                    GpxContent.withId(Realm.getDefaultInstance(), it)
+                }.map {
                     val sharedFilesPath = File(context.cacheDir, SHARE_PATH)
                     sharedFilesPath.mkdirs()
 
                     val inputStream = context.resources.openRawResource(R.raw.gpx_stub)
                     val gpxStub = IOUtils.toString(inputStream, StandardCharsets.UTF_8)
+                    inputStream.close()
 
-                    val gpxFull = gpxStub.replaceFirst(REPLACE_CONTENT_TAG, content?.getXmlString() ?: "")
-                    val fileName = content?.title?.getLegalFilename()?.withGpxExt() ?: SHARE_FILENAME.withGpxExt()
+                    val gpxFull = gpxStub.replaceFirst(REPLACE_CONTENT_TAG, it.getXmlString())
+                    val fileName = it.title.getLegalFilename().withGpxExt()
                     val gpxSharedFile = File(sharedFilesPath, fileName)
                     FileUtils.writeStringToFile(gpxSharedFile, gpxFull, StandardCharsets.UTF_8)
                     exporting = null
                     gpxSharedFile
-                }
-                .doOnError { exporting = null }
+
+                }.doOnError { exporting = null }
     }
 
     private fun String.getLegalFilename(): String {
