@@ -29,8 +29,8 @@ class FileHelper(var context: Context) {
         exporting = gpxContentId
         return Single.just(gpxContentId)
                 .observeOn(Schedulers.io())
-                .map { GpxContent.withId(Realm.getDefaultInstance(), it) }
-                .map { writeGpxToFile(it) }
+                .map { GpxContent.withId(identifier = it) }
+                .map(this::writeGpxToFile)
                 .doFinally { exporting = null }
     }
 
@@ -40,7 +40,7 @@ class FileHelper(var context: Context) {
         inputStream.close()
         return gpxStub
     }
-    
+
     private fun writeGpxToFile(gpx: GpxContent): File {
         val sharedFilesPath = File(context.cacheDir, SHARE_PATH).apply { this.mkdirs() }
         val gpxFull = getGpxStub().replaceFirst(REPLACE_CONTENT_TAG, gpx.getXmlString())

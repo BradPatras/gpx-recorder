@@ -34,7 +34,7 @@ open class GpxContent(
     companion object Keys {
         val primaryKey = "identifier"
 
-        fun withId(realm: Realm, identifier: Long): GpxContent? {
+        fun withId(realm: Realm = Realm.getDefaultInstance(), identifier: Long): GpxContent? {
             return realm.where(GpxContent::class.java)
                     .equalTo(GpxContent.primaryKey, identifier)
                     .findFirst()
