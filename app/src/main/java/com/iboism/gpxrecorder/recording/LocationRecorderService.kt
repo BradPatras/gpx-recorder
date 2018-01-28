@@ -1,6 +1,7 @@
 package com.iboism.gpxrecorder.recording
 
 import android.annotation.SuppressLint
+import android.app.Notification
 import android.app.Service
 import android.content.Intent
 import android.location.Location
@@ -22,6 +23,8 @@ import io.realm.Realm
 class LocationRecorderService : Service() {
     private val serviceBinder = ServiceBinder()
     private var gpxId: Long? = null
+
+    private var notification: Notification? = null
 
     private val fusedLocation by lazy {
         LocationServices.getFusedLocationProviderClient(this@LocationRecorderService)
@@ -45,15 +48,33 @@ class LocationRecorderService : Service() {
         return serviceBinder
     }
 
-    @SuppressLint("MissingPermission")
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
-        // if stop key exists, stop recorder service
-        intent?.extras?.get(Keys.StopService)?.let { stopSelf() }
+        when {
+            intent?.extras?.containsKey(Keys.StopService) == true -> stopSelf()
+            intent?.extras?.containsKey(Keys.PauseService) == true -> pauseRecording()
+            intent?.extras?.containsKey(Keys.ResumeService) == true -> resumeRecording()
+            intent?.extras?.containsKey(Keys.GpxId) == true -> startRecording(intent)
+        }
 
-        val gpxId = intent?.extras?.get(Keys.GpxId) as? Long ?: return super.onStartCommand(intent, flags, startId)
+        return super.onStartCommand(intent, flags, startId)
+    }
+
+    private fun pauseRecording() {
+        // todo
+    }
+
+    private fun resumeRecording() {
+       // todo
+    }
+
+    @SuppressLint("MissingPermission")
+    private fun startRecording(intent: Intent?) {
+        val gpxId = intent?.extras?.get(Keys.GpxId) as? Long ?: return
         this.gpxId = gpxId
+        val notification = RecordingNotification(applicationContext).forGpxId(gpxId)
+        this.notification = notification
 
-        startForeground(FOREGROUND_SERVICE_KEY, RecordingNotification(applicationContext).forGpxId(gpxId))
+        startForeground(FOREGROUND_SERVICE_KEY, notification)
 
         val config = intent.extras?.getBundle(RecordingConfiguration.configKey)?.let {
             return@let RecordingConfiguration.fromBundle(it)
@@ -62,11 +83,9 @@ class LocationRecorderService : Service() {
         fusedLocation.requestLocationUpdates(config.locationRequest(),
                 locationCallback,
                 mainLooper)
-
-        return super.onStartCommand(intent, flags, startId)
     }
 
-    fun onLocationChanged(location: Location?) {
+    private fun onLocationChanged(location: Location?) {
         location?.let { loc ->
             if (loc.accuracy > 20) return
 

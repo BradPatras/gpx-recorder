@@ -8,5 +8,7 @@ class Keys {
     companion object {
         const val GpxId = "kgpxid"
         const val StopService = "kStopService"
+        const val PauseService = "kPauseService"
+        const val ResumeService = "kResumeService"
     }
 }
