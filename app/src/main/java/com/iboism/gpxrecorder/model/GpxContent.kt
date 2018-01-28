@@ -32,7 +32,7 @@ open class GpxContent(
     }
 
     companion object Keys {
-        val primaryKey = "identifier"
+        const val primaryKey = "identifier"
 
         fun withId(realm: Realm = Realm.getDefaultInstance(), identifier: Long): GpxContent? {
             return realm.where(GpxContent::class.java)

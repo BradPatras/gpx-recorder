@@ -14,7 +14,7 @@ import io.realm.Realm
 
 class GpxList : Fragment() {
 
-    var listView: ListView? = null
+    private var listView: ListView? = null
 
     override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {

@@ -13,25 +13,6 @@ import io.realm.RealmList
  * Created by bradpatras on 12/20/17.
  */
 class Distance {
-    // Unused now that distances are calculated and stored in the Segment objects as points are added
-//    fun ofSegment(segmentId: Long): Single<Float> {
-//        return Single.just(segmentId)
-//                .observeOn(Schedulers.computation())
-//                .map { Realm.getDefaultInstance().where(Segment::class.java).equalTo(Segment.primaryKey, segmentId)
-//                            .findFirst()?.points ?: RealmList<TrackPoint>()
-//                }
-//                .map { pointsToDistance(it) }
-//    }
-//
-//    private fun pointsToDistance(points: List<TrackPoint>): Float {
-//        val initialPoint = points.getOrNull(0) ?: return 0f
-//
-//        val (_, distance) = points.fold(initialPoint.to(0f), { (previousPoint, distance), trackPoint ->
-//            trackPoint.to(distance + haversineKm(previousPoint, trackPoint))
-//        })
-//
-//        return distance
-//    }
 
     companion object {
         fun haversineKm(pointA: TrackPoint, pointB: TrackPoint): Float {
@@ -39,8 +20,8 @@ class Distance {
             val earthRadiusKM = 6378.1370f
             val toRads = (Math.PI / 180).toFloat()
 
-            val a = (pointA.lat * toRads).to(pointA.lon * toRads)
-            val b = (pointB.lat * toRads).to(pointB.lon * toRads)
+            val a = (pointA.lat * toRads) to pointA.lon * toRads
+            val b = (pointB.lat * toRads) to pointB.lon * toRads
 
             val latD = a.first - b.first
             val lonD = a.second - b.second

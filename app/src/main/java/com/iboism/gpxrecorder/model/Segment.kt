@@ -33,6 +33,6 @@ open class Segment(
     }
 
     companion object Keys {
-        val primaryKey = "identifier"
+        const val primaryKey = "identifier"
     }
 }

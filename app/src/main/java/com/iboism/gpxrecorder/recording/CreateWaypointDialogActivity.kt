@@ -26,7 +26,6 @@ class CreateWaypointDialogActivity : AppCompatActivity() {
                 .setNumUpdates(1)
     }
 
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_create_waypoint_dialog)
@@ -51,7 +50,7 @@ class CreateWaypointDialogActivity : AppCompatActivity() {
         PermissionHelper.getInstance(this@CreateWaypointDialogActivity)
                 .checkLocationPermissions {
                     fusedLocation.requestLocationUpdates(locationConfiguration, waypointPendingIntent)
-                    this@CreateWaypointDialogActivity.finish()
+                    finish()
                 }
     }
 }

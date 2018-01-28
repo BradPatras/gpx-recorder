@@ -18,7 +18,7 @@ class ShareHelper(val context: Context) {
             shareIntent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
             shareIntent.putExtra(Intent.EXTRA_MIME_TYPES, arrayOf("application/octet-stream", "text/plain"))
             shareIntent.putExtra(Intent.EXTRA_STREAM, contentUri)
-            shareIntent.setType("application/octet-stream")
+            shareIntent.type = "application/octet-stream"
             context.startActivity(Intent.createChooser(shareIntent, "Choose an app"))
         }
     }
