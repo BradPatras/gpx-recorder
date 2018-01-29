@@ -12,27 +12,44 @@ import com.iboism.gpxrecorder.util.Keys
 /**
  * Created by bradpatras on 12/13/17.
  */
-class RecordingNotification(val context: Context) {
-    fun forGpxId(id: Long): Notification {
-        val openAppIntent = Intent(context, MainActivity::class.java)
-        val openAppPendingIntent = PendingIntent.getActivity(context, 0, openAppIntent, 0)
+class RecordingNotification(val context: Context, val id: Long) {
+    private var isPaused = false
 
-        val setWaypointIntent = Intent(context, CreateWaypointDialogActivity::class.java)
-        setWaypointIntent.putExtra(Keys.GpxId, id)
-        val setWaypointPendingIntent = PendingIntent.getActivity(context, id.toInt(), setWaypointIntent, 0)
+    private val openAppIntent = Intent(context, MainActivity::class.java)
+    private val openAppPendingIntent = PendingIntent.getActivity(context, 0, openAppIntent, 0)
 
-        val stopRecordingIntent = Intent(context, LocationRecorderService::class.java)
-        stopRecordingIntent.putExtra(Keys.StopService, true)
-        val stopRecordingPendingIntent = PendingIntent.getService(context, id.toInt(), stopRecordingIntent, PendingIntent.FLAG_UPDATE_CURRENT)
+    private val setWaypointIntent = Intent(context, CreateWaypointDialogActivity::class.java).putExtra(Keys.GpxId, id)
+    private val setWaypointPendingIntent = PendingIntent.getActivity(context, id.toInt(), setWaypointIntent, 0)
 
-        return NotificationCompat.Builder(context, Notification.CATEGORY_SERVICE)
+    private val pauseRecordingIntent = Intent(context, LocationRecorderService::class.java).putExtra(Keys.PauseService, true)
+    private val pauseRecordingPendingIntent = PendingIntent.getService(context, 2, pauseRecordingIntent, PendingIntent.FLAG_UPDATE_CURRENT)
+
+    private val resumeRecordingIntent = Intent(context, LocationRecorderService::class.java).putExtra(Keys.ResumeService, true)
+    private val resumeRecordingPendingIntent = PendingIntent.getService(context, 3, resumeRecordingIntent, PendingIntent.FLAG_UPDATE_CURRENT)
+
+    private val stopRecordingIntent = Intent(context, LocationRecorderService::class.java).putExtra(Keys.StopService, true)
+    private val stopRecordingPendingIntent = PendingIntent.getService(context, 4, stopRecordingIntent, PendingIntent.FLAG_UPDATE_CURRENT)
+
+    fun notification(): Notification {
+
+        val builder = NotificationCompat.Builder(context, Notification.CATEGORY_SERVICE)
                 .setContentTitle("GPX Recorder")
                 .setContentIntent(openAppPendingIntent)
                 .setContentText("Location recording in progress")
                 .setSmallIcon(R.drawable.gpx_notification)
                 .setStyle(NotificationCompat.BigTextStyle().bigText("Location recording in progress"))
                 .addAction(R.drawable.ic_add_location, "Add Waypoint", setWaypointPendingIntent)
-                .addAction(R.drawable.abc_ic_clear_material, "Stop Recording", stopRecordingPendingIntent)
-                .build()
+                .addAction(R.drawable.ic_cancel, "Stop Recording", stopRecordingPendingIntent)
+
+        when {
+            isPaused -> builder.addAction(R.drawable.ic_play, "Resume Recording", resumeRecordingPendingIntent)
+            !isPaused -> builder.addAction(R.drawable.ic_pause, "Pause Recording", pauseRecordingPendingIntent)
+        }
+        return builder.build()
+    }
+
+    fun setPaused(isPaused: Boolean): RecordingNotification {
+        this.isPaused = isPaused
+        return this
     }
 }

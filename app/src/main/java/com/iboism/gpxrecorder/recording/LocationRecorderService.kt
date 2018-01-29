@@ -2,7 +2,9 @@ package com.iboism.gpxrecorder.recording
 
 import android.annotation.SuppressLint
 import android.app.Notification
+import android.app.NotificationManager
 import android.app.Service
+import android.content.Context
 import android.content.Intent
 import android.location.Location
 import android.os.Binder
@@ -23,8 +25,12 @@ import io.realm.Realm
 class LocationRecorderService : Service() {
     private val serviceBinder = ServiceBinder()
     private var gpxId: Long? = null
+    private var config = RecordingConfiguration()
 
-    private var notification: Notification? = null
+    private var notificationHelper: RecordingNotification? = null
+
+    private val Context.notificationManager: NotificationManager
+        get() = getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
 
     private val fusedLocation by lazy {
         LocationServices.getFusedLocationProviderClient(this@LocationRecorderService)
@@ -60,23 +66,34 @@ class LocationRecorderService : Service() {
     }
 
     private fun pauseRecording() {
-        // todo
+        val notificationHelper = notificationHelper ?: return
+        val gpxId = gpxId ?: return
+        notificationManager.notify(gpxId.toInt(), notificationHelper.setPaused(true).notification())
+        fusedLocation.removeLocationUpdates(locationCallback)
     }
 
+    @SuppressLint("MissingPermission")
     private fun resumeRecording() {
-       // todo
+        val notificationHelper = notificationHelper ?: return
+        val gpxId = gpxId ?: return
+        notificationManager.notify(gpxId.toInt(), notificationHelper.setPaused(false).notification())
+        fusedLocation.requestLocationUpdates(config.locationRequest(),
+                locationCallback,
+                mainLooper)
     }
 
     @SuppressLint("MissingPermission")
     private fun startRecording(intent: Intent?) {
         val gpxId = intent?.extras?.get(Keys.GpxId) as? Long ?: return
+        val notificationHelper = RecordingNotification(applicationContext, gpxId)
+        val notification = notificationHelper.notification()
+
         this.gpxId = gpxId
-        val notification = RecordingNotification(applicationContext).forGpxId(gpxId)
-        this.notification = notification
+        this.notificationHelper = notificationHelper
 
-        startForeground(FOREGROUND_SERVICE_KEY, notification)
+        startForeground(gpxId.toInt(), notification)
 
-        val config = intent.extras?.getBundle(RecordingConfiguration.configKey)?.let {
+        config = intent.extras?.getBundle(RecordingConfiguration.configKey)?.let {
             return@let RecordingConfiguration.fromBundle(it)
         } ?: RecordingConfiguration()
 
@@ -99,10 +116,6 @@ class LocationRecorderService : Service() {
                 gpx?.trackList?.last()?.segments?.last()?.addPoint(trkpt)
             }
         }
-    }
-
-    companion object {
-        const val FOREGROUND_SERVICE_KEY = 98072347
     }
 
     inner class ServiceBinder : Binder() {
