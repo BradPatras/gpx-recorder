@@ -1,6 +1,7 @@
 package com.iboism.gpxrecorder.primary
 
 import android.annotation.SuppressLint
+import android.app.FragmentTransaction
 import android.content.Intent
 import android.os.Bundle
 import android.support.design.widget.NavigationView
@@ -33,7 +34,9 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         fab.setOnClickListener { _ ->
             permissionHelper.checkLocationPermissions(
                     onAllowed = {
-                        RecordingConfiguratorModal.instance().show(supportFragmentManager, "dialog")
+                        supportFragmentManager.beginTransaction()
+                                .add(RecordingConfiguratorModal.instance(), "dialog")
+                                .commitAllowingStateLoss()
                     })
         }
 
