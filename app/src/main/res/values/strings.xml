@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">GPX Recorder</string>
+    <string name="app_name" translatable="false">GPX Recorder</string>
 
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
@@ -33,4 +33,19 @@
     <string name="twitter">Twitter</string>
     <string name="github">Github</string>
     <string name="calculating_placeholder">calculating..</string>
+    <string name="notification_title" translatable="false">GPX Recorder</string>
+    <string name="notification_recording_in_progress">Location recording in progress</string>
+    <string name="add_waypoint">Add Waypoint</string>
+    <string name="stop_recording">Stop Recording</string>
+    <string name="resume_recording">Resume Recording</string>
+    <string name="pause_recording">Pause Recording</string>
+    <string name="enter_title">Enter Title</string>
+    <string name="interval_minutes">Interval (minutes)</string>
+    <string name="how_often_to_record_track_points">How often to record track points</string>
+    <string name="minimum_displacement_meters">Minimum displacement (meters)</string>
+    <string name="minimum_distance_between">Minimum distance between successive track points</string>
+    <string name="start">Start</string>
+    <string name="new_recording">New Recording</string>
+    <string name="title">Title</string>
+    <string name="gpx_recorder" translatable="false">GPX Recorder</string>
 </resources>

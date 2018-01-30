@@ -33,17 +33,17 @@ class RecordingNotification(val context: Context, val id: Long) {
     fun notification(): Notification {
 
         val builder = NotificationCompat.Builder(context, Notification.CATEGORY_SERVICE)
-                .setContentTitle("GPX Recorder")
+                .setContentTitle(context.getString(R.string.notification_title))
                 .setContentIntent(openAppPendingIntent)
-                .setContentText("Location recording in progress")
+                .setContentText(context.getString(R.string.notification_recording_in_progress))
                 .setSmallIcon(R.drawable.gpx_notification)
-                .setStyle(NotificationCompat.BigTextStyle().bigText("Location recording in progress"))
-                .addAction(R.drawable.ic_add_location, "Add Waypoint", setWaypointPendingIntent)
-                .addAction(R.drawable.ic_cancel, "Stop Recording", stopRecordingPendingIntent)
+                .setStyle(NotificationCompat.BigTextStyle().bigText(context.getString(R.string.notification_recording_in_progress)))
+                .addAction(R.drawable.ic_add_location, context.getString(R.string.add_waypoint), setWaypointPendingIntent)
+                .addAction(R.drawable.ic_cancel, context.getString(R.string.stop_recording), stopRecordingPendingIntent)
 
         when {
-            isPaused -> builder.addAction(R.drawable.ic_play, "Resume Recording", resumeRecordingPendingIntent)
-            !isPaused -> builder.addAction(R.drawable.ic_pause, "Pause Recording", pauseRecordingPendingIntent)
+            isPaused -> builder.addAction(R.drawable.ic_play, context.getString(R.string.resume_recording), resumeRecordingPendingIntent)
+            !isPaused -> builder.addAction(R.drawable.ic_pause, context.getString(R.string.pause_recording), pauseRecordingPendingIntent)
         }
         return builder.build()
     }
