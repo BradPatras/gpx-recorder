@@ -15,7 +15,6 @@
         android:layout_height="wrap_content"
         android:padding="10dp"
         android:background="@drawable/background_rounded"
-        android:elevation="2dp"
         android:clipToPadding="false"
         >
 

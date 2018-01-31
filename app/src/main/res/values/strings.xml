@@ -17,8 +17,8 @@
     <!-- Strings related to Settings -->
 
     <string name="done">done</string>
-    <string name="add_note_hint">Add note...</string>
-    <string name="add_title_hint">Add title...</string>
+    <string name="add_note_hint">Add note…</string>
+    <string name="add_title_hint">Add title…</string>
     <string name="add_waypoint">Add Waypoint</string>
 
     <string name="error">Error</string>
@@ -35,7 +35,6 @@
     <string name="calculating_placeholder">calculating..</string>
     <string name="notification_title" translatable="false">GPX Recorder</string>
     <string name="notification_recording_in_progress">Location recording in progress</string>
-    <string name="add_waypoint">Add Waypoint</string>
     <string name="stop_recording">Stop Recording</string>
     <string name="resume_recording">Resume Recording</string>
     <string name="pause_recording">Pause Recording</string>
