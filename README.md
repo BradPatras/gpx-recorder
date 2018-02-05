@@ -9,6 +9,5 @@ Android app to record gps routes in the background and allow user to export rout
 - [FusedLocationProvider](https://developers.google.com/android/reference/com/google/android/gms/location/FusedLocationProviderClient) for location services
 - [Apache Commons IO](https://commons.apache.org/proper/commons-io/) for file writing
 - [Kotlin](https://kotlinlang.org/) for kicks
-- [CrystalRangeSeekbar](https://github.com/syedowaisali/crystal-range-seekbar) for no good reason
-- [RxJava](https://github.com/ReactiveX/RxJava) for handling everything asynchronous 
+- [RxJava](https://github.com/ReactiveX/RxJava) for handling everything asynchronous
 
