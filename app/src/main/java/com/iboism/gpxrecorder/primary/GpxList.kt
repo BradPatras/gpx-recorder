@@ -11,27 +11,42 @@ import android.widget.ListView
 import com.iboism.gpxrecorder.R
 import com.iboism.gpxrecorder.model.GpxContent
 import io.realm.Realm
+import io.realm.RealmList
+import io.realm.RealmResults
 
 class GpxList : Fragment() {
 
-    private var listView: ListView? = null
     private val placeholderViews = listOf(R.id.placeholder_menu_icon, R.id.placeholder_menu_text, R.id.placeholder_routes_text, R.id.placeholder_routes_icon)
+    private val gpxContentList = Realm.getDefaultInstance().where(GpxContent::class.java).findAll()
+    private var rootView: View? = null
+
+    private val gpxChangeListener = { gpxContent: RealmResults<GpxContent> ->
+        setPlaceholdersHidden(gpxContent.isNotEmpty())
+    }
 
     override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
-        val root = checkNotNull(inflater?.inflate(R.layout.fragment_gpx_list, container, false)) { return null }
 
-        listView = root.findViewById(R.id.gpx_listView)
-        val gpxContentList = Realm.getDefaultInstance().where(GpxContent::class.java).findAll()
+        rootView = checkNotNull(inflater?.inflate(R.layout.fragment_gpx_list, container, false)) { return null }
+        val listView: ListView? = rootView?.findViewById(R.id.gpx_listView)
         listView?.adapter = GpxContentAdapter(gpxContentList)
 
-        if (gpxContentList.isNotEmpty()) hidePlaceholders(root)
+        gpxContentList.addChangeListener(gpxChangeListener)
 
-        return root
+        setPlaceholdersHidden(gpxContentList.isNotEmpty())
+
+        return rootView
     }
 
-    private fun hidePlaceholders(root: View) {
-        placeholderViews.forEach { root.findViewById<View>(it).visibility = View.GONE }
+    private fun setPlaceholdersHidden(hidden: Boolean) {
+        rootView?.let { root ->
+            placeholderViews.forEach { root.findViewById<View>(it).visibility = if (hidden) View.GONE else View.VISIBLE }
+        }
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        gpxContentList.removeChangeListener(gpxChangeListener)
     }
 
     companion object {
