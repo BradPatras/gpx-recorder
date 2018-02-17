@@ -11,7 +11,6 @@ import android.widget.ListView
 import com.iboism.gpxrecorder.R
 import com.iboism.gpxrecorder.model.GpxContent
 import io.realm.Realm
-import io.realm.RealmList
 import io.realm.RealmResults
 
 class GpxList : Fragment() {

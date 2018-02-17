@@ -80,15 +80,11 @@ class GpxContentAdapter(private val realmResults: RealmResults<GpxContent>?) : R
         val exportProgressBar = view?.findViewById(R.id.gpx_content_export_progress_bar) as ProgressBar
 
         fun setLoading(loading: Boolean) {
-            if (loading) {
-                exportButton.visibility = View.INVISIBLE
-                exportProgressBar.visibility = View.VISIBLE
-            } else {
-                exportButton.visibility = View.VISIBLE
-                exportProgressBar.visibility = View.GONE
-            }
-            exportProgressBar.invalidate()
+            exportButton.visibility = if (loading) View.INVISIBLE else View.VISIBLE
             exportButton.invalidate()
+
+            exportProgressBar.visibility = if (loading) View.VISIBLE else View.GONE
+            exportProgressBar.invalidate()
         }
     }
 }
