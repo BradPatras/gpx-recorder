@@ -1,18 +1,16 @@
 package com.iboism.gpxrecorder.primary
 
 import android.annotation.SuppressLint
-import android.app.FragmentTransaction
 import android.content.Intent
 import android.os.Bundle
-import android.support.design.widget.NavigationView
 import android.support.v4.view.GravityCompat
 import android.support.v7.app.AppCompatActivity
-import android.view.MenuItem
 import com.iboism.gpxrecorder.R
 import com.iboism.gpxrecorder.model.GpxContent
 import com.iboism.gpxrecorder.model.RecordingConfiguration
 import com.iboism.gpxrecorder.model.Segment
 import com.iboism.gpxrecorder.model.Track
+import com.iboism.gpxrecorder.navigation.NavigationHelper
 import com.iboism.gpxrecorder.recording.LocationRecorderService
 import com.iboism.gpxrecorder.recording.RecordingConfiguratorModal
 import com.iboism.gpxrecorder.util.Keys
@@ -23,9 +21,10 @@ import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.app_bar_main.*
 
 
-class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener, RecordingConfiguratorModal.Listener {
+class MainActivity : AppCompatActivity(), RecordingConfiguratorModal.Listener {
 
     private val permissionHelper: PermissionHelper by lazy { PermissionHelper.getInstance(this@MainActivity) }
+    private val navigationHelper: NavigationHelper = NavigationHelper(this)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -40,7 +39,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
                     })
         }
 
-        nav_view.setNavigationItemSelectedListener(this)
+        nav_view.setNavigationItemSelectedListener(navigationHelper)
 
         // uncomment to create random 10,000 point track and add it to realm
 //        val seg = Segment()
@@ -81,18 +80,5 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         intent.putExtra(RecordingConfiguration.configKey, configuration.toBundle())
 
         startService(intent)
-    }
-
-    override fun onNavigationItemSelected(item: MenuItem): Boolean {
-        // Handle navigation view item clicks here.
-        when (item.itemId) {
-            R.id.nav_delete_recordings -> Realm.getDefaultInstance().executeTransaction {
-                it.delete(GpxContent::class.java)
-                stopService(Intent(this@MainActivity, LocationRecorderService::class.java))
-            }
-        }
-
-        drawer_layout.closeDrawer(GravityCompat.START)
-        return true
     }
 }

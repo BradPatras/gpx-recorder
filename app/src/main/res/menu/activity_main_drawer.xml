@@ -20,6 +20,10 @@
                 android:id="@+id/nav_github"
                 android:icon="@drawable/ic_github"
                 android:title="@string/github"/>
+            <item
+                android:id="@+id/nav_email"
+                android:icon="@drawable/ic_mail"
+                android:title="Email"/>
         </menu>
     </item>
 
