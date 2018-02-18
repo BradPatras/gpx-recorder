@@ -23,8 +23,9 @@ class NavigationHelper(val activity: Activity) : NavigationView.OnNavigationItem
             R.id.nav_twitter ->
                 activity.launchExternalIntent(Intent(Intent.ACTION_VIEW, Uri.parse("https://www.twitter.com/iboism")))
             R.id.nav_email -> {
-                val intent = Intent(Intent.ACTION_SEND, Uri.parse("mailto:"))
+                val intent = Intent(Intent.ACTION_SEND, Uri.parse("mailto:appdev.iboism@gmail.com"))
                 intent.putExtra(Intent.EXTRA_EMAIL, arrayOf("appdev.iboism@gmail.com"))
+                intent.putExtra(Intent.EXTRA_SUBJECT, "Gpx Recorder Developer Contact")
                 intent.type = "plain/text"
                 activity.launchExternalIntent(intent)
             }
@@ -33,6 +34,7 @@ class NavigationHelper(val activity: Activity) : NavigationView.OnNavigationItem
                     it.delete(GpxContent::class.java)
                     activity.stopService(Intent(activity, LocationRecorderService::class.java))
                 }
+
             }
         }
 
