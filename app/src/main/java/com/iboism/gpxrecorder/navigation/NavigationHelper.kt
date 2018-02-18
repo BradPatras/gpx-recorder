@@ -23,10 +23,9 @@ class NavigationHelper(val activity: Activity) : NavigationView.OnNavigationItem
             R.id.nav_twitter ->
                 activity.launchExternalIntent(Intent(Intent.ACTION_VIEW, Uri.parse("https://www.twitter.com/iboism")))
             R.id.nav_email -> {
-                val intent = Intent(Intent.ACTION_SENDTO, Uri.parse("mailto:"))
-                intent.putExtra(Intent.EXTRA_EMAIL, "appdev.iboism@gmail.com")
-                intent.putExtra(Intent.EXTRA_SUBJECT, "Gpx Recorder Developer Contact")
-                intent.type = "*/*"
+                val intent = Intent(Intent.ACTION_SEND, Uri.parse("mailto:"))
+                intent.putExtra(Intent.EXTRA_EMAIL, arrayOf("appdev.iboism@gmail.com"))
+                intent.type = "plain/text"
                 activity.launchExternalIntent(intent)
             }
             R.id.nav_delete_recordings -> {
@@ -44,7 +43,7 @@ class NavigationHelper(val activity: Activity) : NavigationView.OnNavigationItem
     // Check if user has receiver for intent before attempting to start
     private fun Activity.launchExternalIntent(intent: Intent) {
        if (intent.resolveActivity(packageManager) != null) {
-           startActivity(intent)
+           this.startActivity(intent)
        }
     }
 }
