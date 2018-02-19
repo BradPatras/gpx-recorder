@@ -38,7 +38,7 @@
             android:layout_marginTop="8dp"
             android:text="Sat 8 May 2018 12:55 PM"
             app:layout_constraintBottom_toTopOf="@id/waypoints"
-            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintStart_toEndOf="@id/date_icon"
             app:layout_constraintTop_toBottomOf="@+id/gpx_content_title" />
 
         <FrameLayout
@@ -46,7 +46,7 @@
             android:layout_width="30dp"
             android:layout_height="30dp"
             android:layout_marginEnd="8dp"
-            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintEnd_toEndOf="parent">
 
             <Button
@@ -62,28 +62,49 @@
                 android:layout_height="match_parent"
                 android:tint="@android:color/darker_gray"
                 android:visibility="gone" />
-
         </FrameLayout>
 
         <TextView
             android:id="@+id/gpx_content_distance"
             android:layout_width="0dp"
             android:layout_height="0dp"
-            android:layout_marginBottom="8dp"
             android:layout_marginEnd="8dp"
             android:layout_marginStart="8dp"
             android:layout_marginTop="8dp"
-            android:paddingBottom="1dp"
+            android:gravity="bottom"
             android:text="0"
             android:textAlignment="viewEnd"
             android:textAllCaps="false"
             android:textColor="@android:color/holo_red_dark"
-            android:textSize="26sp"
+            android:textSize="18sp"
             android:typeface="normal"
-            app:layout_constraintBottom_toTopOf="@+id/frameLayout"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@+id/gpx_content_date"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toBottomOf="@+id/frameLayout"/>
+
+        <ImageView
+            android:id="@+id/date_icon"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:src="@drawable/ic_calendar"
+            android:layout_marginStart="8dp"
+            app:layout_constraintBottom_toBottomOf="@id/gpx_content_date"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/gpx_content_date"
+            android:tint="@android:color/darker_gray"
+            />
+
+        <ImageView
+            android:id="@+id/waypoints_icon"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:src="@drawable/ic_route"
+            android:layout_marginStart="8dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            android:tint="@android:color/darker_gray"
+            />
 
         <TextView
             android:id="@+id/gpx_content_waypoint_count"
@@ -92,7 +113,7 @@
             android:layout_marginStart="8dp"
             android:text="0"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toStartOf="parent" />
+            app:layout_constraintStart_toEndOf="@id/waypoints_icon" />
 
         <TextView
             android:id="@+id/waypoints"
