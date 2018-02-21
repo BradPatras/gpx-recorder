@@ -19,8 +19,14 @@
         android:roundIcon="@mipmap/ic_launcher6_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+        <meta-data
+            android:name="com.google.android.gms.version"
+            android:value="@integer/google_play_services_version"/>
+
         <service android:name=".recording.LocationRecorderService"/>
+
         <receiver android:name=".recording.CreateWaypointService"/>
+
         <activity
             android:name=".primary.MainActivity"
             android:label="@string/app_name"
@@ -44,12 +50,10 @@
 
         <activity
             android:name=".recording.CreateWaypointDialogActivity"
-            android:theme="@style/Theme.NoActionBarDialog"
             android:excludeFromRecents="true"
             android:launchMode="singleTask"
             android:taskAffinity="com.iboism.gpxrecorder.addWaypoint"
-            >
-
+            android:theme="@style/Theme.NoActionBarDialog">
         </activity>
     </application>
 
