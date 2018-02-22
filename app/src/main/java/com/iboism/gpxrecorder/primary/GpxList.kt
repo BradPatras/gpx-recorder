@@ -7,9 +7,9 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ListView
-
 import com.iboism.gpxrecorder.R
 import com.iboism.gpxrecorder.model.GpxContent
+import com.iboism.gpxrecorder.viewer.GpxContentViewer
 import io.realm.Realm
 import io.realm.RealmResults
 
@@ -28,7 +28,15 @@ class GpxList : Fragment() {
 
         rootView = checkNotNull(inflater?.inflate(R.layout.fragment_gpx_list, container, false)) { return null }
         val listView: ListView? = rootView?.findViewById(R.id.gpx_listView)
-        listView?.adapter = GpxContentAdapter(gpxContentList)
+
+        val adapter = GpxContentAdapter(gpxContentList)
+        adapter.contentViewerOpener = { gpxId: Long ->
+            fragmentManager.beginTransaction()
+                    .replace(R.id.layout_app_bar_main, GpxContentViewer.newInstance(gpxId))
+                    .addToBackStack("view")
+                    .commit()
+        }
+        listView?.adapter = adapter
 
         gpxContentList.addChangeListener(gpxChangeListener)
 

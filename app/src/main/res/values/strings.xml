@@ -49,8 +49,4 @@
     <string name="new_recording">New Recording</string>
     <string name="title">Title</string>
     <string name="gpx_recorder" translatable="false">GPX Recorder</string>
-
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
-    <string name="title_activity_maps">Map</string>
 </resources>

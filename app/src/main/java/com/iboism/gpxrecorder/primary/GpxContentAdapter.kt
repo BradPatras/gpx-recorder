@@ -22,6 +22,7 @@ import io.realm.RealmResults
  */
 class GpxContentAdapter(private val realmResults: RealmResults<GpxContent>?) : RealmBaseAdapter<GpxContent>(realmResults), ListAdapter {
     private var fileHelper: FileHelper? = null
+    var contentViewerOpener: ((gpxId: Long) -> Unit)? = null
 
     override fun getView(position: Int, convertView: View?, parent: ViewGroup?): View? {
         val view: View
@@ -66,6 +67,10 @@ class GpxContentAdapter(private val realmResults: RealmResults<GpxContent>?) : R
                             }
                         }
             }
+        }
+
+        view.setOnClickListener {
+            contentViewerOpener?.invoke(gpx.identifier)
         }
 
         return view
