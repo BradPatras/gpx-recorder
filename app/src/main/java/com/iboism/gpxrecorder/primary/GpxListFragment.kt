@@ -6,15 +6,17 @@ import android.support.v4.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ListView
 import com.iboism.gpxrecorder.R
 import com.iboism.gpxrecorder.model.GpxContent
+import com.iboism.gpxrecorder.recording.RecordingConfiguratorModal
+import com.iboism.gpxrecorder.util.PermissionHelper
 import com.iboism.gpxrecorder.viewer.GpxContentViewer
 import io.realm.Realm
 import io.realm.RealmResults
+import kotlinx.android.synthetic.main.fragment_gpx_list.*
 
-class GpxList : Fragment() {
-
+class GpxListFragment : Fragment() {
+    private val permissionHelper: PermissionHelper by lazy { PermissionHelper.getInstance(this.activity) }
     private val placeholderViews = listOf(R.id.placeholder_menu_icon, R.id.placeholder_menu_text, R.id.placeholder_routes_text, R.id.placeholder_routes_icon)
     private val gpxContentList = Realm.getDefaultInstance().where(GpxContent::class.java).findAll()
     private var rootView: View? = null
@@ -23,30 +25,43 @@ class GpxList : Fragment() {
         setPlaceholdersHidden(gpxContent.isNotEmpty())
     }
 
+    private fun onFabClicked (view: View) {
+        permissionHelper.checkLocationPermissions(
+                onAllowed = {
+                    fragmentManager.beginTransaction()
+                            .add(RecordingConfiguratorModal.instance(), "dialog")
+                            .commitAllowingStateLoss()
+                })
+    }
+
+    private fun openContentViewer(gpxId: Long) {
+        fragmentManager.beginTransaction()
+                .replace(R.id.content_container, GpxContentViewer.newInstance(gpxId))
+                .addToBackStack("view")
+                .commit()
+    }
+
     override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
+        return inflater?.inflate(R.layout.fragment_gpx_list, container, false)
+    }
 
-        rootView = checkNotNull(inflater?.inflate(R.layout.fragment_gpx_list, container, false)) { return null }
-        val listView: ListView? = rootView?.findViewById(R.id.gpx_listView)
+    override fun onViewCreated(view: View?, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        fab.setOnClickListener(this::onFabClicked)
 
         val adapter = GpxContentAdapter(gpxContentList)
-        adapter.contentViewerOpener = { gpxId: Long ->
-            fragmentManager.beginTransaction()
-                    .replace(R.id.layout_app_bar_main, GpxContentViewer.newInstance(gpxId))
-                    .addToBackStack("view")
-                    .commit()
-        }
-        listView?.adapter = adapter
+        adapter.contentViewerOpener = this::openContentViewer
+        gpx_listView.adapter = adapter
 
         gpxContentList.addChangeListener(gpxChangeListener)
 
         setPlaceholdersHidden(gpxContentList.isNotEmpty())
-
-        return rootView
     }
 
     private fun setPlaceholdersHidden(hidden: Boolean) {
-        rootView?.let { root ->
+        fragment_gpx_list?.let { root ->
             placeholderViews.forEach { root.findViewById<View>(it).visibility = if (hidden) View.GONE else View.VISIBLE }
         }
     }
@@ -57,6 +72,6 @@ class GpxList : Fragment() {
     }
 
     companion object {
-        fun newInstance() = GpxList()
+        fun newInstance() = GpxListFragment()
     }
 }

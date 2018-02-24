@@ -46,9 +46,9 @@ class GpxContentViewer : Fragment() {
         waypoint_tv.text = "${gpxContent.waypointList.size} waypoints"
         date_tv.text = DateTimeFormatHelper.toReadableString(gpxContent.date)
 
-        map_view.onCreate(savedInstanceState)
+        map_view?.onCreate(savedInstanceState)
         // this is mostly just a test
-        map_view.getMapAsync {
+        map_view?.getMapAsync {
             MapsInitializer.initialize(view!!.context) // todo fix
             it.uiSettings.isMyLocationButtonEnabled = false
             val testpt = gpxContent.trackList.first()?.segments?.first()?.points?.first()!!
@@ -59,32 +59,32 @@ class GpxContentViewer : Fragment() {
     // todo look into switching to MapFragment so I dont have to do these
     override fun onResume() {
         super.onResume()
-        map_view.onResume()
+        map_view?.onResume()
     }
 
     override fun onDestroy() {
         super.onDestroy()
-        map_view.onDestroy()
+        map_view?.onDestroy()
     }
 
     override fun onPause() {
         super.onPause()
-        map_view.onPause()
+        map_view?.onPause()
     }
 
     override fun onLowMemory() {
         super.onLowMemory()
-        map_view.onLowMemory()
+        map_view?.onLowMemory()
     }
 
     override fun onStart() {
         super.onStart()
-        map_view.onStart()
+        map_view?.onStart()
     }
 
     override fun onSaveInstanceState(outState: Bundle?) {
         super.onSaveInstanceState(outState)
-        map_view.onSaveInstanceState(outState)
+        map_view?.onSaveInstanceState(outState)
     }
 
     companion object {

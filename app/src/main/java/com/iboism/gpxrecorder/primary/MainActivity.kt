@@ -14,32 +14,27 @@ import com.iboism.gpxrecorder.navigation.NavigationHelper
 import com.iboism.gpxrecorder.recording.LocationRecorderService
 import com.iboism.gpxrecorder.recording.RecordingConfiguratorModal
 import com.iboism.gpxrecorder.util.Keys
-import com.iboism.gpxrecorder.util.PermissionHelper
 import io.realm.Realm
 import io.realm.RealmList
 import kotlinx.android.synthetic.main.activity_main.*
-import kotlinx.android.synthetic.main.app_bar_main.*
 
 
 class MainActivity : AppCompatActivity(), RecordingConfiguratorModal.Listener {
 
-    private val permissionHelper: PermissionHelper by lazy { PermissionHelper.getInstance(this@MainActivity) }
     private val navigationHelper: NavigationHelper = NavigationHelper(this)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        fab.setOnClickListener { _ ->
-            permissionHelper.checkLocationPermissions(
-                    onAllowed = {
-                        supportFragmentManager.beginTransaction()
-                                .add(RecordingConfiguratorModal.instance(), "dialog")
-                                .commitAllowingStateLoss()
-                    })
+        if (savedInstanceState == null) {
+            supportFragmentManager.beginTransaction()
+                    .add(R.id.content_container, GpxListFragment.newInstance())
+                    .commit()
         }
 
         nav_view.setNavigationItemSelectedListener(navigationHelper)
+
 
         // uncomment to create random 10,000 point track and add it to realm
 //        val seg = Segment()
