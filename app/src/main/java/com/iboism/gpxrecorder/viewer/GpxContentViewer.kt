@@ -42,7 +42,7 @@ class GpxContentViewer : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         title_tv.text = gpxContent.title
-        distance_tv.text = "${gpxContent.trackList.first()?.segments?.first()?.distance ?: 0}km"
+        distance_tv.text = "${gpxContent.trackList.first()?.segments?.first()?.distance ?: 0} km"
         waypoint_tv.text = "${gpxContent.waypointList.size} waypoints"
         date_tv.text = DateTimeFormatHelper.toReadableString(gpxContent.date)
 
@@ -51,8 +51,10 @@ class GpxContentViewer : Fragment() {
         map_view?.getMapAsync {
             MapsInitializer.initialize(view!!.context) // todo fix
             it.uiSettings.isMyLocationButtonEnabled = false
-            val testpt = gpxContent.trackList.first()?.segments?.first()?.points?.first()!!
-            it.animateCamera(CameraUpdateFactory.newLatLngZoom(LatLng(testpt.lat, testpt.lon), 10f))
+            gpxContent.trackList.firstOrNull()?.segments?.firstOrNull()?.points?.firstOrNull()?.let { point ->
+                it.animateCamera(CameraUpdateFactory.newLatLngZoom(LatLng(point.lat, point.lon), 10f))
+            }
+
         }
     }
 
