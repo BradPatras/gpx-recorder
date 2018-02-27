@@ -1,5 +1,6 @@
 package com.iboism.gpxrecorder.model
 
+import com.google.android.gms.maps.model.LatLng
 import com.iboism.gpxrecorder.analysis.Distance
 import com.iboism.gpxrecorder.util.UUIDHelper
 import io.realm.RealmList
@@ -30,6 +31,10 @@ open class Segment(
         }
 
         points.add(point)
+    }
+
+    fun getLatLngPoints(): List<LatLng> {
+        return points.map { LatLng(it.lat,it.lon) }
     }
 
     companion object Keys {

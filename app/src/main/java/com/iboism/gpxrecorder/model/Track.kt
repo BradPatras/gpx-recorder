@@ -21,5 +21,4 @@ open class Track(
         val nameXml = "<name>$name</name>"
         return "<trk>$nameXml$segmentsXml</trk>"
     }
-
 }
