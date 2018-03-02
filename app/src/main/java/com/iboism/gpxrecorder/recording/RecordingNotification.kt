@@ -43,7 +43,9 @@ class RecordingNotification(val context: Context, val id: Long) {
 
         when {
             isPaused -> builder.addAction(R.drawable.ic_play, context.getString(R.string.resume_recording), resumeRecordingPendingIntent)
+                    .setStyle(NotificationCompat.BigTextStyle().bigText(context.getString(R.string.notification_recording_paused)))
             !isPaused -> builder.addAction(R.drawable.ic_pause, context.getString(R.string.pause_recording), pauseRecordingPendingIntent)
+                    .setStyle(NotificationCompat.BigTextStyle().bigText(context.getString(R.string.notification_recording_in_progress)))
         }
         return builder.build()
     }

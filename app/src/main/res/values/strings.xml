@@ -37,9 +37,10 @@
     <string name="calculating_placeholder">calculating..</string>
     <string name="notification_title" translatable="false">GPX Recorder</string>
     <string name="notification_recording_in_progress">Location recording in progress</string>
-    <string name="stop_recording">Stop Recording</string>
-    <string name="resume_recording">Resume Recording</string>
-    <string name="pause_recording">Pause Recording</string>
+    <string name="notification_recording_paused">Location recording paused</string>
+    <string name="stop_recording">Stop</string>
+    <string name="resume_recording">Resume</string>
+    <string name="pause_recording">Pause</string>
     <string name="enter_title">Enter Title</string>
     <string name="interval_minutes">Interval (minutes)</string>
     <string name="how_often_to_record_track_points">How often to record track points</string>
