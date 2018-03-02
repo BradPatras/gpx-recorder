@@ -40,7 +40,6 @@ class GpxContentViewer : Fragment() {
         date_tv.text = DateTimeFormatHelper.toReadableString(gpxContent.date)
 
         map_view?.onCreate(savedInstanceState)
-
         map_view?.getMapAsync(MapController(context, gpxId))
     }
 
@@ -71,16 +70,18 @@ class GpxContentViewer : Fragment() {
     }
 
     override fun onSaveInstanceState(outState: Bundle?) {
-        super.onSaveInstanceState(outState)
         map_view?.onSaveInstanceState(outState)
+        super.onSaveInstanceState(outState)
     }
 
     companion object {
         fun newInstance(gpxId: Long): GpxContentViewer {
-            val fragment = GpxContentViewer()
             val args = Bundle()
             args.putLong(Keys.GpxId, gpxId)
+
+            val fragment = GpxContentViewer()
             fragment.arguments = args
+
             return fragment
         }
     }

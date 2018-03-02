@@ -13,6 +13,7 @@ import com.google.android.gms.maps.model.PolylineOptions
 import com.iboism.gpxrecorder.model.GpxContent
 import com.iboism.gpxrecorder.model.Track
 import com.iboism.gpxrecorder.model.Waypoint
+import com.iboism.gpxrecorder.util.DateTimeFormatHelper
 
 /**
  * Created by Brad on 2/26/2018.
@@ -36,6 +37,7 @@ class MapController(val context: Context, val gpxId: Long): OnMapReadyCallback {
             LatLng(it.lat, it.lon)
         }
     }
+
     private fun GoogleMap.drawContent(gpx: GpxContent) {
         this.drawTracks(gpx.trackList.toList())
         this.drawWaypoints(gpx.waypointList.toList())
@@ -57,17 +59,24 @@ class MapController(val context: Context, val gpxId: Long): OnMapReadyCallback {
             }
         // draw marker at start
         tracks.firstOrNull()?.segments?.firstOrNull()?.points?.firstOrNull()?.let {
-            this.addMarker(MarkerOptions().position(LatLng(it.lat, it.lon)))
+            this.addMarker(MarkerOptions().position(LatLng(it.lat, it.lon))
+                    .title("Start")
+                    .snippet(DateTimeFormatHelper.toReadableString(it.time)))
         }
         // draw marker at end
         tracks.lastOrNull()?.segments?.lastOrNull()?.points?.lastOrNull()?.let {
-            this.addMarker(MarkerOptions().position(LatLng(it.lat, it.lon)))
+            this.addMarker(MarkerOptions().position(LatLng(it.lat, it.lon))
+                    .title("End")
+                    .snippet(DateTimeFormatHelper.toReadableString(it.time)))
         }
     }
 
     private fun GoogleMap.drawWaypoints(waypoints: List<Waypoint>) {
         waypoints.forEach {
-            this.addMarker(MarkerOptions().position(LatLng(it.lat,it.lon)).flat(false))
+            this.addMarker(MarkerOptions().position(LatLng(it.lat,it.lon))
+                    .flat(false)
+                    .title(it.title)
+                    .snippet(it.desc))
         }
     }
 }
