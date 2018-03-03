@@ -40,7 +40,7 @@
             android:layout_marginStart="8dp"
             android:layout_marginTop="8dp"
             android:text="Sat 8 May 2018 12:55 PM"
-            app:layout_constraintBottom_toTopOf="@id/waypoints"
+            app:layout_constraintBottom_toTopOf="@id/gpx_content_waypoint_count"
             app:layout_constraintStart_toEndOf="@id/date_icon"
             app:layout_constraintTop_toBottomOf="@+id/gpx_content_title"/>
 
@@ -101,7 +101,7 @@
             android:layout_marginStart="8dp"
             android:src="@drawable/ic_route"
             android:tint="@android:color/darker_gray"
-            app:layout_constraintBottom_toBottomOf="@+id/waypoints"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="@+id/gpx_content_waypoint_count"/>
 
@@ -113,16 +113,6 @@
             android:text="0"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toEndOf="@id/waypoints_icon"/>
-
-        <TextView
-            android:id="@+id/waypoints"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="4dp"
-            android:text="@string/waypoints"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/gpx_content_waypoint_count"
-            />
 
     </android.support.constraint.ConstraintLayout>
 </FrameLayout>

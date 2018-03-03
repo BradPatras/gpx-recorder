@@ -43,12 +43,13 @@ class GpxContentAdapter(private val realmResults: RealmResults<GpxContent>?) : R
             fileHelper = FileHelper.getInstance(view.context)
         }
 
-        val gpx = realmResults?.get(position) ?: return view
+        val gpx = realmResults?.getOrNull(position) ?: return view
 
         viewHolder.dateView.text = DateTimeFormatHelper.toReadableString(gpx.date)
         viewHolder.titleView.text = gpx.title
-        viewHolder.waypointCountView.text = "${gpx.waypointList.count()}"
-        viewHolder.distanceView.text = String.format("%.2f km", gpx.trackList.get(0)?.segments?.get(0)?.distance ?: 0f)
+        viewHolder.waypointCountView.text = view.resources.getQuantityString(R.plurals.waypoint_count, gpx.waypointList.size, gpx.waypointList.size)
+        val distance = gpx.trackList.firstOrNull()?.segments?.firstOrNull()?.distance ?: 0f
+        viewHolder.distanceView.text = view.resources.getString(R.string.distance_km, distance)
         viewHolder.setLoading(fileHelper?.isExporting() == gpx.identifier)
 
         viewHolder.exportButton.setOnClickListener {

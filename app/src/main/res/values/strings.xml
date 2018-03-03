@@ -26,9 +26,11 @@
     <string name="error">Error</string>
     <string name="cannot_create_waypoint">Cannot create waypoint at this time</string>
     <string name="failed_to_place_waypoint">Failed to place waypoint</string>
+    <plurals name="point_count">
+        <item quantity="one">%1$d point</item>
+        <item quantity="other">%1$d points</item>
+    </plurals>
     <string name="points">points</string>
-    <string name="km">km</string>
-    <string name="waypoints">waypoints</string>
     <string name="date">Date</string>
     <string name="delete_recordings">Delete Recordings</string>
     <string name="developer_contact">Developer Contact</string>
@@ -50,4 +52,9 @@
     <string name="new_recording">New Recording</string>
     <string name="title">Title</string>
     <string name="gpx_recorder" translatable="false">GPX Recorder</string>
+    <plurals name="waypoint_count">
+        <item quantity="one">%d waypoint</item>
+        <item quantity="other">%d waypoints</item>
+    </plurals>
+    <string name="distance_km">%.2f km</string>
 </resources>

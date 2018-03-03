@@ -35,8 +35,9 @@ class GpxContentViewer : Fragment() {
         val gpxContent = GpxContent.withId(gpxId) ?: return
 
         title_tv.text = gpxContent.title
-        distance_tv.text = "${gpxContent.trackList.first()?.segments?.first()?.distance ?: 0} km"
-        waypoint_tv.text = "${gpxContent.waypointList.size} waypoints"
+        val distance = gpxContent.trackList.first()?.segments?.first()?.distance ?: 0f
+        distance_tv.text = resources.getString(R.string.distance_km, distance)
+        waypoint_tv.text = resources.getQuantityString(R.plurals.waypoint_count, gpxContent.waypointList.size, gpxContent.waypointList.size)
         date_tv.text = DateTimeFormatHelper.toReadableString(gpxContent.date)
 
         map_view?.onCreate(savedInstanceState)
