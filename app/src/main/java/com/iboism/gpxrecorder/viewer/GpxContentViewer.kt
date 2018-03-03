@@ -32,7 +32,7 @@ class GpxContentViewer : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         // Can't do anything if we don't have an Id and corresponding gpxContent //TODO handle invalid state
         val gpxId = gpxId ?: return
-        val gpxContent = GpxContent.withId(identifier = gpxId) ?: return
+        val gpxContent = GpxContent.withId(gpxId) ?: return
 
         title_tv.text = gpxContent.title
         distance_tv.text = "${gpxContent.trackList.first()?.segments?.first()?.distance ?: 0} km"

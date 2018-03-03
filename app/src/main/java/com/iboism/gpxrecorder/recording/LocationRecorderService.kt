@@ -108,11 +108,7 @@ class LocationRecorderService : Service() {
 
             Realm.getDefaultInstance().executeTransaction {
                 val trkpt = TrackPoint(lat = loc.latitude, lon = loc.longitude, ele = loc.altitude)
-                val gpx = Realm.getDefaultInstance()
-                        .where(GpxContent::class.java)
-                        .equalTo(GpxContent.Keys.primaryKey,gpxId)
-                        .findFirst()
-
+                val gpx = GpxContent.withId(gpxId)
                 gpx?.trackList?.last()?.segments?.last()?.addPoint(trkpt)
             }
         }

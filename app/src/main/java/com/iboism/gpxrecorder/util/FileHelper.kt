@@ -29,7 +29,7 @@ class FileHelper(var context: Context) {
         exporting = gpxContentId
         return Single.just(gpxContentId)
                 .observeOn(Schedulers.io())
-                .map { GpxContent.withId(identifier = it) }
+                .map { GpxContent.withId(it) }
                 .map(this::writeGpxToFile)
                 .doFinally { exporting = null }
     }

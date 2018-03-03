@@ -27,7 +27,7 @@ class MapController(val context: Context, val gpxId: Long): OnMapReadyCallback {
         MapsInitializer.initialize(context)
         map.uiSettings.isMyLocationButtonEnabled = false
         map.mapType = GoogleMap.MAP_TYPE_HYBRID
-        GpxContent.withId(identifier = gpxId)?.let { map.drawContent(it) }
+        GpxContent.withId(gpxId)?.let { map.drawContent(it) }
     }
 
     private fun startPoint(gpx: GpxContent): LatLng? {
