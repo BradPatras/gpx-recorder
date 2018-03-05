@@ -36,7 +36,7 @@ class RecordingNotification(val context: Context, val id: Long) {
                 .setContentTitle(context.getString(R.string.notification_title))
                 .setContentIntent(openAppPendingIntent)
                 .setContentText(context.getString(R.string.notification_recording_in_progress))
-                .setSmallIcon(R.drawable.gpx_notification)
+                .setSmallIcon(R.drawable.ic_gpx_notification)
                 .setStyle(NotificationCompat.BigTextStyle().bigText(context.getString(R.string.notification_recording_in_progress)))
                 .addAction(R.drawable.ic_add_location, context.getString(R.string.add_waypoint), setWaypointPendingIntent)
                 .addAction(R.drawable.ic_cancel, context.getString(R.string.stop_recording), stopRecordingPendingIntent)
