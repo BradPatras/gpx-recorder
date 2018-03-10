@@ -28,10 +28,17 @@ fun FirebaseAnalytics.waypointCreated(gpxId: Long, waypoint: Waypoint) {
     this.logEvent(Event.WAYPOINT_CREATED, bundle)
 }
 
+fun FirebaseAnalytics.contentExported(gpxId: Long) {
+    val bundle = Bundle()
+    bundle.putLong(Keys.GpxId, gpxId)
+    this.logEvent(Event.CONTENT_EXPORTED, bundle)
+}
+
 class Event {
     companion object {
         const val START_RECORDING = "startRecording"
         const val STOP_RECORDING = "stopRecording"
         const val WAYPOINT_CREATED = "waypointCreated"
+        const val CONTENT_EXPORTED = "contentExported"
     }
 }
