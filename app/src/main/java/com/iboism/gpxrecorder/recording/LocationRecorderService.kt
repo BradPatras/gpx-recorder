@@ -1,7 +1,6 @@
 package com.iboism.gpxrecorder.recording
 
 import android.annotation.SuppressLint
-import android.app.Notification
 import android.app.NotificationManager
 import android.app.Service
 import android.content.Context
@@ -12,9 +11,11 @@ import android.os.IBinder
 import com.google.android.gms.location.LocationCallback
 import com.google.android.gms.location.LocationResult
 import com.google.android.gms.location.LocationServices
+import com.google.firebase.analytics.FirebaseAnalytics
+import com.iboism.gpxrecorder.analytics.recordingStarted
+import com.iboism.gpxrecorder.analytics.recordingStopped
 import com.iboism.gpxrecorder.model.GpxContent
 import com.iboism.gpxrecorder.model.RecordingConfiguration
-import com.iboism.gpxrecorder.model.Segment
 import com.iboism.gpxrecorder.model.TrackPoint
 import com.iboism.gpxrecorder.util.Keys
 import io.realm.Realm
@@ -23,6 +24,7 @@ import io.realm.Realm
  * Created by Brad on 11/19/2017.
  */
 class LocationRecorderService : Service() {
+    private val analytics by lazy { FirebaseAnalytics.getInstance(applicationContext) }
     private val serviceBinder = ServiceBinder()
     private var gpxId: Long? = null
     private var config = RecordingConfiguration()
@@ -56,7 +58,7 @@ class LocationRecorderService : Service() {
 
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
         when {
-            intent?.extras?.containsKey(Keys.StopService) == true -> stopSelf()
+            intent?.extras?.containsKey(Keys.StopService) == true -> stopRecording()
             intent?.extras?.containsKey(Keys.PauseService) == true -> pauseRecording()
             intent?.extras?.containsKey(Keys.ResumeService) == true -> resumeRecording()
             intent?.extras?.containsKey(Keys.GpxId) == true -> startRecording(intent)
@@ -65,9 +67,15 @@ class LocationRecorderService : Service() {
         return super.onStartCommand(intent, flags, startId)
     }
 
+    private fun stopRecording() {
+        gpxId?.let { analytics.recordingStopped(it) }
+        stopSelf()
+    }
+
     private fun pauseRecording() {
         val notificationHelper = notificationHelper ?: return
         val gpxId = gpxId ?: return
+
         notificationManager.notify(gpxId.toInt(), notificationHelper.setPaused(true).notification())
         fusedLocation.removeLocationUpdates(locationCallback)
     }
@@ -76,6 +84,7 @@ class LocationRecorderService : Service() {
     private fun resumeRecording() {
         val notificationHelper = notificationHelper ?: return
         val gpxId = gpxId ?: return
+
         notificationManager.notify(gpxId.toInt(), notificationHelper.setPaused(false).notification())
         fusedLocation.requestLocationUpdates(config.locationRequest(),
                 locationCallback,
@@ -96,6 +105,8 @@ class LocationRecorderService : Service() {
         config = intent.extras?.getBundle(RecordingConfiguration.configKey)?.let {
             return@let RecordingConfiguration.fromBundle(it)
         } ?: RecordingConfiguration()
+
+        analytics.recordingStarted(gpxId, config)
 
         fusedLocation.requestLocationUpdates(config.locationRequest(),
                 locationCallback,

@@ -13,7 +13,7 @@ import com.iboism.gpxrecorder.util.Keys
 import kotlinx.android.synthetic.main.fragment_gpx_content_viewer.*
 
 
-class GpxContentViewer : Fragment() {
+class GpxContentViewerFragment : Fragment() {
 
     private var gpxId: Long? = null
 
@@ -76,11 +76,11 @@ class GpxContentViewer : Fragment() {
     }
 
     companion object {
-        fun newInstance(gpxId: Long): GpxContentViewer {
+        fun newInstance(gpxId: Long): GpxContentViewerFragment {
             val args = Bundle()
             args.putLong(Keys.GpxId, gpxId)
 
-            val fragment = GpxContentViewer()
+            val fragment = GpxContentViewerFragment()
             fragment.arguments = args
 
             return fragment

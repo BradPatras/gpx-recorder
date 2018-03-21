@@ -10,7 +10,7 @@ import com.iboism.gpxrecorder.R
 import com.iboism.gpxrecorder.model.GpxContent
 import com.iboism.gpxrecorder.recording.RecordingConfiguratorModal
 import com.iboism.gpxrecorder.util.PermissionHelper
-import com.iboism.gpxrecorder.viewer.GpxContentViewer
+import com.iboism.gpxrecorder.viewer.GpxContentViewerFragment
 import io.realm.Realm
 import io.realm.RealmResults
 import kotlinx.android.synthetic.main.fragment_gpx_list.*
@@ -35,7 +35,7 @@ class GpxListFragment : Fragment() {
 
     private fun openContentViewer(gpxId: Long) {
         fragmentManager.beginTransaction()
-                .replace(R.id.content_container, GpxContentViewer.newInstance(gpxId))
+                .replace(R.id.content_container, GpxContentViewerFragment.newInstance(gpxId))
                 .addToBackStack("view")
                 .commit()
     }
