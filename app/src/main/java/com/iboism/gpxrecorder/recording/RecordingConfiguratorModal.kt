@@ -1,8 +1,10 @@
 package com.iboism.gpxrecorder.recording
 
+import android.app.Dialog
 import android.content.Context
 import android.graphics.PorterDuff
 import android.os.Bundle
+import android.support.design.widget.BottomSheetBehavior
 import android.support.design.widget.BottomSheetDialogFragment
 import android.support.v4.content.ContextCompat
 import android.view.LayoutInflater
@@ -12,8 +14,10 @@ import android.widget.Button
 import android.widget.EditText
 import android.widget.SeekBar
 import android.widget.TextView
-import com.iboism.gpxrecorder.R;
+import com.iboism.gpxrecorder.R
 import com.iboism.gpxrecorder.model.RecordingConfiguration
+import android.support.design.widget.CoordinatorLayout
+
 
 private const val INTERVAL_MIN = 1
 private const val DISPLACEMENT_MIN = 2
@@ -35,6 +39,25 @@ class RecordingConfiguratorModal : BottomSheetDialogFragment() {
         return inflater.inflate(R.layout.config_dialog, container)?.apply {
             initializeViews(this)
         }
+    }
+
+    override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
+        val dialog = super.onCreateDialog(savedInstanceState)
+
+        dialog.setOnShowListener {
+            val behavior = ((dialog.window.findViewById<View>(R.id.design_bottom_sheet).layoutParams as CoordinatorLayout.LayoutParams).behavior as BottomSheetBehavior)
+            behavior.setBottomSheetCallback(object : BottomSheetBehavior.BottomSheetCallback() {
+                override fun onSlide(bottomSheet: View, slideOffset: Float) {}
+
+                override fun onStateChanged(bottomSheet: View, newState: Int) {
+                    if (newState == BottomSheetBehavior.STATE_DRAGGING) {
+                        behavior.state = BottomSheetBehavior.STATE_EXPANDED
+                    }
+                }
+            })
+        }
+
+        return dialog
     }
 
     private fun initializeViews(root: View) {
@@ -116,5 +139,4 @@ class RecordingConfiguratorModal : BottomSheetDialogFragment() {
     companion object {
         fun instance() = RecordingConfiguratorModal()
     }
-
 }
