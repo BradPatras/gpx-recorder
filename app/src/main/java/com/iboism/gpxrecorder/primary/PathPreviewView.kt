@@ -1,34 +1,41 @@
 package com.iboism.gpxrecorder.primary
 
 import android.content.Context
-import android.graphics.Canvas
-import android.graphics.PointF
+import android.graphics.*
 import android.util.Size
 import android.view.View
-import com.iboism.gpxrecorder.model.Track
-import com.iboism.gpxrecorder.model.TrackPoint
 
 /**
  * Created by bradpatras on 4/13/18.
  */
 private const val PADDING_RATIO = .1f
 
-class RoutePreviewView : View {
+class PathPreviewView : View {
 
     val points: List<PointF>
+    val linePaint = Paint()
+    val dotPaint = Paint()
     var scaledPoints: List<PointF>
+    var scaledPath = Path()
 
     constructor(context: Context, points: List<PointF>) : super(context) {
         this.points = points
         this.scaledPoints = points
+        setupPaints()
     }
 
     var size: Size? = null
 
     override fun onDraw(canvas: Canvas?) {
         super.onDraw(canvas)
-        val size = this.size ?: return
-        //draw points with line between them
+        if (size == null) return
+        if (canvas == null) return
+
+        setupPaints()
+
+        scaledPoints.forEach { point ->
+            canvas.drawPath(scaledPath, linePaint)
+        }
 
     }
 
@@ -61,5 +68,22 @@ class RoutePreviewView : View {
             val y = (point.y * scale) + yOffset
             return@map PointF(x, y)
         }
+
+        scaledPath.reset()
+        scaledPath.moveTo(scaledPoints[0].x, scaledPoints[0].y)
+        scaledPoints.forEach {
+            scaledPath.lineTo(scaledPoints[0].x, scaledPoints[0].y)
+        }
+    }
+
+    private fun setupPaints() {
+        val size = this.size ?: return
+
+        linePaint.color = Color.RED
+        linePaint.strokeWidth = size.height * .05f
+
+        dotPaint.color = Color.DKGRAY
+        dotPaint.strokeWidth = size.height * .05f
+
     }
 }
