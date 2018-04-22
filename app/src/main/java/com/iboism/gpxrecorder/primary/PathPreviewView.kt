@@ -6,6 +6,7 @@ import android.util.AttributeSet
 import android.util.Size
 import android.view.View
 import com.google.android.gms.maps.model.LatLng
+import kotlin.math.max
 
 /**
  * Created by bradpatras on 4/13/18.
@@ -36,15 +37,15 @@ class PathPreviewView @JvmOverloads constructor(
 
         setupPaints()
         //canvas.drawRect(0f,0f,50f,50f, dotPaint)
-
-        //canvas.drawPath(scaledPath, dotPaint)
-        if (scaledPoints.isNotEmpty()) {
-            var lastpt = scaledPoints[0]
-            scaledPoints.forEach {
-                canvas.drawLine(lastpt.x, lastpt.y, it.x, it.y, linePaint)
-                lastpt = it
-            }
-        }
+        canvas.drawColor(Color.LTGRAY)
+        canvas.drawPath(scaledPath, linePaint)
+//        if (scaledPoints.isNotEmpty()) {
+//            var lastpt = scaledPoints[0]
+//            scaledPoints.forEach {
+//                canvas.drawLine(lastpt.x, lastpt.y, it.x, it.y, linePaint)
+//                lastpt = it
+//            }
+//        }
 
     }
 
@@ -67,24 +68,24 @@ class PathPreviewView @JvmOverloads constructor(
         val viewBoundWidth = w - (w * PADDING_RATIO)
         val viewBoundHeight = h - (h * PADDING_RATIO)
 
-//        val scale = Math.min((pointsWidth/viewBoundWidth), (pointsHeight/viewBoundHeight))
+        val boundingLength = max(pointsHeight, pointsWidth)
 
-//        val newPointsHeight = scale * pointsHeight
-//        val newPointsWidth = scale * pointsWidth
+        val newPointsHeight = (pointsHeight / boundingLength) * viewBoundHeight
+        val newPointsWidth = (pointsWidth / boundingLength) * viewBoundWidth
 
-//        val yOffset = (h - newPointsHeight)/2f
-//        val xOffset = (w - newPointsWidth)/2f
-
+        val yOffset = (h - newPointsHeight)/2f
+        val xOffset = (w - newPointsWidth)/2f
         scaledPoints = points.map { point ->
-            val x = ((point.latitude - pointsXMin) / pointsWidth) * viewBoundWidth
-            val y = ((point.longitude - pointsYMin) / pointsWidth) * viewBoundHeight
+
+            val x = (((point.longitude - pointsYMin) / boundingLength) * viewBoundHeight) + yOffset
+            val y = (((point.latitude - pointsXMin) / boundingLength) * viewBoundWidth) - xOffset
             return@map PointF(x.toFloat(), y.toFloat())
         }
 
         scaledPath.reset()
-        scaledPath.moveTo(scaledPoints[0].x, scaledPoints[0].y)
+        scaledPath.moveTo(scaledPoints[0].x, viewBoundHeight - scaledPoints[0].y)
         scaledPoints.forEach {
-            scaledPath.lineTo(it.x, it.y)
+            scaledPath.lineTo(it.x, viewBoundHeight - it.y)
         }
     }
 
@@ -93,9 +94,9 @@ class PathPreviewView @JvmOverloads constructor(
 
         linePaint.color = Color.RED
         linePaint.strokeWidth = 5f//size.height * .05f
+        linePaint.style = Paint.Style.STROKE
 
         dotPaint.color = Color.DKGRAY
         dotPaint.strokeWidth = size.height * .05f
-
     }
 }
