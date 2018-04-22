@@ -67,17 +67,17 @@ class PathPreviewView @JvmOverloads constructor(
         val viewBoundWidth = w - (w * PADDING_RATIO)
         val viewBoundHeight = h - (h * PADDING_RATIO)
 
-        val scale = Math.min((pointsWidth/viewBoundWidth), (pointsHeight/viewBoundHeight))
+//        val scale = Math.min((pointsWidth/viewBoundWidth), (pointsHeight/viewBoundHeight))
 
-        val newPointsHeight = scale * pointsHeight
-        val newPointsWidth = scale * pointsWidth
+//        val newPointsHeight = scale * pointsHeight
+//        val newPointsWidth = scale * pointsWidth
 
-        val yOffset = (h - newPointsHeight)/2f
-        val xOffset = (w - newPointsWidth)/2f
+//        val yOffset = (h - newPointsHeight)/2f
+//        val xOffset = (w - newPointsWidth)/2f
 
         scaledPoints = points.map { point ->
-            val x = (point.latitude * scale) + xOffset
-            val y = (point.longitude * scale) + yOffset
+            val x = ((point.latitude - pointsXMin) / pointsWidth) * viewBoundWidth
+            val y = ((point.longitude - pointsYMin) / pointsWidth) * viewBoundHeight
             return@map PointF(x.toFloat(), y.toFloat())
         }
 
