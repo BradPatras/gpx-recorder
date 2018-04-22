@@ -50,8 +50,10 @@ class GpxContentAdapter(private val realmResults: RealmResults<GpxContent>?) : R
         viewHolder.dateView.text = DateTimeFormatHelper.toReadableString(gpx.date)
         viewHolder.titleView.text = gpx.title
         viewHolder.waypointCountView.text = view.resources.getQuantityString(R.plurals.waypoint_count, gpx.waypointList.size, gpx.waypointList.size)
-        val distance = gpx.trackList.firstOrNull()?.segments?.firstOrNull()?.distance ?: 0f
+        val segment = gpx.trackList.firstOrNull()?.segments?.firstOrNull()
+        val distance = segment?.distance ?: 0f
         viewHolder.distanceView.text = view.resources.getString(R.string.distance_km, distance)
+        viewHolder.previewView.loadPoints(segment?.getLatLngPoints())
         viewHolder.setLoading(fileHelper?.isExporting() == gpx.identifier)
 
         viewHolder.exportButton.setOnClickListener {
@@ -87,6 +89,7 @@ class GpxContentAdapter(private val realmResults: RealmResults<GpxContent>?) : R
         val distanceView = view?.findViewById(R.id.gpx_content_distance) as TextView
         val waypointCountView = view?.findViewById(R.id.gpx_content_waypoint_count) as TextView
         val exportProgressBar = view?.findViewById(R.id.gpx_content_export_progress_bar) as ProgressBar
+        var previewView = view?.findViewById(R.id.preview_view) as PathPreviewView
 
         fun setLoading(loading: Boolean) {
             exportButton.visibility = if (loading) View.INVISIBLE else View.VISIBLE

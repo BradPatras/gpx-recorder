@@ -2,25 +2,28 @@ package com.iboism.gpxrecorder.primary
 
 import android.content.Context
 import android.graphics.*
+import android.util.AttributeSet
 import android.util.Size
 import android.view.View
+import com.google.android.gms.maps.model.LatLng
 
 /**
  * Created by bradpatras on 4/13/18.
  */
 private const val PADDING_RATIO = .1f
 
-class PathPreviewView : View {
-
-    val points: List<PointF>
+class PathPreviewView @JvmOverloads constructor(
+        context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0
+) : View(context, attrs, defStyleAttr) {
+    var points: List<LatLng> = emptyList()
     val linePaint = Paint()
     val dotPaint = Paint()
-    var scaledPoints: List<PointF>
+    var scaledPoints: List<PointF> = emptyList()
     var scaledPath = Path()
 
-    constructor(context: Context, points: List<PointF>) : super(context) {
-        this.points = points
-        this.scaledPoints = points
+    fun loadPoints(points: List<LatLng>? = emptyList()) {
+        this.points = points ?: emptyList()
+        this.scaledPoints = emptyList()
         setupPaints()
     }
 
@@ -42,12 +45,15 @@ class PathPreviewView : View {
     override fun onSizeChanged(w: Int, h: Int, oldw: Int, oldh: Int) {
         super.onSizeChanged(w, h, oldw, oldh)
         size = Size(w, h)
-        // recalculate scaled points
-        val pointsXMax = points.fold(0f, { max, pointF -> Math.max(max, pointF.x) })
-        val pointsXMin = points.fold(0f, { min, pointF -> Math.min(min, pointF.x) })
+        
+        if (points.isEmpty()) return
 
-        val pointsYMax = points.fold(0f, { max, pointF -> Math.max(max, pointF.y) })
-        val pointsYMin = points.fold(0f, { min, pointF -> Math.min(min, pointF.y) })
+        // recalculate scaled points
+        val pointsXMax = points.fold(0f, { max, pointF -> Math.max(max, pointF.latitude.toFloat()) })
+        val pointsXMin = points.fold(0f, { min, pointF -> Math.min(min, pointF.latitude.toFloat()) })
+
+        val pointsYMax = points.fold(0f, { max, pointF -> Math.max(max, pointF.longitude.toFloat()) })
+        val pointsYMin = points.fold(0f, { min, pointF -> Math.min(min, pointF.longitude.toFloat()) })
 
         val pointsHeight = pointsYMax - pointsYMin
         val pointsWidth = pointsXMax - pointsXMin
@@ -64,9 +70,9 @@ class PathPreviewView : View {
         val xOffset = (w - newPointsWidth)/2f
 
         scaledPoints = points.map { point ->
-            val x = (point.x * scale) + xOffset
-            val y = (point.y * scale) + yOffset
-            return@map PointF(x, y)
+            val x = (point.latitude * scale) + xOffset
+            val y = (point.longitude * scale) + yOffset
+            return@map PointF(x.toFloat(), y.toFloat())
         }
 
         scaledPath.reset()
