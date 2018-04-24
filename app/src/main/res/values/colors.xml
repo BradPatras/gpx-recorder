@@ -6,4 +6,9 @@
     <color name="colorAccentDark">#37474f</color>
     <color name="colorAccentLight">#78909c</color>
     <color name="white">#fff</color>
+    <color name="gGrey">#efeeec</color>
+    <color name="gBlue">#4285f4</color>
+    <color name="gLightBlue">#46b4fb</color>
+    <color name="gLightYellow">#fff2af</color>
+    <color name="gLightGreen">#c1ecb0</color>
 </resources>

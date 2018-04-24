@@ -2,25 +2,30 @@ package com.iboism.gpxrecorder.primary
 
 import android.content.Context
 import android.graphics.*
+import android.support.v4.content.ContextCompat
 import android.util.AttributeSet
 import android.util.Size
 import android.view.View
 import com.google.android.gms.maps.model.LatLng
+import com.iboism.gpxrecorder.R
 import kotlin.math.max
 
 /**
  * Created by bradpatras on 4/13/18.
  */
-private const val PADDING_RATIO = .1f
+private const val PADDING_RATIO = .2f
 
 class PathPreviewView @JvmOverloads constructor(
         context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0
 ) : View(context, attrs, defStyleAttr) {
-    var points: List<LatLng> = emptyList()
-    val linePaint = Paint()
-    val dotPaint = Paint()
-    var scaledPoints: List<PointF> = emptyList()
-    var scaledPath = Path()
+    private var points: List<LatLng> = emptyList()
+        set(value) {
+            field = if (value.size > 15) value.subList(0, 15) else value
+        }
+    private val linePaint = Paint()
+    private val dotPaint = Paint()
+    private var scaledPoints: List<PointF> = emptyList()
+    private var scaledPath = Path()
 
     fun loadPoints(points: List<LatLng>? = emptyList()) {
         this.points = points ?: emptyList()
@@ -28,7 +33,7 @@ class PathPreviewView @JvmOverloads constructor(
         setupPaints()
     }
 
-    var size: Size? = null
+    private var size: Size? = null
 
     override fun onDraw(canvas: Canvas?) {
         super.onDraw(canvas)
@@ -36,17 +41,14 @@ class PathPreviewView @JvmOverloads constructor(
         if (canvas == null) return
 
         setupPaints()
-        //canvas.drawRect(0f,0f,50f,50f, dotPaint)
-        canvas.drawColor(Color.LTGRAY)
+        canvas.drawColor(ContextCompat.getColor(context, R.color.gLightGreen))
         canvas.drawPath(scaledPath, linePaint)
-//        if (scaledPoints.isNotEmpty()) {
-//            var lastpt = scaledPoints[0]
-//            scaledPoints.forEach {
-//                canvas.drawLine(lastpt.x, lastpt.y, it.x, it.y, linePaint)
-//                lastpt = it
-//            }
-//        }
 
+        val viewBoundHeight = height - (height * PADDING_RATIO)
+
+        scaledPoints.forEach {
+            canvas.drawCircle(it.x, viewBoundHeight - it.y, width.toFloat() * 0.02f, dotPaint)
+        }
     }
 
     override fun onSizeChanged(w: Int, h: Int, oldw: Int, oldh: Int) {
@@ -92,11 +94,15 @@ class PathPreviewView @JvmOverloads constructor(
     private fun setupPaints() {
         val size = this.size ?: return
 
-        linePaint.color = Color.RED
-        linePaint.strokeWidth = 5f//size.height * .05f
+        linePaint.color = ContextCompat.getColor(context, R.color.gLightBlue)
+        linePaint.strokeWidth = size.height * .05f
         linePaint.style = Paint.Style.STROKE
+        linePaint.strokeCap = Paint.Cap.ROUND
+        linePaint.flags = Paint.ANTI_ALIAS_FLAG
 
-        dotPaint.color = Color.DKGRAY
-        dotPaint.strokeWidth = size.height * .05f
+        dotPaint.color = Color.WHITE // ContextCompat.getColor(context, R.color.gBlue)
+        dotPaint.style = Paint.Style.FILL
+        dotPaint.strokeWidth = size.height * .01f
+        dotPaint.flags = Paint.ANTI_ALIAS_FLAG
     }
 }
