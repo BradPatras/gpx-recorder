@@ -2,10 +2,10 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://C:\Users\Calm\StudioProjects\gpx-recorder\GPXRecorder.iml" filepath="C:\Users\Calm\StudioProjects\gpx-recorder\GPXRecorder.iml" />
+      <module fileurl="file://$PROJECT_DIR$/GPXRecorder.iml" filepath="$PROJECT_DIR$/GPXRecorder.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
       <module fileurl="file://$PROJECT_DIR$/gpx-recorder.iml" filepath="$PROJECT_DIR$/gpx-recorder.iml" />
-      <module fileurl="file://C:\Users\Calm\StudioProjects\GPXRecorder\gpx-recorder.iml" filepath="C:\Users\Calm\StudioProjects\GPXRecorder\gpx-recorder.iml" />
+      <module fileurl="file://$PROJECT_DIR$/../GPXRecorder/gpx-recorder.iml" filepath="$PROJECT_DIR$/../GPXRecorder/gpx-recorder.iml" />
     </modules>
   </component>
 </project>
