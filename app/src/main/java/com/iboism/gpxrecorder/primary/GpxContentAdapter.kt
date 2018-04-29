@@ -7,9 +7,7 @@ import android.widget.Button
 import android.widget.ListAdapter
 import android.widget.ProgressBar
 import android.widget.TextView
-import com.google.firebase.analytics.FirebaseAnalytics
 import com.iboism.gpxrecorder.R
-import com.iboism.gpxrecorder.analytics.contentExported
 import com.iboism.gpxrecorder.model.GpxContent
 import com.iboism.gpxrecorder.util.Alerts
 import com.iboism.gpxrecorder.util.DateTimeFormatHelper
@@ -58,7 +56,6 @@ class GpxContentAdapter(private val realmResults: RealmResults<GpxContent>?) : R
 
         viewHolder.exportButton.setOnClickListener {
             fileHelper?.let {
-                FirebaseAnalytics.getInstance(view.context).contentExported(gpx.identifier)
                 viewHolder.setLoading(true)
                 it.gpxFileWith(gpx.identifier)
                         .subscribeOn(AndroidSchedulers.mainThread())

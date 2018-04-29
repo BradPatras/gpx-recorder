@@ -3,7 +3,6 @@ package com.iboism.gpxrecorder.analytics
 import android.os.Bundle
 import com.google.firebase.analytics.FirebaseAnalytics
 import com.iboism.gpxrecorder.model.RecordingConfiguration
-import com.iboism.gpxrecorder.model.Waypoint
 import com.iboism.gpxrecorder.util.Keys
 
 /**
@@ -22,23 +21,9 @@ fun FirebaseAnalytics.recordingStopped(gpxId: Long) {
     this.logEvent(Event.STOP_RECORDING, bundle)
 }
 
-fun FirebaseAnalytics.waypointCreated(gpxId: Long, waypoint: Waypoint) {
-    val bundle = Bundle(waypoint.toAnonymizedBundle())
-    bundle.putLong(Keys.GpxId, gpxId)
-    this.logEvent(Event.WAYPOINT_CREATED, bundle)
-}
-
-fun FirebaseAnalytics.contentExported(gpxId: Long) {
-    val bundle = Bundle()
-    bundle.putLong(Keys.GpxId, gpxId)
-    this.logEvent(Event.CONTENT_EXPORTED, bundle)
-}
-
 class Event {
     companion object {
         const val START_RECORDING = "startRecording"
         const val STOP_RECORDING = "stopRecording"
-        const val WAYPOINT_CREATED = "waypointCreated"
-        const val CONTENT_EXPORTED = "contentExported"
     }
 }

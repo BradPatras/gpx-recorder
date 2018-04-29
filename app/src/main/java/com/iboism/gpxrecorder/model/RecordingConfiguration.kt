@@ -2,7 +2,6 @@ package com.iboism.gpxrecorder.model
 
 import android.os.Bundle
 import com.google.android.gms.location.LocationRequest
-import java.util.*
 
 /**
  * Created by bradpatras on 12/2/17.
@@ -17,9 +16,9 @@ class RecordingConfiguration(
         return LocationRequest()
                 .setInterval(interval)
                 .setSmallestDisplacement(minDisplacement)
-                .setMaxWaitTime(interval * 2)
+                .setMaxWaitTime(interval * 3)
                 .setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY)
-                .setFastestInterval(interval / 4)
+                .setFastestInterval(interval/4)
     }
 
     fun toBundle(): Bundle {

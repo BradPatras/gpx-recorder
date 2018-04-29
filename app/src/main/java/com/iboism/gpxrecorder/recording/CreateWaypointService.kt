@@ -5,8 +5,6 @@ import android.content.Context
 import android.content.Intent
 import android.net.Uri
 import com.google.android.gms.location.LocationResult
-import com.google.firebase.analytics.FirebaseAnalytics
-import com.iboism.gpxrecorder.analytics.waypointCreated
 import com.iboism.gpxrecorder.model.GpxContent
 import com.iboism.gpxrecorder.model.Waypoint
 import io.realm.Realm
@@ -21,8 +19,6 @@ class CreateWaypointService : BroadcastReceiver()  {
         val (gpxId, title, note) = harvestParameters(intent) ?: return
 
         createWaypoint(LocationResult.extractResult(intent), title, note)?.let { waypoint ->
-
-            context?.let { FirebaseAnalytics.getInstance(it).waypointCreated(gpxId, waypoint) }
 
             Realm.getDefaultInstance().executeTransaction {
                 it.where(GpxContent::class.java)
