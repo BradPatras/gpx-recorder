@@ -115,7 +115,7 @@ class LocationRecorderService : Service() {
 
     private fun onLocationChanged(location: Location?) {
         location?.let { loc ->
-            if (loc.accuracy > 50) return
+            if (loc.accuracy > 40) return
 
             Realm.getDefaultInstance().executeTransaction {
                 val trkpt = TrackPoint(lat = loc.latitude, lon = loc.longitude, ele = loc.altitude)

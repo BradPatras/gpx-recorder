@@ -19,9 +19,6 @@ class PathPreviewView @JvmOverloads constructor(
         context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0
 ) : View(context, attrs, defStyleAttr) {
     private var points: List<LatLng> = emptyList()
-        set(value) {
-            field = if (value.size > 15) value.subList(0, 15) else value
-        }
     private val linePaint = Paint()
     private val dotPaint = Paint()
     private var scaledPoints: List<PointF> = emptyList()

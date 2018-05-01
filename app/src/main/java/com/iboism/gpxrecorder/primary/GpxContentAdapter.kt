@@ -9,10 +9,7 @@ import android.widget.ProgressBar
 import android.widget.TextView
 import com.iboism.gpxrecorder.R
 import com.iboism.gpxrecorder.model.GpxContent
-import com.iboism.gpxrecorder.util.Alerts
-import com.iboism.gpxrecorder.util.DateTimeFormatHelper
-import com.iboism.gpxrecorder.util.FileHelper
-import com.iboism.gpxrecorder.util.ShareHelper
+import com.iboism.gpxrecorder.util.*
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.realm.RealmBaseAdapter
 import io.realm.RealmResults
@@ -51,7 +48,11 @@ class GpxContentAdapter(private val realmResults: RealmResults<GpxContent>?) : R
         val segment = gpx.trackList.firstOrNull()?.segments?.firstOrNull()
         val distance = segment?.distance ?: 0f
         viewHolder.distanceView.text = view.resources.getString(R.string.distance_km, distance)
-        viewHolder.previewView.loadPoints(segment?.getLatLngPoints())
+
+        segment?.getLatLngPoints()?.let {
+            viewHolder.previewView.loadPoints(it.takeFirst(50))
+        }
+
         viewHolder.setLoading(fileHelper?.isExporting() == gpx.identifier)
 
         viewHolder.exportButton.setOnClickListener {
