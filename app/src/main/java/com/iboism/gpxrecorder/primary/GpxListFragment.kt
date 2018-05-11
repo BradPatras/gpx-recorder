@@ -50,8 +50,12 @@ class GpxListFragment : Fragment() {
                     val configFragment = RecordingConfiguratorModal.instance()
 
                     configFragment.sharedElementEnterTransition = AutoTransition()
-                    configFragment.enterTransition = Slide()
-                    configFragment.sharedElementReturnTransition = Slide()
+                    configFragment.enterTransition = AutoTransition()
+                    configFragment.sharedElementReturnTransition = AutoTransition()
+                    exitTransition = AutoTransition()
+                    sharedElementReturnTransition = AutoTransition()
+                    sharedElementEnterTransition = AutoTransition()
+                    enterTransition = AutoTransition()
 
                     fragmentManager.beginTransaction()
                             .addSharedElement(fab, "shared_start_fab")
