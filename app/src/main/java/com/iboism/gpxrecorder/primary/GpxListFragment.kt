@@ -1,8 +1,14 @@
 package com.iboism.gpxrecorder.primary
 
 
+import android.os.Build
 import android.os.Bundle
 import android.support.v4.app.Fragment
+import android.transition.AutoTransition
+import android.transition.Fade
+import android.transition.Slide
+import android.transition.Transition
+import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -27,9 +33,31 @@ class GpxListFragment : Fragment() {
     private fun onFabClicked (view: View) {
         permissionHelper.checkLocationPermissions(
                 onAllowed = {
+//                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+//                        kittenDetails.setSharedElementEnterTransition(DetailsTransition())
+//                        kittenDetails.setEnterTransition(Fade())
+//                        exitTransition = Fade()
+//                        kittenDetails.setSharedElementReturnTransition(DetailsTransition())
+//                    }
+//
+//                    activity.supportFragmentManager
+//                            .beginTransaction()
+//                            .addSharedElement(holder.image, "kittenImage")
+//                            .replace(R.id.container, kittenDetails)
+//                            .addToBackStack(null)
+//                            .commit()
+
+                    val configFragment = RecordingConfiguratorModal.instance()
+
+                    configFragment.sharedElementEnterTransition = AutoTransition()
+                    configFragment.enterTransition = Slide()
+                    configFragment.sharedElementReturnTransition = Slide()
+
                     fragmentManager.beginTransaction()
-                            .add(RecordingConfiguratorModal.instance(), "dialog")
-                            .commitAllowingStateLoss()
+                            .addSharedElement(fab, "shared_start_fab")
+                            .replace(R.id.content_container, configFragment)
+                            .addToBackStack(null)
+                            .commit()
                 })
     }
 
