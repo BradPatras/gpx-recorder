@@ -1,11 +1,7 @@
 package com.iboism.gpxrecorder.recording
 
-import android.app.Dialog
 import android.content.Context
 import android.os.Bundle
-import android.support.design.widget.BottomSheetBehavior
-import android.support.design.widget.BottomSheetDialogFragment
-import android.support.design.widget.CoordinatorLayout
 import android.support.v4.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -18,9 +14,8 @@ private const val INTERVAL_MIN = 1
 private const val DISPLACEMENT_MIN = 2
 
 class RecordingConfiguratorModal : Fragment() {
-
-    lateinit var configuratorView: RecordingConfiguratorView
-    var listener: Listener? = null
+    private lateinit var configuratorView: RecordingConfiguratorView
+    private var listener: Listener? = null
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
@@ -38,25 +33,6 @@ class RecordingConfiguratorModal : Fragment() {
             }
         }
     }
-
-//    override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
-//        val dialog = super.onCreateDialog(savedInstanceState)
-//
-//        dialog.setOnShowListener {
-//            val behavior = ((dialog.window.findViewById<View>(R.id.design_bottom_sheet).layoutParams as CoordinatorLayout.LayoutParams).behavior as BottomSheetBehavior)
-//            behavior.setBottomSheetCallback(object : BottomSheetBehavior.BottomSheetCallback() {
-//                override fun onSlide(bottomSheet: View, slideOffset: Float) {}
-//
-//                override fun onStateChanged(bottomSheet: View, newState: Int) {
-//                    if (newState == BottomSheetBehavior.STATE_DRAGGING) {
-//                        behavior.state = BottomSheetBehavior.STATE_EXPANDED
-//                    }
-//                }
-//            })
-//        }
-//
-//        return dialog
-//    }
 
     override fun onAttach(context: Context) {
         super.onAttach(context)

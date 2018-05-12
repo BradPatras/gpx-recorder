@@ -2,7 +2,6 @@ package com.iboism.gpxrecorder.recording
 
 import android.content.Context
 import android.graphics.PorterDuff
-import android.support.design.widget.FloatingActionButton
 import android.support.v4.content.ContextCompat
 import android.view.View
 import android.widget.Button
@@ -24,7 +23,7 @@ class RecordingConfiguratorView(root: View,
                                 val displacementSlider: SeekBar = root.findViewById(R.id.displacement_seekBar),
                                 private val displacementValue: TextView = root.findViewById(R.id.displacement_value),
                                 val titleEditText: EditText = root.findViewById(R.id.config_title_editText),
-                                val doneButton: FloatingActionButton = root.findViewById(R.id.start_fab)) {
+                                val doneButton: Button = root.findViewById(R.id.start_button)) {
     private val context: Context = root.context
 
     init {
