@@ -8,6 +8,8 @@ import android.view.View
 import android.view.ViewGroup
 import com.iboism.gpxrecorder.R
 import com.iboism.gpxrecorder.model.GpxContent
+import com.iboism.gpxrecorder.recording.REVEAL_ORIGIN_X_KEY
+import com.iboism.gpxrecorder.recording.REVEAL_ORIGIN_Y_KEY
 import com.iboism.gpxrecorder.recording.RecordingConfiguratorModal
 import com.iboism.gpxrecorder.util.PermissionHelper
 import com.iboism.gpxrecorder.viewer.GpxContentViewerFragment
@@ -29,7 +31,13 @@ class GpxListFragment : Fragment() {
                 onAllowed = {
                     val configFragment = RecordingConfiguratorModal.instance()
 
+                    val args = Bundle()
+                    args.putInt(REVEAL_ORIGIN_X_KEY, view.x.toInt() + (view.width / 2))
+                    args.putInt(REVEAL_ORIGIN_Y_KEY, view.y.toInt() + (view.height / 2))
+                    configFragment.arguments = args
+
                     fragmentManager.beginTransaction()
+                            .setCustomAnimations(android.R.anim.fade_in, android.R.anim.fade_out, android.R.anim.fade_in, android.R.anim.fade_out)
                             .replace(R.id.content_container, configFragment)
                             .addToBackStack(null)
                             .commit()
@@ -38,6 +46,7 @@ class GpxListFragment : Fragment() {
 
     private fun openContentViewer(gpxId: Long) {
         fragmentManager.beginTransaction()
+                .setCustomAnimations(R.anim.slide_in_right, android.R.anim.fade_out, R.anim.none, android.R.anim.slide_out_right)
                 .replace(R.id.content_container, GpxContentViewerFragment.newInstance(gpxId))
                 .addToBackStack("view")
                 .commit()

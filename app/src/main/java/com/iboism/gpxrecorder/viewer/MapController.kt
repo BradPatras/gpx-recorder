@@ -43,7 +43,7 @@ class MapController(val context: Context, val gpxId: Long): OnMapReadyCallback {
         this.drawWaypoints(gpx.waypointList.toList())
 
         startPoint(gpx)?.let {
-            this.animateCamera(CameraUpdateFactory.newLatLngZoom(it, 10f))
+            this.moveCamera(CameraUpdateFactory.newLatLngZoom(it, 13f))
         }
     }
 

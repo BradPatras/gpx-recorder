@@ -4,8 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:paddingTop="10dp"
-    android:background="@android:color/transparent"
-    android:elevation="8dp">
+    android:background="@color/offWhite">
 
     <EditText
         android:id="@+id/config_title_editText"
