@@ -6,5 +6,6 @@
     <dimen name="nav_header_height">166dp</dimen>
     <dimen name="fab_margin">16dp</dimen>
     <dimen name="dialog_horizontal_padding">24dp</dimen>
+    <dimen name="dialog_horizontal_margin">16dp</dimen>
     <dimen name="row_item_margin">5dp</dimen>
 </resources>

@@ -3,19 +3,19 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:paddingTop="10dp"
-    android:background="@color/offWhite">
+    android:background="@color/offWhite"
+    android:paddingTop="10dp">
 
     <EditText
         android:id="@+id/config_title_editText"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="8dp"
-        android:layout_marginStart="8dp"
+        android:layout_marginEnd="@dimen/dialog_horizontal_margin"
+        android:layout_marginStart="@dimen/dialog_horizontal_margin"
         android:layout_marginTop="24dp"
+        android:hint="@string/enter_title"
         android:lines="1"
         android:singleLine="true"
-        android:hint="@string/enter_title"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
@@ -26,7 +26,7 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginEnd="8dp"
-        android:layout_marginStart="8dp"
+        android:layout_marginStart="@dimen/dialog_horizontal_margin"
         android:layout_marginTop="8dp"
         android:max="120"
         android:progress="15"
@@ -38,7 +38,7 @@
         android:id="@+id/textView2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
+        android:layout_marginStart="@dimen/dialog_horizontal_margin"
         android:layout_marginTop="24dp"
         android:text="@string/interval_minutes"
         android:textSize="18sp"
@@ -66,7 +66,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="8dp"
-        android:layout_marginStart="8dp"
+        android:layout_marginStart="@dimen/dialog_horizontal_margin"
         android:layout_marginTop="24dp"
         android:text="@string/minimum_displacement_meters"
         android:textSize="18sp"
@@ -81,23 +81,22 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginEnd="8dp"
-        android:layout_marginStart="8dp"
+        android:layout_marginStart="@dimen/dialog_horizontal_margin"
         android:layout_marginTop="8dp"
         android:max="100"
         android:progress="5"
         app:layout_constraintEnd_toStartOf="@+id/displacement_value"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView4"
-        />
+        app:layout_constraintTop_toBottomOf="@+id/textView4" />
 
     <TextView
         android:id="@+id/textView5"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:layout_marginBottom="16dp"
         android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
-        android:layout_marginBottom="16dp"
         android:text="@string/minimum_distance_between"
         android:textAppearance="@style/TextAppearance.AppCompat.Caption"
         app:layout_constraintBottom_toTopOf="@id/start_button"
@@ -110,7 +109,7 @@
         android:id="@+id/interval_value"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="8dp"
+        android:layout_marginEnd="@dimen/dialog_horizontal_margin"
         android:text="#"
         app:layout_constraintBottom_toBottomOf="@+id/interval_seekBar"
         app:layout_constraintEnd_toEndOf="parent"
@@ -121,7 +120,7 @@
         android:id="@+id/displacement_value"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="8dp"
+        android:layout_marginEnd="@dimen/dialog_horizontal_margin"
         android:text="#"
         app:layout_constraintBottom_toBottomOf="@+id/displacement_seekBar"
         app:layout_constraintEnd_toEndOf="parent"
@@ -158,8 +157,5 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
-
-
-
 
 </android.support.constraint.ConstraintLayout>
