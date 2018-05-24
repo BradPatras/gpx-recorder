@@ -3,12 +3,6 @@
 
     <string name="app_name" translatable="false">GPX Recorder</string>
 
-    <string name="navigation_drawer_open" translatable="false">Open navigation drawer</string>
-    <string name="navigation_drawer_close" translatable="false">Close navigation drawer</string>
-
-    <string name="action_settings">Settings</string>
-    <string name="title_activity_recording_configuration">New Recording</string>
-
     <!-- Alert stuff -->
     <string name="denied_alert_title">Permissions Required</string>
     <string name="denied_alert_message">Cannot record GPX tracks without location permissions</string>
@@ -25,18 +19,10 @@
 
     <string name="error">Error</string>
     <string name="cannot_create_waypoint" translatable="false">Cannot create waypoint at this time</string>
-    <string name="failed_to_place_waypoint" translatable="false">Failed to place waypoint</string>
-    <plurals name="point_count">
-        <item quantity="one">%1$d point</item>
-        <item quantity="other">%1$d points</item>
-    </plurals>
-    <string name="points" translatable="false">points</string>
-    <string name="date">Date</string>
     <string name="delete_recordings">Delete Recordings</string>
     <string name="developer_contact" translatable="false">Developer Contact</string>
     <string name="twitter" translatable="false">Twitter</string>
     <string name="github" translatable="false">Github</string>
-    <string name="calculating_placeholder" translatable="false">calculating..</string>
     <string name="notification_title" translatable="false">GPX Recorder</string>
     <string name="notification_recording_in_progress">Location recording in progress</string>
     <string name="notification_recording_paused" translatable="false">Location recording paused</string>
@@ -50,7 +36,6 @@
     <string name="minimum_distance_between" translatable="false">Minimum distance between successive track points (Meters)</string>
     <string name="start">Start</string>
     <string name="new_recording">New Recording</string>
-    <string name="title">Title</string>
     <string name="gpx_recorder" translatable="false">GPX Recorder</string>
     <plurals name="waypoint_count">
         <item quantity="one">%d waypoint</item>
