@@ -28,8 +28,8 @@
         android:layout_marginEnd="8dp"
         android:layout_marginStart="@dimen/dialog_horizontal_margin"
         android:layout_marginTop="8dp"
-        android:max="120"
-        android:progress="15"
+        android:max="60"
+        android:progress="5"
         app:layout_constraintEnd_toStartOf="@+id/interval_value"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView2" />
@@ -83,8 +83,8 @@
         android:layout_marginEnd="8dp"
         android:layout_marginStart="@dimen/dialog_horizontal_margin"
         android:layout_marginTop="8dp"
-        android:max="100"
-        android:progress="5"
+        android:max="50"
+        android:progress="2"
         app:layout_constraintEnd_toStartOf="@+id/displacement_value"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView4" />
