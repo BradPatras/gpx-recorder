@@ -3,9 +3,11 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.iboism.gpxrecorder.primary.GpxListFragment">
+    tools:context="com.iboism.gpxrecorder.primary.GpxListFragment"
+    android:id="@+id/fragment_gpx_list">
 
     <ListView
+        android:id="@+id/gpx_listView"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:background="@android:color/transparent"
@@ -90,6 +92,7 @@
         app:layout_constraintGuide_percent=".7" />
 
     <android.support.design.widget.FloatingActionButton
+        android:id="@+id/fab"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_margin="@dimen/fab_margin"
