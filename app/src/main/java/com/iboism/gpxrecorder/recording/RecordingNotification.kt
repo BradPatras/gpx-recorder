@@ -12,6 +12,9 @@ import com.iboism.gpxrecorder.util.Keys
 /**
  * Created by bradpatras on 12/13/17.
  */
+
+const val CHANNEL_ID = "com.iboism.gpxrecorder.recording"
+
 class RecordingNotification(val context: Context, val id: Long) {
     private var isPaused = false
 
@@ -32,7 +35,7 @@ class RecordingNotification(val context: Context, val id: Long) {
 
     fun notification(): Notification {
 
-        val builder = NotificationCompat.Builder(context, Notification.CATEGORY_SERVICE)
+        val builder = NotificationCompat.Builder(context, CHANNEL_ID)
                 .setContentTitle(context.getString(R.string.notification_title))
                 .setContentIntent(openAppPendingIntent)
                 .setContentText(context.getString(R.string.notification_recording_in_progress))
