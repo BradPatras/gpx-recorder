@@ -36,19 +36,16 @@ class PathPreviewView @JvmOverloads constructor(
 
         this.invalidate()
     }
-    
-    private fun clearCanvas(canvas: Canvas?) {
-        canvas?.drawColor(ContextCompat.getColor(context, R.color.gLightGreen))
-    }
-
     override fun onDraw(canvas: Canvas?) {
         super.onDraw(canvas)
-        if (scaledPoints == null) return clearCanvas(canvas)
-        if (size == null) return clearCanvas(canvas)
+
+        canvas?.drawColor(ContextCompat.getColor(context, R.color.gLightGreen))
+
+        if (scaledPoints == null) return
+        if (size == null) return
         if (canvas == null) return
 
         setupPaints()
-        canvas.drawColor(ContextCompat.getColor(context, R.color.gLightGreen))
         canvas.drawPath(scaledPath, linePaint)
 
         val viewBoundHeight = height - (height * PADDING_RATIO)
