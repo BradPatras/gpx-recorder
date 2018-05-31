@@ -21,7 +21,7 @@ class PathPreviewView @JvmOverloads constructor(
     private var points: List<LatLng> = emptyList()
     private val linePaint = Paint()
     private val dotPaint = Paint()
-    private val startDotPaint = Paint()
+    private val capDotPaint = Paint()
     private var scaledPoints: List<PointF> = emptyList()
     private var scaledPath = Path()
 
@@ -49,7 +49,17 @@ class PathPreviewView @JvmOverloads constructor(
         }
 
         scaledPoints.firstOrNull()?.let {
-            canvas.drawCircle(it.x, viewBoundHeight - it.y, width.toFloat() * 0.015f, startDotPaint)
+            capDotPaint.color = Color.BLACK
+            canvas.drawCircle(it.x, viewBoundHeight - it.y, width.toFloat() * 0.035f, capDotPaint)
+            capDotPaint.color = Color.GREEN
+            canvas.drawCircle(it.x, viewBoundHeight - it.y, width.toFloat() * 0.03f, capDotPaint)
+        }
+
+        scaledPoints.lastOrNull()?.let {
+            capDotPaint.color = Color.BLACK
+            canvas.drawCircle(it.x, viewBoundHeight - it.y, width.toFloat() * 0.035f, capDotPaint)
+            capDotPaint.color = Color.RED
+            canvas.drawCircle(it.x, viewBoundHeight - it.y, width.toFloat() * 0.03f, capDotPaint)
         }
     }
 
@@ -99,6 +109,7 @@ class PathPreviewView @JvmOverloads constructor(
         linePaint.color = ContextCompat.getColor(context, R.color.gLightBlue)
         linePaint.strokeWidth = size.height * .05f
         linePaint.style = Paint.Style.STROKE
+        linePaint.strokeJoin = Paint.Join.ROUND
         linePaint.strokeCap = Paint.Cap.ROUND
         linePaint.flags = Paint.ANTI_ALIAS_FLAG
 
@@ -107,9 +118,6 @@ class PathPreviewView @JvmOverloads constructor(
         dotPaint.strokeWidth = size.height * .01f
         dotPaint.flags = Paint.ANTI_ALIAS_FLAG
 
-        startDotPaint.color = Color.GREEN
-        startDotPaint.style = Paint.Style.FILL
-        startDotPaint.strokeWidth = size.height * .01f
-        startDotPaint.flags = Paint.ANTI_ALIAS_FLAG
+        capDotPaint.set(dotPaint)
     }
 }
