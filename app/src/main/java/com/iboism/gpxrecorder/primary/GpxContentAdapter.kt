@@ -50,7 +50,7 @@ class GpxContentAdapter(private val realmResults: RealmResults<GpxContent>?) : R
         viewHolder.distanceView.text = view.resources.getString(R.string.distance_km, distance)
 
         segment?.getLatLngPoints()?.let {
-            viewHolder.previewView.loadPoints(it.takeFirst(50))
+            viewHolder.previewView.loadPoints(it.takeGist(50))
         }
 
         viewHolder.setLoading(fileHelper?.isExporting() == gpx.identifier)

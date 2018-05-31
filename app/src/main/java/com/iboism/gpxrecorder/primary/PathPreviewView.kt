@@ -21,6 +21,7 @@ class PathPreviewView @JvmOverloads constructor(
     private var points: List<LatLng> = emptyList()
     private val linePaint = Paint()
     private val dotPaint = Paint()
+    private val startDotPaint = Paint()
     private var scaledPoints: List<PointF> = emptyList()
     private var scaledPath = Path()
 
@@ -45,6 +46,10 @@ class PathPreviewView @JvmOverloads constructor(
 
         scaledPoints.forEach {
             canvas.drawCircle(it.x, viewBoundHeight - it.y, width.toFloat() * 0.02f, dotPaint)
+        }
+
+        scaledPoints.firstOrNull()?.let {
+            canvas.drawCircle(it.x, viewBoundHeight - it.y, width.toFloat() * 0.015f, startDotPaint)
         }
     }
 
@@ -97,9 +102,14 @@ class PathPreviewView @JvmOverloads constructor(
         linePaint.strokeCap = Paint.Cap.ROUND
         linePaint.flags = Paint.ANTI_ALIAS_FLAG
 
-        dotPaint.color = Color.WHITE // ContextCompat.getColor(context, R.color.gBlue)
+        dotPaint.color = Color.WHITE
         dotPaint.style = Paint.Style.FILL
         dotPaint.strokeWidth = size.height * .01f
         dotPaint.flags = Paint.ANTI_ALIAS_FLAG
+
+        startDotPaint.color = Color.GREEN
+        startDotPaint.style = Paint.Style.FILL
+        startDotPaint.strokeWidth = size.height * .01f
+        startDotPaint.flags = Paint.ANTI_ALIAS_FLAG
     }
 }
