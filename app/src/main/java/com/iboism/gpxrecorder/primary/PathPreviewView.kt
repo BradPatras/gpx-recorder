@@ -24,6 +24,7 @@ class PathPreviewView @JvmOverloads constructor(
     private val capDotPaint = Paint()
     private var scaledPoints: List<PointF>? = null
     private var scaledPath = Path()
+    private var size: Size? = null
 
     fun loadPoints(points: List<LatLng>? = emptyList()) {
         this.points = points ?: emptyList()
@@ -35,9 +36,7 @@ class PathPreviewView @JvmOverloads constructor(
 
         this.invalidate()
     }
-
-    private var size: Size? = null
-
+    
     private fun clearCanvas(canvas: Canvas?) {
         canvas?.drawColor(ContextCompat.getColor(context, R.color.gLightGreen))
     }
