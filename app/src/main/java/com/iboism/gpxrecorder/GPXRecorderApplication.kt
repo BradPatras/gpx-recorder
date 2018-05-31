@@ -11,7 +11,6 @@ import android.os.Build
 import android.support.annotation.RequiresApi
 import com.iboism.gpxrecorder.recording.CHANNEL_ID
 
-
 /**
  * Created by Brad on 11/18/2017.
  */
@@ -22,7 +21,13 @@ class GPXRecorderApplication: Application() {
         Realm.init(applicationContext)
 
         val config = RealmConfiguration.Builder()
-                .deleteRealmIfMigrationNeeded()
+                .schemaVersion(10)
+                .migration { realm, oldVersion, newVersion ->
+                    if (oldVersion < 10) {
+                        realm.schema.get("Waypoint")
+                                ?.addField("dist", Double::class.java)
+                    }
+                }
                 .build()
 
         Realm.setDefaultConfiguration(config)

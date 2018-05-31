@@ -21,9 +21,13 @@ class CreateWaypointService : BroadcastReceiver()  {
         createWaypoint(LocationResult.extractResult(intent), title, note)?.let { waypoint ->
 
             Realm.getDefaultInstance().executeTransaction {
-                it.where(GpxContent::class.java)
+                val gpxContent = it.where(GpxContent::class.java)
                         .equalTo(GpxContent.primaryKey, gpxId)
-                        .findFirst()?.waypointList?.add(waypoint)
+                        .findFirst()
+                waypoint.dist = gpxContent?.trackList?.first()?.segments?.first()?.distance?.toDouble() ?: 0.0
+                gpxContent?.waypointList?.add(waypoint)
+
+
             }
         }
     }
