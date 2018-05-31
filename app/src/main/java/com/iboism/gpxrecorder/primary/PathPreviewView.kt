@@ -22,20 +22,30 @@ class PathPreviewView @JvmOverloads constructor(
     private val linePaint = Paint()
     private val dotPaint = Paint()
     private val capDotPaint = Paint()
-    private var scaledPoints: List<PointF> = emptyList()
+    private var scaledPoints: List<PointF>? = null
     private var scaledPath = Path()
 
     fun loadPoints(points: List<LatLng>? = emptyList()) {
         this.points = points ?: emptyList()
-        this.scaledPoints = emptyList()
         setupPaints()
+
+        size?.let {
+            onSizeChanged(it.width, it.height, it.width, it.width)
+        }
+
+        this.invalidate()
     }
 
     private var size: Size? = null
 
+    private fun clearCanvas(canvas: Canvas?) {
+        canvas?.drawColor(ContextCompat.getColor(context, R.color.gLightGreen))
+    }
+
     override fun onDraw(canvas: Canvas?) {
         super.onDraw(canvas)
-        if (size == null) return
+        if (scaledPoints == null) return clearCanvas(canvas)
+        if (size == null) return clearCanvas(canvas)
         if (canvas == null) return
 
         setupPaints()
@@ -44,18 +54,18 @@ class PathPreviewView @JvmOverloads constructor(
 
         val viewBoundHeight = height - (height * PADDING_RATIO)
 
-        scaledPoints.forEach {
+        scaledPoints?.forEach {
             canvas.drawCircle(it.x, viewBoundHeight - it.y, width.toFloat() * 0.02f, dotPaint)
         }
 
-        scaledPoints.firstOrNull()?.let {
+        scaledPoints?.firstOrNull()?.let {
             capDotPaint.color = Color.BLACK
             canvas.drawCircle(it.x, viewBoundHeight - it.y, width.toFloat() * 0.035f, capDotPaint)
             capDotPaint.color = Color.GREEN
             canvas.drawCircle(it.x, viewBoundHeight - it.y, width.toFloat() * 0.03f, capDotPaint)
         }
 
-        scaledPoints.lastOrNull()?.let {
+        scaledPoints?.lastOrNull()?.let {
             capDotPaint.color = Color.BLACK
             canvas.drawCircle(it.x, viewBoundHeight - it.y, width.toFloat() * 0.035f, capDotPaint)
             capDotPaint.color = Color.RED
@@ -68,6 +78,8 @@ class PathPreviewView @JvmOverloads constructor(
         size = Size(w, h)
 
         if (points.isEmpty()) return
+
+        val scaledPoints: List<PointF>
 
         // recalculate scaled points
         val pointsXMax = points.fold(points.first().latitude.toFloat(), { max, pointF -> Math.max(max, pointF.latitude.toFloat()) })
@@ -95,12 +107,15 @@ class PathPreviewView @JvmOverloads constructor(
             val y = (((point.latitude - pointsXMin) / boundingLength) * viewBoundWidth) - xOffset
             return@map PointF(x.toFloat(), y.toFloat())
         }
+        this.scaledPoints = scaledPoints
 
         scaledPath.reset()
         scaledPath.moveTo(scaledPoints[0].x, viewBoundHeight - scaledPoints[0].y)
         scaledPoints.forEach {
             scaledPath.lineTo(it.x, viewBoundHeight - it.y)
         }
+
+        this.scaledPoints = scaledPoints
     }
 
     private fun setupPaints() {
