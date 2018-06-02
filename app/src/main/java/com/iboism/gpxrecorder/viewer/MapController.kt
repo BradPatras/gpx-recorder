@@ -32,7 +32,8 @@ class MapController(private val context: Context, private val gpxId: Long): OnMa
 
         MapsInitializer.initialize(context)
         map.uiSettings.isMyLocationButtonEnabled = false
-        map.mapType = GoogleMap.MAP_TYPE_HYBRID
+        map.uiSettings.isCompassEnabled = true
+        map.mapType = GoogleMap.MAP_TYPE_TERRAIN
         GpxContent.withId(gpxId)?.let { map.drawContent(it) }
     }
 
@@ -61,14 +62,14 @@ class MapController(private val context: Context, private val gpxId: Long): OnMa
                     PolylineOptions()
                             .color(ContextCompat.getColor(context, R.color.white))
                             .jointType(ROUND)
-                            .width(12f)
+                            .width(13f)
                             .addAll(points))
 
             this.addPolyline(
                     PolylineOptions()
                             .color(ContextCompat.getColor(context, R.color.gLightBlue))
                             .jointType(ROUND)
-                            .width(10f)
+                            .width(9f)
                             .addAll(points))
             }
 
