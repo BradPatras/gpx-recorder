@@ -48,24 +48,22 @@ class PathPreviewView @JvmOverloads constructor(
         setupPaints()
         canvas.drawPath(scaledPath, linePaint)
 
-        val viewBoundHeight = height - (height * PADDING_RATIO)
-
         scaledPoints?.forEach {
-            canvas.drawCircle(it.x, viewBoundHeight - it.y, width.toFloat() * 0.02f, dotPaint)
+            canvas.drawCircle(it.x, height - it.y, width.toFloat() * 0.02f, dotPaint)
         }
 
         scaledPoints?.firstOrNull()?.let {
             capDotPaint.color = Color.BLACK
-            canvas.drawCircle(it.x, viewBoundHeight - it.y, width.toFloat() * 0.035f, capDotPaint)
+            canvas.drawCircle(it.x, height - it.y, width.toFloat() * 0.035f, capDotPaint)
             capDotPaint.color = Color.GREEN
-            canvas.drawCircle(it.x, viewBoundHeight - it.y, width.toFloat() * 0.03f, capDotPaint)
+            canvas.drawCircle(it.x, height - it.y, width.toFloat() * 0.03f, capDotPaint)
         }
 
         scaledPoints?.lastOrNull()?.let {
             capDotPaint.color = Color.BLACK
-            canvas.drawCircle(it.x, viewBoundHeight - it.y, width.toFloat() * 0.035f, capDotPaint)
+            canvas.drawCircle(it.x, height - it.y, width.toFloat() * 0.035f, capDotPaint)
             capDotPaint.color = Color.RED
-            canvas.drawCircle(it.x, viewBoundHeight - it.y, width.toFloat() * 0.03f, capDotPaint)
+            canvas.drawCircle(it.x, height - it.y, width.toFloat() * 0.03f, capDotPaint)
         }
     }
 
@@ -100,7 +98,7 @@ class PathPreviewView @JvmOverloads constructor(
         scaledPoints = points.map { point ->
 
             val x = (((point.longitude - pointsYMin) / boundingLength) * viewBoundHeight) + yOffset
-            val y = (((point.latitude - pointsXMin) / boundingLength) * viewBoundWidth) - xOffset
+            val y = (((point.latitude - pointsXMin) / boundingLength) * viewBoundWidth) + xOffset
             return@map PointF(x.toFloat(), y.toFloat())
         }
         this.scaledPoints = scaledPoints
@@ -108,7 +106,7 @@ class PathPreviewView @JvmOverloads constructor(
         scaledPath.reset()
         scaledPath.moveTo(scaledPoints[0].x, viewBoundHeight - scaledPoints[0].y)
         scaledPoints.forEach {
-            scaledPath.lineTo(it.x, viewBoundHeight - it.y)
+            scaledPath.lineTo(it.x, h - it.y)
         }
 
         this.scaledPoints = scaledPoints

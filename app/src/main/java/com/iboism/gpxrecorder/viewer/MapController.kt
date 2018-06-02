@@ -18,6 +18,7 @@ import android.graphics.Bitmap
 import android.graphics.Canvas
 import android.support.v4.content.res.ResourcesCompat
 import android.support.annotation.DrawableRes
+import android.support.v4.content.ContextCompat
 import com.google.android.gms.maps.model.BitmapDescriptor
 
 /**
@@ -55,16 +56,27 @@ class MapController(private val context: Context, private val gpxId: Long): OnMa
     private fun GoogleMap.drawTracks(tracks: List<Track>) {
         // draw track lines
         tracks.forEach {
+            val points = it.segments.flatMap { it.getLatLngPoints() }
             this.addPolyline(
                     PolylineOptions()
-                            .color(MAGENTA)
+                            .color(ContextCompat.getColor(context, R.color.white))
                             .jointType(ROUND)
-                            .width(6f)
-                            .addAll(it.segments.flatMap { it.getLatLngPoints() }))
+                            .width(12f)
+                            .addAll(points))
+
+            this.addPolyline(
+                    PolylineOptions()
+                            .color(ContextCompat.getColor(context, R.color.gLightBlue))
+                            .jointType(ROUND)
+                            .width(10f)
+                            .addAll(points))
             }
+
+
         // draw marker at start
         tracks.firstOrNull()?.segments?.firstOrNull()?.points?.firstOrNull()?.let {
             this.addMarker(MarkerOptions().position(LatLng(it.lat, it.lon))
+                    .flat(true)
                     .title("Start")
                     .snippet(DateTimeFormatHelper.toReadableString(it.time))
                     .icon(getBitmapDescriptor(R.drawable.ic_start_pt))
@@ -73,6 +85,7 @@ class MapController(private val context: Context, private val gpxId: Long): OnMa
         // draw marker at end
         tracks.lastOrNull()?.segments?.lastOrNull()?.points?.lastOrNull()?.let {
             this.addMarker(MarkerOptions().position(LatLng(it.lat, it.lon))
+                    .flat(true)
                     .title("End")
                     .snippet(DateTimeFormatHelper.toReadableString(it.time))
                     .icon(getBitmapDescriptor(R.drawable.ic_stop_pt))
@@ -85,7 +98,7 @@ class MapController(private val context: Context, private val gpxId: Long): OnMa
             val dist = if (it.dist > 0.0) "@%.2fkm".format(it.dist) else ""
             val snippet = if (it.desc.isBlank()) dist else "$dist: ${it.desc}"
             this.addMarker(MarkerOptions().position(LatLng(it.lat,it.lon))
-                    .flat(false)
+                    .flat(true)
                     .title(it.title)
                     .snippet(snippet)
                     .icon(getBitmapDescriptor(R.drawable.ic_waypoint_pt))
