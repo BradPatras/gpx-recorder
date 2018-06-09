@@ -20,6 +20,7 @@ import kotlinx.android.synthetic.main.fragment_gpx_content_viewer.*
 class GpxContentViewerFragment : Fragment() {
 
     private var gpxId: Long? = null
+    private var savedText: String = ""
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -42,6 +43,7 @@ class GpxContentViewerFragment : Fragment() {
         title_et.isEnabled = false
 
         title_edit_btn.setOnClickListener { editTitle(it) }
+        title_cancel_btn.setOnClickListener { cancelTitle(it) }
 
         val distance = gpxContent.trackList.first()?.segments?.first()?.distance ?: 0f
         distance_tv.text = resources.getString(R.string.distance_km, distance)
@@ -60,6 +62,8 @@ class GpxContentViewerFragment : Fragment() {
             title_et.isFocusableInTouchMode = true
             title_et.requestFocusFromTouch()
             title_et.setBackgroundResource(R.drawable.rect_rounded_grey)
+            title_cancel_btn.visibility = View.VISIBLE
+            savedText = title_et.text.toString()
             it.setOnClickListener { applyTitle(it) }
             it.setImageResource(R.drawable.ic_check)
         }
@@ -70,9 +74,23 @@ class GpxContentViewerFragment : Fragment() {
             title_et.isEnabled = false
             title_et.clearFocus()
             title_et.setBackgroundResource(R.color.transparent)
+            title_cancel_btn.visibility = View.GONE
             it.setOnClickListener { editTitle(it) }
             it.setImageResource(R.drawable.ic_edit)
             updateGpxTitle(title_et.text.toString())
+        }
+    }
+
+    private fun cancelTitle(sender: View) {
+        (sender as? ImageButton)?.let {
+            title_et.isEnabled = false
+            title_et.clearFocus()
+            title_et.setBackgroundResource(R.color.transparent)
+            title_et.setText("")
+            title_et.append(savedText)
+            it.visibility = View.GONE
+            title_edit_btn.setOnClickListener { editTitle(it) }
+            title_edit_btn.setImageResource(R.drawable.ic_edit)
         }
     }
 
