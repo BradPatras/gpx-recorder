@@ -3,13 +3,17 @@ package com.iboism.gpxrecorder.viewer
 
 import android.os.Bundle
 import android.support.v4.app.Fragment
+import android.text.Editable
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
+import android.widget.ImageButton
 import com.iboism.gpxrecorder.R
 import com.iboism.gpxrecorder.model.GpxContent
 import com.iboism.gpxrecorder.util.DateTimeFormatHelper
 import com.iboism.gpxrecorder.util.Keys
+import io.realm.Realm
 import kotlinx.android.synthetic.main.fragment_gpx_content_viewer.*
 
 
@@ -34,17 +38,53 @@ class GpxContentViewerFragment : Fragment() {
         val gpxId = gpxId ?: return
         val gpxContent = GpxContent.withId(gpxId) ?: return
 
-        title_tv.text = gpxContent.title
+        title_et.append(gpxContent.title)
+        title_et.isEnabled = false
+
+        title_edit_btn.setOnClickListener { editTitle(it) }
+
         val distance = gpxContent.trackList.first()?.segments?.first()?.distance ?: 0f
         distance_tv.text = resources.getString(R.string.distance_km, distance)
+
         waypoint_tv.text = resources.getQuantityString(R.plurals.waypoint_count, gpxContent.waypointList.size, gpxContent.waypointList.size)
+
         date_tv.text = DateTimeFormatHelper.toReadableString(gpxContent.date)
 
         map_view?.onCreate(savedInstanceState)
         map_view?.getMapAsync(MapController(context, gpxId))
     }
 
-    // todo look into switching to MapFragment so I dont have to do these
+    private fun editTitle(sender: View) {
+        (sender as? ImageButton)?.let {
+            title_et.isEnabled = true
+            title_et.isFocusableInTouchMode = true
+            title_et.requestFocusFromTouch()
+            title_et.setBackgroundResource(R.drawable.rect_rounded_grey)
+            it.setOnClickListener { applyTitle(it) }
+            it.setImageResource(R.drawable.ic_check)
+        }
+    }
+
+    private fun applyTitle(sender: View) {
+        (sender as? ImageButton)?.let {
+            title_et.isEnabled = false
+            title_et.clearFocus()
+            title_et.setBackgroundResource(R.color.transparent)
+            it.setOnClickListener { editTitle(it) }
+            it.setImageResource(R.drawable.ic_edit)
+            updateGpxTitle(title_et.text.toString())
+        }
+    }
+
+    private fun updateGpxTitle(newTitle: String) {
+        Realm.getDefaultInstance().executeTransaction {realm ->
+            gpxId?.let {
+                GpxContent.withId(it, realm)?.title = newTitle
+            }
+        }
+    }
+
+    // todo look into switching to MapFragment so I don't have to do these
     override fun onResume() {
         super.onResume()
         map_view?.onResume()

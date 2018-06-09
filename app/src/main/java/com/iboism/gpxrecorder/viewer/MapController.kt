@@ -62,14 +62,14 @@ class MapController(private val context: Context, private val gpxId: Long): OnMa
                     PolylineOptions()
                             .color(ContextCompat.getColor(context, R.color.white))
                             .jointType(ROUND)
-                            .width(13f)
+                            .width(16f)
                             .addAll(points))
 
             this.addPolyline(
                     PolylineOptions()
                             .color(ContextCompat.getColor(context, R.color.gLightBlue))
                             .jointType(ROUND)
-                            .width(9f)
+                            .width(12f)
                             .addAll(points))
             }
 
