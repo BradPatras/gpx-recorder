@@ -20,6 +20,8 @@ import android.support.v4.content.res.ResourcesCompat
 import android.support.annotation.DrawableRes
 import android.support.v4.content.ContextCompat
 import com.google.android.gms.maps.model.BitmapDescriptor
+import com.google.android.gms.maps.model.LatLngBounds
+
 
 /**
  * Created by Brad on 2/26/2018.
@@ -37,27 +39,20 @@ class MapController(private val context: Context, private val gpxId: Long): OnMa
         GpxContent.withId(gpxId)?.let { map.drawContent(it) }
     }
 
-    private fun startPoint(gpx: GpxContent): LatLng? {
-        return gpx.trackList.firstOrNull()?.segments?.firstOrNull()?.points?.firstOrNull()?.let {
-            LatLng(it.lat, it.lon)
-        } ?:  gpx.waypointList.firstOrNull()?.let {
-            LatLng(it.lat, it.lon)
-        }
-    }
-
     private fun GoogleMap.drawContent(gpx: GpxContent) {
-        this.drawTracks(gpx.trackList.toList())
+        val trackBounds = this.drawTracks(gpx.trackList.toList())
         this.drawWaypoints(gpx.waypointList.toList())
-
-        startPoint(gpx)?.let {
-            this.moveCamera(CameraUpdateFactory.newLatLngZoom(it, 13f))
-        }
+        this.moveCamera(CameraUpdateFactory.newLatLngBounds(trackBounds, 50))
     }
 
-    private fun GoogleMap.drawTracks(tracks: List<Track>) {
+    private fun GoogleMap.drawTracks(tracks: List<Track>): LatLngBounds {
+        var allPoints: List<LatLng> = emptyList()
+        val boundsBuilder = LatLngBounds.Builder()
+
         // draw track lines
         tracks.forEach {
             val points = it.segments.flatMap { it.getLatLngPoints() }
+            allPoints += points
             this.addPolyline(
                     PolylineOptions()
                             .color(ContextCompat.getColor(context, R.color.white))
@@ -72,7 +67,6 @@ class MapController(private val context: Context, private val gpxId: Long): OnMa
                             .width(12f)
                             .addAll(points))
             }
-
 
         // draw marker at start
         tracks.firstOrNull()?.segments?.firstOrNull()?.points?.firstOrNull()?.let {
@@ -92,6 +86,12 @@ class MapController(private val context: Context, private val gpxId: Long): OnMa
                     .icon(getBitmapDescriptor(R.drawable.ic_stop_pt))
                     .anchor(.5f, .5f))
         }
+
+        allPoints.forEach {
+            boundsBuilder.include(it)
+        }
+
+        return boundsBuilder.build()
     }
 
     private fun GoogleMap.drawWaypoints(waypoints: List<Waypoint>) {
@@ -104,7 +104,6 @@ class MapController(private val context: Context, private val gpxId: Long): OnMa
                     .snippet(snippet)
                     .icon(getBitmapDescriptor(R.drawable.ic_waypoint_pt))
                     .anchor(.5f, .5f))
-
         }
     }
 
