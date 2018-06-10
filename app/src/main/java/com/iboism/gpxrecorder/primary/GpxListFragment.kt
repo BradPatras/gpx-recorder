@@ -15,12 +15,13 @@ import com.iboism.gpxrecorder.util.PermissionHelper
 import com.iboism.gpxrecorder.viewer.GpxContentViewerFragment
 import io.realm.Realm
 import io.realm.RealmResults
+import io.realm.Sort
 import kotlinx.android.synthetic.main.fragment_gpx_list.*
 
 class GpxListFragment : Fragment() {
     private val permissionHelper: PermissionHelper by lazy { PermissionHelper.getInstance(this.activity) }
     private val placeholderViews = listOf(R.id.placeholder_menu_icon, R.id.placeholder_menu_text, R.id.placeholder_routes_text, R.id.placeholder_routes_icon)
-    private val gpxContentList = Realm.getDefaultInstance().where(GpxContent::class.java).findAll()
+    private val gpxContentList = Realm.getDefaultInstance().where(GpxContent::class.java).findAll().sort("date", Sort.DESCENDING)
 
     private val gpxChangeListener = { gpxContent: RealmResults<GpxContent> ->
         setPlaceholdersHidden(gpxContent.isNotEmpty())
