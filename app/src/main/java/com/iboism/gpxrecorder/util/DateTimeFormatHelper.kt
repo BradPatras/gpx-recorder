@@ -10,7 +10,7 @@ import java.util.*
 class DateTimeFormatHelper {
     companion object {
         private val dataPattern = "yyyy-MM-dd'T'HH:mm:ss'Z'"
-        private val readablePattern = "EEE, MMM d yyyy, HH:mm a"
+        private val readablePattern = "EEE, MMM d yyyy, hh:mm a"
         fun formatDate(date: Date = Date()): String {
             return SimpleDateFormat(dataPattern).format(date)
         }
