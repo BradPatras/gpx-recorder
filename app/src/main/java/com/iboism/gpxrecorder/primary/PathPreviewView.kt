@@ -26,6 +26,8 @@ class PathPreviewView @JvmOverloads constructor(
     private var scaledPath = Path()
     private var size: Size? = null
 
+    private var isLoading: Boolean = false
+
     fun loadPoints(points: List<LatLng>? = emptyList()) {
         this.points = points ?: emptyList()
         setupPaints()
@@ -34,8 +36,16 @@ class PathPreviewView @JvmOverloads constructor(
             onSizeChanged(it.width, it.height, it.width, it.width)
         }
 
+        isLoading = false
         this.invalidate()
     }
+
+    fun setLoading() {
+        points = emptyList()
+        isLoading = true
+        invalidate()
+    }
+
     override fun onDraw(canvas: Canvas?) {
         super.onDraw(canvas)
 
@@ -44,6 +54,10 @@ class PathPreviewView @JvmOverloads constructor(
         if (scaledPoints == null) return
         if (size == null) return
         if (canvas == null) return
+
+        if (isLoading) {
+            return
+        }
 
         setupPaints()
         canvas.drawPath(scaledPath, linePaint)

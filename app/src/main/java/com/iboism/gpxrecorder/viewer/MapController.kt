@@ -51,7 +51,7 @@ class MapController(private val context: Context, private val gpxId: Long): OnMa
 
         // draw track lines
         tracks.forEach {
-            val points = it.segments.flatMap { it.getLatLngPoints() }
+            val points = it.segments.flatMap { it.getLatLngPoints().blockingGet() }
             allPoints += points
             this.addPolyline(
                     PolylineOptions()

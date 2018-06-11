@@ -7,10 +7,12 @@ import android.widget.Button
 import android.widget.ListAdapter
 import android.widget.ProgressBar
 import android.widget.TextView
+import com.google.android.gms.maps.model.LatLng
 import com.iboism.gpxrecorder.R
 import com.iboism.gpxrecorder.model.GpxContent
 import com.iboism.gpxrecorder.util.*
 import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.schedulers.Schedulers
 import io.realm.RealmBaseAdapter
 import io.realm.RealmResults
 
@@ -19,6 +21,9 @@ import io.realm.RealmResults
  */
 class GpxContentAdapter(private val realmResults: RealmResults<GpxContent>?) : RealmBaseAdapter<GpxContent>(realmResults), ListAdapter {
     private var fileHelper: FileHelper? = null
+    private val pointLoadingThread = Schedulers.single()
+    private var cachedPoints = Array<List<LatLng>?>(realmResults?.size ?: 0, { null })
+
     var contentViewerOpener: ((gpxId: Long) -> Unit)? = null
 
     override fun getView(position: Int, convertView: View?, parent: ViewGroup?): View? {
@@ -27,13 +32,14 @@ class GpxContentAdapter(private val realmResults: RealmResults<GpxContent>?) : R
 
         if (convertView == null) {
             view = LayoutInflater.from(parent?.context).inflate(R.layout.list_row_gpx_content, parent, false)
-            viewHolder = ViewHolder(view)
+            viewHolder = ViewHolder(view, position)
             viewHolder.exportProgressBar.isIndeterminate = true
             viewHolder.exportProgressBar.visibility = View.GONE
             view.tag = viewHolder
         } else {
             view = convertView
             viewHolder = view.tag as ViewHolder
+            viewHolder.position = position
         }
 
         if (fileHelper == null) {
@@ -49,25 +55,36 @@ class GpxContentAdapter(private val realmResults: RealmResults<GpxContent>?) : R
         val distance = segment?.distance ?: 0f
         viewHolder.distanceView.text = view.resources.getString(R.string.distance_km, distance)
 
-        segment?.getLatLngPoints()?.let {
-            viewHolder.previewView.loadPoints(it.takeGist(50))
+        viewHolder.previewView.setLoading()
+        val previewPoints = cachedPoints[position]
+        if (previewPoints!= null) {
+            viewHolder.previewView.loadPoints(previewPoints)
+        } else {
+            segment?.getLatLngPoints(pointLoadingThread)
+                    ?.observeOn(AndroidSchedulers.mainThread())
+                    ?.subscribe { lst ->
+                        val gist = lst.takeGist(50)
+                        cachedPoints[position] = gist
+                        if (position == viewHolder.position)
+                            viewHolder.previewView.loadPoints(gist)
+                    }
         }
 
-        viewHolder.setLoading(fileHelper?.isExporting() == gpx.identifier)
+        viewHolder.setExportLoading(fileHelper?.isExporting() == gpx.identifier)
 
         viewHolder.exportButton.setOnClickListener {
             fileHelper?.let {
-                viewHolder.setLoading(true)
+                viewHolder.setExportLoading(true)
                 it.gpxFileWith(gpx.identifier)
                         .subscribeOn(AndroidSchedulers.mainThread())
                         .observeOn(AndroidSchedulers.mainThread())
                         .subscribe { file, error ->
                             if (error != null) {
-                                viewHolder.setLoading(false)
+                                viewHolder.setExportLoading(false)
                                 Alerts(view.context).genericError(R.string.file_share_failed).show()
                             } else {
                                 ShareHelper(it.context).shareFile(file)
-                                viewHolder.setLoading(false)
+                                viewHolder.setExportLoading(false)
                             }
                         }
             }
@@ -80,7 +97,7 @@ class GpxContentAdapter(private val realmResults: RealmResults<GpxContent>?) : R
         return view
     }
 
-    private inner class ViewHolder(view: View?) {
+    private inner class ViewHolder(view: View?, var position: Int) {
         val titleView = view?.findViewById(R.id.gpx_content_title) as TextView
         val dateView = view?.findViewById(R.id.gpx_content_date) as TextView
         val exportButton = view?.findViewById(R.id.gpx_content_export_button) as Button
@@ -89,7 +106,7 @@ class GpxContentAdapter(private val realmResults: RealmResults<GpxContent>?) : R
         val exportProgressBar = view?.findViewById(R.id.gpx_content_export_progress_bar) as ProgressBar
         var previewView = view?.findViewById(R.id.preview_view) as PathPreviewView
 
-        fun setLoading(loading: Boolean) {
+        fun setExportLoading(loading: Boolean) {
             exportButton.visibility = if (loading) View.INVISIBLE else View.VISIBLE
             exportButton.invalidate()
 
