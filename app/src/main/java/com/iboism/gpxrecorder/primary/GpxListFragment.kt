@@ -17,6 +17,10 @@ import io.realm.Realm
 import io.realm.RealmResults
 import io.realm.Sort
 import kotlinx.android.synthetic.main.fragment_gpx_list.*
+import android.support.v7.widget.DividerItemDecoration
+import android.support.v7.widget.LinearLayoutManager
+
+
 
 class GpxListFragment : Fragment() {
     private val permissionHelper: PermissionHelper by lazy { PermissionHelper.getInstance(this.activity) }
@@ -58,17 +62,18 @@ class GpxListFragment : Fragment() {
         return inflater?.inflate(R.layout.fragment_gpx_list, container, false)
     }
 
-    override fun onViewCreated(view: View?, savedInstanceState: Bundle?) {
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
         fab.setOnClickListener(this::onFabClicked)
 
-        val adapter = GpxContentAdapter(gpxContentList)
+        val adapter = GpxRecyclerViewAdapter(gpxContentList)
         adapter.contentViewerOpener = this::openContentViewer
+        gpx_listView.layoutManager = LinearLayoutManager(view.context)
         gpx_listView.adapter = adapter
+        gpx_listView.setHasFixedSize(true)
 
         gpxContentList.addChangeListener(gpxChangeListener)
-
         setPlaceholdersHidden(gpxContentList.isNotEmpty())
     }
 

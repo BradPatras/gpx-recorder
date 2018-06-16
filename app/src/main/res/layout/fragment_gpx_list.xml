@@ -6,7 +6,7 @@
     tools:context="com.iboism.gpxrecorder.primary.GpxListFragment"
     android:id="@+id/fragment_gpx_list">
 
-    <ListView
+    <android.support.v7.widget.RecyclerView
         android:id="@+id/gpx_listView"
         android:layout_width="0dp"
         android:layout_height="0dp"
