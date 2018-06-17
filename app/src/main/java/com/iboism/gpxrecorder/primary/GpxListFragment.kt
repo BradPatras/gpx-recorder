@@ -21,7 +21,6 @@ import android.support.v7.widget.DividerItemDecoration
 import android.support.v7.widget.LinearLayoutManager
 
 
-
 class GpxListFragment : Fragment() {
     private val permissionHelper: PermissionHelper by lazy { PermissionHelper.getInstance(this.activity) }
     private val placeholderViews = listOf(R.id.placeholder_menu_icon, R.id.placeholder_menu_text, R.id.placeholder_routes_text, R.id.placeholder_routes_icon)
@@ -31,7 +30,7 @@ class GpxListFragment : Fragment() {
         setPlaceholdersHidden(gpxContent.isNotEmpty())
     }
 
-    private fun onFabClicked (view: View) {
+    private fun onFabClicked(view: View) {
         permissionHelper.checkLocationPermissions(
                 onAllowed = {
                     val configFragment = RecordingConfiguratorModal.instance()
@@ -41,11 +40,20 @@ class GpxListFragment : Fragment() {
                     args.putInt(REVEAL_ORIGIN_Y_KEY, view.y.toInt() + (view.height / 2))
                     configFragment.arguments = args
 
-                    fragmentManager.beginTransaction()
-                            .setCustomAnimations(android.R.anim.fade_in, android.R.anim.fade_out, android.R.anim.fade_in, android.R.anim.fade_out)
-                            .replace(R.id.content_container, configFragment)
-                            .addToBackStack(null)
-                            .commit()
+                    // marshmallow bug workaround https://issuetracker.google.com/issues/37067655
+                    if (android.os.Build.VERSION.SDK_INT == android.os.Build.VERSION_CODES.M) {
+                        fragmentManager.beginTransaction()
+                                .setCustomAnimations(android.R.anim.fade_in, android.R.anim.fade_out, android.R.anim.fade_in, android.R.anim.fade_out)
+                                .replace(R.id.content_container, configFragment)
+                                .addToBackStack(null)
+                                .commitAllowingStateLoss()
+                    } else {
+                        fragmentManager.beginTransaction()
+                                .setCustomAnimations(android.R.anim.fade_in, android.R.anim.fade_out, android.R.anim.fade_in, android.R.anim.fade_out)
+                                .replace(R.id.content_container, configFragment)
+                                .addToBackStack(null)
+                                .commit()
+                    }
                 })
     }
 
@@ -79,7 +87,21 @@ class GpxListFragment : Fragment() {
 
     private fun setPlaceholdersHidden(hidden: Boolean) {
         fragment_gpx_list?.let { root ->
-            placeholderViews.forEach { root.findViewById<View>(it).visibility = if (hidden) View.GONE else View.VISIBLE }
+            if (hidden) {
+                placeholderViews.forEach {
+                    root.findViewById<View>(it).apply {
+                        this.visibility = View.GONE
+                        this.alpha = 0f
+                    }
+                }
+            } else {
+                placeholderViews.forEach {
+                    root.findViewById<View>(it).apply {
+                        this.visibility = View.VISIBLE
+                        this.animate().alpha(2.0f).start()
+                    }
+                }
+            }
         }
     }
 

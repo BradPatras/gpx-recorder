@@ -145,20 +145,24 @@ class GpxRecyclerViewAdapter(contentList: OrderedRealmCollection<GpxContent>) : 
                         return false
                     }
                     MotionEvent.ACTION_UP -> {
-                        if (currentTouch && deltaX.absoluteValue > v.width / 2.75) {
+                        if (currentTouch && (deltaX.absoluteValue < 6 || deltaY.absoluteValue < 6)) {
+                            cancelSwipe(v)
+                            return false
+                        }
 
+                        if (currentTouch && deltaX.absoluteValue > v.width / 3) {
                             v.animate()
-                                    .translationXBy(deltaX * 1.5f)
-                                    .start()
-
-                            Realm.getDefaultInstance().executeTransaction {
-                                getItem(position)?.deleteFromRealm()
-                                val mutableCache = cachedPoints.toMutableList()
-                                mutableCache.removeAt(position)
-                                cachedPoints = mutableCache.toTypedArray()
-                            }
-                            notifyItemRemoved(this.position)
-                            notifyItemRangeChanged(this.position, data?.size ?: 0)
+                                    .translationXBy(deltaX * 3f)
+                                    .withEndAction {
+                                        Realm.getDefaultInstance().executeTransaction {
+                                            getItem(position)?.deleteFromRealm()
+                                            val mutableCache = cachedPoints.toMutableList()
+                                            mutableCache.removeAt(position)
+                                            cachedPoints = mutableCache.toTypedArray()
+                                        }
+                                        notifyItemRemoved(this.position)
+                                        notifyItemRangeChanged(this.position, data?.size ?: 0)
+                                    }.start()
 
                             return true
                         }
@@ -201,7 +205,7 @@ class GpxRecyclerViewAdapter(contentList: OrderedRealmCollection<GpxContent>) : 
 
             private fun cancelSwipe(v: View): Boolean{
                 if (currentTouch) {
-                    v.parent.requestDisallowInterceptTouchEvent(true)
+                    v.parent.requestDisallowInterceptTouchEvent(false)
                     currentTouch = false
                     deltaX = 0f
                     deltaY = 0f

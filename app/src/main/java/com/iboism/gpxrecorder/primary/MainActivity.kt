@@ -6,10 +6,7 @@ import android.os.Bundle
 import android.support.v4.view.GravityCompat
 import android.support.v7.app.AppCompatActivity
 import com.iboism.gpxrecorder.R
-import com.iboism.gpxrecorder.model.GpxContent
-import com.iboism.gpxrecorder.model.RecordingConfiguration
-import com.iboism.gpxrecorder.model.Segment
-import com.iboism.gpxrecorder.model.Track
+import com.iboism.gpxrecorder.model.*
 import com.iboism.gpxrecorder.navigation.NavigationHelper
 import com.iboism.gpxrecorder.recording.LocationRecorderService
 import com.iboism.gpxrecorder.recording.RecordingConfiguratorModal
