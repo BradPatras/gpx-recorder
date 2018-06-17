@@ -145,7 +145,7 @@ class GpxRecyclerViewAdapter(contentList: OrderedRealmCollection<GpxContent>) : 
                         return false
                     }
                     MotionEvent.ACTION_UP -> {
-                        if (currentTouch && deltaX.absoluteValue > v.width / 2) {
+                        if (currentTouch && deltaX.absoluteValue > v.width / 2.75) {
 
                             v.animate()
                                     .translationXBy(deltaX * 1.5f)
@@ -153,6 +153,9 @@ class GpxRecyclerViewAdapter(contentList: OrderedRealmCollection<GpxContent>) : 
 
                             Realm.getDefaultInstance().executeTransaction {
                                 getItem(position)?.deleteFromRealm()
+                                val mutableCache = cachedPoints.toMutableList()
+                                mutableCache.removeAt(position)
+                                cachedPoints = mutableCache.toTypedArray()
                             }
                             notifyItemRemoved(this.position)
                             notifyItemRangeChanged(this.position, data?.size ?: 0)
