@@ -12,7 +12,6 @@ import com.iboism.gpxrecorder.util.circularRevealOnNextLayout
 
 
 private const val INTERVAL_MIN = 1
-private const val DISPLACEMENT_MIN = 2
 const val REVEAL_ORIGIN_X_KEY = "kRevealXOrigin"
 const val REVEAL_ORIGIN_Y_KEY = "kRevealYOrigin"
 
@@ -33,8 +32,7 @@ class RecordingConfiguratorModal : Fragment() {
                 listener?.configurationCreated (
                         RecordingConfiguration(
                                 title = configuratorView.titleEditText.text.toString().takeIf { it.isNotEmpty() } ?: "Untitled",
-                                interval = configuratorView.intervalSlider.progress.toLong().plus(INTERVAL_MIN).times(60 * 1000),
-                                minDisplacement = configuratorView.displacementSlider.progress.plus(DISPLACEMENT_MIN).toFloat()
+                                interval = configuratorView.intervalSlider.progress.toLong().plus(INTERVAL_MIN).times(60 * 1000)
                         ))
                 this@RecordingConfiguratorModal.fragmentManager.popBackStack()
             }

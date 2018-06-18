@@ -62,50 +62,6 @@
         app:layout_constraintTop_toBottomOf="@+id/interval_seekBar" />
 
     <TextView
-        android:id="@+id/textView4"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="8dp"
-        android:layout_marginStart="@dimen/dialog_horizontal_margin"
-        android:layout_marginTop="24dp"
-        android:text="@string/minimum_displacement_meters"
-        android:textSize="18sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView3" />
-
-    <SeekBar
-        android:id="@+id/displacement_seekBar"
-        style="@style/Widget.AppCompat.SeekBar"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="8dp"
-        android:layout_marginStart="@dimen/dialog_horizontal_margin"
-        android:layout_marginTop="8dp"
-        android:max="50"
-        android:progress="2"
-        app:layout_constraintEnd_toStartOf="@+id/displacement_value"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView4" />
-
-    <TextView
-        android:id="@+id/textView5"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="16dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
-        android:text="@string/minimum_distance_between"
-        android:textAppearance="@style/TextAppearance.AppCompat.Caption"
-        app:layout_constraintBottom_toTopOf="@id/start_button"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.46"
-        app:layout_constraintStart_toStartOf="@+id/displacement_seekBar"
-        app:layout_constraintTop_toBottomOf="@+id/displacement_seekBar" />
-
-    <TextView
         android:id="@+id/interval_value"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -116,23 +72,12 @@
         app:layout_constraintStart_toEndOf="@+id/interval_seekBar"
         app:layout_constraintTop_toTopOf="@+id/interval_seekBar" />
 
-    <TextView
-        android:id="@+id/displacement_value"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="@dimen/dialog_horizontal_margin"
-        android:text="#"
-        app:layout_constraintBottom_toBottomOf="@+id/displacement_seekBar"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/displacement_seekBar"
-        app:layout_constraintTop_toTopOf="@+id/displacement_seekBar" />
-
     <Button
         android:id="@+id/start_button"
         style="@style/Widget.AppCompat.Button.Borderless.Colored"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="32dp"
         android:background="@color/colorAccent"
         android:gravity="center"
         android:text="@string/start"
@@ -142,7 +87,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView5"
+        app:layout_constraintTop_toBottomOf="@+id/textView3"
         app:layout_constraintVertical_bias="0.0" />
 
     <TextView

@@ -15,13 +15,10 @@ import com.iboism.gpxrecorder.R
  */
 
 private const val INTERVAL_MIN = 1
-private const val DISPLACEMENT_MIN = 2
 
 class RecordingConfiguratorView(root: View,
                                 intervalValue: TextView = root.findViewById(R.id.interval_value),
-                                displacementValue: TextView = root.findViewById(R.id.displacement_value),
                                 val intervalSlider: SeekBar = root.findViewById(R.id.interval_seekBar),
-                                val displacementSlider: SeekBar = root.findViewById(R.id.displacement_seekBar),
                                 val titleEditText: EditText = root.findViewById(R.id.config_title_editText),
                                 val doneButton: Button = root.findViewById(R.id.start_button)) {
     private val context: Context = root.context
@@ -31,13 +28,8 @@ class RecordingConfiguratorView(root: View,
 
         intervalSlider.progressDrawable.setColorFilter(primaryColor, PorterDuff.Mode.SRC_IN)
         intervalSlider.thumb.setColorFilter(primaryColor, PorterDuff.Mode.SRC_IN)
-        intervalSlider.max -= DISPLACEMENT_MIN
+        intervalSlider.max -= INTERVAL_MIN
 
-        displacementSlider.progressDrawable.setColorFilter(primaryColor, PorterDuff.Mode.SRC_IN)
-        displacementSlider.thumb.setColorFilter(primaryColor, PorterDuff.Mode.SRC_IN)
-        displacementSlider.max -= DISPLACEMENT_MIN
-
-        displacementSlider.bindProgress(displacementValue, DISPLACEMENT_MIN)
         intervalSlider.bindProgress(intervalValue, INTERVAL_MIN)
     }
 
