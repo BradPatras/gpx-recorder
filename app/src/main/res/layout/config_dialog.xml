@@ -29,7 +29,7 @@
         android:layout_marginStart="@dimen/dialog_horizontal_margin"
         android:layout_marginTop="8dp"
         android:max="60"
-        android:progress="5"
+        android:progress="1"
         app:layout_constraintEnd_toStartOf="@+id/interval_value"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView2" />

@@ -33,6 +33,10 @@ class RecordingConfiguratorView(root: View,
         intervalSlider.bindProgress(intervalValue, INTERVAL_MIN)
     }
 
+    fun actualInterval(): Float {
+        return (intervalSlider.progress + INTERVAL_MIN) / 2f
+    }
+
     private fun SeekBar.bindProgress(textView: TextView, offset: Int = 0) {
         textView.text = (this.progress + offset).toString()
         this.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
@@ -42,7 +46,7 @@ class RecordingConfiguratorView(root: View,
 
             override fun onProgressChanged(seekBar: SeekBar?, p1: Int, p2: Boolean) {
                 seekBar?.let {
-                    textView.text = (seekBar.progress + offset).toString()
+                    textView.text = actualInterval().toString()
                 }
             }
         })

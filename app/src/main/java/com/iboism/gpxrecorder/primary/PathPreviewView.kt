@@ -102,7 +102,10 @@ class PathPreviewView @JvmOverloads constructor(
         val viewBoundWidth = w - (w * PADDING_RATIO)
         val viewBoundHeight = h - (h * PADDING_RATIO)
 
-        val boundingLength = max(pointsHeight, pointsWidth)
+        var boundingLength = max(pointsHeight, pointsWidth)
+        if (boundingLength == 0f) {
+            boundingLength = viewBoundWidth
+        }
 
         val newPointsHeight = (pointsHeight / boundingLength) * viewBoundHeight
         val newPointsWidth = (pointsWidth / boundingLength) * viewBoundWidth
@@ -117,13 +120,13 @@ class PathPreviewView @JvmOverloads constructor(
         }
         this.scaledPoints = scaledPoints
 
-        scaledPath.reset()
-        scaledPath.moveTo(scaledPoints[0].x, viewBoundHeight - scaledPoints[0].y)
-        scaledPoints.forEach {
-            scaledPath.lineTo(it.x, h - it.y)
+        if (scaledPoints.size > 1) {
+            scaledPath.reset()
+            scaledPath.moveTo(scaledPoints[0].x, viewBoundHeight - scaledPoints[0].y)
+            scaledPoints.forEach {
+                scaledPath.lineTo(it.x, h - it.y)
+            }
         }
-
-        this.scaledPoints = scaledPoints
     }
 
     private fun setupPaints() {

@@ -32,12 +32,13 @@ class RecordingConfiguratorModal : Fragment() {
                 listener?.configurationCreated (
                         RecordingConfiguration(
                                 title = configuratorView.titleEditText.text.toString().takeIf { it.isNotEmpty() } ?: "Untitled",
-                                interval = configuratorView.intervalSlider.progress.toLong().plus(INTERVAL_MIN).times(60 * 1000)
+                                interval = configuratorView.actualInterval().toLong()
                         ))
                 this@RecordingConfiguratorModal.fragmentManager.popBackStack()
             }
         }
     }
+
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
