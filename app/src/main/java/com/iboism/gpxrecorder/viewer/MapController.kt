@@ -1,7 +1,6 @@
 package com.iboism.gpxrecorder.viewer
 
 import android.content.Context
-import android.graphics.Color.MAGENTA
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.MapsInitializer

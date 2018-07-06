@@ -29,9 +29,9 @@ class MainActivity : AppCompatActivity(), RecordingConfiguratorModal.Listener {
                     .add(R.id.content_container, GpxListFragment.newInstance())
                     .commit()
 
-            // uncomment to create random 10,000 point track and add it to realm
+//            // uncomment to create random track and add it to realm
 //            val seg = Segment()
-//            for (i in 0..10000) {
+//            for (i in 0..10) {
 //                seg.addPoint(TrackPoint(lat = Math.random(), lon = Math.random()))
 //            }
 //

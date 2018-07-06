@@ -15,13 +15,15 @@ import kotlinx.android.synthetic.main.activity_main.*
 /**
  * Created by Brad on 2/17/2018.
  */
-class NavigationHelper(val activity: Activity) : NavigationView.OnNavigationItemSelectedListener {
+class NavigationHelper(private val activity: Activity) : NavigationView.OnNavigationItemSelectedListener {
     override fun onNavigationItemSelected(item: MenuItem): Boolean {
-        when (item.itemId){
+        when (item.itemId) {
             R.id.nav_github ->
                 activity.launchExternalIntent(Intent(Intent.ACTION_VIEW, Uri.parse("https://www.github.com/BradPatras/gpx-recorder/")))
+
             R.id.nav_twitter ->
                 activity.launchExternalIntent(Intent(Intent.ACTION_VIEW, Uri.parse("https://www.twitter.com/iboism")))
+
             R.id.nav_email -> {
                 val intent = Intent(Intent.ACTION_SEND, Uri.parse("mailto:appdev.iboism@gmail.com"))
                 intent.putExtra(Intent.EXTRA_EMAIL, arrayOf("appdev.iboism@gmail.com"))
@@ -29,12 +31,12 @@ class NavigationHelper(val activity: Activity) : NavigationView.OnNavigationItem
                 intent.type = "plain/text"
                 activity.launchExternalIntent(intent)
             }
+
             R.id.nav_delete_recordings -> {
                 Realm.getDefaultInstance().executeTransaction {
                     it.delete(GpxContent::class.java)
                     activity.stopService(Intent(activity, LocationRecorderService::class.java))
                 }
-
             }
         }
 

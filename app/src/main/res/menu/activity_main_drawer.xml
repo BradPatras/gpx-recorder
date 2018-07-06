@@ -24,6 +24,11 @@
                 android:id="@+id/nav_email"
                 android:icon="@drawable/ic_mail"
                 android:title="Email"/>
+            <!--<item-->
+                <!--android:id="@+id/nav_info"-->
+                <!--android:icon="@drawable/ic_help"-->
+                <!--android:title="About"-->
+                <!--/>-->
         </menu>
     </item>
 

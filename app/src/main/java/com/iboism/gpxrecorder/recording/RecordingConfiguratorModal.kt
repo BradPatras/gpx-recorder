@@ -11,7 +11,6 @@ import com.iboism.gpxrecorder.model.RecordingConfiguration
 import com.iboism.gpxrecorder.util.circularRevealOnNextLayout
 
 
-private const val INTERVAL_MIN = 1
 const val REVEAL_ORIGIN_X_KEY = "kRevealXOrigin"
 const val REVEAL_ORIGIN_Y_KEY = "kRevealYOrigin"
 
