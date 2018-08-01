@@ -50,7 +50,6 @@ class GpxRecyclerViewAdapter(contentList: OrderedRealmCollection<GpxContent>) : 
 
     override fun onBindViewHolder(viewHolder: GpxViewHolder, position: Int) {
         val gpx = getItem(position) ?: return
-        viewHolder.position = position
         val context = viewHolder.rootView.context
 
         viewHolder.dateView.text = DateTimeFormatHelper.toReadableString(gpx.date)
@@ -62,15 +61,17 @@ class GpxRecyclerViewAdapter(contentList: OrderedRealmCollection<GpxContent>) : 
 
         viewHolder.previewView.setLoading()
         val previewPoints = cachedPoints[position]
-        if (previewPoints!= null) {
+        if (previewPoints != null) {
             viewHolder.previewView.loadPoints(previewPoints)
         } else {
             segment?.getLatLngPoints(pointLoadingThread)
-                    ?.observeOn(AndroidSchedulers.mainThread())
-                    ?.subscribe { lst ->
-                        val gist = lst.takeGist(50)
+                    ?.observeOn(Schedulers.computation())
+                    ?.map { lst ->
+                        lst.takeGist(50)
+                    }?.observeOn(AndroidSchedulers.mainThread())
+                    ?.subscribe { gist ->
                         cachedPoints[position] = gist
-                        if (position == viewHolder.position)
+                        if (position == viewHolder.adapterPosition)
                             viewHolder.previewView.loadPoints(gist)
                     }
         }
@@ -122,7 +123,6 @@ class GpxRecyclerViewAdapter(contentList: OrderedRealmCollection<GpxContent>) : 
         val waypointCountView = view?.findViewById(R.id.gpx_content_waypoint_count) as TextView
         val exportProgressBar = view?.findViewById(R.id.gpx_content_export_progress_bar) as ProgressBar
         var previewView = view?.findViewById(R.id.preview_view) as PathPreviewView
-        var position: Int? = null
 
         init {
             exportProgressBar.isIndeterminate = true

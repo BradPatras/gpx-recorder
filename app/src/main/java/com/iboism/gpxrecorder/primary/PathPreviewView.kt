@@ -42,6 +42,8 @@ class PathPreviewView @JvmOverloads constructor(
 
     fun setLoading() {
         points = emptyList()
+        scaledPoints = emptyList()
+        scaledPath.reset()
         isLoading = true
         invalidate()
     }
@@ -56,6 +58,7 @@ class PathPreviewView @JvmOverloads constructor(
         if (canvas == null) return
 
         if (isLoading) {
+            drawLoading(canvas)
             return
         }
 
@@ -79,6 +82,10 @@ class PathPreviewView @JvmOverloads constructor(
             capDotPaint.color = Color.RED
             canvas.drawCircle(it.x, height - it.y, width.toFloat() * 0.03f, capDotPaint)
         }
+    }
+
+    private fun drawLoading(canvas: Canvas) {
+        canvas.drawColor(ContextCompat.getColor(context, R.color.gGrey))
     }
 
     override fun onSizeChanged(w: Int, h: Int, oldw: Int, oldh: Int) {
