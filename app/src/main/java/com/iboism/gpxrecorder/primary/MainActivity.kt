@@ -14,6 +14,7 @@ import com.iboism.gpxrecorder.util.Keys
 import io.realm.Realm
 import io.realm.RealmList
 import kotlinx.android.synthetic.main.activity_main.*
+import java.util.*
 
 
 class MainActivity : AppCompatActivity(), RecordingConfiguratorModal.Listener {
@@ -30,16 +31,24 @@ class MainActivity : AppCompatActivity(), RecordingConfiguratorModal.Listener {
                     .commit()
 
 //            // uncomment to create random track and add it to realm
-//            val seg = Segment()
-//            for (i in 0..10) {
-//                seg.addPoint(TrackPoint(lat = Math.random(), lon = Math.random()))
-//            }
+//            val lst = listOf("Catshark", "Caterpillar", "Catfish", "Cattle", "list", "Centipede", "Cephalopod", "Chameleon", "Cheetah", "Chickadee", "Chicken", "list", "Chimpanzee", "Chinchilla", "Chipmunk", "Clam", "Clownfish", "Cobra", "Cockroach", "Cod", "Condor", "Constrictor", "Coral", "Cougar", "Cow", "Coyote", "Crab", "Crane", "Crane fly", "Crawdad", "Crayfish", "Cricket", "Crocodile", "Crow", "Cuckoo", "Cicada", "Damselfly", "Deer", "Dingo", "Dinosaur", "list", "Dog", "list", "Dolphin", "Donkey", "list", "Dormouse", "Dove", "Dragonfly", "Dragon", "Duck", "list", "Dung beetle", "Eagle", "Earthworm", "Earwig", "Echidna", "Eel", "Egret", "Elephant", "Elephant seal", "Elk", "Emu", "English pointer", "Ermine", "Falcon", "Ferret", "Finch", "Firefly", "Fish", "Flamingo", "Flea", "Fly", "Flyingfish", "Fowl", "Fox", "Frog")
+//            for (j in 0..25) {
+//                val seg = Segment()
+//                val r = Random()
+//                var sLat = r.nextInt(100).toDouble()
+//                var sLon = r.nextInt(100).toDouble()
+//                for (i in 0..1000) {
+//                    sLat += (r.nextInt(5).toDouble() / 2.0) * if(r.nextBoolean()) 1 else -1
+//                    sLon += (r.nextInt(5).toDouble() / 2.0) * if(r.nextBoolean()) 1 else -1
+//                    seg.addPoint(TrackPoint(lat = sLat, lon = sLon))
+//                }
 //
-//            val trk = Track(segments = RealmList(seg))
-//            val gpx = GpxContent(trackList = RealmList(trk))
+//                val trk = Track(segments = RealmList(seg))
+//                val gpx = GpxContent(title = lst[j], trackList = RealmList(trk))
 //
-//            Realm.getDefaultInstance().executeTransaction {
-//                it.copyToRealm(gpx)
+//                Realm.getDefaultInstance().executeTransaction {
+//                    it.copyToRealm(gpx)
+//                }
 //            }
         }
 
