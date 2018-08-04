@@ -11,6 +11,7 @@ import android.widget.TextView
 import com.google.android.gms.maps.model.LatLng
 import com.iboism.gpxrecorder.R
 import com.iboism.gpxrecorder.model.GpxContent
+import com.iboism.gpxrecorder.model.Segment
 import com.iboism.gpxrecorder.util.*
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
@@ -48,6 +49,11 @@ class GpxRecyclerViewAdapter(contentList: OrderedRealmCollection<GpxContent>) : 
         return GpxViewHolder(gpxRow)
     }
 
+    override fun onViewDetachedFromWindow(holder: GpxViewHolder?) {
+        super.onViewDetachedFromWindow(holder)
+        holder?.previewPointsLoader?.dispose()
+    }
+
     override fun onBindViewHolder(viewHolder: GpxViewHolder, position: Int) {
         val gpx = getItem(position) ?: return
         val context = viewHolder.rootView.context
@@ -64,16 +70,7 @@ class GpxRecyclerViewAdapter(contentList: OrderedRealmCollection<GpxContent>) : 
         if (previewPoints != null) {
             viewHolder.previewView.loadPoints(previewPoints)
         } else {
-            segment?.getLatLngPoints(pointLoadingThread)
-                    ?.observeOn(Schedulers.computation())
-                    ?.map { lst ->
-                        lst.takeGist(50)
-                    }?.observeOn(AndroidSchedulers.mainThread())
-                    ?.subscribe { gist ->
-                        cachedPoints[position] = gist
-                        if (position == viewHolder.adapterPosition)
-                            viewHolder.previewView.loadPoints(gist)
-                    }
+            viewHolder.startPreviewPointsLoader(segment, position)
         }
 
         viewHolder.setExportLoading(fileHelper?.isExporting() == gpx.identifier)
@@ -82,7 +79,6 @@ class GpxRecyclerViewAdapter(contentList: OrderedRealmCollection<GpxContent>) : 
             fileHelper?.let {
                 viewHolder.setExportLoading(true)
                 it.gpxFileWith(gpx.identifier)
-                        .subscribeOn(AndroidSchedulers.mainThread())
                         .observeOn(AndroidSchedulers.mainThread())
                         .subscribe { file, error ->
                             if (error != null) {
@@ -124,9 +120,24 @@ class GpxRecyclerViewAdapter(contentList: OrderedRealmCollection<GpxContent>) : 
         val exportProgressBar = view?.findViewById(R.id.gpx_content_export_progress_bar) as ProgressBar
         var previewView = view?.findViewById(R.id.preview_view) as PathPreviewView
 
+        var previewPointsLoader: Disposable? = null
+
         init {
             exportProgressBar.isIndeterminate = true
             exportProgressBar.visibility = View.GONE
+        }
+
+        fun startPreviewPointsLoader(segment: Segment?, position: Int) {
+            previewPointsLoader = segment?.getLatLngPoints(pointLoadingThread)
+                    ?.observeOn(Schedulers.computation())
+                    ?.map { lst ->
+                        lst.takeGist(50)
+                    }?.observeOn(AndroidSchedulers.mainThread())
+                    ?.subscribe { gist ->
+                        cachedPoints[position] = gist
+                        if (position == adapterPosition)
+                            previewView.loadPoints(gist)
+                    }
         }
 
         fun setExportLoading(loading: Boolean) {
