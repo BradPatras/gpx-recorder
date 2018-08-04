@@ -41,10 +41,13 @@ class MapController(private val context: Context, private val gpxId: Long): OnMa
     private fun GoogleMap.drawContent(gpx: GpxContent) {
         val trackBounds = this.drawTracks(gpx.trackList.toList())
         this.drawWaypoints(gpx.waypointList.toList())
-        this.moveCamera(CameraUpdateFactory.newLatLngBounds(trackBounds, 50))
+
+        if (trackBounds != null) {
+            this.moveCamera(CameraUpdateFactory.newLatLngBounds(trackBounds, 50))
+        }
     }
 
-    private fun GoogleMap.drawTracks(tracks: List<Track>): LatLngBounds {
+    private fun GoogleMap.drawTracks(tracks: List<Track>): LatLngBounds? {
         var allPoints: List<LatLng> = emptyList()
         val boundsBuilder = LatLngBounds.Builder()
 
@@ -90,7 +93,7 @@ class MapController(private val context: Context, private val gpxId: Long): OnMa
             boundsBuilder.include(it)
         }
 
-        return boundsBuilder.build()
+        return if (allPoints.isNotEmpty()) boundsBuilder.build() else null
     }
 
     private fun GoogleMap.drawWaypoints(waypoints: List<Waypoint>) {

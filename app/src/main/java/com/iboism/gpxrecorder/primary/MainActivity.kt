@@ -14,7 +14,6 @@ import com.iboism.gpxrecorder.util.Keys
 import io.realm.Realm
 import io.realm.RealmList
 import kotlinx.android.synthetic.main.activity_main.*
-import java.util.*
 
 
 class MainActivity : AppCompatActivity(), RecordingConfiguratorModal.Listener {
