@@ -1,8 +1,5 @@
 package com.iboism.gpxrecorder.primary
 
-import android.support.design.internal.BaselineLayout
-import android.support.design.widget.BaseTransientBottomBar
-import android.support.design.widget.Snackbar
 import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
@@ -15,12 +12,14 @@ import com.iboism.gpxrecorder.R
 import com.iboism.gpxrecorder.model.GpxContent
 import com.iboism.gpxrecorder.model.Segment
 import com.iboism.gpxrecorder.util.*
+import io.reactivex.Single
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.Disposable
 import io.reactivex.schedulers.Schedulers
 import io.realm.RealmRecyclerViewAdapter
 import io.realm.OrderedRealmCollection
 import io.realm.Realm
+import java.util.concurrent.TimeUnit
 
 /**
  * Created by bradpatras on 6/15/18.
@@ -65,12 +64,20 @@ class GpxRecyclerViewAdapter(contentList: OrderedRealmCollection<GpxContent>) : 
     override fun onBindViewHolder(viewHolder: GpxViewHolder, position: Int) {
         val gpx = getItem(position) ?: return
         val context = viewHolder.rootView.context
+
         if (viewHolder.itemViewType == VIEW_TYPE_DELETED) {
-            val params = viewHolder.rootView.layoutParams
-            params.height = 0
-            viewHolder.rootView.layoutParams = params
+            viewHolder.contentView.visibility = View.GONE
+            viewHolder.deletedView.visibility = View.VISIBLE
+
+            viewHolder.deletedView.setOnClickListener {
+                unDeleteRow(viewHolder.adapterPosition)
+            }
+
             return
         }
+
+        viewHolder.contentView.visibility = View.VISIBLE
+        viewHolder.deletedView.visibility = View.GONE
 
         viewHolder.rootView.x = 0f
         viewHolder.dateView.text = DateTimeFormatHelper.toReadableString(gpx.date)
@@ -112,38 +119,37 @@ class GpxRecyclerViewAdapter(contentList: OrderedRealmCollection<GpxContent>) : 
         }
     }
 
-    fun unDeleteRow() {
-        val position = hiddenRowIndicies.removeAt(hiddenRowIndicies.lastIndex)
+    private fun unDeleteRow(position: Int) {
+        hiddenRowIndicies.remove(position)
         notifyItemChanged(position)
     }
 
     fun rowDismissed(position: Int) {
         hiddenRowIndicies.add(position)
         notifyItemChanged(position)
-        showUndoSnackbar()
+
+        Single.just(position)
+                .delay(3, TimeUnit.SECONDS)
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe { pos: Int ->
+                    if (hiddenRowIndicies.contains(pos)) deleteRow(pos)
+                }
     }
 
-    private fun showUndoSnackbar() {
-        val snackbar = snackbarProvider?.getSnackbar() ?: return
-        snackbar.setAction("UNDO", { _ -> unDeleteRow() })
-        snackbar.addCallback(UndoDeleteSnackbarCallback())
-        snackbar.show()
-    }
-
-    fun deleteRow() {
-        val position = hiddenRowIndicies[hiddenRowIndicies.lastIndex]
+    private fun deleteRow(position: Int) {
         Realm.getDefaultInstance().executeTransaction { realm ->
             val item = getItem(position) ?: return@executeTransaction
             deleted = Triple(position, realm.copyFromRealm(item), cachedPoints.removeAt(position))
             item.deleteFromRealm()
             notifyItemRemoved(position)
-            hiddenRowIndicies.removeAt(hiddenRowIndicies.lastIndex)
-                //notifyItemRangeChanged(position, data?.size ?: 0)
+            hiddenRowIndicies.remove(position)
         }
     }
 
     inner class GpxViewHolder(view: View?): RecyclerView.ViewHolder(view) {
         val rootView = view as View
+        val contentView = view?.findViewById(R.id.main_content_layout) as View
+        val deletedView = view?.findViewById(R.id.deleted_layout) as View
         val titleView = view?.findViewById(R.id.gpx_content_title) as TextView
         val dateView = view?.findViewById(R.id.gpx_content_date) as TextView
         val exportButton = view?.findViewById(R.id.gpx_content_export_button) as Button
@@ -155,6 +161,7 @@ class GpxRecyclerViewAdapter(contentList: OrderedRealmCollection<GpxContent>) : 
         var previewPointsLoader: Disposable? = null
 
         init {
+            deletedView.visibility = View.GONE
             exportProgressBar.isIndeterminate = true
             exportProgressBar.visibility = View.GONE
         }
@@ -178,15 +185,6 @@ class GpxRecyclerViewAdapter(contentList: OrderedRealmCollection<GpxContent>) : 
 
             exportProgressBar.visibility = if (loading) View.VISIBLE else View.GONE
             exportProgressBar.invalidate()
-        }
-    }
-
-    inner class UndoDeleteSnackbarCallback: Snackbar.Callback() {
-        override fun onDismissed(transientBottomBar: Snackbar?, event: Int) {
-            super.onDismissed(transientBottomBar, event)
-            if (event == BaseTransientBottomBar.BaseCallback.DISMISS_EVENT_TIMEOUT) {
-                deleteRow()
-            }
         }
     }
 }
