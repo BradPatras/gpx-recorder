@@ -24,13 +24,13 @@ import java.util.concurrent.TimeUnit
 /**
  * Created by bradpatras on 6/15/18.
  */
+private const val VIEW_TYPE_DELETED = 1
+
 class GpxRecyclerViewAdapter(contentList: OrderedRealmCollection<GpxContent>) : RealmRecyclerViewAdapter<GpxContent, GpxRecyclerViewAdapter.GpxViewHolder>(contentList, true) {
-    private val VIEW_TYPE_DELETED = 1
     private var fileHelper: FileHelper? = null
     private val pointLoadingThread = Schedulers.single()
-    private var deleted: Triple<Int, GpxContent?, List<LatLng>?>? = null
     private var cachedPoints = MutableList<List<LatLng>?>(contentList.size, { null })
-    private var hiddenRowIndicies: MutableList<Int> = mutableListOf()
+    private var hiddenRowIndices: MutableList<Int> = mutableListOf()
     var contentViewerOpener: ((gpxId: Long) -> Unit)? = null
     var snackbarProvider: SnackbarProvider? = null
 
@@ -43,7 +43,7 @@ class GpxRecyclerViewAdapter(contentList: OrderedRealmCollection<GpxContent>) : 
     }
 
     override fun getItemViewType(position: Int): Int {
-        return if (hiddenRowIndicies.contains(position)) VIEW_TYPE_DELETED else super.getItemViewType(position)
+        return if (hiddenRowIndices.contains(position)) VIEW_TYPE_DELETED else super.getItemViewType(position)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): GpxViewHolder {
@@ -120,29 +120,35 @@ class GpxRecyclerViewAdapter(contentList: OrderedRealmCollection<GpxContent>) : 
     }
 
     private fun unDeleteRow(position: Int) {
-        hiddenRowIndicies.remove(position)
+        hiddenRowIndices.remove(position)
         notifyItemChanged(position)
     }
 
     fun rowDismissed(position: Int) {
-        hiddenRowIndicies.add(position)
+        hiddenRowIndices.add(position)
         notifyItemChanged(position)
 
         Single.just(position)
                 .delay(3, TimeUnit.SECONDS)
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe { pos: Int ->
-                    if (hiddenRowIndicies.contains(pos)) deleteRow(pos)
+                    if (hiddenRowIndices.contains(pos)) deleteRow(pos)
                 }
     }
 
     private fun deleteRow(position: Int) {
         Realm.getDefaultInstance().executeTransaction { realm ->
             val item = getItem(position) ?: return@executeTransaction
-            deleted = Triple(position, realm.copyFromRealm(item), cachedPoints.removeAt(position))
+            cachedPoints.removeAt(position)
             item.deleteFromRealm()
-            notifyItemRemoved(position)
-            hiddenRowIndicies.remove(position)
+
+            if (position == 0) { // realm adapter inconsistency crash workaround https://github.com/realm/realm-dotnet/issues/1384
+                notifyDataSetChanged()
+            } else {
+                notifyItemRemoved(position)
+            }
+
+            hiddenRowIndices.remove(position)
         }
     }
 
