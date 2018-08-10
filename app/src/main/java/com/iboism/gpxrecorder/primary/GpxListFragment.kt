@@ -20,6 +20,9 @@ import io.realm.Sort
 import kotlinx.android.synthetic.main.fragment_gpx_list.*
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.helper.ItemTouchHelper
+import android.support.v7.widget.RecyclerView
+
+
 
 
 class GpxListFragment : Fragment() {
@@ -45,13 +48,13 @@ class GpxListFragment : Fragment() {
                     if (android.os.Build.VERSION.SDK_INT == android.os.Build.VERSION_CODES.M) {
                         fragmentManager.beginTransaction()
                                 .setCustomAnimations(android.R.anim.fade_in, android.R.anim.fade_out, android.R.anim.fade_in, android.R.anim.fade_out)
-                                .replace(R.id.content_container, configFragment)
+                                .add(R.id.content_container, configFragment)
                                 .addToBackStack(null)
                                 .commitAllowingStateLoss()
                     } else {
                         fragmentManager.beginTransaction()
                                 .setCustomAnimations(android.R.anim.fade_in, android.R.anim.fade_out, android.R.anim.fade_in, android.R.anim.fade_out)
-                                .replace(R.id.content_container, configFragment)
+                                .add(R.id.content_container, configFragment)
                                 .addToBackStack(null)
                                 .commit()
                     }
@@ -61,14 +64,9 @@ class GpxListFragment : Fragment() {
     private fun openContentViewer(gpxId: Long) {
         fragmentManager.beginTransaction()
                 .setCustomAnimations(R.anim.slide_in_right, android.R.anim.fade_out, R.anim.none, android.R.anim.slide_out_right)
-                .replace(R.id.content_container, GpxContentViewerFragment.newInstance(gpxId))
+                .add(R.id.content_container, GpxContentViewerFragment.newInstance(gpxId))
                 .addToBackStack("view")
                 .commit()
-    }
-
-    private fun listContentDeleted() {
-        val snackbar = Snackbar.make(fragment_gpx_list, "Item deleted", Snackbar.LENGTH_LONG)
-
     }
 
     override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?,
@@ -91,6 +89,17 @@ class GpxListFragment : Fragment() {
         this.listAdapter = adapter
 
         setPlaceholdersHidden(gpxContentList.isNotEmpty())
+
+        gpx_listView.addOnScrollListener(object : RecyclerView.OnScrollListener() {
+            override fun onScrolled(recyclerView: RecyclerView?, dx: Int, dy: Int) {
+                super.onScrolled(recyclerView, dx, dy)
+                if (dy > 0 && fab.visibility == View.VISIBLE) {
+                    fab.hide()
+                } else if (dy < 0 && fab.visibility != View.VISIBLE) {
+                    fab.show()
+                }
+            }
+        })
     }
 
     private fun setPlaceholdersHidden(hidden: Boolean) {

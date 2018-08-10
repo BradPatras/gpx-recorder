@@ -34,6 +34,8 @@ class GpxRecyclerViewAdapter(contentList: OrderedRealmCollection<GpxContent>) : 
     var contentViewerOpener: ((gpxId: Long) -> Unit)? = null
     var snackbarProvider: SnackbarProvider? = null
 
+
+
     init {
         setHasStableIds(true)
     }
@@ -88,7 +90,7 @@ class GpxRecyclerViewAdapter(contentList: OrderedRealmCollection<GpxContent>) : 
         viewHolder.distanceView.text = context.resources.getString(R.string.distance_km, distance)
 
         viewHolder.previewView.setLoading()
-        val previewPoints = cachedPoints[position]
+        val previewPoints = cachedPoints.getOrNull(position)
         if (previewPoints != null) {
             viewHolder.previewView.loadPoints(previewPoints)
         } else {
@@ -125,6 +127,8 @@ class GpxRecyclerViewAdapter(contentList: OrderedRealmCollection<GpxContent>) : 
     }
 
     fun rowDismissed(position: Int) {
+        if (hiddenRowIndices.contains(position)) return
+        
         hiddenRowIndices.add(position)
         notifyItemChanged(position)
 
@@ -141,12 +145,6 @@ class GpxRecyclerViewAdapter(contentList: OrderedRealmCollection<GpxContent>) : 
             val item = getItem(position) ?: return@executeTransaction
             cachedPoints.removeAt(position)
             item.deleteFromRealm()
-
-            if (position == 0) { // realm adapter inconsistency crash workaround https://github.com/realm/realm-dotnet/issues/1384
-                notifyDataSetChanged()
-            } else {
-                notifyItemRemoved(position)
-            }
 
             hiddenRowIndices.remove(position)
         }

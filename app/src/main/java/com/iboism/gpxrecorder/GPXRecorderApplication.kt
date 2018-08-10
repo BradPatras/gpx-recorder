@@ -21,13 +21,13 @@ class GPXRecorderApplication: Application() {
         Realm.init(applicationContext)
 
         val config = RealmConfiguration.Builder()
-                .schemaVersion(10)
-                .migration { realm, oldVersion, newVersion ->
-                    if (oldVersion < 10) {
-                        realm.schema.get("Waypoint")
-                                ?.addField("dist", Double::class.java)
-                    }
-                }
+//                .schemaVersion(10)
+//                .migration { realm, oldVersion, newVersion ->
+//                    if (oldVersion < 10) {
+//                        realm.schema.get("Waypoint")
+//                                ?.addField("dist", Double::class.java)
+//                    }
+//                }
                 .build()
 
         Realm.setDefaultConfiguration(config)

@@ -17,7 +17,6 @@
         android:dividerHeight="4dp"
         android:footerDividersEnabled="true"
         android:headerDividersEnabled="true"
-        android:paddingBottom="76dp"
         android:paddingTop="4dp"
         android:scrollbars="none"
         app:layout_constraintBottom_toBottomOf="parent"
