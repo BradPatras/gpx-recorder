@@ -4,6 +4,7 @@ import android.annotation.SuppressLint
 import android.content.Intent
 import android.os.Bundle
 import android.support.v4.view.GravityCompat
+import android.support.v7.app.AlertDialog
 import android.support.v7.app.AppCompatActivity
 import com.iboism.gpxrecorder.R
 import com.iboism.gpxrecorder.model.*
@@ -11,6 +12,7 @@ import com.iboism.gpxrecorder.navigation.NavigationHelper
 import com.iboism.gpxrecorder.recording.LocationRecorderService
 import com.iboism.gpxrecorder.recording.RecordingConfiguratorModal
 import com.iboism.gpxrecorder.util.Keys
+import com.iboism.gpxrecorder.util.getRealmInitFailure
 import io.realm.Realm
 import io.realm.RealmList
 import kotlinx.android.synthetic.main.activity_main.*
@@ -23,6 +25,11 @@ class MainActivity : AppCompatActivity(), RecordingConfiguratorModal.Listener {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+
+        if (applicationContext.getRealmInitFailure()) {
+            showSchemaFailure()
+            return
+        }
 
         if (savedInstanceState == null) {
             supportFragmentManager.beginTransaction()
@@ -66,6 +73,15 @@ class MainActivity : AppCompatActivity(), RecordingConfiguratorModal.Listener {
         }
     }
 
+    private fun showSchemaFailure() {
+        AlertDialog.Builder(this)
+                .setTitle(R.string.init_error_title)
+                .setMessage(R.string.init_error_message)
+                .setOnDismissListener {
+                    this.finishAfterTransition()
+                }.create()
+                .show()
+    }
     @SuppressLint("MissingPermission")
     private fun startRecording(configuration: RecordingConfiguration) {
 

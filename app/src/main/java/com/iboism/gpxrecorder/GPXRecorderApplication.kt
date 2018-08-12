@@ -1,15 +1,16 @@
 package com.iboism.gpxrecorder
 
 import android.app.Application
-import android.content.Intent
-import com.iboism.gpxrecorder.recording.LocationRecorderService
-import io.realm.Realm
-import io.realm.RealmConfiguration
-import android.app.NotificationManager
 import android.app.NotificationChannel
+import android.app.NotificationManager
 import android.os.Build
 import android.support.annotation.RequiresApi
+import com.iboism.gpxrecorder.model.Schema
 import com.iboism.gpxrecorder.recording.CHANNEL_ID
+import com.iboism.gpxrecorder.util.setRealmInitFailure
+import io.realm.Realm
+import io.realm.exceptions.RealmException
+
 
 /**
  * Created by Brad on 11/18/2017.
@@ -18,24 +19,23 @@ class GPXRecorderApplication: Application() {
 
     override fun onCreate() {
         super.onCreate()
-        Realm.init(applicationContext)
 
-        val config = RealmConfiguration.Builder()
-//                .schemaVersion(10)
-//                .migration { realm, oldVersion, newVersion ->
-//                    if (oldVersion < 10) {
-//                        realm.schema.get("Waypoint")
-//                                ?.addField("dist", Double::class.java)
-//                    }
-//                }
-                .build()
-
-        Realm.setDefaultConfiguration(config)
-        Realm.getDefaultInstance()
+        try {
+            initializeRealm()
+            applicationContext.setRealmInitFailure(false)
+        } catch (e: RealmException) {
+            applicationContext.setRealmInitFailure(true)
+        }
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             createNotificationChannel()
         }
+    }
+
+    private fun initializeRealm() {
+        Realm.init(applicationContext)
+        Realm.setDefaultConfiguration(Schema.configuration())
+        Realm.getDefaultInstance()
     }
 
     @RequiresApi(Build.VERSION_CODES.O)

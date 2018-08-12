@@ -58,4 +58,6 @@
     <string name="channel_name" translatable="false">Recording</string>
     <string name="channel_description" translatable="false">Control current recording session</string>
     <string name="edit_title_content_description" translatable="false">Edit title</string>
+    <string name="init_error_title" translatable="false">Initialization Error</string>
+    <string name="init_error_message" translatable="false">Failed to initialize local database. Please check application file permissions and try again. \n\nIf this problem persists, contact the developer. \n\nappdev.iboism@gmail.com</string>
 </resources>
