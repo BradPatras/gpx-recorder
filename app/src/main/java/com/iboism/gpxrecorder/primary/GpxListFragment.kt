@@ -2,7 +2,6 @@ package com.iboism.gpxrecorder.primary
 
 
 import android.os.Bundle
-import android.support.design.widget.Snackbar
 import android.support.v4.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -86,6 +85,8 @@ class GpxListFragment : Fragment() {
         gpx_listView.layoutManager = LinearLayoutManager(view.context)
         gpx_listView.adapter = adapter
         gpx_listView.setHasFixedSize(true)
+        gpx_listView.isDrawingCacheEnabled = true
+        gpx_listView.drawingCacheQuality = View.DRAWING_CACHE_QUALITY_HIGH
         this.listAdapter = adapter
 
         setPlaceholdersHidden(gpxContentList.isNotEmpty())
