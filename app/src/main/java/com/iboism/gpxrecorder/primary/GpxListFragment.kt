@@ -90,6 +90,7 @@ class GpxListFragment : Fragment() {
         this.listAdapter = adapter
 
         setPlaceholdersHidden(gpxContentList.isNotEmpty())
+        gpxContentList.addChangeListener(gpxChangeListener)
 
         gpx_listView.addOnScrollListener(object : RecyclerView.OnScrollListener() {
             override fun onScrolled(recyclerView: RecyclerView?, dx: Int, dy: Int) {
