@@ -1,13 +1,6 @@
 package com.iboism.gpxrecorder.analysis
 
-import android.graphics.PointF
-import com.iboism.gpxrecorder.model.Segment
 import com.iboism.gpxrecorder.model.TrackPoint
-import io.reactivex.Single
-import io.reactivex.android.schedulers.AndroidSchedulers
-import io.reactivex.schedulers.Schedulers
-import io.realm.Realm
-import io.realm.RealmList
 
 /**
  * Created by bradpatras on 12/20/17.

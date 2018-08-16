@@ -5,7 +5,6 @@ import com.iboism.gpxrecorder.R
 import com.iboism.gpxrecorder.model.GpxContent
 import io.reactivex.Single
 import io.reactivex.schedulers.Schedulers
-import io.realm.Realm
 import org.apache.commons.io.FileUtils
 import org.apache.commons.io.IOUtils
 import java.io.File

@@ -3,8 +3,6 @@ package com.iboism.gpxrecorder.util
 import android.app.AlertDialog
 import android.content.Context
 import android.content.DialogInterface
-import android.support.v4.content.ContextCompat
-import android.support.v4.content.res.ResourcesCompat
 import com.iboism.gpxrecorder.R
 
 /**

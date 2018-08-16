@@ -5,7 +5,6 @@ import com.iboism.gpxrecorder.analysis.Distance
 import com.iboism.gpxrecorder.util.UUIDHelper
 import io.reactivex.Scheduler
 import io.reactivex.Single
-import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 import io.realm.Realm
 import io.realm.RealmList

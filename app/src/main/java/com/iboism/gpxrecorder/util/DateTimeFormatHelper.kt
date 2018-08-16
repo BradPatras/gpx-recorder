@@ -1,7 +1,6 @@
 package com.iboism.gpxrecorder.util
 
 import java.text.SimpleDateFormat
-import java.time.Instant
 import java.util.*
 
 /**
