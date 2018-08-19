@@ -8,6 +8,8 @@ apply plugin: 'realm-android'
 
 apply plugin: 'kotlin-kapt'
 
+apply plugin: 'io.fabric'
+
 android {
     compileSdkVersion 26
     defaultConfig {
@@ -37,6 +39,7 @@ dependencies {
     implementation 'com.android.support:design:26.1.0'
     implementation 'com.android.support.constraint:constraint-layout:1.1.0'
     implementation 'com.google.android.gms:play-services-maps:15.0.0'
+    implementation 'com.crashlytics.sdk.android:crashlytics:2.9.3'
 
     implementation 'com.karumi:dexter:4.2.0'
     implementation group: 'commons-io', name: 'commons-io', version: '2.6'
