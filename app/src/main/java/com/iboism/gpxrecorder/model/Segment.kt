@@ -42,11 +42,14 @@ open class Segment(
         return Single.just(identifier)
                 .subscribeOn(thread)
                 .map {
-                    return@map Realm.getDefaultInstance()
+                    val realm = Realm.getDefaultInstance()
+                    val pts = Realm.getDefaultInstance()
                             .where(Segment::class.java)
                             .equalTo(primaryKey, identifier)
                             .findFirst()
                             ?.points ?: emptyList<TrackPoint>()
+                    realm.close()
+                    return@map pts
                 }.map {
                     return@map it.map { LatLng(it.lat,it.lon) }
                 }

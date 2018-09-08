@@ -19,16 +19,13 @@ class CreateWaypointService : BroadcastReceiver()  {
         val (gpxId, title, note) = harvestParameters(intent) ?: return
 
         createWaypoint(LocationResult.extractResult(intent), title, note)?.let { waypoint ->
-
-            Realm.getDefaultInstance().executeTransaction {
-                val gpxContent = it.where(GpxContent::class.java)
-                        .equalTo(GpxContent.primaryKey, gpxId)
-                        .findFirst()
+            val realm = Realm.getDefaultInstance()
+            realm.executeTransaction {
+                val gpxContent = GpxContent.withId(gpxId, it)
                 waypoint.dist = gpxContent?.trackList?.first()?.segments?.first()?.distance?.toDouble() ?: 0.0
                 gpxContent?.waypointList?.add(waypoint)
-
-
             }
+            realm.close()
         }
     }
 
@@ -51,7 +48,6 @@ class CreateWaypointService : BroadcastReceiver()  {
         fun startServiceIntent(context: Context, gpxId: Long, title: String, note: String): Intent {
             return Intent(context, CreateWaypointService::class.java)
                     .setData(serializeParameters(gpxId, title, note))
-
         }
 
         private fun serializeParameters(gpxId: Long, title: String, note: String): Uri {

@@ -35,6 +35,7 @@ class GPXRecorderApplication: Application() {
     private fun initializeRealm() {
         Realm.init(applicationContext)
         Realm.setDefaultConfiguration(Schema.configuration())
+        Realm.getDefaultConfiguration()?.let { Realm.compactRealm(it) }
         Realm.getDefaultInstance()
     }
 

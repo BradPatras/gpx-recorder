@@ -93,11 +93,13 @@ class GpxContentViewerFragment : Fragment() {
     }
 
     private fun updateGpxTitle(newTitle: String) {
-        Realm.getDefaultInstance().executeTransaction {realm ->
+        val realm = Realm.getDefaultInstance()
+        realm.executeTransaction {itRealm ->
             gpxId?.let {
-                GpxContent.withId(it, realm)?.title = newTitle
+                GpxContent.withId(it, itRealm)?.title = newTitle
             }
         }
+        realm.close()
     }
 
     // todo look into switching to MapFragment so I don't have to do these

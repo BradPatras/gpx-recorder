@@ -84,11 +84,12 @@ class MainActivity : AppCompatActivity(), RecordingConfiguratorModal.Listener {
     }
     @SuppressLint("MissingPermission")
     private fun startRecording(configuration: RecordingConfiguration) {
-
         val newGpx = GpxContent(title = configuration.title, trackList = RealmList(Track(segments = RealmList(Segment()))))
-        Realm.getDefaultInstance().executeTransaction {
-            Realm.getDefaultInstance().copyToRealm(newGpx)
+        val realm = Realm.getDefaultInstance()
+        realm.executeTransaction {
+            it.copyToRealm(newGpx)
         }
+        realm.close()
 
         val intent = Intent(this@MainActivity, LocationRecorderService::class.java)
         intent.putExtra(Keys.GpxId, newGpx.identifier)

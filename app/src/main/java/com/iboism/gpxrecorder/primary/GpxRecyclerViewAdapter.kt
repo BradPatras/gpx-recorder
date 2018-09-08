@@ -84,7 +84,6 @@ class GpxRecyclerViewAdapter(contentList: OrderedRealmCollection<GpxContent>) : 
                             }
                 }
             }
-
         }
 
         return holder
@@ -154,11 +153,13 @@ class GpxRecyclerViewAdapter(contentList: OrderedRealmCollection<GpxContent>) : 
     }
 
     private fun deleteRow(identifier: Long) {
-        Realm.getDefaultInstance().executeTransaction { _ ->
+        val realm = Realm.getDefaultInstance()
+        realm.executeTransaction { _ ->
             data?.where()?.equalTo(GpxContent.primaryKey, identifier)?.findFirst()?.deleteFromRealm()
             previewLoaders.remove(identifier)?.dispose()
             hiddenRowIdentifiers.remove(identifier)
         }
+        realm.close()
     }
 
     inner class GpxViewHolder(view: View?): RecyclerView.ViewHolder(view) {

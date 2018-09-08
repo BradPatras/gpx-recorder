@@ -46,6 +46,7 @@ class LocationRecorderService : Service() {
     override fun onDestroy() {
         super.onDestroy()
         fusedLocation.removeLocationUpdates(locationCallback)
+        Realm.getDefaultConfiguration()?.let{ Realm.compactRealm(it) }
         stopForeground(true)
     }
 
@@ -110,12 +111,13 @@ class LocationRecorderService : Service() {
     private fun onLocationChanged(location: Location?) {
         location?.let { loc ->
             if (loc.accuracy > 40) return
-
-            Realm.getDefaultInstance().executeTransaction {
+            val realm = Realm.getDefaultInstance()
+            realm.executeTransaction {
                 val trkpt = TrackPoint(lat = loc.latitude, lon = loc.longitude, ele = loc.altitude)
-                val gpx = GpxContent.withId(gpxId)
+                val gpx = GpxContent.withId(gpxId, it)
                 gpx?.trackList?.last()?.segments?.last()?.addPoint(trkpt)
             }
+            realm.close()
         }
     }
 
