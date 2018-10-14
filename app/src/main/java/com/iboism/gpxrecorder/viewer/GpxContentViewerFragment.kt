@@ -25,13 +25,13 @@ class GpxContentViewerFragment : Fragment() {
         gpxId = arguments?.get(Keys.GpxId) as? Long
     }
 
-    override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?,
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
 
-        return inflater?.inflate(R.layout.fragment_gpx_content_viewer, container, false)
+        return inflater.inflate(R.layout.fragment_gpx_content_viewer, container, false)
     }
 
-    override fun onViewCreated(view: View?, savedInstanceState: Bundle?) {
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         // Can't do anything if we don't have an Id and corresponding gpxContent //TODO handle invalid state
         val gpxId = gpxId ?: return
@@ -51,7 +51,7 @@ class GpxContentViewerFragment : Fragment() {
 
         map_view?.let {
             it.onCreate(savedInstanceState)
-            val mapController = MapController(context, gpxId)
+            val mapController = MapController(it.context, gpxId)
             it.viewTreeObserver.addOnGlobalLayoutListener(mapController)
             it.getMapAsync(mapController)
         }
@@ -131,7 +131,7 @@ class GpxContentViewerFragment : Fragment() {
         map_view?.onStart()
     }
 
-    override fun onSaveInstanceState(outState: Bundle?) {
+    override fun onSaveInstanceState(outState: Bundle) {
         map_view?.onSaveInstanceState(outState)
         super.onSaveInstanceState(outState)
     }

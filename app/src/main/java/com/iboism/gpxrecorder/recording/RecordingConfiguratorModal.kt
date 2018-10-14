@@ -22,18 +22,18 @@ class RecordingConfiguratorModal : Fragment() {
                               savedInstanceState: Bundle?): View? {
 
         return inflater.inflate(R.layout.config_dialog, container, false)?.apply {
-            val originX = arguments.getInt(REVEAL_ORIGIN_X_KEY)
-            val originY = arguments.getInt(REVEAL_ORIGIN_Y_KEY)
+            val originX = arguments?.getInt(REVEAL_ORIGIN_X_KEY) ?: return@apply
+            val originY = arguments?.getInt(REVEAL_ORIGIN_Y_KEY) ?: return@apply
             this.circularRevealOnNextLayout(originX, originY)
 
             configuratorView = RecordingConfiguratorView(this)
-            configuratorView.doneButton.setOnClickListener {
+            configuratorView.doneButton.setOnClickListener { _ ->
                 listener?.configurationCreated (
                         RecordingConfiguration(
                                 title = configuratorView.titleEditText.text.toString().takeIf { it.isNotEmpty() } ?: "Untitled",
                                 interval = configuratorView.actualInterval().toLong()
                         ))
-                this@RecordingConfiguratorModal.fragmentManager.popBackStack()
+                this@RecordingConfiguratorModal.fragmentManager?.popBackStack()
             }
         }
     }

@@ -68,7 +68,7 @@ class GpxRecyclerViewAdapter(contentList: OrderedRealmCollection<GpxContent>) : 
                 contentViewerOpener?.invoke(holder.itemId)
             }
 
-            holder.exportButton.setOnClickListener {
+            holder.exportButton.setOnClickListener { _ ->
                 fileHelper?.let {
                     holder.setExportLoading(true)
                     it.gpxFileWith(holder.itemId)
@@ -89,11 +89,9 @@ class GpxRecyclerViewAdapter(contentList: OrderedRealmCollection<GpxContent>) : 
         return holder
     }
 
-    override fun onViewDetachedFromWindow(holder: GpxViewHolder?) {
-        holder?.itemId?.let {
-            previewLoaders[it]?.dispose()
-            previewLoaders[it] = null
-        }
+    override fun onViewDetachedFromWindow(holder: GpxViewHolder) {
+        previewLoaders[holder.itemId]?.dispose()
+        previewLoaders[holder.itemId] = null
 
         super.onViewDetachedFromWindow(holder)
     }
@@ -162,17 +160,17 @@ class GpxRecyclerViewAdapter(contentList: OrderedRealmCollection<GpxContent>) : 
         realm.close()
     }
 
-    inner class GpxViewHolder(view: View?): RecyclerView.ViewHolder(view) {
-        val rootView = view as View
-        val contentView = view?.findViewById(R.id.main_content_layout) as View
-        val deletedView = view?.findViewById(R.id.deleted_layout) as View
-        val titleView = view?.findViewById(R.id.gpx_content_title) as TextView
-        val dateView = view?.findViewById(R.id.gpx_content_date) as TextView
-        val exportButton = view?.findViewById(R.id.gpx_content_export_button) as Button
-        val distanceView = view?.findViewById(R.id.gpx_content_distance) as TextView
-        val waypointCountView = view?.findViewById(R.id.gpx_content_waypoint_count) as TextView
-        val exportProgressBar = view?.findViewById(R.id.gpx_content_export_progress_bar) as ProgressBar
-        var previewView = view?.findViewById(R.id.preview_view) as PathPreviewView
+    inner class GpxViewHolder(view: View): RecyclerView.ViewHolder(view) {
+        val rootView = view
+        val contentView = view.findViewById(R.id.main_content_layout) as View
+        val deletedView = view.findViewById(R.id.deleted_layout) as View
+        val titleView = view.findViewById(R.id.gpx_content_title) as TextView
+        val dateView = view.findViewById(R.id.gpx_content_date) as TextView
+        val exportButton = view.findViewById(R.id.gpx_content_export_button) as Button
+        val distanceView = view.findViewById(R.id.gpx_content_distance) as TextView
+        val waypointCountView = view.findViewById(R.id.gpx_content_waypoint_count) as TextView
+        val exportProgressBar = view.findViewById(R.id.gpx_content_export_progress_bar) as ProgressBar
+        var previewView = view.findViewById(R.id.preview_view) as PathPreviewView
 
         init {
             deletedView.visibility = View.GONE

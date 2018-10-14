@@ -25,7 +25,7 @@ import android.support.v7.widget.RecyclerView
 
 
 class GpxListFragment : Fragment() {
-    private val permissionHelper: PermissionHelper by lazy { PermissionHelper.getInstance(this.activity) }
+    private val permissionHelper: PermissionHelper by lazy { PermissionHelper.getInstance(this.activity!!) }
     private val placeholderViews = listOf(R.id.placeholder_menu_icon, R.id.placeholder_menu_text, R.id.placeholder_routes_text, R.id.placeholder_routes_icon)
     private val gpxContentList = Realm.getDefaultInstance().where(GpxContent::class.java).findAll().sort("date", Sort.DESCENDING)
     private var listAdapter: GpxRecyclerViewAdapter? = null
@@ -45,32 +45,31 @@ class GpxListFragment : Fragment() {
 
                     // marshmallow bug workaround https://issuetracker.google.com/issues/37067655
                     if (android.os.Build.VERSION.SDK_INT == android.os.Build.VERSION_CODES.M) {
-                        fragmentManager.beginTransaction()
-                                .setCustomAnimations(android.R.anim.fade_in, android.R.anim.fade_out, android.R.anim.fade_in, android.R.anim.fade_out)
-                                .add(R.id.content_container, configFragment)
-                                .addToBackStack(null)
-                                .commitAllowingStateLoss()
+                        fragmentManager?.beginTransaction()
+                                ?.setCustomAnimations(android.R.anim.fade_in, android.R.anim.fade_out, android.R.anim.fade_in, android.R.anim.fade_out)
+                                ?.add(R.id.content_container, configFragment)
+                                ?.addToBackStack(null)
+                                ?.commitAllowingStateLoss()
                     } else {
-                        fragmentManager.beginTransaction()
-                                .setCustomAnimations(android.R.anim.fade_in, android.R.anim.fade_out, android.R.anim.fade_in, android.R.anim.fade_out)
-                                .add(R.id.content_container, configFragment)
-                                .addToBackStack(null)
-                                .commit()
+                        fragmentManager?.beginTransaction()
+                                ?.setCustomAnimations(android.R.anim.fade_in, android.R.anim.fade_out, android.R.anim.fade_in, android.R.anim.fade_out)
+                                ?.add(R.id.content_container, configFragment)
+                                ?.addToBackStack(null)
+                                ?.commit()
                     }
                 })
     }
 
     private fun openContentViewer(gpxId: Long) {
-        fragmentManager.beginTransaction()
-                .setCustomAnimations(R.anim.slide_in_right, android.R.anim.fade_out, R.anim.none, android.R.anim.slide_out_right)
-                .add(R.id.content_container, GpxContentViewerFragment.newInstance(gpxId))
-                .addToBackStack("view")
-                .commit()
+        fragmentManager?.beginTransaction()
+                ?.setCustomAnimations(R.anim.slide_in_right, android.R.anim.fade_out, R.anim.none, android.R.anim.slide_out_right)
+                ?.add(R.id.content_container, GpxContentViewerFragment.newInstance(gpxId))
+                ?.addToBackStack("view")
+                ?.commit()
     }
 
-    override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?,
-                              savedInstanceState: Bundle?): View? {
-        return inflater?.inflate(R.layout.fragment_gpx_list, container, false)
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+        return inflater.inflate(R.layout.fragment_gpx_list, container, false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -93,7 +92,7 @@ class GpxListFragment : Fragment() {
         gpxContentList.addChangeListener(gpxChangeListener)
 
         gpx_listView.addOnScrollListener(object : RecyclerView.OnScrollListener() {
-            override fun onScrolled(recyclerView: RecyclerView?, dx: Int, dy: Int) {
+            override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
                 super.onScrolled(recyclerView, dx, dy)
                 if (dy > 0 && fab.visibility == View.VISIBLE) {
                     fab.hide()
