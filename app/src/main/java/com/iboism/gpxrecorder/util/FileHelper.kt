@@ -5,9 +5,11 @@ import com.iboism.gpxrecorder.R
 import com.iboism.gpxrecorder.model.GpxContent
 import io.reactivex.Single
 import io.reactivex.schedulers.Schedulers
+import io.realm.Realm
 import org.apache.commons.io.FileUtils
 import org.apache.commons.io.IOUtils
 import java.io.File
+import java.lang.Exception
 import java.nio.charset.StandardCharsets
 
 
@@ -28,8 +30,13 @@ class FileHelper(var context: Context) {
         exporting = gpxContentId
         return Single.just(gpxContentId)
                 .observeOn(Schedulers.io())
-                .map { GpxContent.withId(it) }
-                .map(this::writeGpxToFile)
+                .map {
+                    val realm = Realm.getDefaultInstance()
+                    val gpx = GpxContent.withId(it, realm) ?: throw Exception()
+                    val file = writeGpxToFile(gpx)
+                    realm.close()
+                    return@map file
+                }
                 .doFinally { exporting = null }
     }
 

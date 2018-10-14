@@ -35,7 +35,8 @@ class GpxContentViewerFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         // Can't do anything if we don't have an Id and corresponding gpxContent //TODO handle invalid state
         val gpxId = gpxId ?: return
-        val gpxContent = GpxContent.withId(gpxId) ?: return
+        val realm = Realm.getDefaultInstance()
+        val gpxContent = GpxContent.withId(gpxId, realm) ?: return
 
         title_et.append(gpxContent.title)
         title_et.isEnabled = false
@@ -52,6 +53,7 @@ class GpxContentViewerFragment : Fragment() {
 
         map_view?.onCreate(savedInstanceState)
         map_view?.getMapAsync(MapController(context, gpxId))
+        realm.close()
     }
 
     private fun editTitle(sender: View) {
