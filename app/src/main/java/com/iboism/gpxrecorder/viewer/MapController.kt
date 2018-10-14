@@ -18,24 +18,45 @@ import android.graphics.Canvas
 import android.support.v4.content.res.ResourcesCompat
 import android.support.annotation.DrawableRes
 import android.support.v4.content.ContextCompat
+import android.view.ViewTreeObserver
 import com.google.android.gms.maps.model.BitmapDescriptor
 import com.google.android.gms.maps.model.LatLngBounds
+import io.realm.Realm
 
 
 /**
  * Created by Brad on 2/26/2018.
  */
 
-class MapController(private val context: Context, private val gpxId: Long): OnMapReadyCallback {
+class MapController(private val context: Context, private val gpxId: Long): OnMapReadyCallback, ViewTreeObserver.OnGlobalLayoutListener {
+    private var isMapReady = false
+    private var isLayoutReady = false
+    private var isMapSetup = false
+    private var map: GoogleMap? = null
 
-    override fun onMapReady(map: GoogleMap?) {
-        if (map == null) return // take no action if a map was not created
+    private fun setupMapIfNeeded() {
+        if (!isMapReady || !isLayoutReady || isMapSetup) return
+        val map = map ?: return
+        isMapSetup = true
 
         MapsInitializer.initialize(context)
         map.uiSettings.isMyLocationButtonEnabled = false
         map.uiSettings.isCompassEnabled = true
         map.mapType = GoogleMap.MAP_TYPE_TERRAIN
-        GpxContent.withId(gpxId)?.let { map.drawContent(it) }
+        val realm = Realm.getDefaultInstance()
+        GpxContent.withId(gpxId, realm)?.let { map.drawContent(it) }
+        realm.close()
+    }
+
+    override fun onGlobalLayout() {
+        isLayoutReady = true
+        setupMapIfNeeded()
+    }
+
+    override fun onMapReady(map: GoogleMap?) {
+        isMapReady = true
+        this.map = map
+        setupMapIfNeeded()
     }
 
     private fun GoogleMap.drawContent(gpx: GpxContent) {

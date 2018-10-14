@@ -19,9 +19,9 @@ class Schema {
                             realm.schema.get("Waypoint")
                                     ?.addField("dist", Double::class.java)
                             realm.schema.get("Waypoint")
-                                    ?.transform({ obj ->
+                                    ?.transform { obj ->
                                         obj.setDouble("dist", 0.0)
-                                    })
+                                    }
                             version = 10L
                         }
 
