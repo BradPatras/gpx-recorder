@@ -92,6 +92,7 @@ class MainActivity : AppCompatActivity(), RecordingConfiguratorModal.Listener {
         realm.close()
 
         val intent = Intent(this@MainActivity, LocationRecorderService::class.java)
+        intent.putExtra(Keys.StartService, true)
         intent.putExtra(Keys.GpxId, newGpx.identifier)
         intent.putExtra(RecordingConfiguration.configKey, configuration.toBundle())
 
