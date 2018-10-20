@@ -7,8 +7,14 @@ package com.iboism.gpxrecorder.util
 class Keys {
     companion object {
         const val GpxId = "kgpxid"
+
+        // Service Commands
         const val StopService = "kStopService"
         const val PauseService = "kPauseService"
         const val ResumeService = "kResumeService"
+        const val StartService = "kStartService"
+
+        // Analytics
+        const val ServiceReceivedCommand = "service_received_command"
     }
 }
