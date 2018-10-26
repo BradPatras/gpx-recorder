@@ -32,7 +32,6 @@ class GpxRecyclerViewAdapter(contentList: OrderedRealmCollection<GpxContent>) : 
 
     private var hiddenRowIdentifiers: MutableList<Long> = mutableListOf()
     var contentViewerOpener: ((gpxId: Long) -> Unit)? = null
-    var snackbarProvider: SnackbarProvider? = null
 
     private var cachedPoints = mutableMapOf<Long, List<LatLng>?>()
     private var previewLoaders = mutableMapOf<Long, Disposable?>()
@@ -69,19 +68,11 @@ class GpxRecyclerViewAdapter(contentList: OrderedRealmCollection<GpxContent>) : 
             }
 
             holder.exportButton.setOnClickListener { _ ->
-                fileHelper?.let {
+                fileHelper?.apply {
                     holder.setExportLoading(true)
-                    it.gpxFileWith(holder.itemId)
-                            .observeOn(AndroidSchedulers.mainThread())
-                            .subscribe { file, error ->
-                                if (error != null) {
-                                    holder.setExportLoading(false)
-                                    Alerts(parent.context).genericError(R.string.file_share_failed).show()
-                                } else {
-                                    ShareHelper(it.context).shareFile(file)
-                                    holder.setExportLoading(false)
-                                }
-                            }
+                    shareGpxFile(holder.itemId).subscribe {
+                        holder.setExportLoading(false)
+                    }
                 }
             }
         }
@@ -142,7 +133,7 @@ class GpxRecyclerViewAdapter(contentList: OrderedRealmCollection<GpxContent>) : 
         hiddenRowIdentifiers.add(identifier)
         notifyItemChanged(position)
 
-        Single.just(identifier)
+        val delayedDelete = Single.just(identifier)
                 .delay(3, TimeUnit.SECONDS)
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe { id: Long ->

@@ -77,7 +77,6 @@ class GpxListFragment : Fragment() {
 
         fab.setOnClickListener(this::onFabClicked)
         val adapter = GpxRecyclerViewAdapter(gpxContentList)
-        adapter.snackbarProvider = SnackbarProvider(fragment_gpx_list)
         adapter.contentViewerOpener = this::openContentViewer
 
         ItemTouchHelper(GpxListSwipeHandler(adapter::rowDismissed)).attachToRecyclerView(gpx_listView)

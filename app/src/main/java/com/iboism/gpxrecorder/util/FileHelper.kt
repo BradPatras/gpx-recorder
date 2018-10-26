@@ -3,7 +3,10 @@ package com.iboism.gpxrecorder.util
 import android.content.Context
 import com.iboism.gpxrecorder.R
 import com.iboism.gpxrecorder.model.GpxContent
+import io.reactivex.Completable
 import io.reactivex.Single
+import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.disposables.Disposable
 import io.reactivex.schedulers.Schedulers
 import io.realm.Realm
 import org.apache.commons.io.FileUtils
@@ -38,6 +41,16 @@ class FileHelper(var context: Context) {
                     return@map file
                 }
                 .doFinally { exporting = null }
+    }
+
+    fun shareGpxFile(gpxContentId: Long): Completable {
+        return gpxFileWith(gpxContentId)
+                .observeOn(AndroidSchedulers.mainThread())
+                .map { file ->
+                    ShareHelper(context).shareFile(file)
+                }.doOnError { _ ->
+                    Alerts(context).genericError(R.string.file_share_failed).show()
+                }.ignoreElement()
     }
 
     private fun getGpxStub(): String {
