@@ -1,7 +1,7 @@
 package com.iboism.gpxrecorder.model
 
 import com.google.android.gms.maps.model.LatLng
-import com.iboism.gpxrecorder.analysis.Distance
+import com.iboism.gpxrecorder.util.Distance
 import com.iboism.gpxrecorder.util.UUIDHelper
 import io.reactivex.Scheduler
 import io.reactivex.Single

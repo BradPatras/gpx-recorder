@@ -1,4 +1,4 @@
-package com.iboism.gpxrecorder.util
+package com.iboism.gpxrecorder.extensions
 
 /**
  * Created by bradpatras on 4/30/18.

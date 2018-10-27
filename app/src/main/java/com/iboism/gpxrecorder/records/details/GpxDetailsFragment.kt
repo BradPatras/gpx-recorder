@@ -1,4 +1,4 @@
-package com.iboism.gpxrecorder.viewer
+package com.iboism.gpxrecorder.records.details
 
 
 import android.os.Bundle
@@ -6,23 +6,28 @@ import android.support.v4.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageButton
 import com.iboism.gpxrecorder.R
 import com.iboism.gpxrecorder.model.GpxContent
 import com.iboism.gpxrecorder.util.*
-import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
+import io.reactivex.functions.Consumer
 import io.realm.Realm
 import kotlinx.android.synthetic.main.fragment_gpx_content_viewer.*
 
 
-class GpxContentViewerFragment : Fragment() {
-
+class GpxDetailsFragment : Fragment() {
+    private lateinit var detailsView: GpxDetailsView
     private var gpxId: Long? = null
-    private var savedText: String = ""
     private var fileHelper: FileHelper? = null
     private val compositeDisposable = CompositeDisposable()
 
+    var gpxTitleConsumer: Consumer<in String> = Consumer {
+        updateGpxTitle(it)
+    }
+
+    private val exportTouchConsumer = Consumer<Unit> {
+        exportPressed()
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -43,14 +48,19 @@ class GpxContentViewerFragment : Fragment() {
         val gpxContent = GpxContent.withId(gpxId, realm) ?: return
         fileHelper = FileHelper(view.context)
 
-        title_et.append(gpxContent.title)
-        title_et.isEnabled = false
-        title_edit_btn.setOnClickListener { editPressed() }
-        export_btn.setOnClickListener { exportPressed() }
+
         val distance = gpxContent.trackList.first()?.segments?.first()?.distance ?: 0f
-        distance_tv.text = resources.getString(R.string.distance_km, distance)
-        waypoint_tv.text = resources.getQuantityString(R.plurals.waypoint_count, gpxContent.waypointList.size, gpxContent.waypointList.size)
-        date_tv.text = DateTimeFormatHelper.toReadableString(gpxContent.date)
+
+        detailsView = GpxDetailsView(
+                root = detail_root,
+                titleText = gpxContent.title,
+                distanceText = resources.getString(R.string.distance_km, distance),
+                dateText = DateTimeFormatHelper.toReadableString(gpxContent.date),
+                waypointsText = resources.getQuantityString(R.plurals.waypoint_count, gpxContent.waypointList.size, gpxContent.waypointList.size)
+        )
+
+        compositeDisposable.add(detailsView.gpxTitleObservable.subscribe(gpxTitleConsumer))
+        compositeDisposable.add(detailsView.exportTouchObservable.subscribe(exportTouchConsumer))
 
         realm.close()
 
@@ -60,41 +70,6 @@ class GpxContentViewerFragment : Fragment() {
             it.viewTreeObserver.addOnGlobalLayoutListener(mapController)
             it.getMapAsync(mapController)
         }
-    }
-
-    private fun editPressed() {
-        title_et.isEnabled = true
-        title_et.isFocusableInTouchMode = true
-        title_et.requestFocusFromTouch()
-        title_et.setBackgroundResource(R.drawable.rect_rounded_grey)
-        savedText = title_et.text.toString()
-        title_edit_btn.setOnClickListener { applyPressed() }
-        title_edit_btn.setImageResource(R.drawable.ic_check)
-        export_btn.setOnClickListener { cancelPressed() }
-        export_btn.setImageResource(R.drawable.ic_close)
-    }
-
-    private fun applyPressed() {
-        title_et.isEnabled = false
-        title_et.clearFocus()
-        title_et.setBackgroundResource(R.color.transparent)
-        title_edit_btn.setOnClickListener { editPressed() }
-        title_edit_btn.setImageResource(R.drawable.ic_edit)
-        export_btn.setOnClickListener { exportPressed() }
-        export_btn.setImageResource(R.drawable.ic_open_in)
-        updateGpxTitle(title_et.text.toString())
-    }
-
-    private fun cancelPressed() {
-        title_et.isEnabled = false
-        title_et.clearFocus()
-        title_et.setBackgroundResource(R.color.transparent)
-        title_et.setText("")
-        title_et.append(savedText)
-        title_edit_btn.setOnClickListener { editPressed() }
-        title_edit_btn.setImageResource(R.drawable.ic_edit)
-        export_btn.setOnClickListener { exportPressed() }
-        export_btn.setImageResource(R.drawable.ic_open_in)
     }
 
     private fun exportPressed() {
@@ -158,11 +133,11 @@ class GpxContentViewerFragment : Fragment() {
     }
 
     companion object {
-        fun newInstance(gpxId: Long): GpxContentViewerFragment {
+        fun newInstance(gpxId: Long): GpxDetailsFragment {
             val args = Bundle()
             args.putLong(Keys.GpxId, gpxId)
 
-            val fragment = GpxContentViewerFragment()
+            val fragment = GpxDetailsFragment()
             fragment.arguments = args
 
             return fragment

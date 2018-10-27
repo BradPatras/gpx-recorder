@@ -1,4 +1,4 @@
-package com.iboism.gpxrecorder.primary
+package com.iboism.gpxrecorder.records.list
 
 import android.support.v7.widget.RecyclerView
 import android.support.v7.widget.helper.ItemTouchHelper
@@ -10,6 +10,6 @@ class GpxListSwipeHandler(private val onCellDismissed: ((position: Int) -> Unit)
     }
 
     override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
-        (viewHolder as? GpxRecyclerViewAdapter.GpxViewHolder)?.let { onCellDismissed(it.adapterPosition) }
+        (viewHolder as? GpxViewHolder)?.let { onCellDismissed(it.adapterPosition) }
     }
 }

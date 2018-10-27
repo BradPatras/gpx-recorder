@@ -1,4 +1,4 @@
-package com.iboism.gpxrecorder.primary
+package com.iboism.gpxrecorder.records.list
 
 
 import android.os.Bundle
@@ -8,11 +8,11 @@ import android.view.View
 import android.view.ViewGroup
 import com.iboism.gpxrecorder.R
 import com.iboism.gpxrecorder.model.GpxContent
-import com.iboism.gpxrecorder.recording.REVEAL_ORIGIN_X_KEY
-import com.iboism.gpxrecorder.recording.REVEAL_ORIGIN_Y_KEY
-import com.iboism.gpxrecorder.recording.RecordingConfiguratorModal
+import com.iboism.gpxrecorder.recording.configurator.REVEAL_ORIGIN_X_KEY
+import com.iboism.gpxrecorder.recording.configurator.REVEAL_ORIGIN_Y_KEY
+import com.iboism.gpxrecorder.recording.configurator.RecordingConfiguratorModal
 import com.iboism.gpxrecorder.util.PermissionHelper
-import com.iboism.gpxrecorder.viewer.GpxContentViewerFragment
+import com.iboism.gpxrecorder.records.details.GpxDetailsFragment
 import io.realm.Realm
 import io.realm.RealmResults
 import io.realm.Sort
@@ -63,7 +63,7 @@ class GpxListFragment : Fragment() {
     private fun openContentViewer(gpxId: Long) {
         fragmentManager?.beginTransaction()
                 ?.setCustomAnimations(R.anim.slide_in_right, android.R.anim.fade_out, R.anim.none, android.R.anim.slide_out_right)
-                ?.add(R.id.content_container, GpxContentViewerFragment.newInstance(gpxId))
+                ?.add(R.id.content_container, GpxDetailsFragment.newInstance(gpxId))
                 ?.addToBackStack("view")
                 ?.commit()
     }

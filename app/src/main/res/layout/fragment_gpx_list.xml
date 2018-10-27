@@ -3,7 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.iboism.gpxrecorder.primary.GpxListFragment"
+    tools:context="com.iboism.gpxrecorder.records.list.GpxListFragment"
     android:id="@+id/fragment_gpx_list">
 
     <android.support.v7.widget.RecyclerView

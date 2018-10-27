@@ -1,21 +1,15 @@
-package com.iboism.gpxrecorder.primary
+package com.iboism.gpxrecorder.records.list
 
-import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
-import android.widget.ProgressBar
-import android.widget.TextView
 import com.google.android.gms.maps.model.LatLng
 import com.iboism.gpxrecorder.R
 import com.iboism.gpxrecorder.model.GpxContent
-import com.iboism.gpxrecorder.model.Segment
 import com.iboism.gpxrecorder.util.*
 import io.reactivex.Single
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.Disposable
-import io.reactivex.schedulers.Schedulers
 import io.realm.RealmRecyclerViewAdapter
 import io.realm.OrderedRealmCollection
 import io.realm.Realm
@@ -26,9 +20,8 @@ import java.util.concurrent.TimeUnit
  */
 private const val VIEW_TYPE_DELETED = 1
 
-class GpxRecyclerViewAdapter(contentList: OrderedRealmCollection<GpxContent>) : RealmRecyclerViewAdapter<GpxContent, GpxRecyclerViewAdapter.GpxViewHolder>(contentList, true) {
+class GpxRecyclerViewAdapter(contentList: OrderedRealmCollection<GpxContent>) : RealmRecyclerViewAdapter<GpxContent, GpxViewHolder>(contentList, true) {
     private var fileHelper: FileHelper? = null
-    private val pointLoadingThread = Schedulers.single()
 
     private var hiddenRowIdentifiers: MutableList<Long> = mutableListOf()
     var contentViewerOpener: ((gpxId: Long) -> Unit)? = null
@@ -66,7 +59,6 @@ class GpxRecyclerViewAdapter(contentList: OrderedRealmCollection<GpxContent>) : 
             holder.rootView.setOnClickListener {
                 contentViewerOpener?.invoke(holder.itemId)
             }
-
             holder.exportButton.setOnClickListener { _ ->
                 fileHelper?.apply {
                     holder.setExportLoading(true)
@@ -114,10 +106,15 @@ class GpxRecyclerViewAdapter(contentList: OrderedRealmCollection<GpxContent>) : 
             viewHolder.previewView.loadPoints(previewPoints)
         } else {
             previewLoaders[gpx.identifier] = viewHolder.startPreviewPointsLoader(segment, gpx.identifier)
+                    ?.subscribe { gist ->
+                        cachedPoints[gpx.identifier] = gist
+
+                        if (viewHolder.itemId == gpx.identifier)
+                            viewHolder.previewView.loadPoints(gist)
+                    }
         }
 
         viewHolder.setExportLoading(fileHelper?.isExporting() == gpx.identifier)
-
     }
 
     private fun unDismissRow(identifier: Long, viewPosition: Int) {
@@ -149,46 +146,5 @@ class GpxRecyclerViewAdapter(contentList: OrderedRealmCollection<GpxContent>) : 
             hiddenRowIdentifiers.remove(identifier)
         }
         realm.close()
-    }
-
-    inner class GpxViewHolder(view: View): RecyclerView.ViewHolder(view) {
-        val rootView = view
-        val contentView = view.findViewById(R.id.main_content_layout) as View
-        val deletedView = view.findViewById(R.id.deleted_layout) as View
-        val titleView = view.findViewById(R.id.gpx_content_title) as TextView
-        val dateView = view.findViewById(R.id.gpx_content_date) as TextView
-        val exportButton = view.findViewById(R.id.gpx_content_export_button) as Button
-        val distanceView = view.findViewById(R.id.gpx_content_distance) as TextView
-        val waypointCountView = view.findViewById(R.id.gpx_content_waypoint_count) as TextView
-        val exportProgressBar = view.findViewById(R.id.gpx_content_export_progress_bar) as ProgressBar
-        var previewView = view.findViewById(R.id.preview_view) as PathPreviewView
-
-        init {
-            deletedView.visibility = View.GONE
-            exportProgressBar.isIndeterminate = true
-            exportProgressBar.visibility = View.GONE
-        }
-
-        fun startPreviewPointsLoader(segment: Segment?, identifier: Long): Disposable? {
-            return segment?.getLatLngPoints(pointLoadingThread)
-                    ?.observeOn(Schedulers.computation())
-                    ?.map { lst ->
-                        lst.takeGist(50)
-                    }?.observeOn(AndroidSchedulers.mainThread())
-                    ?.subscribe { gist ->
-                        cachedPoints[identifier] = gist
-
-                        if (itemId == identifier)
-                            previewView.loadPoints(gist)
-                    }
-        }
-
-        fun setExportLoading(loading: Boolean) {
-            exportButton.visibility = if (loading) View.INVISIBLE else View.VISIBLE
-            exportButton.invalidate()
-
-            exportProgressBar.visibility = if (loading) View.VISIBLE else View.GONE
-            exportProgressBar.invalidate()
-        }
     }
 }

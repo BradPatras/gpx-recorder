@@ -1,4 +1,4 @@
-package com.iboism.gpxrecorder.recording
+package com.iboism.gpxrecorder.recording.configurator
 
 import android.content.Context
 import android.os.Bundle
@@ -37,7 +37,6 @@ class RecordingConfiguratorModal : Fragment() {
             }
         }
     }
-
 
     override fun onAttach(context: Context) {
         super.onAttach(context)

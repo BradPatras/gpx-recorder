@@ -1,4 +1,4 @@
-package com.iboism.gpxrecorder.recording
+package com.iboism.gpxrecorder.recording.configurator
 
 import android.content.Context
 import android.graphics.PorterDuff

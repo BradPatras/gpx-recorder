@@ -23,7 +23,7 @@
         android:minHeight="80dp"
         android:padding="10dp">
 
-        <com.iboism.gpxrecorder.primary.PathPreviewView
+        <com.iboism.gpxrecorder.records.list.PathPreviewView
             android:id="@+id/preview_view"
             android:layout_width="80dp"
             android:layout_height="80dp"

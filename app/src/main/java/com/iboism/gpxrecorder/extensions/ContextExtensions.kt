@@ -1,4 +1,4 @@
-package com.iboism.gpxrecorder.util
+package com.iboism.gpxrecorder.extensions
 
 import android.content.Context
 import com.iboism.gpxrecorder.model.REALM_INIT_FAILED_KEY

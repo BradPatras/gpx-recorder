@@ -1,4 +1,4 @@
-package com.iboism.gpxrecorder.analysis
+package com.iboism.gpxrecorder.util
 
 import com.iboism.gpxrecorder.model.TrackPoint
 

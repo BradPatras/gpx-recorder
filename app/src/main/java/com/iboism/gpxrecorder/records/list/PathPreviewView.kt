@@ -1,4 +1,4 @@
-package com.iboism.gpxrecorder.primary
+package com.iboism.gpxrecorder.records.list
 
 import android.content.Context
 import android.graphics.*

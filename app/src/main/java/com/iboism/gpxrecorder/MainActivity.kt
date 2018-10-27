@@ -1,4 +1,4 @@
-package com.iboism.gpxrecorder.primary
+package com.iboism.gpxrecorder
 
 import android.annotation.SuppressLint
 import android.content.Intent
@@ -6,13 +6,13 @@ import android.os.Bundle
 import android.support.v4.view.GravityCompat
 import android.support.v7.app.AlertDialog
 import android.support.v7.app.AppCompatActivity
-import com.iboism.gpxrecorder.R
 import com.iboism.gpxrecorder.model.*
 import com.iboism.gpxrecorder.navigation.NavigationHelper
 import com.iboism.gpxrecorder.recording.LocationRecorderService
-import com.iboism.gpxrecorder.recording.RecordingConfiguratorModal
+import com.iboism.gpxrecorder.recording.configurator.RecordingConfiguratorModal
+import com.iboism.gpxrecorder.records.list.GpxListFragment
 import com.iboism.gpxrecorder.util.Keys
-import com.iboism.gpxrecorder.util.getRealmInitFailure
+import com.iboism.gpxrecorder.extensions.getRealmInitFailure
 import io.realm.Realm
 import io.realm.RealmList
 import kotlinx.android.synthetic.main.activity_main.*

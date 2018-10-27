@@ -7,7 +7,7 @@
     android:layout_height="wrap_content"
     android:paddingEnd="@dimen/dialog_horizontal_padding"
     android:paddingStart="@dimen/dialog_horizontal_padding"
-    tools:context="com.iboism.gpxrecorder.recording.CreateWaypointDialogActivity">
+    tools:context="com.iboism.gpxrecorder.recording.waypoint.CreateWaypointDialogActivity">
 
     <TextView
         android:id="@+id/title"

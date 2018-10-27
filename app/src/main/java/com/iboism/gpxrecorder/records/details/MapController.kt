@@ -1,4 +1,4 @@
-package com.iboism.gpxrecorder.viewer
+package com.iboism.gpxrecorder.records.details
 
 import android.content.Context
 import com.google.android.gms.maps.CameraUpdateFactory

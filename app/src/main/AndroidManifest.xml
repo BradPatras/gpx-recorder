@@ -33,10 +33,10 @@
 
         <service android:name=".recording.LocationRecorderService"/>
 
-        <receiver android:name=".recording.CreateWaypointService"/>
+        <receiver android:name=".recording.waypoint.CreateWaypointService"/>
 
         <activity
-            android:name=".primary.MainActivity"
+            android:name=".MainActivity"
             android:label="@string/app_name"
             android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
@@ -57,7 +57,7 @@
         </provider>
 
         <activity
-            android:name=".recording.CreateWaypointDialogActivity"
+            android:name=".recording.waypoint.CreateWaypointDialogActivity"
             android:excludeFromRecents="true"
             android:launchMode="singleTask"
             android:taskAffinity="com.iboism.gpxrecorder.addWaypoint"
