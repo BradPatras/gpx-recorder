@@ -43,9 +43,9 @@ class CreateWaypointService : BroadcastReceiver()  {
     }
 
     companion object {
-        const val gpxIdKey = "kgpxId"
-        const val waypointNoteKey = "kwaypointNote"
-        const val waypointTitleKey = "kwaypointTitle"
+        private const val gpxIdKey = "kgpxId"
+        private const val waypointNoteKey = "kwaypointNote"
+        private const val waypointTitleKey = "kwaypointTitle"
         fun startServiceIntent(context: Context, gpxId: Long, title: String, note: String): Intent {
             return Intent(context, CreateWaypointService::class.java)
                     .setData(serializeParameters(gpxId, title, note))

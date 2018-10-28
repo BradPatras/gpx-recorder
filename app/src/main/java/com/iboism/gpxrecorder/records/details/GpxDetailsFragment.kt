@@ -1,6 +1,5 @@
 package com.iboism.gpxrecorder.records.details
 
-
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.view.LayoutInflater
@@ -14,14 +13,13 @@ import io.reactivex.functions.Consumer
 import io.realm.Realm
 import kotlinx.android.synthetic.main.fragment_gpx_content_viewer.*
 
-
 class GpxDetailsFragment : Fragment() {
     private lateinit var detailsView: GpxDetailsView
     private var gpxId: Long? = null
     private var fileHelper: FileHelper? = null
     private val compositeDisposable = CompositeDisposable()
 
-    var gpxTitleConsumer: Consumer<in String> = Consumer {
+    private var gpxTitleConsumer: Consumer<in String> = Consumer {
         updateGpxTitle(it)
     }
 
@@ -75,19 +73,12 @@ class GpxDetailsFragment : Fragment() {
     private fun exportPressed() {
         val gpxId = gpxId ?: return
 
-       setButtonsExporting(true)
+       detailsView.setButtonsExporting(true)
         fileHelper?.apply {
             shareGpxFile(gpxId).subscribe {
-                setButtonsExporting(false)
+                detailsView.setButtonsExporting(false)
             }
         }
-    }
-
-    private fun setButtonsExporting(isExporting: Boolean) {
-        title_edit_btn.isEnabled = !isExporting
-        export_btn.isEnabled = !isExporting
-        export_btn.visibility = if (isExporting) View.INVISIBLE else View.VISIBLE
-        export_progress_bar.visibility = if (isExporting) View.VISIBLE else View.GONE
     }
 
     private fun updateGpxTitle(newTitle: String) {

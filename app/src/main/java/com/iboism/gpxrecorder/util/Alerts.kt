@@ -13,7 +13,7 @@ class Alerts(val context: Context) {
         return AlertDialog.Builder(context)
                 .setTitle(context.getString(R.string.denied_alert_title))
                 .setMessage(context.getString(R.string.denied_alert_message))
-                .setPositiveButton(context.getString(R.string.denied_alert_button), { _, _ -> action.invoke() })
+                .setPositiveButton(context.getString(R.string.denied_alert_button)) { _, _ -> action.invoke() }
                 .setCancelable(true)
                 .create()
     }
@@ -22,7 +22,7 @@ class Alerts(val context: Context) {
         return AlertDialog.Builder(context)
                 .setTitle(context.getString(R.string.denied_alert_title))
                 .setMessage(context.getString(R.string.denied_forever_alert_message))
-                .setPositiveButton(context.getString(R.string.denied_alert_button), { _, _ -> action.invoke() })
+                .setPositiveButton(context.getString(R.string.denied_alert_button)) { _, _ -> action.invoke() }
                 .setCancelable(true)
                 .create()
     }

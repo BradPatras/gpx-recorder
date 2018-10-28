@@ -13,7 +13,6 @@ class GpxDetailsView(
         val waypointsText: String,
         val dateText: String
         ) {
-    private val context = root.context
     private var savedText = ""
 
     private var exportTouchSubject: PublishSubject<Unit> = PublishSubject.create()

@@ -16,10 +16,10 @@ fun <E> List<E>.takeGist(count: Int): List<E> {
     if (size <= count || size == 0) {
         return this
     } else {
-        return List(count, {index ->
+        return List(count) { index ->
             val frac = (index.toFloat() / (count-1).toFloat())
             val cv = (size - 1).toFloat() * frac
             return@List this[cv.toInt()]
-        })
+        }
     }
 }

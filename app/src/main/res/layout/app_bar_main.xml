@@ -17,8 +17,4 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <include
-        android:id="@+id/include"
-        layout="@layout/content_main" />
-
 </android.support.constraint.ConstraintLayout>

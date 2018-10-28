@@ -97,11 +97,11 @@ class PathPreviewView @JvmOverloads constructor(
         val scaledPoints: List<PointF>
 
         // recalculate scaled points
-        val pointsXMax = points.fold(points.first().latitude.toFloat(), { max, pointF -> Math.max(max, pointF.latitude.toFloat()) })
-        val pointsXMin = points.fold(points.first().latitude.toFloat(), { min, pointF -> Math.min(min, pointF.latitude.toFloat()) })
+        val pointsXMax = points.fold(points.first().latitude.toFloat()) { max, pointF -> Math.max(max, pointF.latitude.toFloat()) }
+        val pointsXMin = points.fold(points.first().latitude.toFloat()) { min, pointF -> Math.min(min, pointF.latitude.toFloat()) }
 
-        val pointsYMax = points.fold(points.first().longitude.toFloat(), { max, pointF -> Math.max(max, pointF.longitude.toFloat()) })
-        val pointsYMin = points.fold(points.first().longitude.toFloat(), { min, pointF -> Math.min(min, pointF.longitude.toFloat()) })
+        val pointsYMax = points.fold(points.first().longitude.toFloat()) { max, pointF -> Math.max(max, pointF.longitude.toFloat()) }
+        val pointsYMin = points.fold(points.first().longitude.toFloat()) { min, pointF -> Math.min(min, pointF.longitude.toFloat()) }
 
         val pointsHeight = Math.abs(pointsYMax - pointsYMin)
         val pointsWidth = Math.abs(pointsXMax - pointsXMin)

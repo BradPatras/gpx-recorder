@@ -24,7 +24,7 @@ class GpxViewHolder(view: View): RecyclerView.ViewHolder(view) {
     val exportButton = view.findViewById(R.id.gpx_content_export_button) as Button
     val distanceView = view.findViewById(R.id.gpx_content_distance) as TextView
     val waypointCountView = view.findViewById(R.id.gpx_content_waypoint_count) as TextView
-    val exportProgressBar = view.findViewById(R.id.gpx_content_export_progress_bar) as ProgressBar
+    private val exportProgressBar = view.findViewById(R.id.gpx_content_export_progress_bar) as ProgressBar
     var previewView = view.findViewById(R.id.preview_view) as PathPreviewView
 
     init {

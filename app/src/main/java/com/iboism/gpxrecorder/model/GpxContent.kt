@@ -24,6 +24,7 @@ open class GpxContent(
         val metaDataXml = "<metadata>$titleXml$descXml</metadata>"
         val contentXml = listOf(trackList, waypointList) // in the future, do flatmap of all entity types first
                 .flatten()
+                .asSequence()
                 .filterIsInstance(XmlSerializable::class.java)
                 .map { it.getXmlString() }
                 .fold("") { content, entity -> content + entity }

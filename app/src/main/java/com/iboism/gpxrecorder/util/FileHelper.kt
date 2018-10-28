@@ -6,13 +6,11 @@ import com.iboism.gpxrecorder.model.GpxContent
 import io.reactivex.Completable
 import io.reactivex.Single
 import io.reactivex.android.schedulers.AndroidSchedulers
-import io.reactivex.disposables.Disposable
 import io.reactivex.schedulers.Schedulers
 import io.realm.Realm
 import org.apache.commons.io.FileUtils
 import org.apache.commons.io.IOUtils
 import java.io.File
-import java.lang.Exception
 import java.nio.charset.StandardCharsets
 
 
@@ -29,7 +27,7 @@ class FileHelper(var context: Context) {
 
     fun isExporting() = exporting
 
-    fun gpxFileWith(gpxContentId: Long): Single<File> {
+    private fun gpxFileWith(gpxContentId: Long): Single<File> {
         exporting = gpxContentId
         return Single.just(gpxContentId)
                 .observeOn(Schedulers.io())

@@ -23,6 +23,7 @@ open class Segment(
 
     override fun getXmlString(): String {
         val pointsList = points
+                .asSequence()
                 .map { it.getXmlString() }
                 .fold("") { xmlString: String, pointString: String -> xmlString + pointString }
 
@@ -50,8 +51,8 @@ open class Segment(
                             ?.points ?: emptyList<TrackPoint>()
                     realm.close()
                     return@map pts
-                }.map {
-                    return@map it.map { LatLng(it.lat,it.lon) }
+                }.map { points ->
+                    return@map points.map { LatLng(it.lat,it.lon) }
                 }
     }
 

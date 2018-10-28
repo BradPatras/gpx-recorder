@@ -18,7 +18,7 @@ private const val INTERVAL_MIN = 1
 
 class RecordingConfiguratorView(root: View,
                                 intervalValue: TextView = root.findViewById(R.id.interval_value),
-                                val intervalSlider: SeekBar = root.findViewById(R.id.interval_seekBar),
+                                private val intervalSlider: SeekBar = root.findViewById(R.id.interval_seekBar),
                                 val titleEditText: EditText = root.findViewById(R.id.config_title_editText),
                                 val doneButton: Button = root.findViewById(R.id.start_button)) {
     private val context: Context = root.context

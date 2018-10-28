@@ -6,17 +6,19 @@ import android.os.Bundle
 import android.support.v4.view.GravityCompat
 import android.support.v7.app.AlertDialog
 import android.support.v7.app.AppCompatActivity
-import com.iboism.gpxrecorder.model.*
+import com.iboism.gpxrecorder.extensions.getRealmInitFailure
+import com.iboism.gpxrecorder.model.GpxContent
+import com.iboism.gpxrecorder.model.RecordingConfiguration
+import com.iboism.gpxrecorder.model.Segment
+import com.iboism.gpxrecorder.model.Track
 import com.iboism.gpxrecorder.navigation.NavigationHelper
 import com.iboism.gpxrecorder.recording.LocationRecorderService
 import com.iboism.gpxrecorder.recording.configurator.RecordingConfiguratorModal
 import com.iboism.gpxrecorder.records.list.GpxListFragment
 import com.iboism.gpxrecorder.util.Keys
-import com.iboism.gpxrecorder.extensions.getRealmInitFailure
 import io.realm.Realm
 import io.realm.RealmList
 import kotlinx.android.synthetic.main.activity_main.*
-import java.util.*
 
 
 class MainActivity : AppCompatActivity(), RecordingConfiguratorModal.Listener {
