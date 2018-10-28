@@ -9,14 +9,13 @@ import java.util.*
 class DateTimeFormatHelper {
     companion object {
         private const val dataPattern = "yyyy-MM-dd'T'HH:mm:ss'Z'"
-        private const val readablePattern = "EEE, MMM d yyyy, hh:mm a"
         fun formatDate(date: Date = Date()): String {
-            return SimpleDateFormat(dataPattern).format(date)
+            return SimpleDateFormat(dataPattern, Locale.US).format(date)
         }
 
         fun toReadableString(dateString: String): String {
-            val date = SimpleDateFormat(dataPattern).parse(dateString)
-            return SimpleDateFormat(readablePattern).format(date)
+            val date = SimpleDateFormat(dataPattern, Locale.US).parse(dateString)
+            return SimpleDateFormat.getDateTimeInstance(SimpleDateFormat.MEDIUM, SimpleDateFormat.SHORT).format(date)
         }
     }
 }
