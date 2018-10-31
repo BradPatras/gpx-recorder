@@ -46,7 +46,6 @@ class GpxDetailsFragment : Fragment() {
         val gpxContent = GpxContent.withId(gpxId, realm) ?: return
         fileHelper = FileHelper(view.context)
 
-
         val distance = gpxContent.trackList.first()?.segments?.first()?.distance ?: 0f
 
         detailsView = GpxDetailsView(

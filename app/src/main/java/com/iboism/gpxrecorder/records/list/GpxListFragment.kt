@@ -29,11 +29,14 @@ class GpxListFragment : Fragment() {
     private val placeholderViews = listOf(R.id.placeholder_menu_icon, R.id.placeholder_menu_text, R.id.placeholder_routes_text, R.id.placeholder_routes_icon)
     private val gpxContentList = Realm.getDefaultInstance().where(GpxContent::class.java).findAll().sort("date", Sort.DESCENDING)
     private var listAdapter: GpxRecyclerViewAdapter? = null
+    private var isTransitioning = false
     private val gpxChangeListener = { gpxContent: RealmResults<GpxContent> ->
         setPlaceholdersHidden(gpxContent.isNotEmpty())
     }
 
     private fun onFabClicked(view: View) {
+        if (isTransitioning) return
+
         permissionHelper.checkLocationPermissions(
                 onAllowed = {
                     val configFragment = RecordingConfiguratorModal.instance()
@@ -61,9 +64,11 @@ class GpxListFragment : Fragment() {
     }
 
     private fun openContentViewer(gpxId: Long) {
+        if (isTransitioning) return
+        isTransitioning = true
         fragmentManager?.beginTransaction()
                 ?.setCustomAnimations(R.anim.slide_in_right, android.R.anim.fade_out, R.anim.none, android.R.anim.slide_out_right)
-                ?.add(R.id.content_container, GpxDetailsFragment.newInstance(gpxId))
+                ?.replace(R.id.content_container, GpxDetailsFragment.newInstance(gpxId))
                 ?.addToBackStack("view")
                 ?.commit()
     }
@@ -89,6 +94,8 @@ class GpxListFragment : Fragment() {
 
         setPlaceholdersHidden(gpxContentList.isNotEmpty())
         gpxContentList.addChangeListener(gpxChangeListener)
+
+        isTransitioning = false
 
         gpx_listView.addOnScrollListener(object : RecyclerView.OnScrollListener() {
             override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
