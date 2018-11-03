@@ -16,5 +16,8 @@ class Keys {
 
         // Analytics
         const val ServiceReceivedCommand = "service_received_command"
+
+        // App shortcut action
+        const val ShortcutAction = "com.iboism.gpxrecorder.START_RECORDING"
     }
 }

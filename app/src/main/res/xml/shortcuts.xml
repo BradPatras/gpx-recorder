@@ -1,0 +1,11 @@
+<shortcuts xmlns:android="http://schemas.android.com/apk/res/android">
+    <shortcut
+        android:shortcutId="record"
+        android:icon="@drawable/ic_route"
+        android:shortcutShortLabel="@string/shortcut_label">
+        <intent
+            android:action="com.iboism.gpxrecorder.START_RECORDING"
+            android:targetPackage="com.iboism.gpxrecorder"
+            android:targetClass="com.iboism.gpxrecorder.MainActivity" />
+    </shortcut>
+</shortcuts>

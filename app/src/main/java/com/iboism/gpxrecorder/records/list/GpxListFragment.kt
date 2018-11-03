@@ -37,30 +37,12 @@ class GpxListFragment : Fragment() {
     private fun onFabClicked(view: View) {
         if (isTransitioning) return
 
-        permissionHelper.checkLocationPermissions(
-                onAllowed = {
-                    val configFragment = RecordingConfiguratorModal.instance()
-
-                    val args = Bundle()
-                    args.putInt(REVEAL_ORIGIN_X_KEY, view.x.toInt() + (view.width / 2))
-                    args.putInt(REVEAL_ORIGIN_Y_KEY, view.y.toInt() + (view.height / 2))
-                    configFragment.arguments = args
-
-                    // marshmallow bug workaround https://issuetracker.google.com/issues/37067655
-                    if (android.os.Build.VERSION.SDK_INT == android.os.Build.VERSION_CODES.M) {
-                        fragmentManager?.beginTransaction()
-                                ?.setCustomAnimations(android.R.anim.fade_in, android.R.anim.fade_out, android.R.anim.fade_in, android.R.anim.fade_out)
-                                ?.add(R.id.content_container, configFragment)
-                                ?.addToBackStack(null)
-                                ?.commitAllowingStateLoss()
-                    } else {
-                        fragmentManager?.beginTransaction()
-                                ?.setCustomAnimations(android.R.anim.fade_in, android.R.anim.fade_out, android.R.anim.fade_in, android.R.anim.fade_out)
-                                ?.add(R.id.content_container, configFragment)
-                                ?.addToBackStack(null)
-                                ?.commit()
-                    }
-                })
+        permissionHelper.checkLocationPermissions(onAllowed = {
+            RecordingConfiguratorModal.circularReveal(
+                    originXY = Pair(view.x.toInt() + (view.width / 2), view.y.toInt() + (view.height / 2)),
+                    fragmentManager = fragmentManager
+            )
+        })
     }
 
     private fun openContentViewer(gpxId: Long) {

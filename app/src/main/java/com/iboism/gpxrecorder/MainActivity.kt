@@ -67,6 +67,10 @@ class MainActivity : AppCompatActivity(), RecordingConfiguratorModal.Listener {
 //            }
         }
 
+        if (Keys.ShortcutAction == intent.action) {
+            RecordingConfiguratorModal.show(fragmentManager = supportFragmentManager)
+        }
+
         nav_view.setNavigationItemSelectedListener(navigationHelper)
     }
 

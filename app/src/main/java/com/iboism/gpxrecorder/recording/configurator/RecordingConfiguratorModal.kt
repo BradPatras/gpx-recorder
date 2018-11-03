@@ -1,8 +1,12 @@
 package com.iboism.gpxrecorder.recording.configurator
 
 import android.content.Context
+import android.graphics.Point
+import android.graphics.PointF
 import android.os.Bundle
 import android.support.v4.app.Fragment
+import android.support.v4.app.FragmentManager
+import android.support.v7.app.AppCompatActivity
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -22,10 +26,6 @@ class RecordingConfiguratorModal : Fragment() {
                               savedInstanceState: Bundle?): View? {
 
         return inflater.inflate(R.layout.config_dialog, container, false)?.apply {
-            val originX = arguments?.getInt(REVEAL_ORIGIN_X_KEY) ?: return@apply
-            val originY = arguments?.getInt(REVEAL_ORIGIN_Y_KEY) ?: return@apply
-            this.circularRevealOnNextLayout(originX, originY)
-
             configuratorView = RecordingConfiguratorView(this)
             configuratorView.doneButton.setOnClickListener { _ ->
                 listener?.configurationCreated (
@@ -35,6 +35,10 @@ class RecordingConfiguratorModal : Fragment() {
                         ))
                 this@RecordingConfiguratorModal.fragmentManager?.popBackStack()
             }
+
+            val originX = arguments?.getInt(REVEAL_ORIGIN_X_KEY) ?: return@apply
+            val originY = arguments?.getInt(REVEAL_ORIGIN_Y_KEY) ?: return@apply
+            this.circularRevealOnNextLayout(originX, originY)
         }
     }
 
@@ -54,5 +58,34 @@ class RecordingConfiguratorModal : Fragment() {
 
     companion object {
         fun instance() = RecordingConfiguratorModal()
+
+        fun circularReveal(originXY: Pair<Int,Int>, fragmentManager: FragmentManager?) {
+            val configFragment = RecordingConfiguratorModal.instance()
+
+            val args = Bundle()
+            args.putInt(REVEAL_ORIGIN_X_KEY, originXY.first)
+            args.putInt(REVEAL_ORIGIN_Y_KEY, originXY.second)
+            configFragment.arguments = args
+
+            show(fragmentManager, configFragment)
+        }
+
+        fun show(fragmentManager: FragmentManager?, configFragment: RecordingConfiguratorModal = instance()) {
+
+            // marshmallow bug workaround https://issuetracker.google.com/issues/37067655
+            if (android.os.Build.VERSION.SDK_INT == android.os.Build.VERSION_CODES.M) {
+                fragmentManager?.beginTransaction()
+                        ?.setCustomAnimations(android.R.anim.fade_in, android.R.anim.fade_out, android.R.anim.fade_in, android.R.anim.fade_out)
+                        ?.add(R.id.content_container, configFragment)
+                        ?.addToBackStack(null)
+                        ?.commitAllowingStateLoss()
+            } else {
+                fragmentManager?.beginTransaction()
+                        ?.setCustomAnimations(android.R.anim.fade_in, android.R.anim.fade_out, android.R.anim.fade_in, android.R.anim.fade_out)
+                        ?.add(R.id.content_container, configFragment)
+                        ?.addToBackStack(null)
+                        ?.commit()
+            }
+        }
     }
 }
