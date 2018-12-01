@@ -15,11 +15,8 @@ class GpxDetailsView(
         ) {
     private var savedText = ""
 
-    private var exportTouchSubject: PublishSubject<Unit> = PublishSubject.create()
-    private var gpxTitleSubject: PublishSubject<String> = PublishSubject.create()
-
-    var gpxTitleObservable: Observable<String> = gpxTitleSubject
-    var exportTouchObservable: Observable<Unit> = exportTouchSubject
+    var exportTouchObservable: PublishSubject<Unit> = PublishSubject.create()
+    var gpxTitleObservable: PublishSubject<String> = PublishSubject.create()
 
     init {
         root.title_et.isEnabled = false
@@ -45,7 +42,7 @@ class GpxDetailsView(
     }
 
     private fun exportPressed() {
-        exportTouchSubject.onNext(Unit)
+        exportTouchObservable.onNext(Unit)
     }
 
     private fun applyPressed() {
@@ -56,7 +53,7 @@ class GpxDetailsView(
         root.title_edit_btn.setImageResource(R.drawable.ic_edit)
         root.export_btn.setOnClickListener { exportPressed() }
         root.export_btn.setImageResource(R.drawable.ic_open_in)
-        gpxTitleSubject.onNext(root.title_et.text.toString())
+        gpxTitleObservable.onNext(root.title_et.text.toString())
     }
 
     private fun cancelPressed() {
