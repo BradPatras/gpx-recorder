@@ -42,7 +42,7 @@ class PermissionHelper private constructor(val activity: Activity) {
         activity.startActivity(Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS, Uri.parse("package:" + BuildConfig.APPLICATION_ID)))
     }
 
-    companion object : SingletonHolder<PermissionHelper, Activity>(::PermissionHelper)
+    companion object : SingletonArgHolder<PermissionHelper, Activity>(::PermissionHelper)
 
     private class Listener(
             val onAllowed: () -> Unit,

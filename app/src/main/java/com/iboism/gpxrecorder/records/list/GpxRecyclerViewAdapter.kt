@@ -1,5 +1,6 @@
 package com.iboism.gpxrecorder.records.list
 
+import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -33,6 +34,11 @@ class GpxRecyclerViewAdapter(contentList: OrderedRealmCollection<GpxContent>) : 
         setHasStableIds(true)
     }
 
+    override fun onDetachedFromRecyclerView(recyclerView: RecyclerView) {
+        super.onDetachedFromRecyclerView(recyclerView)
+        fileHelper = null
+    }
+
     override fun getItemId(position: Int): Long {
         return data?.get(position)?.identifier ?: -1
     }
@@ -46,7 +52,7 @@ class GpxRecyclerViewAdapter(contentList: OrderedRealmCollection<GpxContent>) : 
         val gpxRow = LayoutInflater.from(parent.context).inflate(R.layout.list_row_gpx_content, parent, false)
 
         if (fileHelper == null) {
-            fileHelper = FileHelper.getInstance(parent.context)
+            fileHelper = FileHelper.getInstance()
         }
 
         val holder = GpxViewHolder(gpxRow)
@@ -59,10 +65,10 @@ class GpxRecyclerViewAdapter(contentList: OrderedRealmCollection<GpxContent>) : 
             holder.rootView.setOnClickListener {
                 contentViewerOpener?.invoke(holder.itemId)
             }
-            holder.exportButton.setOnClickListener { _ ->
+            holder.exportButton.setOnClickListener {
                 fileHelper?.apply {
                     holder.setExportLoading(true)
-                    shareGpxFile(holder.itemId).subscribe {
+                    shareGpxFile(it.context, holder.itemId).subscribe {
                         holder.setExportLoading(false)
                     }
                 }

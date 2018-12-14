@@ -1,10 +1,5 @@
 package com.iboism.gpxrecorder.records.details
 
-import android.content.Context
-import com.google.android.gms.maps.CameraUpdateFactory
-import com.google.android.gms.maps.GoogleMap
-import com.google.android.gms.maps.MapsInitializer
-import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.model.*
 import com.google.android.gms.maps.model.JointType.ROUND
 import com.iboism.gpxrecorder.R
@@ -19,27 +14,36 @@ import android.support.v4.content.res.ResourcesCompat
 import android.support.annotation.DrawableRes
 import android.support.v4.content.ContextCompat
 import android.view.ViewTreeObserver
+import com.google.android.gms.maps.*
 import com.google.android.gms.maps.model.BitmapDescriptor
 import com.google.android.gms.maps.model.LatLngBounds
 import io.realm.Realm
-
 
 /**
  * Created by Brad on 2/26/2018.
  */
 
-class MapController(private val context: Context, private val gpxId: Long): OnMapReadyCallback, ViewTreeObserver.OnGlobalLayoutListener {
+class MapController
+(private val mapView: MapView, private val gpxId: Long): OnMapReadyCallback, ViewTreeObserver.OnGlobalLayoutListener {
     private var isMapReady = false
     private var isLayoutReady = false
     private var isMapSetup = false
     private var map: GoogleMap? = null
+
+    init {
+        mapView.viewTreeObserver.addOnGlobalLayoutListener(this)
+    }
+
+    fun onDestroy() {
+        map?.clear()
+    }
 
     private fun setupMapIfNeeded() {
         if (!isMapReady || !isLayoutReady || isMapSetup) return
         val map = map ?: return
         isMapSetup = true
 
-        MapsInitializer.initialize(context)
+        MapsInitializer.initialize(mapView.context)
         map.uiSettings.isMyLocationButtonEnabled = false
         map.uiSettings.isCompassEnabled = true
         map.mapType = GoogleMap.MAP_TYPE_TERRAIN
@@ -50,6 +54,7 @@ class MapController(private val context: Context, private val gpxId: Long): OnMa
 
     override fun onGlobalLayout() {
         isLayoutReady = true
+        mapView.viewTreeObserver.removeOnGlobalLayoutListener(this)
         setupMapIfNeeded()
     }
 
@@ -78,14 +83,14 @@ class MapController(private val context: Context, private val gpxId: Long): OnMa
             allPoints += points
             this.addPolyline(
                     PolylineOptions()
-                            .color(ContextCompat.getColor(context, R.color.white))
+                            .color(ContextCompat.getColor(mapView.context, R.color.white))
                             .jointType(ROUND)
                             .width(16f)
                             .addAll(points))
 
             this.addPolyline(
                     PolylineOptions()
-                            .color(ContextCompat.getColor(context, R.color.gLightBlue))
+                            .color(ContextCompat.getColor(mapView.context, R.color.gLightBlue))
                             .jointType(ROUND)
                             .width(12f)
                             .addAll(points))
@@ -131,12 +136,14 @@ class MapController(private val context: Context, private val gpxId: Long): OnMa
     }
 
     private fun getBitmapDescriptor(@DrawableRes id: Int): BitmapDescriptor {
-        val vectorDrawable = ResourcesCompat.getDrawable(context.resources, id, null)
+        val vectorDrawable = ResourcesCompat.getDrawable(mapView.context.resources, id, null)
         val bitmap = Bitmap.createBitmap(vectorDrawable!!.intrinsicWidth,
                 vectorDrawable.intrinsicHeight, Bitmap.Config.ARGB_8888)
         val canvas = Canvas(bitmap)
         vectorDrawable.setBounds(0, 0, canvas.width, canvas.height)
         vectorDrawable.draw(canvas)
-        return BitmapDescriptorFactory.fromBitmap(bitmap)
+        val descriptor = BitmapDescriptorFactory.fromBitmap(bitmap)
+        bitmap.recycle()
+        return descriptor
     }
 }

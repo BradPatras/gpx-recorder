@@ -18,6 +18,7 @@ class GpxDetailsFragment : Fragment() {
     private var gpxId: Long? = null
     private var fileHelper: FileHelper? = null
     private val compositeDisposable = CompositeDisposable()
+    private var mapController: MapController? = null
 
     private var gpxTitleConsumer: Consumer<in String> = Consumer {
         updateGpxTitle(it)
@@ -44,7 +45,7 @@ class GpxDetailsFragment : Fragment() {
         val gpxId = gpxId ?: return
         val realm = Realm.getDefaultInstance()
         val gpxContent = GpxContent.withId(gpxId, realm) ?: return
-        fileHelper = FileHelper(view.context)
+        fileHelper = FileHelper()
 
         val distance = gpxContent.trackList.first()?.segments?.first()?.distance ?: 0f
 
@@ -63,18 +64,18 @@ class GpxDetailsFragment : Fragment() {
 
         map_view?.let {
             it.onCreate(savedInstanceState)
-            val mapController = MapController(it.context, gpxId)
-            it.viewTreeObserver.addOnGlobalLayoutListener(mapController)
+            mapController = MapController(it, gpxId)
             it.getMapAsync(mapController)
         }
     }
 
     private fun exportPressed() {
         val gpxId = gpxId ?: return
+        val context = context ?: return
 
        detailsView.setButtonsExporting(true)
         fileHelper?.apply {
-            shareGpxFile(gpxId).subscribe {
+            shareGpxFile(context, gpxId).subscribe {
                 detailsView.setButtonsExporting(false)
             }
         }
@@ -98,8 +99,14 @@ class GpxDetailsFragment : Fragment() {
 
     override fun onDestroy() {
         super.onDestroy()
-        map_view?.onDestroy()
         compositeDisposable.dispose()
+    }
+
+    override fun onDestroyView() {
+        detail_root.removeAllViews()
+        map_view?.onDestroy()
+        mapController?.onDestroy()
+        super.onDestroyView()
     }
 
     override fun onPause() {

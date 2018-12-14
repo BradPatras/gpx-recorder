@@ -21,14 +21,9 @@ import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.helper.ItemTouchHelper
 import android.support.v7.widget.RecyclerView
 
-
-
-
 class GpxListFragment : Fragment() {
-    private val permissionHelper: PermissionHelper by lazy { PermissionHelper.getInstance(this.activity!!) }
     private val placeholderViews = listOf(R.id.placeholder_menu_icon, R.id.placeholder_menu_text, R.id.placeholder_routes_text, R.id.placeholder_routes_icon)
     private val gpxContentList = Realm.getDefaultInstance().where(GpxContent::class.java).findAll().sort("date", Sort.DESCENDING)
-    private var listAdapter: GpxRecyclerViewAdapter? = null
     private var isTransitioning = false
     private val gpxChangeListener = { gpxContent: RealmResults<GpxContent> ->
         setPlaceholdersHidden(gpxContent.isNotEmpty())
@@ -37,7 +32,7 @@ class GpxListFragment : Fragment() {
     private fun onFabClicked(view: View) {
         if (isTransitioning) return
 
-        permissionHelper.checkLocationPermissions(onAllowed = {
+        PermissionHelper.getInstance(this.activity!!).checkLocationPermissions(onAllowed = {
             RecordingConfiguratorModal.circularReveal(
                     originXY = Pair(view.x.toInt() + (view.width / 2), view.y.toInt() + (view.height / 2)),
                     fragmentManager = fragmentManager
@@ -72,7 +67,6 @@ class GpxListFragment : Fragment() {
         gpx_listView.setHasFixedSize(true)
         gpx_listView.isDrawingCacheEnabled = true
         gpx_listView.drawingCacheQuality = View.DRAWING_CACHE_QUALITY_HIGH
-        this.listAdapter = adapter
 
         setPlaceholdersHidden(gpxContentList.isNotEmpty())
         gpxContentList.addChangeListener(gpxChangeListener)
@@ -114,6 +108,7 @@ class GpxListFragment : Fragment() {
     override fun onDestroyView() {
         super.onDestroyView()
         gpxContentList.removeChangeListener(gpxChangeListener)
+        gpx_listView.adapter = null
     }
 
     companion object {
