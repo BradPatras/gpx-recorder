@@ -7,9 +7,11 @@ import android.support.v7.app.AppCompatActivity
 import com.google.android.gms.location.LocationRequest
 import com.google.android.gms.location.LocationServices
 import com.iboism.gpxrecorder.R
+import com.iboism.gpxrecorder.model.GpxContent
 import com.iboism.gpxrecorder.util.Alerts
 import com.iboism.gpxrecorder.util.Keys
 import com.iboism.gpxrecorder.util.PermissionHelper
+import io.realm.Realm
 import kotlinx.android.synthetic.main.activity_create_waypoint_dialog.*
 
 class CreateWaypointDialogActivity : AppCompatActivity() {
@@ -36,6 +38,14 @@ class CreateWaypointDialogActivity : AppCompatActivity() {
         done_button.setOnClickListener {
             startWaypointService(gpxId,title_editText.text.toString(), note_editText.text.toString())
         }
+
+        val realm = Realm.getDefaultInstance()
+        realm.executeTransaction {
+            val gpxContent = GpxContent.withId(gpxId, it)
+            val dist = gpxContent?.trackList?.first()?.segments?.first()?.distance?.toDouble() ?: 0.0
+            note_editText.text.insert(0, "@%.2fkm".format(dist))
+        }
+        realm.close()
     }
 
     private fun waypointError() {

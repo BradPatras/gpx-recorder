@@ -124,12 +124,10 @@ class MapController
 
     private fun GoogleMap.drawWaypoints(waypoints: List<Waypoint>) {
         waypoints.forEach {
-            val dist = if (it.dist > 0.0) "@%.2fkm".format(it.dist) else ""
-            val snippet = if (it.desc.isBlank()) dist else "$dist: ${it.desc}"
             this.addMarker(MarkerOptions().position(LatLng(it.lat,it.lon))
                     .flat(true)
                     .title(it.title)
-                    .snippet(snippet)
+                    .snippet(it.desc)
                     .icon(getBitmapDescriptor(R.drawable.ic_waypoint_pt))
                     .anchor(.5f, .5f))
         }
