@@ -30,7 +30,8 @@ class CreateWaypointDialogActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_create_waypoint_dialog)
 
-        val gpxId = checkNotNull(intent.extras[Keys.GpxId] as? Long) { waypointError() }
+        val bundle = intent.extras ?: return waypointError()
+        val gpxId = checkNotNull(bundle[Keys.GpxId] as? Long) { waypointError() }
 
         done_button.setOnClickListener {
             startWaypointService(gpxId,title_editText.text.toString(), note_editText.text.toString())
@@ -39,7 +40,7 @@ class CreateWaypointDialogActivity : AppCompatActivity() {
 
     private fun waypointError() {
         Alerts(applicationContext)
-                .genericError(R.string.cannot_create_waypoint) { _ -> finish() }
+                .genericError(R.string.cannot_create_waypoint) { finish() }
                 .show()
     }
 

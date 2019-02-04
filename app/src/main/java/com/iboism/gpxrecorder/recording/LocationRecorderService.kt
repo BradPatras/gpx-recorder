@@ -106,7 +106,6 @@ class LocationRecorderService : Service() {
         fusedLocation.requestLocationUpdates(config.locationRequest(),
                 locationCallback,
                 mainLooper)
-
     }
 
     private fun onLocationChanged(location: Location?) {

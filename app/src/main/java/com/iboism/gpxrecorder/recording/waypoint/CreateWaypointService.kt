@@ -36,7 +36,7 @@ class CreateWaypointService : BroadcastReceiver()  {
         return Waypoint(
                 lat = loc.latitude,
                 lon = loc.longitude,
-                ele = loc.altitude,
+                ele = loc.altitude.takeIf { loc.hasAltitude() },
                 title = title,
                 desc = note
         )
@@ -62,9 +62,9 @@ class CreateWaypointService : BroadcastReceiver()  {
         }
 
         private fun harvestParameters(intent: Intent): Triple<Long, String, String>? {
-            val gpxId = intent.data.getQueryParameter(gpxIdKey)?.toLong() ?: return null
-            val note = intent.data.getQueryParameter(waypointNoteKey) ?: return null
-            val title = intent.data.getQueryParameter(waypointTitleKey) ?: return null
+            val gpxId = intent.data?.getQueryParameter(gpxIdKey)?.toLong() ?: return null
+            val note = intent.data?.getQueryParameter(waypointNoteKey) ?: return null
+            val title = intent.data?.getQueryParameter(waypointTitleKey) ?: return null
 
             return Triple(gpxId, title, note)
         }

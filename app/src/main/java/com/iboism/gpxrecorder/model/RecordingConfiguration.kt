@@ -8,7 +8,7 @@ import com.google.android.gms.location.LocationRequest
  */
 class RecordingConfiguration(
         var title: String = "Unititled Recording",
-        var interval: Long = 300000 // 5 minutes
+        var interval: Long = defaultInterval // 2.5 minutes
 ) {
 
     fun locationRequest(): LocationRequest {
@@ -28,9 +28,11 @@ class RecordingConfiguration(
     }
 
     companion object {
-        var titleKey = "kTitle"
-        var intervalKey = "kInterval"
-        var configKey = "kConfig"
+        const val titleKey = "kTitle"
+        const val intervalKey = "kInterval"
+        const val configKey = "kConfig"
+        const val defaultInterval: Long = 150000
+
 
         fun fromBundle(bundle: Bundle): RecordingConfiguration? {
             if (!bundle.containsKey(titleKey)) return null

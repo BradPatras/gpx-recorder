@@ -9,6 +9,7 @@ import android.widget.SeekBar
 import android.widget.TextView
 import android.widget.EditText
 import com.iboism.gpxrecorder.R
+import kotlin.math.roundToInt
 
 /**
  * Created by brad on 5/8/18.
@@ -17,7 +18,8 @@ import com.iboism.gpxrecorder.R
 private const val INTERVAL_MIN = 1
 
 class RecordingConfiguratorView(root: View,
-                                intervalValue: TextView = root.findViewById(R.id.interval_value),
+                                initialIntervalMinutes: Float,
+                                intervalValueTextView: TextView = root.findViewById(R.id.interval_value),
                                 private val intervalSlider: SeekBar = root.findViewById(R.id.interval_seekBar),
                                 val titleEditText: EditText = root.findViewById(R.id.config_title_editText),
                                 val doneButton: Button = root.findViewById(R.id.start_button)) {
@@ -30,15 +32,20 @@ class RecordingConfiguratorView(root: View,
         intervalSlider.thumb.setColorFilter(primaryColor, PorterDuff.Mode.SRC_IN)
         intervalSlider.max -= INTERVAL_MIN
 
-        intervalSlider.bindProgress(intervalValue, INTERVAL_MIN)
+        intervalSlider.bindProgress(intervalValueTextView, initialIntervalMinutes)
     }
 
     fun actualInterval(): Float {
         return (intervalSlider.progress + INTERVAL_MIN) / 2f
     }
 
-    private fun SeekBar.bindProgress(textView: TextView, offset: Int = 0) {
-        textView.text = (this.progress + offset).toString()
+    private fun sliderProgressFromActual(interval: Float): Int {
+        return ((interval * 2) - (INTERVAL_MIN.toFloat() / 2f)).toInt()
+    }
+
+    private fun SeekBar.bindProgress(textView: TextView, initialValueMinutes: Float) {
+        this.progress = sliderProgressFromActual(initialValueMinutes)
+        textView.text = actualInterval().toString()
         this.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
             override fun onStartTrackingTouch(p0: SeekBar?) {}
 

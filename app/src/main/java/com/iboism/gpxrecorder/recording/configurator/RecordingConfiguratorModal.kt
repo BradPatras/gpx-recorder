@@ -1,6 +1,7 @@
 package com.iboism.gpxrecorder.recording.configurator
 
 import android.content.Context
+import android.content.SharedPreferences
 import android.graphics.Point
 import android.graphics.PointF
 import android.os.Bundle
@@ -12,8 +13,8 @@ import android.view.View
 import android.view.ViewGroup
 import com.iboism.gpxrecorder.R
 import com.iboism.gpxrecorder.model.RecordingConfiguration
+import com.iboism.gpxrecorder.util.SharedPreferencesHelper
 import com.iboism.gpxrecorder.util.circularRevealOnNextLayout
-
 
 const val REVEAL_ORIGIN_X_KEY = "kRevealXOrigin"
 const val REVEAL_ORIGIN_Y_KEY = "kRevealYOrigin"
@@ -26,12 +27,18 @@ class RecordingConfiguratorModal : Fragment() {
                               savedInstanceState: Bundle?): View? {
 
         return inflater.inflate(R.layout.config_dialog, container, false)?.apply {
-            configuratorView = RecordingConfiguratorView(this)
-            configuratorView.doneButton.setOnClickListener { _ ->
+            val prefs = SharedPreferencesHelper.default(context)
+            val initialInterval = prefs.getFloat(RecordingConfiguration.intervalKey, RecordingConfiguration.defaultInterval.toFloat() / 60000f)
+            configuratorView = RecordingConfiguratorView(this, initialInterval)
+            configuratorView.doneButton.setOnClickListener {
+                SharedPreferencesHelper.default(context).edit()
+                        .putFloat(RecordingConfiguration.intervalKey, configuratorView.actualInterval())
+                        .apply()
+
                 listener?.configurationCreated (
                         RecordingConfiguration(
                                 title = configuratorView.titleEditText.text.toString().takeIf { it.isNotEmpty() } ?: "Untitled",
-                                interval = configuratorView.actualInterval().toLong()
+                                interval = (configuratorView.actualInterval() * 60000f).toLong()
                         ))
                 this@RecordingConfiguratorModal.fragmentManager?.popBackStack()
             }
