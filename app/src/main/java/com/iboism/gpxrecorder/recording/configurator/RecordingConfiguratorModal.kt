@@ -1,19 +1,15 @@
 package com.iboism.gpxrecorder.recording.configurator
 
 import android.content.Context
-import android.content.SharedPreferences
-import android.graphics.Point
-import android.graphics.PointF
 import android.os.Bundle
+import android.preference.PreferenceManager
 import android.support.v4.app.Fragment
 import android.support.v4.app.FragmentManager
-import android.support.v7.app.AppCompatActivity
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.iboism.gpxrecorder.R
 import com.iboism.gpxrecorder.model.RecordingConfiguration
-import com.iboism.gpxrecorder.util.SharedPreferencesHelper
 import com.iboism.gpxrecorder.util.circularRevealOnNextLayout
 
 const val REVEAL_ORIGIN_X_KEY = "kRevealXOrigin"
@@ -27,11 +23,11 @@ class RecordingConfiguratorModal : Fragment() {
                               savedInstanceState: Bundle?): View? {
 
         return inflater.inflate(R.layout.config_dialog, container, false)?.apply {
-            val prefs = SharedPreferencesHelper.default(context)
+            val prefs = PreferenceManager.getDefaultSharedPreferences(context)
             val initialInterval = prefs.getFloat(RecordingConfiguration.intervalKey, RecordingConfiguration.defaultInterval.toFloat() / 60000f)
             configuratorView = RecordingConfiguratorView(this, initialInterval)
             configuratorView.doneButton.setOnClickListener {
-                SharedPreferencesHelper.default(context).edit()
+                PreferenceManager.getDefaultSharedPreferences(context).edit()
                         .putFloat(RecordingConfiguration.intervalKey, configuratorView.actualInterval())
                         .apply()
 
