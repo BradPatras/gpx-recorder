@@ -8,6 +8,7 @@ import android.content.Intent
 import android.location.Location
 import android.os.Binder
 import android.os.IBinder
+import android.util.Log
 import com.google.android.gms.location.LocationCallback
 import com.google.android.gms.location.LocationResult
 import com.google.android.gms.location.LocationServices
@@ -118,6 +119,7 @@ class LocationRecorderService : Service() {
                 gpx?.trackList?.last()?.segments?.last()?.addPoint(trkpt)
             }
             realm.close()
+            Log.i("RECORDER", "\n\nlocation recorded: ${System.currentTimeMillis() / 60000}\n\n")
         }
     }
 

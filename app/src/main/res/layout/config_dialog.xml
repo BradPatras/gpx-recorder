@@ -4,15 +4,16 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@android:color/white"
-    android:paddingTop="10dp">
+    android:paddingTop="10dp"
+    android:clickable="true">
 
     <EditText
         android:id="@+id/config_title_editText"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="@dimen/dialog_horizontal_margin"
         android:layout_marginStart="@dimen/dialog_horizontal_margin"
         android:layout_marginTop="24dp"
+        android:layout_marginEnd="@dimen/dialog_horizontal_margin"
         android:hint="@string/enter_title"
         android:lines="1"
         android:singleLine="true"
@@ -21,17 +22,98 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/title" />
 
-    <SeekBar
-        android:id="@+id/interval_seekBar"
+    <TextView
+        android:id="@+id/hours_lbl"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
         android:layout_marginEnd="8dp"
+        android:layout_marginStart="4dp"
+        android:text="h"
+        android:textSize="16sp"
+        app:layout_constraintStart_toEndOf="@+id/interval_hours_picker"
+        app:layout_constraintEnd_toStartOf="@id/interval_minutes_picker"
+        app:layout_constraintTop_toTopOf="@+id/interval_minutes_picker"
+        app:layout_constraintBottom_toBottomOf="@id/interval_minutes_picker"/>
+
+    <TextView
+        android:id="@+id/minutes_lbl"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="4dp"
+        android:text="m"
+        android:textSize="16sp"
+        app:layout_constraintStart_toEndOf="@+id/interval_minutes_picker"
+        app:layout_constraintEnd_toStartOf="@id/interval_seconds_picker"
+        app:layout_constraintTop_toTopOf="@+id/interval_minutes_picker"
+        app:layout_constraintBottom_toBottomOf="@id/interval_minutes_picker"/>
+
+    <TextView
+        android:id="@+id/seconds_lbl"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="4dp"
+        android:text="s"
+        android:textSize="16sp"
+        app:layout_constraintStart_toEndOf="@+id/interval_seconds_picker"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/interval_minutes_picker"
+        app:layout_constraintBottom_toBottomOf="@id/interval_minutes_picker"/>
+
+    <android.support.constraint.Guideline
+        android:id="@+id/hguide_one_fourth"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.2" />
+
+    <android.support.constraint.Guideline
+        android:id="@+id/hguide_half"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent=".5" />
+
+    <android.support.constraint.Guideline
+        android:id="@+id/hguide_three_fourths"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.8" />
+
+    <NumberPicker
+        android:id="@+id/interval_hours_picker"
+        android:layout_width="wrap_content"
+        android:layout_height="80dp"
         android:layout_marginStart="@dimen/dialog_horizontal_margin"
         android:layout_marginTop="8dp"
-        android:max="60"
-        android:progress="1"
-        app:layout_constraintEnd_toStartOf="@+id/interval_value"
-        app:layout_constraintStart_toStartOf="parent"
+        android:layout_marginEnd="8dp"
+        app:layout_constraintRight_toRightOf="@id/hguide_one_fourth"
+        app:layout_constraintLeft_toLeftOf="@id/hguide_one_fourth"
+        app:layout_constraintTop_toBottomOf="@+id/textView2" />
+
+    <NumberPicker
+        android:id="@+id/interval_minutes_picker"
+        android:layout_width="wrap_content"
+        android:layout_height="80dp"
+        android:layout_marginTop="8dp"
+        app:layout_constraintRight_toRightOf="@id/hguide_half"
+        app:layout_constraintLeft_toLeftOf="@id/hguide_half"
+        app:layout_constraintTop_toBottomOf="@+id/textView2" />
+
+    <NumberPicker
+        android:id="@+id/interval_seconds_picker"
+        android:layout_width="wrap_content"
+        android:layout_height="80dp"
+        android:layout_marginStart="@dimen/dialog_horizontal_margin"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
+        app:layout_constraintRight_toRightOf="@id/hguide_three_fourths"
+        app:layout_constraintLeft_toLeftOf="@id/hguide_three_fourths"
         app:layout_constraintTop_toBottomOf="@+id/textView2" />
 
     <TextView
@@ -49,28 +131,17 @@
         android:id="@+id/textView3"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
         android:text="@string/how_often_to_record_track_points"
         android:textAlignment="textStart"
         android:textAppearance="@style/TextAppearance.AppCompat.Caption"
         android:textSize="12sp"
-        app:layout_constraintEnd_toEndOf="@+id/interval_seekBar"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="@+id/textView2"
-        app:layout_constraintTop_toBottomOf="@+id/interval_seekBar" />
-
-    <TextView
-        android:id="@+id/interval_value"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="@dimen/dialog_horizontal_margin"
-        android:text="#"
-        app:layout_constraintBottom_toBottomOf="@+id/interval_seekBar"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/interval_seekBar"
-        app:layout_constraintTop_toTopOf="@+id/interval_seekBar" />
+        app:layout_constraintTop_toBottomOf="@id/interval_hours_picker" />
 
     <Button
         android:id="@+id/start_button"
@@ -94,13 +165,20 @@
         android:id="@+id/title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
+        android:layout_marginEnd="8dp"
         android:text="@string/new_recording"
         android:textAppearance="@style/TextAppearance.AppCompat.Headline"
         android:textColor="@color/colorAccent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
+    <android.support.constraint.Guideline
+        android:id="@+id/guideline"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_begin="20dp" />
 
 </android.support.constraint.ConstraintLayout>

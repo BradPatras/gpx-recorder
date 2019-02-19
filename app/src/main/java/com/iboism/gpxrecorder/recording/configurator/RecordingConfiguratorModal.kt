@@ -28,13 +28,13 @@ class RecordingConfiguratorModal : Fragment() {
             configuratorView = RecordingConfiguratorView(this, initialInterval)
             configuratorView.doneButton.setOnClickListener {
                 PreferenceManager.getDefaultSharedPreferences(context).edit()
-                        .putFloat(RecordingConfiguration.intervalKey, configuratorView.actualInterval())
+                        .putFloat(RecordingConfiguration.intervalKey, 1f)//configuratorView.actualInterval())
                         .apply()
 
                 listener?.configurationCreated (
                         RecordingConfiguration(
                                 title = configuratorView.titleEditText.text.toString().takeIf { it.isNotEmpty() } ?: "Untitled",
-                                interval = (configuratorView.actualInterval() * 60000f).toLong()
+                                interval = (1f /*configuratorView.actualInterval() */ * 60000f).toLong()
                         ))
                 this@RecordingConfiguratorModal.fragmentManager?.popBackStack()
             }
