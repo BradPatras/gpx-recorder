@@ -24,17 +24,17 @@ class RecordingConfiguratorModal : Fragment() {
 
         return inflater.inflate(R.layout.config_dialog, container, false)?.apply {
             val prefs = PreferenceManager.getDefaultSharedPreferences(context)
-            val initialInterval = prefs.getFloat(RecordingConfiguration.intervalKey, RecordingConfiguration.defaultInterval.toFloat() / 60000f)
+            val initialInterval = prefs.getLong(RecordingConfiguration.intervalKey, RecordingConfiguration.defaultInterval)
             configuratorView = RecordingConfiguratorView(this, initialInterval)
             configuratorView.doneButton.setOnClickListener {
                 PreferenceManager.getDefaultSharedPreferences(context).edit()
-                        .putFloat(RecordingConfiguration.intervalKey, 1f)//configuratorView.actualInterval())
+                        .putLong(RecordingConfiguration.intervalKey, configuratorView.getIntervalMillis())
                         .apply()
 
                 listener?.configurationCreated (
                         RecordingConfiguration(
                                 title = configuratorView.titleEditText.text.toString().takeIf { it.isNotEmpty() } ?: "Untitled",
-                                interval = (1f /*configuratorView.actualInterval() */ * 60000f).toLong()
+                                interval = configuratorView.getIntervalMillis()
                         ))
                 this@RecordingConfiguratorModal.fragmentManager?.popBackStack()
             }

@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@android:color/white"
@@ -88,10 +89,7 @@
     <NumberPicker
         android:id="@+id/interval_hours_picker"
         android:layout_width="wrap_content"
-        android:layout_height="80dp"
-        android:layout_marginStart="@dimen/dialog_horizontal_margin"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="8dp"
+        android:layout_height="100dp"
         app:layout_constraintRight_toRightOf="@id/hguide_one_fourth"
         app:layout_constraintLeft_toLeftOf="@id/hguide_one_fourth"
         app:layout_constraintTop_toBottomOf="@+id/textView2" />
@@ -99,7 +97,7 @@
     <NumberPicker
         android:id="@+id/interval_minutes_picker"
         android:layout_width="wrap_content"
-        android:layout_height="80dp"
+        android:layout_height="100dp"
         android:layout_marginTop="8dp"
         app:layout_constraintRight_toRightOf="@id/hguide_half"
         app:layout_constraintLeft_toLeftOf="@id/hguide_half"
@@ -108,7 +106,7 @@
     <NumberPicker
         android:id="@+id/interval_seconds_picker"
         android:layout_width="wrap_content"
-        android:layout_height="80dp"
+        android:layout_height="100dp"
         android:layout_marginStart="@dimen/dialog_horizontal_margin"
         android:layout_marginTop="8dp"
         android:layout_marginEnd="8dp"
@@ -121,7 +119,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="@dimen/dialog_horizontal_margin"
-        android:layout_marginTop="24dp"
+        android:layout_marginTop="18dp"
         android:text="@string/interval_minutes"
         android:textSize="18sp"
         app:layout_constraintStart_toStartOf="parent"
@@ -131,7 +129,7 @@
         android:id="@+id/textView3"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
+        android:layout_marginStart="12dp"
         android:layout_marginTop="8dp"
         android:layout_marginEnd="8dp"
         android:text="@string/how_often_to_record_track_points"
@@ -143,12 +141,30 @@
         app:layout_constraintStart_toStartOf="@+id/textView2"
         app:layout_constraintTop_toBottomOf="@id/interval_hours_picker" />
 
+    <TextView
+        android:id="@+id/textView4"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="12dp"
+        android:layout_marginTop="0dp"
+        android:layout_marginEnd="8dp"
+        android:alpha="0.75"
+        android:text="@string/battery_drain_warning"
+        android:textAlignment="textStart"
+        android:textAppearance="@style/TextAppearance.AppCompat.Caption"
+        android:textSize="12sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="@+id/textView2"
+        app:layout_constraintTop_toBottomOf="@id/textView3"
+        android:textColor="@android:color/holo_red_light"/>
+
     <Button
         android:id="@+id/start_button"
         style="@style/Widget.AppCompat.Button.Borderless.Colored"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:layout_marginTop="32dp"
+        android:layout_marginTop="24dp"
         android:background="@color/colorAccent"
         android:gravity="center"
         android:text="@string/start"
@@ -158,7 +174,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView3"
+        app:layout_constraintTop_toBottomOf="@+id/textView4"
         app:layout_constraintVertical_bias="0.0" />
 
     <TextView

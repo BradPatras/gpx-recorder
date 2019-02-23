@@ -61,4 +61,5 @@
     <string name="init_error_title" translatable="false">Failed to Initialize Local Database</string>
     <string name="init_error_message" translatable="false">Please check application file permissions and try again. \n\nNote: This app doesn\'t support rooted devices and must be installed from the Google Play Store.\n\nIf this problem persists, contact the developer.\n\nappdev.iboism@gmail.com</string>
     <string name="shortcut_label">Start recording</string>
+    <string name="battery_drain_warning">Intervals faster than 1 minutes may cause battery drain</string>
 </resources>

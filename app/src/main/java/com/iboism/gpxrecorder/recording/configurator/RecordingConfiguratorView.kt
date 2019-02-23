@@ -12,7 +12,7 @@ import com.iboism.gpxrecorder.R
  */
 
 class RecordingConfiguratorView(root: View,
-                                initialIntervalMillis: Float,
+                                initialIntervalMillis: Long,
                                 val titleEditText: EditText = root.findViewById(R.id.config_title_editText),
                                 val doneButton: Button = root.findViewById(R.id.start_button),
                                 val hoursPicker: NumberPicker = root.findViewById(R.id.interval_hours_picker),
@@ -22,14 +22,22 @@ class RecordingConfiguratorView(root: View,
 
     init {
         hoursPicker.minValue = 0
-        hoursPicker.maxValue = 24
-        hoursPicker.wrapSelectorWheel = false
+        hoursPicker.maxValue = 12
+        hoursPicker.wrapSelectorWheel = true
         minutesPicker.minValue = 0
-        minutesPicker.maxValue = 60
-        minutesPicker.wrapSelectorWheel = false
+        minutesPicker.maxValue = 59
+        minutesPicker.wrapSelectorWheel = true
         secondsPicker.minValue = 1
-        secondsPicker.maxValue = 60
-        secondsPicker.wrapSelectorWheel = false
+        secondsPicker.maxValue = 59
+        secondsPicker.wrapSelectorWheel = true
+
+        val hours = initialIntervalMillis / 3600000L
+        val minutes = (initialIntervalMillis - (hours * 3600000L)) / 60000L
+        val seconds = (initialIntervalMillis - (hours * 3600000L) - (minutes * 60000L)) / 1000L
+
+        hoursPicker.value = hours.toInt()
+        minutesPicker.value = minutes.toInt()
+        secondsPicker.value = seconds.toInt()
     }
 
     fun getIntervalMillis(): Long {
