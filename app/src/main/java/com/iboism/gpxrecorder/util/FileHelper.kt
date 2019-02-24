@@ -46,9 +46,10 @@ class FileHelper {
                 .observeOn(AndroidSchedulers.mainThread())
                 .map { file ->
                     ShareHelper(context).shareFile(file)
-                }.doOnError {
+                }.ignoreElement().onErrorComplete {
                     Alerts(context).genericError(R.string.file_share_failed).show()
-                }.ignoreElement()
+                    return@onErrorComplete true
+                }
     }
 
     private fun getGpxStub(context: Context): String {
