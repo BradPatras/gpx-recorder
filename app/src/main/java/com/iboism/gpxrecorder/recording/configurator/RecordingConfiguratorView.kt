@@ -18,7 +18,6 @@ class RecordingConfiguratorView(root: View,
                                 val hoursPicker: NumberPicker = root.findViewById(R.id.interval_hours_picker),
                                 val minutesPicker: NumberPicker = root.findViewById(R.id.interval_minutes_picker),
                                 val secondsPicker: NumberPicker = root.findViewById(R.id.interval_seconds_picker)) {
-    private val context: Context = root.context
 
     init {
         hoursPicker.minValue = 0
