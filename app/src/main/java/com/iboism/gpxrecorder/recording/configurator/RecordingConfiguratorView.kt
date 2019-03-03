@@ -27,7 +27,7 @@ class RecordingConfiguratorView(root: View,
         minutesPicker.minValue = 0
         minutesPicker.maxValue = 59
         minutesPicker.wrapSelectorWheel = true
-        secondsPicker.minValue = 1
+        secondsPicker.minValue = 0
         secondsPicker.maxValue = 59
         secondsPicker.wrapSelectorWheel = true
 
