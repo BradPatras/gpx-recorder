@@ -12,6 +12,11 @@ Android app to record gps routes in the background and allow user to export rout
 - [RxJava](https://github.com/ReactiveX/RxJava) for handling everything asynchronous
 
 ## Releases
+### - 1.7 | February 23, 2019
+- Swapped interval selector to Number Pickers
+- Persist last selected interval as default
+- Fixed memory leaks
+<br><br>
 ### - 1.6 | Nov 3, 2018
 - Added App Shortcut for starting a new recording
 - Use localized date and time formats
