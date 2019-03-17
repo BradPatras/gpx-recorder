@@ -28,6 +28,8 @@ class PathPreviewView @JvmOverloads constructor(
 
     private var isLoading: Boolean = false
 
+    var onDrawPointsCompletedListener: ((view: PathPreviewView) -> Unit)? = null
+
     fun loadPoints(points: List<LatLng>? = emptyList()) {
         this.points = points ?: emptyList()
         setupPaints()
@@ -82,6 +84,8 @@ class PathPreviewView @JvmOverloads constructor(
             capDotPaint.color = Color.RED
             canvas.drawCircle(it.x, height - it.y, width.toFloat() * 0.03f, capDotPaint)
         }
+
+        onDrawPointsCompletedListener?.invoke(this)
     }
 
     private fun drawLoading(canvas: Canvas) {
@@ -125,6 +129,7 @@ class PathPreviewView @JvmOverloads constructor(
             val y = (((point.latitude - pointsXMin) / boundingLength) * viewBoundWidth) + xOffset
             return@map PointF(x.toFloat(), y.toFloat())
         }
+
         this.scaledPoints = scaledPoints
 
         if (scaledPoints.size > 1) {

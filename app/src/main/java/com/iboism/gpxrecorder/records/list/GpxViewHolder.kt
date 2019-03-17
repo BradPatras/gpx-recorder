@@ -3,6 +3,7 @@ package com.iboism.gpxrecorder.records.list
 import android.support.v7.widget.RecyclerView
 import android.view.View
 import android.widget.Button
+import android.widget.ImageView
 import android.widget.ProgressBar
 import android.widget.TextView
 import com.google.android.gms.maps.model.LatLng
@@ -26,6 +27,7 @@ class GpxViewHolder(view: View): RecyclerView.ViewHolder(view) {
     val waypointCountView = view.findViewById(R.id.gpx_content_waypoint_count) as TextView
     private val exportProgressBar = view.findViewById(R.id.gpx_content_export_progress_bar) as ProgressBar
     var previewView = view.findViewById(R.id.preview_view) as PathPreviewView
+    var previewImageView = view.findViewById(R.id.preview_image) as ImageView
 
     init {
         deletedView.visibility = View.GONE

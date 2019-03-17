@@ -1,9 +1,11 @@
 package com.iboism.gpxrecorder.records.list
 
 import android.support.v7.widget.RecyclerView
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import com.google.android.gms.maps.model.LatLng
 import com.iboism.gpxrecorder.R
 import com.iboism.gpxrecorder.model.GpxContent
@@ -23,7 +25,7 @@ private const val VIEW_TYPE_DELETED = 1
 
 class GpxRecyclerViewAdapter(contentList: OrderedRealmCollection<GpxContent>) : RealmRecyclerViewAdapter<GpxContent, GpxViewHolder>(contentList, true) {
     private var fileHelper: FileHelper? = null
-
+    private var viewCache: ViewCache = ViewCache()
     private var hiddenRowIdentifiers: MutableList<Long> = mutableListOf()
     var contentViewerOpener: ((gpxId: Long) -> Unit)? = null
 
@@ -32,6 +34,11 @@ class GpxRecyclerViewAdapter(contentList: OrderedRealmCollection<GpxContent>) : 
 
     init {
         setHasStableIds(true)
+    }
+
+    override fun onAttachedToRecyclerView(recyclerView: RecyclerView) {
+        super.onAttachedToRecyclerView(recyclerView)
+        viewCache.initialize(recyclerView.context)
     }
 
     override fun onDetachedFromRecyclerView(recyclerView: RecyclerView) {
@@ -107,19 +114,36 @@ class GpxRecyclerViewAdapter(contentList: OrderedRealmCollection<GpxContent>) : 
         viewHolder.distanceView.text = context.resources.getString(R.string.distance_km, distance)
         viewHolder.previewView.setLoading()
 
-        val previewPoints = cachedPoints[gpx.identifier]
-        if (previewPoints != null) {
-            viewHolder.previewView.loadPoints(previewPoints)
+        if (viewCache.fetchView(context, gpx.identifier, target = viewHolder.previewImageView)) {
+            viewHolder.previewImageView.visibility = View.VISIBLE
+            viewHolder.previewView.visibility = View.INVISIBLE
+            Log.i("BIND_ROW", "Route preview loaded from cache")
         } else {
-            previewLoaders[gpx.identifier] = viewHolder.startPreviewPointsLoader(segment, gpx.identifier)
-                    ?.subscribe { gist ->
-                        cachedPoints[gpx.identifier] = gist
+            Log.i("BIND_ROW", "Route preview drawn from scratch")
+            viewHolder.previewImageView.visibility = View.INVISIBLE
+            viewHolder.previewView.visibility = View.VISIBLE
+            val previewPoints = cachedPoints[gpx.identifier]
+            if (previewPoints != null) {
+                viewHolder.previewView.loadPoints(previewPoints)
+                viewHolder.previewView.onDrawPointsCompletedListener = {
+                    viewCache.cacheView(context, it, gpx.identifier)
+                    it.onDrawPointsCompletedListener = null
+                }
+            } else {
+                previewLoaders[gpx.identifier] = viewHolder.startPreviewPointsLoader(segment, gpx.identifier)
+                        ?.subscribe { gist ->
+                            cachedPoints[gpx.identifier] = gist
 
-                        if (viewHolder.itemId == gpx.identifier)
-                            viewHolder.previewView.loadPoints(gist)
-                    }
+                            if (viewHolder.itemId == gpx.identifier) {
+                                viewHolder.previewView.loadPoints(gist)
+                                viewHolder.previewView.onDrawPointsCompletedListener = {
+                                    viewCache.cacheView(context, it, gpx.identifier)
+                                    it.onDrawPointsCompletedListener = null
+                                }
+                            }
+                        }
+            }
         }
-
         viewHolder.setExportLoading(fileHelper?.isExporting() == gpx.identifier)
     }
 

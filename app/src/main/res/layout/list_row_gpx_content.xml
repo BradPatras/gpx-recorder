@@ -10,8 +10,6 @@
     android:clipToPadding="false"
     android:background="@android:color/transparent">
 
-
-
     <android.support.constraint.ConstraintLayout
         android:id="@+id/main_content_layout"
         android:layout_width="match_parent"
@@ -28,6 +26,14 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"/>
+
+        <ImageView
+            android:id="@+id/preview_image"
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent" />
 
         <TextView
             android:id="@+id/gpx_content_title"

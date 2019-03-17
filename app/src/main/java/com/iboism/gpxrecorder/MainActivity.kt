@@ -7,10 +7,7 @@ import android.support.v4.view.GravityCompat
 import android.support.v7.app.AlertDialog
 import android.support.v7.app.AppCompatActivity
 import com.iboism.gpxrecorder.extensions.getRealmInitFailure
-import com.iboism.gpxrecorder.model.GpxContent
-import com.iboism.gpxrecorder.model.RecordingConfiguration
-import com.iboism.gpxrecorder.model.Segment
-import com.iboism.gpxrecorder.model.Track
+import com.iboism.gpxrecorder.model.*
 import com.iboism.gpxrecorder.navigation.NavigationHelper
 import com.iboism.gpxrecorder.recording.LocationRecorderService
 import com.iboism.gpxrecorder.recording.configurator.RecordingConfiguratorModal
@@ -18,6 +15,7 @@ import com.iboism.gpxrecorder.records.list.GpxListFragment
 import io.realm.Realm
 import io.realm.RealmList
 import kotlinx.android.synthetic.main.activity_main.*
+import java.util.*
 
 
 class MainActivity : AppCompatActivity(), RecordingConfiguratorModal.Listener {
@@ -38,7 +36,7 @@ class MainActivity : AppCompatActivity(), RecordingConfiguratorModal.Listener {
                     .add(R.id.content_container, GpxListFragment.newInstance())
                     .commit()
 
-//            // uncomment to create random track and add it to realm
+            // uncomment to create random track and add it to realm
 //            val lst = listOf("Weekend Trip", "Windy Hike", "Forest Trail", "Creek Hike", "Mushroom Hunting", "Taking it Easy", "Hiking Out", "Hill Trace")
 //            for (j in 0 until lst.count()) {
 //                val seg = Segment()
