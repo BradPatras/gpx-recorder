@@ -8,7 +8,7 @@ import android.support.v4.app.NotificationCompat
 import com.iboism.gpxrecorder.R
 import com.iboism.gpxrecorder.MainActivity
 import com.iboism.gpxrecorder.recording.waypoint.CreateWaypointDialogActivity
-import com.iboism.gpxrecorder.util.Keys
+import com.iboism.gpxrecorder.Keys
 
 /**
  * Created by bradpatras on 12/13/17.

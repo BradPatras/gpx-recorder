@@ -15,7 +15,7 @@ import com.google.firebase.analytics.FirebaseAnalytics
 import com.iboism.gpxrecorder.model.GpxContent
 import com.iboism.gpxrecorder.model.RecordingConfiguration
 import com.iboism.gpxrecorder.model.TrackPoint
-import com.iboism.gpxrecorder.util.Keys
+import com.iboism.gpxrecorder.Keys
 import io.realm.Realm
 
 /**

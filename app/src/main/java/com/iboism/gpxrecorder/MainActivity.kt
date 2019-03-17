@@ -15,7 +15,6 @@ import com.iboism.gpxrecorder.navigation.NavigationHelper
 import com.iboism.gpxrecorder.recording.LocationRecorderService
 import com.iboism.gpxrecorder.recording.configurator.RecordingConfiguratorModal
 import com.iboism.gpxrecorder.records.list.GpxListFragment
-import com.iboism.gpxrecorder.util.Keys
 import io.realm.Realm
 import io.realm.RealmList
 import kotlinx.android.synthetic.main.activity_main.*
