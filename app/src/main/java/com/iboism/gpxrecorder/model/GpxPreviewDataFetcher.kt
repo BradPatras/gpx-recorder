@@ -7,47 +7,43 @@ import com.bumptech.glide.load.data.DataFetcher
 import com.google.android.gms.maps.model.LatLng
 import io.realm.Realm
 import java.lang.Exception
-import java.nio.ByteBuffer
 import kotlin.math.max
 
 private const val PADDING_RATIO = .2f
 
-class GpxPreviewDataFetcher(val gpxId: Long, val width: Int,val height: Int): DataFetcher<ByteBuffer> {
+class GpxPreviewDataFetcher(val gpxId: Long, val width: Int,val height: Int): DataFetcher<Bitmap> {
     private val linePaint = Paint()
     private val dotPaint = Paint()
     private val capDotPaint = Paint()
-    private var scaledPoints: List<PointF>? = null
 
-    override fun getDataClass(): Class<ByteBuffer> {
-        return ByteBuffer::class.java
+    override fun getDataClass(): Class<Bitmap> {
+        return Bitmap::class.java
     }
 
     override fun cleanup() {
-        // todo
+        // todo figure out if i need to do something here
     }
 
     override fun getDataSource(): DataSource {
-        return DataSource.LOCAL
+        return DataSource.LOCAL // todo investigate the other source options
     }
 
     override fun cancel() {
     }
 
-    override fun loadData(priority: Priority, callback: DataFetcher.DataCallback<in ByteBuffer>) {
+    override fun loadData(priority: Priority, callback: DataFetcher.DataCallback<in Bitmap>) {
         val points = getPoints(gpxId) ?: return callback.onLoadFailed(Exception()) // todo add exceptions
-        val path = getScaledPath(points, width, height)
 
         val config = Bitmap.Config.RGB_565
         val bitmap = Bitmap.createBitmap(width, height, config)
         val canvas = Canvas(bitmap)
 
-        drawPath(path, canvas, height, width)
+        val scaledPoints = getScaledPoints(points, width, height)
+        val scaledPath = getScaledPath(scaledPoints, width)
 
-        val byteCount = bitmap.byteCount
-        val buffer = ByteBuffer.allocate(byteCount)
-        bitmap.copyPixelsToBuffer(buffer)
+        drawPreview(scaledPoints, scaledPath, canvas, height, width)
 
-        callback.onDataReady(buffer)
+        callback.onDataReady(bitmap)
     }
 
     private fun getPoints(gpxId: Long): List<LatLng>? {
@@ -59,11 +55,7 @@ class GpxPreviewDataFetcher(val gpxId: Long, val width: Int,val height: Int): Da
         return points
     }
 
-    private fun getScaledPath(points: List<LatLng>, w: Int, h: Int): Path {
-        val scaledPoints: List<PointF>
-        val scaledPath = Path()
-
-        // recalculate scaled points
+    private fun getScaledPoints(points: List<LatLng>, w: Int, h: Int): List<PointF> {
         val pointsXMax = points.fold(points.first().latitude.toFloat()) { max, pointF -> Math.max(max, pointF.latitude.toFloat()) }
         val pointsXMin = points.fold(points.first().latitude.toFloat()) { min, pointF -> Math.min(min, pointF.latitude.toFloat()) }
 
@@ -86,17 +78,22 @@ class GpxPreviewDataFetcher(val gpxId: Long, val width: Int,val height: Int): Da
 
         val yOffset = (h - newPointsHeight)/2f
         val xOffset = (w - newPointsWidth)/2f
-        scaledPoints = points.map { point ->
 
+        return points.map { point ->
             val x = (((point.longitude - pointsYMin) / boundingLength) * viewBoundHeight) + yOffset
             val y = (((point.latitude - pointsXMin) / boundingLength) * viewBoundWidth) + xOffset
             return@map PointF(x.toFloat(), y.toFloat())
         }
+    }
 
-        if (scaledPoints.size > 1) {
+    private fun getScaledPath(points: List<PointF>, h: Int): Path {
+        val scaledPath = Path()
+        val viewBoundHeight = h - (h * PADDING_RATIO)
+
+        if (points.size > 1) {
             scaledPath.reset()
-            scaledPath.moveTo(scaledPoints[0].x, viewBoundHeight - scaledPoints[0].y)
-            scaledPoints.forEach {
+            scaledPath.moveTo(points[0].x, viewBoundHeight - points[0].y)
+            points.forEach {
                 scaledPath.lineTo(it.x, h - it.y)
             }
         }
@@ -104,24 +101,24 @@ class GpxPreviewDataFetcher(val gpxId: Long, val width: Int,val height: Int): Da
         return scaledPath
     }
 
-    private fun drawPath(scaledPath: Path, canvas: Canvas, height: Int, width: Int) {
+    private fun drawPreview(scaledPoints: List<PointF>, scaledPath: Path, canvas: Canvas, height: Int, width: Int) {
         canvas.drawColor(Color.parseColor("#c1ecb0"))
 
-        setupPaints(height, width)
+        setupPaints(height)
         canvas.drawPath(scaledPath, linePaint)
 
-        scaledPoints?.forEach {
+        scaledPoints.forEach {
             canvas.drawCircle(it.x, height - it.y, width.toFloat() * 0.02f, dotPaint)
         }
 
-        scaledPoints?.firstOrNull()?.let {
+        scaledPoints.firstOrNull()?.let {
             capDotPaint.color = Color.BLACK
             canvas.drawCircle(it.x, height - it.y, width.toFloat() * 0.035f, capDotPaint)
             capDotPaint.color = Color.GREEN
             canvas.drawCircle(it.x, height - it.y, width.toFloat() * 0.03f, capDotPaint)
         }
 
-        scaledPoints?.lastOrNull()?.let {
+        scaledPoints.lastOrNull()?.let {
             capDotPaint.color = Color.BLACK
             canvas.drawCircle(it.x, height - it.y, width.toFloat() * 0.035f, capDotPaint)
             capDotPaint.color = Color.RED
@@ -129,9 +126,9 @@ class GpxPreviewDataFetcher(val gpxId: Long, val width: Int,val height: Int): Da
         }
     }
 
-    private fun setupPaints(height: Int, width: Int) {
+    private fun setupPaints(heightForScaling: Int) {
         linePaint.color = Color.parseColor("#46b4fb")
-        linePaint.strokeWidth = height * .05f
+        linePaint.strokeWidth = heightForScaling * .05f
         linePaint.style = Paint.Style.STROKE
         linePaint.strokeJoin = Paint.Join.ROUND
         linePaint.strokeCap = Paint.Cap.ROUND
@@ -139,7 +136,7 @@ class GpxPreviewDataFetcher(val gpxId: Long, val width: Int,val height: Int): Da
 
         dotPaint.color = Color.WHITE
         dotPaint.style = Paint.Style.FILL
-        dotPaint.strokeWidth = height * .01f
+        dotPaint.strokeWidth = heightForScaling * .01f
         dotPaint.flags = Paint.ANTI_ALIAS_FLAG
 
         capDotPaint.set(dotPaint)

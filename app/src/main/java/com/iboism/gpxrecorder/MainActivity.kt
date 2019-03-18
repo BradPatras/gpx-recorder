@@ -37,31 +37,31 @@ class MainActivity : AppCompatActivity(), RecordingConfiguratorModal.Listener {
                     .commit()
 
             // uncomment to create random track and add it to realm
-//            val lst = listOf("Weekend Trip", "Windy Hike", "Forest Trail", "Creek Hike", "Mushroom Hunting", "Taking it Easy", "Hiking Out", "Hill Trace")
-//            for (j in 0 until lst.count()) {
-//                val seg = Segment()
-//                val r = Random()
-//                var sLat = 40.64777601
-//                var sLon = -105.516816
-//                for (i in 0..50) {
-//                    sLat += (r.nextInt(5).toDouble() / 1000.0) * if(r.nextBoolean()) 1 else -1
-//                    sLon += (r.nextInt(5).toDouble() / 1000.0) * if(r.nextBoolean()) 1 else -1
-//                    seg.addPoint(TrackPoint(lat = sLat, lon = sLon))
-//                }
-//
-//                val trk = Track(segments = RealmList(seg))
-//                val gpx = GpxContent(title = lst[j], trackList = RealmList(trk))
-//
-//                val wlst = RealmList<Waypoint>()
-//                for (i in 0..r.nextInt(4)) {
-//                    wlst.add(Waypoint())
-//                }
-//                gpx.waypointList = wlst
-//
-//                Realm.getDefaultInstance().executeTransaction {
-//                    it.copyToRealm(gpx)
-//                }
-//            }
+            val lst = listOf("Weekend Trip", "Windy Hike", "Forest Trail", "Creek Hike", "Mushroom Hunting", "Taking it Easy", "Hiking Out", "Hill Trace")
+            for (j in 0 until lst.count()) {
+                val seg = Segment()
+                val r = Random()
+                var sLat = 40.64777601
+                var sLon = -105.516816
+                for (i in 0..50) {
+                    sLat += (r.nextInt(5).toDouble() / 1000.0) * if(r.nextBoolean()) 1 else -1
+                    sLon += (r.nextInt(5).toDouble() / 1000.0) * if(r.nextBoolean()) 1 else -1
+                    seg.addPoint(TrackPoint(lat = sLat, lon = sLon))
+                }
+
+                val trk = Track(segments = RealmList(seg))
+                val gpx = GpxContent(title = lst[j], trackList = RealmList(trk))
+
+                val wlst = RealmList<Waypoint>()
+                for (i in 0..r.nextInt(4)) {
+                    wlst.add(Waypoint())
+                }
+                gpx.waypointList = wlst
+
+                Realm.getDefaultInstance().executeTransaction {
+                    it.copyToRealm(gpx)
+                }
+            }
         }
 
         if (Keys.ShortcutAction == intent.action) {

@@ -19,14 +19,6 @@
         android:minHeight="80dp"
         android:padding="10dp">
 
-        <com.iboism.gpxrecorder.records.list.PathPreviewView
-            android:id="@+id/preview_view"
-            android:layout_width="80dp"
-            android:layout_height="80dp"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent"/>
-
         <ImageView
             android:id="@+id/preview_image"
             android:layout_width="80dp"
@@ -46,7 +38,7 @@
             android:lines="1"
             android:text="title"
             app:layout_constraintEnd_toStartOf="@+id/frameLayout"
-            app:layout_constraintStart_toEndOf="@id/preview_view"
+            app:layout_constraintStart_toEndOf="@id/preview_image"
             app:layout_constraintTop_toTopOf="parent"/>
 
         <TextView
@@ -107,7 +99,7 @@
             android:src="@drawable/ic_calendar"
             android:tint="@android:color/darker_gray"
             app:layout_constraintBottom_toBottomOf="@id/gpx_content_date"
-            app:layout_constraintStart_toEndOf="@+id/preview_view"
+            app:layout_constraintStart_toEndOf="@+id/preview_image"
             app:layout_constraintTop_toTopOf="@+id/gpx_content_date"
             app:layout_constraintVertical_bias="0.0" />
 
@@ -119,7 +111,7 @@
             android:src="@drawable/ic_route"
             android:tint="@android:color/darker_gray"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/preview_view"
+            app:layout_constraintStart_toEndOf="@+id/preview_image"
             app:layout_constraintTop_toTopOf="@+id/gpx_content_waypoint_count"
             app:layout_constraintVertical_bias="0.0" />
 

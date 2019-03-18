@@ -6,8 +6,11 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
+import com.bumptech.glide.Glide
+import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.google.android.gms.maps.model.LatLng
 import com.iboism.gpxrecorder.R
+import com.iboism.gpxrecorder.glide.GpxModelKey
 import com.iboism.gpxrecorder.model.GpxContent
 import com.iboism.gpxrecorder.util.*
 import io.reactivex.Single
@@ -25,20 +28,11 @@ private const val VIEW_TYPE_DELETED = 1
 
 class GpxRecyclerViewAdapter(contentList: OrderedRealmCollection<GpxContent>) : RealmRecyclerViewAdapter<GpxContent, GpxViewHolder>(contentList, true) {
     private var fileHelper: FileHelper? = null
-    private var viewCache: ViewCache = ViewCache()
     private var hiddenRowIdentifiers: MutableList<Long> = mutableListOf()
     var contentViewerOpener: ((gpxId: Long) -> Unit)? = null
 
-    private var cachedPoints = mutableMapOf<Long, List<LatLng>?>()
-    private var previewLoaders = mutableMapOf<Long, Disposable?>()
-
     init {
         setHasStableIds(true)
-    }
-
-    override fun onAttachedToRecyclerView(recyclerView: RecyclerView) {
-        super.onAttachedToRecyclerView(recyclerView)
-        viewCache.initialize(recyclerView.context)
     }
 
     override fun onDetachedFromRecyclerView(recyclerView: RecyclerView) {
@@ -85,13 +79,6 @@ class GpxRecyclerViewAdapter(contentList: OrderedRealmCollection<GpxContent>) : 
         return holder
     }
 
-    override fun onViewDetachedFromWindow(holder: GpxViewHolder) {
-        previewLoaders[holder.itemId]?.dispose()
-        previewLoaders[holder.itemId] = null
-
-        super.onViewDetachedFromWindow(holder)
-    }
-
     override fun onBindViewHolder(viewHolder: GpxViewHolder, position: Int) {
         val gpx = getItem(position) ?: return
         val context = viewHolder.rootView.context
@@ -112,38 +99,12 @@ class GpxRecyclerViewAdapter(contentList: OrderedRealmCollection<GpxContent>) : 
         val segment = gpx.trackList.firstOrNull()?.segments?.firstOrNull()
         val distance = segment?.distance ?: 0f
         viewHolder.distanceView.text = context.resources.getString(R.string.distance_km, distance)
-        viewHolder.previewView.setLoading()
+        Glide.with(context)
+                .load(GpxModelKey(gpx.identifier))
+                .placeholder(R.drawable.preview_placeholder)
+                .diskCacheStrategy(DiskCacheStrategy.RESOURCE)
+                .into(viewHolder.previewImageView)
 
-        if (viewCache.fetchView(context, gpx.identifier, target = viewHolder.previewImageView)) {
-            viewHolder.previewImageView.visibility = View.VISIBLE
-            viewHolder.previewView.visibility = View.INVISIBLE
-            Log.i("BIND_ROW", "Route preview loaded from cache")
-        } else {
-            Log.i("BIND_ROW", "Route preview drawn from scratch")
-            viewHolder.previewImageView.visibility = View.INVISIBLE
-            viewHolder.previewView.visibility = View.VISIBLE
-            val previewPoints = cachedPoints[gpx.identifier]
-            if (previewPoints != null) {
-                viewHolder.previewView.loadPoints(previewPoints)
-                viewHolder.previewView.onDrawPointsCompletedListener = {
-                    viewCache.cacheView(context, it, gpx.identifier)
-                    it.onDrawPointsCompletedListener = null
-                }
-            } else {
-                previewLoaders[gpx.identifier] = viewHolder.startPreviewPointsLoader(segment, gpx.identifier)
-                        ?.subscribe { gist ->
-                            cachedPoints[gpx.identifier] = gist
-
-                            if (viewHolder.itemId == gpx.identifier) {
-                                viewHolder.previewView.loadPoints(gist)
-                                viewHolder.previewView.onDrawPointsCompletedListener = {
-                                    viewCache.cacheView(context, it, gpx.identifier)
-                                    it.onDrawPointsCompletedListener = null
-                                }
-                            }
-                        }
-            }
-        }
         viewHolder.setExportLoading(fileHelper?.isExporting() == gpx.identifier)
     }
 
@@ -172,7 +133,6 @@ class GpxRecyclerViewAdapter(contentList: OrderedRealmCollection<GpxContent>) : 
         val realm = Realm.getDefaultInstance()
         realm.executeTransaction { _ ->
             data?.where()?.equalTo(GpxContent.primaryKey, identifier)?.findFirst()?.deleteFromRealm()
-            previewLoaders.remove(identifier)?.dispose()
             hiddenRowIdentifiers.remove(identifier)
         }
         realm.close()
