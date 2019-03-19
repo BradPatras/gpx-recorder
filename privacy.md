@@ -40,7 +40,7 @@
 <p>While using our Service, we may ask you to provide us with certain personally identifiable information that can be used to contact or identify you ("Personal Data"). Personally identifiable information may include, but is not limited to:</p>
 
 <ul>
-                    <li>Cookies and Usage Data</li>
+                    <li>Usage Data</li>
 </ul>
 
 
@@ -48,26 +48,11 @@
 
 <p>When you access the Service with a mobile device, we may collect certain information automatically, including, but not limited to, the type of mobile device you use, your mobile device unique ID, the IP address of your mobile device, your mobile operating system, the type of mobile Internet browser you use, unique device identifiers and other diagnostic data ("Usage Data").</p>
 
-
-<h4>Tracking & Cookies Data</h4>
-<p>We use cookies and similar tracking technologies to track the activity on our Service and we hold certain information.</p>
-<p>Cookies are files with a small amount of data which may include an anonymous unique identifier. Cookies are sent to your browser from a website and stored on your device. Other tracking technologies are also used such as beacons, tags and scripts to collect and track information and to improve and analyse our Service.</p>
-<p>You can instruct your browser to refuse all cookies or to indicate when a cookie is being sent. However, if you do not accept cookies, you may not be able to use some portions of our Service.</p>
-<p>Examples of Cookies we use:</p>
-<ul>
-    <li><strong>Session Cookies.</strong> We use Session Cookies to operate our Service.</li>
-    <li><strong>Preference Cookies.</strong> We use Preference Cookies to remember your preferences and various settings.</li>
-    <li><strong>Security Cookies.</strong> We use Security Cookies for security purposes.</li>
-    </ul>
-
 <h2>Use of Data</h2> 
 <p>Brad Patras App Development uses the collected data for various purposes:</p>    
 <ul>
     <li>To provide and maintain our Service</li>
-    <li>To notify you about changes to our Service</li>
-    <li>To allow you to participate in interactive features of our Service when you choose to do so</li>
-    <li>To provide customer support</li>
-    <li>To gather analysis or valuable information so that we can improve our Service</li>
+    <li>To gather analysis so that we can improve our Service</li>
     <li>To monitor the usage of our Service</li>
     <li>To detect, prevent and address technical issues</li>
     </ul>
@@ -137,7 +122,7 @@
 
 <h2>Contact Us</h2>
 <p>If you have any questions about this Privacy Policy, please contact us:</p>
-<ul>
-        <li>By email: appdev.iboism@gmail.com</li>
+
+ By email: appdev.iboism@gmail.com
           
-        </ul>
+
