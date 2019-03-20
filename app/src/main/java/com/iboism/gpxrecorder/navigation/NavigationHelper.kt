@@ -40,6 +40,9 @@ class NavigationHelper(private val activity: Activity) : NavigationView.OnNaviga
                 }
                 realm.close()
             }
+
+            R.id.nav_privacy_policy ->
+                activity.launchExternalIntent(Intent(Intent.ACTION_VIEW, Uri.parse("http://bradpatras.github.io/privacy")))
         }
 
         activity.drawer_layout.closeDrawer(GravityCompat.START)
