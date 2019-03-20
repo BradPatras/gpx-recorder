@@ -31,8 +31,12 @@
                 <!--/>-->
         </menu>
     </item>
-    <item
-        android:id="@+id/nav_privacy_policy"
-        android:title="@string/privacy_policy"
-        android:icon="@drawable/ic_privacy_policy"/>
+    <item android:title="@string/legal">
+        <menu>
+            <item
+                android:id="@+id/nav_privacy_policy"
+                android:title="@string/privacy_policy"
+                android:icon="@drawable/ic_privacy_policy"/>
+        </menu>
+    </item>
 </menu>

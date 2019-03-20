@@ -63,4 +63,5 @@
     <string name="shortcut_label">Start recording</string>
     <string name="battery_drain_warning" translatable="false">Intervals shorter than 1 minute may cause battery drain</string>
     <string name="privacy_policy">Privacy Policy</string>
+    <string name="legal">Legal</string>
 </resources>

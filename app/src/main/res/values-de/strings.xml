@@ -20,6 +20,7 @@
     <string name="notification_recording_in_progress">Aufzeichnungstandort</string>
     <string name="pause_recording">Pausieren Aufzeichnung</string>
     <string name="privacy_policy">Datenschutz-Bestimmungen</string>
+    <string name="legal">Legal</string>
     <string name="resume_recording">Fortsetzen Aufzuichnung</string>
     <string name="new_recording">Neue Aufzeichnung</string>
     <string name="distance_km">%.2f km</string>
