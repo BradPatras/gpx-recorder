@@ -22,13 +22,13 @@ import io.realm.Realm
  * Created by Brad on 11/19/2017.
  */
 class LocationRecorderService : Service() {
-    private val serviceBinder = ServiceBinder()
-    private var gpxId: Long? = null
-    private var config = RecordingConfiguration()
+    var gpxId: Long? = null
 
+    private val serviceBinder = ServiceBinder()
+    private var config = RecordingConfiguration()
     private var notificationHelper: RecordingNotification? = null
 
-    private val Context.notificationManager: NotificationManager
+    private val notificationManager: NotificationManager
         get() = getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
 
     private val fusedLocation by lazy {
@@ -121,8 +121,7 @@ class LocationRecorderService : Service() {
     }
 
     inner class ServiceBinder : Binder() {
-        internal val service: LocationRecorderService
-            get() = this@LocationRecorderService
+        fun getService() = this@LocationRecorderService
     }
 }
 
