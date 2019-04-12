@@ -1,17 +1,16 @@
 package com.iboism.gpxrecorder
 
 import android.annotation.SuppressLint
-import android.content.ComponentName
-import android.content.Context
 import android.content.Intent
-import android.content.ServiceConnection
 import android.os.Bundle
-import android.os.IBinder
 import android.support.v4.view.GravityCompat
 import android.support.v7.app.AlertDialog
 import android.support.v7.app.AppCompatActivity
 import com.iboism.gpxrecorder.extensions.getRealmInitFailure
-import com.iboism.gpxrecorder.model.*
+import com.iboism.gpxrecorder.model.GpxContent
+import com.iboism.gpxrecorder.model.RecordingConfiguration
+import com.iboism.gpxrecorder.model.Segment
+import com.iboism.gpxrecorder.model.Track
 import com.iboism.gpxrecorder.navigation.NavigationHelper
 import com.iboism.gpxrecorder.recording.LocationRecorderService
 import com.iboism.gpxrecorder.recording.configurator.RecordingConfiguratorModal
@@ -19,34 +18,11 @@ import com.iboism.gpxrecorder.records.list.GpxListFragment
 import io.realm.Realm
 import io.realm.RealmList
 import kotlinx.android.synthetic.main.activity_main.*
-import java.util.*
 
 
 class MainActivity : AppCompatActivity(), RecordingConfiguratorModal.Listener {
 
     private val navigationHelper: NavigationHelper = NavigationHelper(this)
-    private var recorderService: LocationRecorderService? = null
-
-    private val serviceConnection = object : ServiceConnection {
-        override fun onServiceConnected(className: ComponentName, service: IBinder) {
-            val binder = service as LocationRecorderService.ServiceBinder
-            recorderService = binder.getService()
-        }
-
-        override fun onServiceDisconnected(name: ComponentName) {
-            recorderService = null
-        }
-    }
-
-    override fun onStart() {
-        super.onStart()
-        bindRecorderService()
-    }
-
-    override fun onStop() {
-        super.onStop()
-        unbindRecorderService()
-    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -107,15 +83,6 @@ class MainActivity : AppCompatActivity(), RecordingConfiguratorModal.Listener {
         } else {
             super.onBackPressed()
         }
-    }
-
-    private fun bindRecorderService() {
-        val intent = Intent(this, LocationRecorderService::class.java)
-        bindService(intent, serviceConnection, 0)
-    }
-
-    private fun unbindRecorderService() {
-        unbindService(serviceConnection)
     }
 
     private fun showSchemaFailure() {
