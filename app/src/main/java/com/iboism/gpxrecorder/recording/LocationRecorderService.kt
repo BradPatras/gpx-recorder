@@ -12,11 +12,13 @@ import com.google.android.gms.location.LocationCallback
 import com.google.android.gms.location.LocationResult
 import com.google.android.gms.location.LocationServices
 import com.google.firebase.analytics.FirebaseAnalytics
+import com.iboism.gpxrecorder.Events
 import com.iboism.gpxrecorder.model.GpxContent
 import com.iboism.gpxrecorder.model.RecordingConfiguration
 import com.iboism.gpxrecorder.model.TrackPoint
 import com.iboism.gpxrecorder.Keys
 import io.realm.Realm
+import org.greenrobot.eventbus.EventBus
 
 /**
  * Created by Brad on 11/19/2017.
@@ -66,6 +68,10 @@ class LocationRecorderService : Service() {
     }
 
     private fun stopRecording() {
+        EventBus.getDefault().apply {
+            removeStickyEvent(Events.RecordingStartedEvent::class.java)
+            post(Events.RecordingStoppedEvent(gpxId))
+        }
         stopSelf()
     }
 
@@ -94,6 +100,7 @@ class LocationRecorderService : Service() {
         val notificationHelper = RecordingNotification(applicationContext, gpxId)
         val notification = notificationHelper.notification()
 
+        EventBus.getDefault().postSticky(Events.RecordingStartedEvent(gpxId))
         this.gpxId = gpxId
         this.notificationHelper = notificationHelper
         startForeground(gpxId.toInt(), notification)

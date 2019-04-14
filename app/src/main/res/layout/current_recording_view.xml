@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/current_recording_layout"
+    android:layout_width="match_parent"
+    android:layout_height="90dp"
+    android:background="@android:color/white"
+    android:padding="10dp">
+
+    <TextView android:id="@+id/current_rec_header"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        android:layout_marginLeft="@dimen/activity_horizontal_margin"
+        android:textStyle="bold"
+        android:textColor="@color/colorAccentLight"
+        android:textSize="16sp"
+        android:text="Recording in progress"/>
+
+    <TextView android:id="@+id/route_title_tv"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@id/current_rec_header"
+        app:layout_constraintLeft_toLeftOf="@id/current_rec_header"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/add_wpt_view"
+        android:layout_marginLeft="@dimen/activity_horizontal_margin"
+        android:textColor="@color/colorAccentLight"
+        android:textSize="16sp"
+        android:text="Current route title"/>
+
+    <TextView android:id="@+id/add_wpt_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintLeft_toLeftOf="@id/hguide_one_fourth"
+        app:layout_constraintRight_toRightOf="@id/hguide_one_fourth"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:textColor="@color/colorAccentDark"
+        android:text="@string/add_waypoint"
+        android:orientation="horizontal"
+        android:tint="@android:color/black"
+        android:drawableStart="@drawable/ic_add_location"
+        android:drawablePadding="4dp">
+    </TextView>
+
+    <TextView android:id="@+id/playpause_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintLeft_toLeftOf="@id/hguide_half"
+        app:layout_constraintRight_toRightOf="@id/hguide_half"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:textColor="@color/colorAccentDark"
+        android:text="@string/pause_recording"
+        android:orientation="horizontal"
+        android:tint="@android:color/black"
+        android:drawableStart="@drawable/ic_pause"
+        android:drawablePadding="4dp">
+    </TextView>
+
+    <TextView android:id="@+id/stop_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintLeft_toLeftOf="@id/hguide_three_fourths"
+        app:layout_constraintRight_toRightOf="@id/hguide_three_fourths"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:textColor="@color/colorAccentDark"
+        android:text="@string/stop_recording"
+        android:orientation="horizontal"
+        android:tint="@android:color/black"
+        android:drawableStart="@drawable/ic_cancel"
+        android:drawablePadding="4dp">
+    </TextView>
+
+    <android.support.constraint.Guideline
+        android:id="@+id/hguide_one_fourth"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.2" />
+
+    <android.support.constraint.Guideline
+        android:id="@+id/hguide_half"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent=".5" />
+
+    <android.support.constraint.Guideline
+        android:id="@+id/hguide_three_fourths"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.8" />
+
+</android.support.constraint.ConstraintLayout>

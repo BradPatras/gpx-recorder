@@ -1,22 +1,24 @@
-package com.iboism.gpxrecorder
+package com.iboism.gpxrecorder.recording
 
 import android.content.ComponentName
 import android.content.Context
 import android.content.Intent
 import android.content.ServiceConnection
 import android.os.IBinder
-import com.iboism.gpxrecorder.recording.LocationRecorderService
 
-class RecorderServiceConnection(val delegate: OnServiceConnectedDelegate) {
+class RecorderServiceConnection(private val delegate: OnServiceConnectedDelegate) {
     interface OnServiceConnectedDelegate {
-        fun onServiceConnected(service: LocationRecorderService)
+        fun onServiceConnected(serviceConnection: RecorderServiceConnection)
         fun onServiceDisconnected()
     }
+
+    var service: LocationRecorderService? = null
 
     private val serviceConnection = object : ServiceConnection {
         override fun onServiceConnected(className: ComponentName, service: IBinder) {
             val binder = service as LocationRecorderService.ServiceBinder
-            delegate.onServiceConnected(binder.getService())
+            this@RecorderServiceConnection.service = binder.getService()
+            delegate.onServiceConnected(this@RecorderServiceConnection)
         }
 
         override fun onServiceDisconnected(className: ComponentName) {

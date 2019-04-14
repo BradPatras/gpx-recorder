@@ -14,10 +14,9 @@ import io.reactivex.Single
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 
-class GpxViewHolder(view: View): RecyclerView.ViewHolder(view) {
+class GpxContentViewHolder(view: View): RecyclerView.ViewHolder(view) {
     val rootView = view
     val contentView = view.findViewById(R.id.main_content_layout) as View
-    val deletedView = view.findViewById(R.id.deleted_layout) as View
     val titleView = view.findViewById(R.id.gpx_content_title) as TextView
     val dateView = view.findViewById(R.id.gpx_content_date) as TextView
     val exportButton = view.findViewById(R.id.gpx_content_export_button) as Button
@@ -27,7 +26,6 @@ class GpxViewHolder(view: View): RecyclerView.ViewHolder(view) {
     var previewImageView = view.findViewById(R.id.preview_image) as ImageView
 
     init {
-        deletedView.visibility = View.GONE
         exportProgressBar.isIndeterminate = true
         exportProgressBar.visibility = View.GONE
     }

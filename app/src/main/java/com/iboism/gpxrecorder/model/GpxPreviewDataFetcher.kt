@@ -38,10 +38,12 @@ class GpxPreviewDataFetcher(val gpxId: Long, val width: Int,val height: Int): Da
         val bitmap = Bitmap.createBitmap(width, height, config)
         val canvas = Canvas(bitmap)
 
-        val scaledPoints = getScaledPoints(points, width, height)
-        val scaledPath = getScaledPath(scaledPoints, width)
+        if (points.isEmpty()) {
+            val scaledPoints = getScaledPoints(points, width, height)
+            val scaledPath = getScaledPath(scaledPoints, width)
 
-        drawPreview(scaledPoints, scaledPath, canvas, height, width)
+            drawPreview(scaledPoints, scaledPath, canvas, height, width)
+        }
 
         callback.onDataReady(bitmap)
     }
