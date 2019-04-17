@@ -1,6 +1,5 @@
 package com.iboism.gpxrecorder.records.list
 
-
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.view.LayoutInflater
@@ -73,10 +72,19 @@ class GpxListFragment : Fragment(), RecorderServiceConnection.OnServiceConnected
             current_recording_view.visibility = View.GONE
             return
         }
+
         current_recording_view.visibility = View.VISIBLE
         current_recording_view.apply {
             routeTitle.text = gpx.title
         }
+    }
+
+    private fun hideRecordingView() {
+
+    }
+
+    private fun showRecordingView() {
+
     }
 
     private fun onFabClicked(view: View) {

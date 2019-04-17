@@ -36,6 +36,8 @@ open class GpxContent(
         const val primaryKey = "identifier"
 
         fun withId(identifier: Long?, realm: Realm): GpxContent? {
+            if (identifier == null) return null
+
             return realm.where(GpxContent::class.java)
                     .equalTo(GpxContent.primaryKey, identifier)
                     .findFirst()

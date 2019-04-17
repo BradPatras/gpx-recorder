@@ -4,7 +4,7 @@
     <color name="colorAccent">#546e7a</color>
     <color name="colorAccentDark">#37474f</color>
     <color name="colorAccentLight">#78909c</color>
-    <color name="transparent">#00FFFFFF</color>
+    <color name="transparent">#000000</color>
     <color name="white">#fff</color>
     <color name="gGrey">#efeeec</color>
     <color name="gLightBlue">#46b4fb</color>
