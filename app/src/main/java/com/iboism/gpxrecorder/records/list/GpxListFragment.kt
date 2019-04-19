@@ -159,7 +159,9 @@ class GpxListFragment : Fragment(), RecorderServiceConnection.OnServiceConnected
     }
 
     private fun addWaypointButtonClicked(view: View) {
-        context?.startActivity(Intent(context, CreateWaypointDialogActivity::class.java).putExtra(Keys.GpxId, id))
+        currentlyRecordingRouteId?.let {
+            context?.startActivity(Intent(context, CreateWaypointDialogActivity::class.java).putExtra(Keys.GpxId, it))
+        }
     }
 
     private fun playPauseButtonClicked(view: View) {
