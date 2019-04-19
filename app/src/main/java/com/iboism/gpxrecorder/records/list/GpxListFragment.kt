@@ -1,5 +1,6 @@
 package com.iboism.gpxrecorder.records.list
 
+import android.content.Intent
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.view.LayoutInflater
@@ -18,7 +19,10 @@ import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.helper.ItemTouchHelper
 import android.support.v7.widget.RecyclerView
 import com.iboism.gpxrecorder.Events
+import com.iboism.gpxrecorder.Keys
+import com.iboism.gpxrecorder.recording.LocationRecorderService
 import com.iboism.gpxrecorder.recording.RecorderServiceConnection
+import com.iboism.gpxrecorder.recording.waypoint.CreateWaypointDialogActivity
 import org.greenrobot.eventbus.EventBus
 import org.greenrobot.eventbus.Subscribe
 
@@ -69,22 +73,24 @@ class GpxListFragment : Fragment(), RecorderServiceConnection.OnServiceConnected
         realm.close()
 
         if (gpx == null) {
-            current_recording_view.visibility = View.GONE
+            hideRecordingView()
             return
         }
 
-        current_recording_view.visibility = View.VISIBLE
+        showRecordingView()
         current_recording_view.apply {
             routeTitle.text = gpx.title
         }
     }
 
     private fun hideRecordingView() {
-
+        current_recording_view.visibility = View.GONE
+        fab.show()
     }
 
     private fun showRecordingView() {
-
+        current_recording_view.visibility = View.VISIBLE
+        fab.hide()
     }
 
     private fun onFabClicked(view: View) {
@@ -141,11 +147,27 @@ class GpxListFragment : Fragment(), RecorderServiceConnection.OnServiceConnected
                 super.onScrolled(recyclerView, dx, dy)
                 if (dy > 0 && fab.visibility == View.VISIBLE) {
                     fab.hide()
-                } else if (dy < 0 && fab.visibility != View.VISIBLE) {
+                } else if (dy < 0 && fab.visibility != View.VISIBLE && current_recording_view.visibility != View.VISIBLE) {
                     fab.show()
                 }
             }
         })
+
+        current_recording_view.addWaypointButton.setOnClickListener(this::addWaypointButtonClicked)
+        current_recording_view.playPauseButton.setOnClickListener(this::playPauseButtonClicked)
+        current_recording_view.stopButton.setOnClickListener(this::stopButtonClicked)
+    }
+
+    private fun addWaypointButtonClicked(view: View) {
+        context?.startActivity(Intent(context, CreateWaypointDialogActivity::class.java).putExtra(Keys.GpxId, id))
+    }
+
+    private fun playPauseButtonClicked(view: View) {
+
+    }
+
+    private fun stopButtonClicked(view: View) {
+        context?.startService(Intent(context, LocationRecorderService::class.java).putExtra(Keys.StopService, true))
     }
 
     private fun setPlaceholdersHidden(hidden: Boolean) {
