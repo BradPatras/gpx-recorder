@@ -25,6 +25,7 @@ import org.greenrobot.eventbus.EventBus
  */
 class LocationRecorderService : Service() {
     var gpxId: Long? = null
+    var isPaused: Boolean = false
 
     private val serviceBinder = ServiceBinder()
     private var config = RecordingConfiguration()
@@ -67,7 +68,7 @@ class LocationRecorderService : Service() {
         return super.onStartCommand(intent, flags, startId)
     }
 
-    private fun stopRecording() {
+    fun stopRecording() {
         EventBus.getDefault().apply {
             removeStickyEvent(Events.RecordingStartedEvent::class.java)
             post(Events.RecordingStoppedEvent(gpxId))
@@ -75,19 +76,21 @@ class LocationRecorderService : Service() {
         stopSelf()
     }
 
-    private fun pauseRecording() {
+    fun pauseRecording() {
         val notificationHelper = notificationHelper ?: return
         val gpxId = gpxId ?: return
-
+        isPaused = true
+        EventBus.getDefault().post(Events.RecordingPausedEvent(gpxId))
         notificationManager.notify(gpxId.toInt(), notificationHelper.setPaused(true).notification())
         fusedLocation.removeLocationUpdates(locationCallback)
     }
 
     @SuppressLint("MissingPermission")
-    private fun resumeRecording() {
+    fun resumeRecording() {
         val notificationHelper = notificationHelper ?: return
         val gpxId = gpxId ?: return
-
+        isPaused = false
+        EventBus.getDefault().post(Events.RecordingResumedEvent(gpxId))
         notificationManager.notify(gpxId.toInt(), notificationHelper.setPaused(false).notification())
         fusedLocation.requestLocationUpdates(config.locationRequest(),
                 locationCallback,
@@ -99,6 +102,7 @@ class LocationRecorderService : Service() {
         val gpxId = intent?.extras?.get(Keys.GpxId) as? Long ?: return
         val notificationHelper = RecordingNotification(applicationContext, gpxId)
         val notification = notificationHelper.notification()
+        isPaused = false
 
         EventBus.getDefault().postSticky(Events.RecordingStartedEvent(gpxId))
         this.gpxId = gpxId

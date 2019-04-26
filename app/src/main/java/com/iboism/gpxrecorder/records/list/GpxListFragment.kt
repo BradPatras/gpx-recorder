@@ -18,6 +18,7 @@ import kotlinx.android.synthetic.main.fragment_gpx_list.*
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.helper.ItemTouchHelper
 import android.support.v7.widget.RecyclerView
+import android.widget.Button
 import com.iboism.gpxrecorder.Events
 import com.iboism.gpxrecorder.Keys
 import com.iboism.gpxrecorder.recording.LocationRecorderService
@@ -46,9 +47,24 @@ class GpxListFragment : Fragment(), RecorderServiceConnection.OnServiceConnected
         }
     }
 
+    override fun onStart() {
+        super.onStart()
+
+        EventBus.getDefault().apply {
+            register(adapter)
+            register(this@GpxListFragment)
+        }
+    }
+
+    override fun onResume() {
+        super.onResume()
+        current_recording_view.setPaused(serviceConnection.service?.isPaused ?: false)
+    }
+
     override fun onServiceConnected(serviceConnection: RecorderServiceConnection) {
         currentlyRecordingRouteId = serviceConnection.service?.gpxId
         updateCurrentRecordingView(currentlyRecordingRouteId)
+        current_recording_view.setPaused(serviceConnection.service?.isPaused ?: false)
     }
 
     override fun onServiceDisconnected() {
@@ -61,10 +77,20 @@ class GpxListFragment : Fragment(), RecorderServiceConnection.OnServiceConnected
         serviceConnection.requestConnection(requireContext())
     }
 
-    @Subscribe()
+    @Subscribe
     fun onServiceStoppedEvent(event: Events.RecordingStoppedEvent) {
         currentlyRecordingRouteId = null
         updateCurrentRecordingView(null)
+    }
+
+    @Subscribe
+    fun onServicePausedEvent(event: Events.RecordingPausedEvent) {
+        current_recording_view.setPaused(serviceConnection.service?.isPaused ?: false)
+    }
+
+    @Subscribe
+    fun onServiceResumedEvent(event: Events.RecordingResumedEvent) {
+        current_recording_view.setPaused(serviceConnection.service?.isPaused ?: false)
     }
 
     private fun updateCurrentRecordingView(gpxId: Long?) {
@@ -125,11 +151,6 @@ class GpxListFragment : Fragment(), RecorderServiceConnection.OnServiceConnected
         val adapter = GpxRecyclerViewAdapter(view.context, gpxContentList)
         adapter.contentViewerOpener = this::openContentViewer
 
-        EventBus.getDefault().apply {
-            register(adapter)
-            register(this@GpxListFragment)
-        }
-
         this.adapter = adapter
 
         ItemTouchHelper(GpxListSwipeHandler(adapter::rowDismissed)).attachToRecyclerView(gpx_listView)
@@ -165,7 +186,14 @@ class GpxListFragment : Fragment(), RecorderServiceConnection.OnServiceConnected
     }
 
     private fun playPauseButtonClicked(view: View) {
-
+        serviceConnection.service?.let {
+            current_recording_view.setPaused(it.isPaused)
+            if (it.isPaused) {
+                it.resumeRecording()
+            } else {
+                it.pauseRecording()
+            }
+        }
     }
 
     private fun stopButtonClicked(view: View) {
