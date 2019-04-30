@@ -113,13 +113,7 @@ class GpxRecyclerViewAdapter(val context: Context, contentList: OrderedRealmColl
 
     private fun onCreateDeletedViewHolder(parent: ViewGroup): DeletedViewHolder {
         val rowView = LayoutInflater.from(parent.context).inflate(R.layout.list_row_deleted, parent, false)
-        val holder = DeletedViewHolder(rowView)
-
-        holder.rootView.setOnClickListener {
-            unDismissRow(holder.itemId, holder.adapterPosition)
-        }
-
-        return holder
+        return DeletedViewHolder(rowView)
     }
 
     private fun onCreateCurrentRecordingViewHolder(parent: ViewGroup): CurrentRecordingViewHolder {
@@ -133,7 +127,6 @@ class GpxRecyclerViewAdapter(val context: Context, contentList: OrderedRealmColl
         when (viewHolder) {
             is GpxContentViewHolder -> bindContentViewHolder(viewHolder, position)
             is DeletedViewHolder -> bindDeletedViewHolder(viewHolder, position)
-            is CurrentRecordingViewHolder -> bindCurrentRecordingiewHolder(viewHolder, position)
         }
     }
 
@@ -152,18 +145,16 @@ class GpxRecyclerViewAdapter(val context: Context, contentList: OrderedRealmColl
         Glide.with(context)
                 .load(GpxModelKey(gpx.identifier))
                 .placeholder(R.drawable.preview_placeholder)
-                .diskCacheStrategy(DiskCacheStrategy.RESOURCE)
+                .diskCacheStrategy(DiskCacheStrategy.NONE) // Caching was causing wrong/duplicate previews showing up on routes todo Figure out why caching is broken
                 .into(viewHolder.previewImageView)
 
         viewHolder.setExportLoading(fileHelper?.isExporting() == gpx.identifier)
     }
 
     private fun bindDeletedViewHolder(viewHolder: DeletedViewHolder, position: Int) {
-        // todo no op?
-    }
-
-    private fun bindCurrentRecordingiewHolder(viewHolder: CurrentRecordingViewHolder, position: Int) {
-        //todo
+        viewHolder.rootView.setOnClickListener {
+            unDismissRow(viewHolder.itemId, position)
+        }
     }
 
     private fun unDismissRow(identifier: Long, viewPosition: Int) {

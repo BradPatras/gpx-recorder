@@ -1,6 +1,7 @@
 package com.iboism.gpxrecorder.model
 
 import android.graphics.*
+import android.util.Log
 import com.bumptech.glide.Priority
 import com.bumptech.glide.load.DataSource
 import com.bumptech.glide.load.data.DataFetcher
@@ -25,7 +26,7 @@ class GpxPreviewDataFetcher(val gpxId: Long, val width: Int,val height: Int): Da
     }
 
     override fun getDataSource(): DataSource {
-        return DataSource.LOCAL // todo investigate the other source options
+        return DataSource.REMOTE // todo investigate the other source options
     }
 
     override fun cancel() {
@@ -38,10 +39,11 @@ class GpxPreviewDataFetcher(val gpxId: Long, val width: Int,val height: Int): Da
         val bitmap = Bitmap.createBitmap(width, height, config)
         val canvas = Canvas(bitmap)
 
-        if (points.isEmpty()) {
+        canvas.drawColor(Color.parseColor("#c1ecb0"))
+
+        if (points.isNotEmpty()) {
             val scaledPoints = getScaledPoints(points, width, height)
             val scaledPath = getScaledPath(scaledPoints, width)
-
             drawPreview(scaledPoints, scaledPath, canvas, height, width)
         }
 
@@ -104,8 +106,6 @@ class GpxPreviewDataFetcher(val gpxId: Long, val width: Int,val height: Int): Da
     }
 
     private fun drawPreview(scaledPoints: List<PointF>, scaledPath: Path, canvas: Canvas, height: Int, width: Int) {
-        canvas.drawColor(Color.parseColor("#c1ecb0"))
-
         setupPaints(height)
         canvas.drawPath(scaledPath, linePaint)
 
