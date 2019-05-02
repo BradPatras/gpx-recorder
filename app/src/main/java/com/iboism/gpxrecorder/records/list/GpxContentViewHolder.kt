@@ -2,10 +2,7 @@ package com.iboism.gpxrecorder.records.list
 
 import androidx.recyclerview.widget.RecyclerView
 import android.view.View
-import android.widget.Button
-import android.widget.ImageView
-import android.widget.ProgressBar
-import android.widget.TextView
+import android.widget.*
 import com.google.android.gms.maps.model.LatLng
 import com.iboism.gpxrecorder.R
 import com.iboism.gpxrecorder.model.Segment
@@ -19,7 +16,7 @@ class GpxContentViewHolder(view: View): RecyclerView.ViewHolder(view) {
     val contentView = view.findViewById(R.id.main_content_layout) as View
     val titleView = view.findViewById(R.id.gpx_content_title) as TextView
     val dateView = view.findViewById(R.id.gpx_content_date) as TextView
-    val exportButton = view.findViewById(R.id.gpx_content_export_button) as Button
+    val exportButton = view.findViewById(R.id.gpx_content_export_button) as ImageButton
     val distanceView = view.findViewById(R.id.gpx_content_distance) as TextView
     val waypointCountView = view.findViewById(R.id.gpx_content_waypoint_count) as TextView
     private val exportProgressBar = view.findViewById(R.id.gpx_content_export_progress_bar) as ProgressBar
