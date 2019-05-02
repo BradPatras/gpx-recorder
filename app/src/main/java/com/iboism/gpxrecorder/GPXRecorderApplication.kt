@@ -4,7 +4,7 @@ import android.app.Application
 import android.app.NotificationChannel
 import android.app.NotificationManager
 import android.os.Build
-import android.support.annotation.RequiresApi
+import androidx.annotation.RequiresApi
 import com.crashlytics.android.Crashlytics
 import com.getkeepsafe.relinker.MissingLibraryException
 import com.iboism.gpxrecorder.model.Schema

@@ -3,9 +3,9 @@ package com.iboism.gpxrecorder
 import android.annotation.SuppressLint
 import android.content.Intent
 import android.os.Bundle
-import android.support.v4.view.GravityCompat
-import android.support.v7.app.AlertDialog
-import android.support.v7.app.AppCompatActivity
+import androidx.core.view.GravityCompat
+import androidx.appcompat.app.AlertDialog
+import androidx.appcompat.app.AppCompatActivity
 import com.iboism.gpxrecorder.extensions.getRealmInitFailure
 import com.iboism.gpxrecorder.model.GpxContent
 import com.iboism.gpxrecorder.model.RecordingConfiguration

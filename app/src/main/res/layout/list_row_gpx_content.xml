@@ -10,7 +10,7 @@
     android:clipToPadding="false"
     android:background="@android:color/transparent">
 
-    <android.support.constraint.ConstraintLayout
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/main_content_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -61,12 +61,13 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent">
 
-            <Button
+            <ImageButton
                 android:id="@+id/gpx_content_export_button"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:background="@drawable/ic_open_in"
-                android:backgroundTint="@android:color/darker_gray"/>
+                android:backgroundTint="@android:color/darker_gray"
+                />
 
             <ProgressBar
                 android:id="@+id/gpx_content_export_progress_bar"
@@ -124,5 +125,5 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toEndOf="@id/waypoints_icon"/>
 
-    </android.support.constraint.ConstraintLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
 </FrameLayout>

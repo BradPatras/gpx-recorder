@@ -48,7 +48,7 @@
         </activity>
 
         <provider
-            android:name="android.support.v4.content.FileProvider"
+            android:name="androidx.core.content.FileProvider"
             android:authorities="com.iboism.gpxrecorder.fileprovider"
             android:exported="false"
             android:grantUriPermissions="true">
@@ -62,7 +62,7 @@
             android:excludeFromRecents="true"
             android:launchMode="singleTask"
             android:taskAffinity="com.iboism.gpxrecorder.addWaypoint"
-            android:theme="@style/Theme.NoActionBarDialog">
+            android:theme="@style/Theme.MaterialComponents.NoActionBarDialog">
         </activity>
     </application>
 

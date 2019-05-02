@@ -3,7 +3,7 @@ package com.iboism.gpxrecorder.recording.waypoint
 import android.annotation.SuppressLint
 import android.app.PendingIntent
 import android.os.Bundle
-import android.support.v7.app.AppCompatActivity
+import androidx.appcompat.app.AppCompatActivity
 import com.google.android.gms.location.LocationRequest
 import com.google.android.gms.location.LocationServices
 import com.iboism.gpxrecorder.R

@@ -10,9 +10,9 @@ import com.iboism.gpxrecorder.util.DateTimeFormatHelper
 import com.google.android.gms.maps.model.BitmapDescriptorFactory
 import android.graphics.Bitmap
 import android.graphics.Canvas
-import android.support.v4.content.res.ResourcesCompat
-import android.support.annotation.DrawableRes
-import android.support.v4.content.ContextCompat
+import androidx.core.content.res.ResourcesCompat
+import androidx.annotation.DrawableRes
+import androidx.core.content.ContextCompat
 import android.view.ViewTreeObserver
 import com.google.android.gms.maps.*
 import com.google.android.gms.maps.model.BitmapDescriptor

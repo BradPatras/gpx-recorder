@@ -3,8 +3,8 @@ package com.iboism.gpxrecorder.navigation
 import android.app.Activity
 import android.content.Intent
 import android.net.Uri
-import android.support.design.widget.NavigationView
-import android.support.v4.view.GravityCompat
+import com.google.android.material.navigation.NavigationView
+import androidx.core.view.GravityCompat
 import android.view.MenuItem
 import com.iboism.gpxrecorder.R
 import com.iboism.gpxrecorder.model.GpxContent
