@@ -19,8 +19,11 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.RecyclerView
 import android.widget.Button
+import androidx.appcompat.app.AppCompatActivity
 import com.iboism.gpxrecorder.Events
 import com.iboism.gpxrecorder.Keys
+import com.iboism.gpxrecorder.navigation.BottomNavigationDrawer
+import com.iboism.gpxrecorder.navigation.NavigationHelper
 import com.iboism.gpxrecorder.recording.LocationRecorderService
 import com.iboism.gpxrecorder.recording.RecorderServiceConnection
 import com.iboism.gpxrecorder.recording.waypoint.CreateWaypointDialogActivity
@@ -144,8 +147,20 @@ class GpxListFragment : Fragment(), RecorderServiceConnection.OnServiceConnected
         return inflater.inflate(R.layout.fragment_gpx_list, container, false)
     }
 
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setHasOptionsMenu(true)
+    }
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        val activity = (requireActivity() as AppCompatActivity)
+        activity.setSupportActionBar(bottomAppBar)
+        bottomAppBar.setNavigationOnClickListener {
+            val bottomNavDrawerFragment = BottomNavigationDrawer()
+            bottomNavDrawerFragment.show(requireFragmentManager(), bottomNavDrawerFragment.tag)
+        }
 
         fab.setOnClickListener(this::onFabClicked)
         val adapter = GpxRecyclerViewAdapter(view.context, gpxContentList)

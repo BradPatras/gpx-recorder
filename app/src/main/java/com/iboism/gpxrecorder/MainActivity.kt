@@ -22,8 +22,6 @@ import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : AppCompatActivity(), RecordingConfiguratorModal.Listener {
 
-    private val navigationHelper: NavigationHelper = NavigationHelper(this)
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
@@ -69,20 +67,10 @@ class MainActivity : AppCompatActivity(), RecordingConfiguratorModal.Listener {
         if (Keys.ShortcutAction == intent.action) {
             RecordingConfiguratorModal.show(fragmentManager = supportFragmentManager)
         }
-
-        nav_view.setNavigationItemSelectedListener(navigationHelper)
     }
 
     override fun configurationCreated(configuration: RecordingConfiguration) {
         startRecording(configuration)
-    }
-
-    override fun onBackPressed() {
-        if (drawer_layout.isDrawerOpen(GravityCompat.START)) {
-            drawer_layout.closeDrawer(GravityCompat.START)
-        } else {
-            super.onBackPressed()
-        }
     }
 
     private fun showSchemaFailure() {

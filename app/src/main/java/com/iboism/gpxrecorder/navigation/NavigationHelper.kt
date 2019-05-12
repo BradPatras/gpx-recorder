@@ -45,7 +45,6 @@ class NavigationHelper(private val activity: Activity) : NavigationView.OnNaviga
                 activity.launchExternalIntent(Intent(Intent.ACTION_VIEW, Uri.parse("http://bradpatras.github.io/privacy")))
         }
 
-        activity.drawer_layout.closeDrawer(GravityCompat.START)
         return true
     }
 

@@ -3,16 +3,15 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.iboism.gpxrecorder.records.list.GpxListFragment"
+    android:clipToPadding="false"
+    android:clipChildren="false"
     android:id="@+id/fragment_gpx_list"
-    android:clipToPadding="false">
+    tools:context="com.iboism.gpxrecorder.records.list.GpxListFragment">
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/gpx_listView"
+    <androidx.recyclerview.widget.RecyclerView android:id="@+id/gpx_listView"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:background="@android:color/transparent"
-        android:clipChildren="false"
         android:clipToPadding="false"
         android:divider="@android:color/transparent"
         android:dividerHeight="4dp"
@@ -22,14 +21,11 @@
         android:scrollbars="none"
         app:layout_constraintBottom_toTopOf="@id/current_recording_view"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.0"
         />
 
-    <ImageView
-        android:id="@+id/placeholder_menu_icon"
+    <ImageView android:id="@+id/placeholder_menu_icon"
         android:layout_width="80dp"
         android:layout_height="80dp"
         android:layout_marginTop="24dp"
@@ -40,8 +36,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintBottom_toTopOf="@id/guideline_bottom" />
 
-    <TextView
-        android:id="@+id/placeholder_routes_text"
+    <TextView android:id="@+id/placeholder_routes_text"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginBottom="24dp"
@@ -79,38 +74,62 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/guideline_bottom" />
 
-    <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/guideline_top"
+    <androidx.constraintlayout.widget.Guideline android:id="@+id/guideline_top"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         app:layout_constraintGuide_percent=".3" />
 
-    <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/guideline_bottom"
+    <androidx.constraintlayout.widget.Guideline android:id="@+id/guideline_bottom"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         app:layout_constraintGuide_percent=".7" />
 
+    <com.iboism.gpxrecorder.recording.CurrentRecordingView android:id="@+id/current_recording_view"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toTopOf="@id/toolbar_wrapper_layout"
+        android:elevation="5dp"
+        android:clipToPadding="false"
+        android:visibility="gone" />
+
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/fab"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_margin="@dimen/fab_margin"
         android:rotation="50"
-        android:tint="@color/white"
-        app:layout_constraintBottom_toBottomOf="parent"
+        app:tint="@color/white"
+        app:backgroundTint="@color/colorAccentLight"
+        app:srcCompat="@drawable/ic_direction_arrow"
+        app:layout_constraintTop_toTopOf="@id/toolbar_wrapper_layout"
+        app:layout_constraintBottom_toTopOf="@id/toolbar_wrapper_layout"
         app:layout_constraintRight_toRightOf="parent"
-        app:srcCompat="@drawable/ic_direction_arrow" />
+        android:layout_marginRight="12dp"/>
 
-    <com.iboism.gpxrecorder.recording.CurrentRecordingView
-        android:id="@+id/current_recording_view"
-        android:layout_width="match_parent"
+    <androidx.coordinatorlayout.widget.CoordinatorLayout android:id="@+id/toolbar_wrapper_layout"
         android:layout_height="wrap_content"
-        app:layout_constraintBottom_toBottomOf="parent"
-        android:elevation="5dp"
+        android:layout_width="0dp"
         android:clipToPadding="false"
-        android:visibility="gone"/>
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        android:elevation="2dp"
+        >
+
+        <com.google.android.material.bottomappbar.BottomAppBar
+            android:id="@+id/bottomAppBar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom"
+            app:fabAlignmentMode="end"
+            app:fabCradleVerticalOffset="16dp"
+            app:fabAnimationMode="slide"
+            android:foregroundTint="@color/white"
+            app:backgroundTint="@color/colorAccentDark"
+            app:navigationIcon="@drawable/ic_menu"
+            />
+
+    </androidx.coordinatorlayout.widget.CoordinatorLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

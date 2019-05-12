@@ -5,6 +5,7 @@ import android.view.View
 import android.widget.Button
 import android.widget.EditText
 import android.widget.NumberPicker
+import android.widget.TextView
 import com.iboism.gpxrecorder.R
 
 /**
@@ -14,7 +15,7 @@ import com.iboism.gpxrecorder.R
 class RecordingConfiguratorView(root: View,
                                 initialIntervalMillis: Long,
                                 val titleEditText: EditText = root.findViewById(R.id.config_title_editText),
-                                val doneButton: Button = root.findViewById(R.id.start_button),
+                                val doneButton: TextView = root.findViewById(R.id.start_button),
                                 val hoursPicker: NumberPicker = root.findViewById(R.id.interval_hours_picker),
                                 val minutesPicker: NumberPicker = root.findViewById(R.id.interval_minutes_picker),
                                 val secondsPicker: NumberPicker = root.findViewById(R.id.interval_seconds_picker)) {
