@@ -15,9 +15,9 @@ class RecordingConfiguration(
         return LocationRequest()
                 .setInterval(interval)
                 .setSmallestDisplacement(2.5f)
-                .setMaxWaitTime(interval * 3)
+                .setMaxWaitTime(interval)
                 .setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY)
-                .setFastestInterval(interval/4)
+                .setFastestInterval(interval/2)
     }
 
     fun toBundle(): Bundle {
