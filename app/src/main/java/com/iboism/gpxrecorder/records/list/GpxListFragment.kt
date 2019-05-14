@@ -48,6 +48,9 @@ class GpxListFragment : Fragment(), RecorderServiceConnection.OnServiceConnected
             unregister(adapter)
             unregister(this@GpxListFragment)
         }
+        context?.let {
+            serviceConnection.disconnect(it)
+        }
     }
 
     override fun onStart() {
@@ -57,6 +60,8 @@ class GpxListFragment : Fragment(), RecorderServiceConnection.OnServiceConnected
             register(adapter)
             register(this@GpxListFragment)
         }
+
+        requestServiceConnectionIfNeeded()
     }
 
     override fun onResume() {
@@ -77,12 +82,13 @@ class GpxListFragment : Fragment(), RecorderServiceConnection.OnServiceConnected
 
     @Subscribe(sticky = true)
     fun onServiceStartedEvent(event: Events.RecordingStartedEvent) {
-        serviceConnection.requestConnection(requireContext())
+        requestServiceConnectionIfNeeded()
     }
 
     @Subscribe
     fun onServiceStoppedEvent(event: Events.RecordingStoppedEvent) {
         currentlyRecordingRouteId = null
+        serviceConnection.service = null
         updateCurrentRecordingView(null)
     }
 
@@ -94,6 +100,14 @@ class GpxListFragment : Fragment(), RecorderServiceConnection.OnServiceConnected
     @Subscribe
     fun onServiceResumedEvent(event: Events.RecordingResumedEvent) {
         current_recording_view.setPaused(serviceConnection.service?.isPaused ?: false)
+    }
+
+    private fun requestServiceConnectionIfNeeded() {
+        if (serviceConnection.service == null) {
+            serviceConnection.requestConnection(requireContext())
+        } else {
+            updateCurrentRecordingView(serviceConnection.service?.gpxId)
+        }
     }
 
     private fun updateCurrentRecordingView(gpxId: Long?) {

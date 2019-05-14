@@ -33,7 +33,7 @@ class GpxPreviewDataFetcher(val gpxId: Long, val width: Int,val height: Int): Da
     }
 
     override fun loadData(priority: Priority, callback: DataFetcher.DataCallback<in Bitmap>) {
-        val points = getPoints(gpxId) ?: return callback.onLoadFailed(Exception()) // todo add exceptions
+        val points = getPoints(gpxId) ?: emptyList()
 
         val config = Bitmap.Config.RGB_565
         val bitmap = Bitmap.createBitmap(width, height, config)

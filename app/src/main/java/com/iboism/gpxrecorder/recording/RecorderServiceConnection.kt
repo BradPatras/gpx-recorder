@@ -5,6 +5,7 @@ import android.content.Context
 import android.content.Intent
 import android.content.ServiceConnection
 import android.os.IBinder
+import java.lang.IllegalArgumentException
 
 class RecorderServiceConnection(private val delegate: OnServiceConnectedDelegate) {
     interface OnServiceConnectedDelegate {
@@ -23,15 +24,28 @@ class RecorderServiceConnection(private val delegate: OnServiceConnectedDelegate
 
         override fun onServiceDisconnected(className: ComponentName) {
             delegate.onServiceDisconnected()
+            service = null
         }
     }
 
     fun requestConnection(context: Context) {
-        val intent = Intent(context, LocationRecorderService::class.java)
-        context.bindService(intent, serviceConnection, 0)
+        if (service != null) {
+            delegate.onServiceConnected(this)
+        } else {
+            val intent = Intent(context, LocationRecorderService::class.java)
+            context.bindService(intent, serviceConnection, 0)
+        }
     }
 
     fun disconnect(context: Context) {
-        context.unbindService(serviceConnection)
+        try {
+            context.unbindService(serviceConnection)
+        } catch (e: IllegalArgumentException) {
+            // no op
+            // The api gives no way of checking whether or not a service is bound and will throw
+            // this exception if you try to unbind to a service that is not bound.
+            // This is a workaround for that weird behavior.
+        }
+
     }
 }

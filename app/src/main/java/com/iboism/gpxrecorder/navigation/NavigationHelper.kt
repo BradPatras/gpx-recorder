@@ -36,7 +36,6 @@ class NavigationHelper(private val activity: Activity) : NavigationView.OnNaviga
                 val realm = Realm.getDefaultInstance()
                 realm.executeTransaction {
                     it.delete(GpxContent::class.java)
-                    activity.stopService(Intent(activity, LocationRecorderService::class.java))
                 }
                 realm.close()
             }
