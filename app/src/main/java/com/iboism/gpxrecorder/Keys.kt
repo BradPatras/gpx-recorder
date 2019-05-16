@@ -14,9 +14,6 @@ class Keys {
         const val ResumeService = "kResumeService"
         const val StartService = "kStartService"
 
-        // Analytics
-        const val ServiceReceivedCommand = "service_received_command"
-
         // App shortcut action
         const val ShortcutAction = "com.iboism.gpxrecorder.START_RECORDING"
     }
