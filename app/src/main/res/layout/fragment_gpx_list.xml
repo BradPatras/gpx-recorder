@@ -25,17 +25,6 @@
         app:layout_constraintTop_toTopOf="parent"
         />
 
-    <ImageView android:id="@+id/placeholder_menu_icon"
-        android:layout_width="80dp"
-        android:layout_height="80dp"
-        android:layout_marginTop="24dp"
-        android:rotation="180"
-        android:src="@drawable/ic_left_arrow"
-        android:tint="@android:color/darker_gray"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintBottom_toTopOf="@id/guideline_bottom" />
-
     <TextView android:id="@+id/placeholder_routes_text"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
@@ -46,7 +35,7 @@
         android:textAlignment="center"
         android:textColor="@android:color/darker_gray"
         android:textSize="22sp"
-        app:layout_constraintTop_toBottomOf="@id/guideline_top"
+        app:layout_constraintTop_toBottomOf="@id/guideline_center"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
 
@@ -56,35 +45,15 @@
         android:src="@drawable/ic_route"
         android:tint="@android:color/darker_gray"
         android:layout_marginBottom="16dp"
-        app:layout_constraintBottom_toTopOf="@+id/guideline_top"
+        app:layout_constraintBottom_toTopOf="@+id/guideline_center"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
 
-    <TextView android:id="@+id/placeholder_menu_text"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="26dp"
-        android:layout_marginStart="26dp"
-        android:layout_marginTop="12dp"
-        android:text="Swipe from the left edge to access the menu"
-        android:textAlignment="center"
-        android:textColor="@android:color/darker_gray"
-        android:textSize="22sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/guideline_bottom" />
-
-    <androidx.constraintlayout.widget.Guideline android:id="@+id/guideline_top"
+    <androidx.constraintlayout.widget.Guideline android:id="@+id/guideline_center"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        app:layout_constraintGuide_percent=".3" />
-
-    <androidx.constraintlayout.widget.Guideline android:id="@+id/guideline_bottom"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        app:layout_constraintGuide_percent=".7" />
+        app:layout_constraintGuide_percent=".5" />
 
     <com.iboism.gpxrecorder.recording.CurrentRecordingView android:id="@+id/current_recording_view"
         android:layout_width="match_parent"

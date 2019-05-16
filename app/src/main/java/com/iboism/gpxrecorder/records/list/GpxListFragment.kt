@@ -31,7 +31,7 @@ import org.greenrobot.eventbus.EventBus
 import org.greenrobot.eventbus.Subscribe
 
 class GpxListFragment : Fragment(), RecorderServiceConnection.OnServiceConnectedDelegate {
-    private val placeholderViews = listOf(R.id.placeholder_menu_icon, R.id.placeholder_menu_text, R.id.placeholder_routes_text, R.id.placeholder_routes_icon)
+    private val placeholderViews = listOf(R.id.placeholder_routes_text, R.id.placeholder_routes_icon)
     private val gpxContentList = Realm.getDefaultInstance().where(GpxContent::class.java).findAll().sort("date", Sort.DESCENDING)
     private var adapter: GpxRecyclerViewAdapter? = null
     private var isTransitioning = false

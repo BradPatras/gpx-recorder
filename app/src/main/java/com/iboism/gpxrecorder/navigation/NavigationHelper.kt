@@ -1,11 +1,13 @@
 package com.iboism.gpxrecorder.navigation
 
 import android.app.Activity
+import android.app.AlertDialog
 import android.content.Intent
 import android.net.Uri
 import com.google.android.material.navigation.NavigationView
 import androidx.core.view.GravityCompat
 import android.view.MenuItem
+import com.iboism.gpxrecorder.Keys
 import com.iboism.gpxrecorder.R
 import com.iboism.gpxrecorder.model.GpxContent
 import com.iboism.gpxrecorder.recording.LocationRecorderService
@@ -33,11 +35,18 @@ class NavigationHelper(private val activity: Activity) : NavigationView.OnNaviga
             }
 
             R.id.nav_delete_recordings -> {
-                val realm = Realm.getDefaultInstance()
-                realm.executeTransaction {
-                    it.delete(GpxContent::class.java)
-                }
-                realm.close()
+                AlertDialog.Builder(activity)
+                        .setTitle(R.string.clear_all_alert_title)
+                        .setMessage(R.string.clear_all_alert_message)
+                        .setCancelable(true)
+                        .setPositiveButton(R.string.clear_all_alert_button) { _, _ ->
+                            Intent(activity, LocationRecorderService::class.java).putExtra(Keys.StopService, true)
+                            val realm = Realm.getDefaultInstance()
+                            realm.executeTransaction {
+                                it.delete(GpxContent::class.java)
+                            }
+                            realm.close()
+                        }.create().show()
             }
 
             R.id.nav_privacy_policy ->
