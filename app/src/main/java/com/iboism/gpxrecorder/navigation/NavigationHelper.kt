@@ -23,9 +23,6 @@ class NavigationHelper(private val activity: Activity) : NavigationView.OnNaviga
             R.id.nav_github ->
                 activity.launchExternalIntent(Intent(Intent.ACTION_VIEW, Uri.parse("https://www.github.com/BradPatras/gpx-recorder/")))
 
-            R.id.nav_twitter ->
-                activity.launchExternalIntent(Intent(Intent.ACTION_VIEW, Uri.parse("https://www.twitter.com/iboism")))
-
             R.id.nav_email -> {
                 val intent = Intent(Intent.ACTION_SEND, Uri.parse("mailto:appdev.iboism@gmail.com"))
                 intent.putExtra(Intent.EXTRA_EMAIL, arrayOf("appdev.iboism@gmail.com"))

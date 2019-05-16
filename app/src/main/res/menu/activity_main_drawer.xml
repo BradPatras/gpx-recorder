@@ -13,10 +13,6 @@
     <item android:title="@string/developer_contact">
         <menu>
             <item
-                android:id="@+id/nav_twitter"
-                android:icon="@drawable/ic_twitter"
-                android:title="@string/twitter"/>
-            <item
                 android:id="@+id/nav_github"
                 android:icon="@drawable/ic_github"
                 android:title="@string/github"/>
