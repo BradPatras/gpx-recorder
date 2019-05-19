@@ -17,7 +17,6 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        android:layout_marginLeft="@dimen/activity_horizontal_margin"
         android:textStyle="bold"
         android:textColor="@color/offWhite"
         android:textSize="16sp"
