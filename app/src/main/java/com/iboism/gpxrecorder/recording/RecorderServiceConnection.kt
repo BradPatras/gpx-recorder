@@ -46,6 +46,5 @@ class RecorderServiceConnection(private val delegate: OnServiceConnectedDelegate
             // this exception if you try to unbind to a service that is not bound.
             // This is a workaround for that weird behavior.
         }
-
     }
 }

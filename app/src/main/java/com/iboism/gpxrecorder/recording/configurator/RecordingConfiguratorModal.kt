@@ -8,9 +8,13 @@ import androidx.fragment.app.FragmentManager
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.inputmethod.InputMethodManager
 import com.iboism.gpxrecorder.R
 import com.iboism.gpxrecorder.model.RecordingConfiguration
 import com.iboism.gpxrecorder.util.circularRevealOnNextLayout
+import androidx.core.content.ContextCompat.getSystemService
+import com.iboism.gpxrecorder.extensions.hideSoftKeyBoard
+
 
 const val REVEAL_ORIGIN_X_KEY = "kRevealXOrigin"
 const val REVEAL_ORIGIN_Y_KEY = "kRevealYOrigin"
@@ -30,7 +34,7 @@ class RecordingConfiguratorModal : Fragment() {
                 PreferenceManager.getDefaultSharedPreferences(context).edit()
                         .putLong(RecordingConfiguration.intervalKey, configuratorView.getIntervalMillis())
                         .apply()
-
+                context.hideSoftKeyBoard(it)
                 listener?.configurationCreated (
                         RecordingConfiguration(
                                 title = configuratorView.titleEditText.text.toString().takeIf { it.isNotEmpty() } ?: "Untitled",
