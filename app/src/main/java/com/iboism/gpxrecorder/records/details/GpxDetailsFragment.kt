@@ -29,6 +29,10 @@ class GpxDetailsFragment : Fragment() {
         exportPressed()
     }
 
+    private val mapLayerTouchConsumer = Consumer<Unit> {
+        mapController?.toggleMapType()
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         gpxId = arguments?.get(Keys.GpxId) as? Long
@@ -60,6 +64,7 @@ class GpxDetailsFragment : Fragment() {
 
         compositeDisposable.add(detailsView.gpxTitleObservable.subscribe(gpxTitleConsumer))
         compositeDisposable.add(detailsView.exportTouchObservable.subscribe(exportTouchConsumer))
+        compositeDisposable.add(detailsView.mapTypeToggleObservable.subscribe(mapLayerTouchConsumer))
 
         realm.close()
 

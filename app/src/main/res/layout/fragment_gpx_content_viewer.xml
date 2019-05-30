@@ -100,8 +100,24 @@
         android:src="@drawable/ic_open_in"
         android:tint="@android:color/darker_gray"
         app:layout_constraintBottom_toTopOf="@+id/map_view"
-        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/map_type_btn"
         app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageButton android:id="@+id/map_type_btn"
+        android:alpha=".9"
+        android:layout_width="wrap_content"
+        android:layout_height="0dp"
+        android:padding="4dp"
+        android:src="@drawable/ic_layers"
+        android:elevation="5dp"
+        android:background="@android:color/transparent"
+        android:tint="@android:color/darker_gray"
+        android:layout_marginBottom="4dp"
+        android:layout_marginEnd="12dp"
+        android:layout_marginTop="4dp"
+        app:layout_constraintBottom_toTopOf="@+id/map_view"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"/>
 
     <ProgressBar
         android:id="@+id/export_progress_bar"

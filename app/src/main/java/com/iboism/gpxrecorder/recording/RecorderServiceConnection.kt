@@ -40,6 +40,8 @@ class RecorderServiceConnection(private val delegate: OnServiceConnectedDelegate
     fun disconnect(context: Context) {
         try {
             context.unbindService(serviceConnection)
+            delegate.onServiceDisconnected()
+            service = null
         } catch (e: IllegalArgumentException) {
             // no op
             // The api gives no way of checking whether or not a service is bound and will throw

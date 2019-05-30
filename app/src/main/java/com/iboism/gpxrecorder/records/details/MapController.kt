@@ -1,5 +1,8 @@
 package com.iboism.gpxrecorder.records.details
 
+import android.Manifest
+import android.annotation.SuppressLint
+import android.content.pm.PackageManager
 import com.google.android.gms.maps.model.*
 import com.google.android.gms.maps.model.JointType.ROUND
 import com.iboism.gpxrecorder.R
@@ -10,6 +13,7 @@ import com.iboism.gpxrecorder.util.DateTimeFormatHelper
 import com.google.android.gms.maps.model.BitmapDescriptorFactory
 import android.graphics.Bitmap
 import android.graphics.Canvas
+import android.os.Build
 import androidx.core.content.res.ResourcesCompat
 import androidx.annotation.DrawableRes
 import androidx.core.content.ContextCompat
@@ -23,8 +27,7 @@ import io.realm.Realm
  * Created by Brad on 2/26/2018.
  */
 
-class MapController
-(private val mapView: MapView, private val gpxId: Long): OnMapReadyCallback, ViewTreeObserver.OnGlobalLayoutListener {
+class MapController(private val mapView: MapView, private val gpxId: Long): OnMapReadyCallback, ViewTreeObserver.OnGlobalLayoutListener {
     private var isMapReady = false
     private var isLayoutReady = false
     private var isMapSetup = false
@@ -38,15 +41,29 @@ class MapController
         map?.clear()
     }
 
+    fun toggleMapType() {
+        map?.let {
+            it.mapType = if (it.mapType == GoogleMap.MAP_TYPE_SATELLITE) GoogleMap.MAP_TYPE_TERRAIN else GoogleMap.MAP_TYPE_SATELLITE
+        }
+    }
+
     private fun setupMapIfNeeded() {
         if (!isMapReady || !isLayoutReady || isMapSetup) return
         val map = map ?: return
         isMapSetup = true
 
         MapsInitializer.initialize(mapView.context)
-        map.uiSettings.isMyLocationButtonEnabled = false
         map.uiSettings.isCompassEnabled = true
+        map.uiSettings.isMapToolbarEnabled = true
         map.mapType = GoogleMap.MAP_TYPE_TERRAIN
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            if (mapView.context.checkSelfPermission(Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
+                map.isMyLocationEnabled = true
+            }
+        } else {
+            map.isMyLocationEnabled = true
+        }
+
         val realm = Realm.getDefaultInstance()
         GpxContent.withId(gpxId, realm)?.let { map.drawContent(it) }
         realm.close()

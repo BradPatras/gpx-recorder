@@ -17,6 +17,7 @@ class GpxDetailsView(
 
     var exportTouchObservable: PublishSubject<Unit> = PublishSubject.create()
     var gpxTitleObservable: PublishSubject<String> = PublishSubject.create()
+    var mapTypeToggleObservable: PublishSubject<Unit> = PublishSubject.create()
 
     init {
         root.title_et.isEnabled = false
@@ -27,6 +28,7 @@ class GpxDetailsView(
 
         root.title_edit_btn.setOnClickListener { editPressed() }
         root.export_btn.setOnClickListener { exportPressed() }
+        root.map_type_btn.setOnClickListener { mapTypeToggleObservable.onNext(Unit) }
     }
 
     private fun editPressed() {
@@ -48,7 +50,7 @@ class GpxDetailsView(
     private fun applyPressed() {
         root.title_et.isEnabled = false
         root.title_et.clearFocus()
-        root.title_et.setBackgroundResource(R.color.transparent)
+        root.title_et.setBackgroundResource(R.color.white)
         root.title_edit_btn.setOnClickListener { editPressed() }
         root.title_edit_btn.setImageResource(R.drawable.ic_edit)
         root.export_btn.setOnClickListener { exportPressed() }
@@ -59,7 +61,7 @@ class GpxDetailsView(
     private fun cancelPressed() {
         root.title_et.isEnabled = false
         root.title_et.clearFocus()
-        root.title_et.setBackgroundResource(R.color.transparent)
+        root.title_et.setBackgroundResource(R.color.white)
         root.title_et.setText("")
         root.title_et.append(savedText)
         root.title_edit_btn.setOnClickListener { editPressed() }

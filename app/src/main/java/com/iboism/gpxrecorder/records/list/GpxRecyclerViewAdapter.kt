@@ -56,12 +56,16 @@ class GpxRecyclerViewAdapter(val context: Context, contentList: OrderedRealmColl
     @Subscribe()
     fun onServiceStoppedEvent(event: Events.RecordingStoppedEvent) {
         currentlyRecordingRouteId = null
-
     }
 
     override fun onDetachedFromRecyclerView(recyclerView: RecyclerView) {
         super.onDetachedFromRecyclerView(recyclerView)
+        serviceConnection.disconnect(context)
         fileHelper = null
+    }
+
+    override fun onAttachedToRecyclerView(recyclerView: RecyclerView) {
+        super.onAttachedToRecyclerView(recyclerView)
     }
 
     override fun getItemId(position: Int): Long {

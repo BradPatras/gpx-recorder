@@ -42,8 +42,6 @@ class GpxListFragment : Fragment(), RecorderServiceConnection.OnServiceConnected
     }
 
     override fun onStop() {
-        super.onStop()
-
         EventBus.getDefault().apply {
             unregister(adapter)
             unregister(this@GpxListFragment)
@@ -51,6 +49,7 @@ class GpxListFragment : Fragment(), RecorderServiceConnection.OnServiceConnected
         context?.let {
             serviceConnection.disconnect(it)
         }
+        super.onStop()
     }
 
     override fun onStart() {
