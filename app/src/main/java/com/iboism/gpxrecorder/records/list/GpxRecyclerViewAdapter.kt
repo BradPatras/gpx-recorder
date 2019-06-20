@@ -1,23 +1,21 @@
 package com.iboism.gpxrecorder.records.list
 
 import android.content.Context
-import androidx.recyclerview.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import com.bumptech.glide.Glide
-import com.bumptech.glide.load.engine.DiskCacheStrategy
+import androidx.recyclerview.widget.RecyclerView
 import com.iboism.gpxrecorder.Events
 import com.iboism.gpxrecorder.R
-import com.iboism.gpxrecorder.glide.GpxModelKey
 import com.iboism.gpxrecorder.model.GpxContent
 import com.iboism.gpxrecorder.recording.RecorderServiceConnection
-import com.iboism.gpxrecorder.util.*
+import com.iboism.gpxrecorder.util.DateTimeFormatHelper
+import com.iboism.gpxrecorder.util.FileHelper
 import io.reactivex.Single
 import io.reactivex.android.schedulers.AndroidSchedulers
-import io.realm.RealmRecyclerViewAdapter
 import io.realm.OrderedRealmCollection
 import io.realm.Realm
+import io.realm.RealmRecyclerViewAdapter
 import org.greenrobot.eventbus.Subscribe
 import java.util.concurrent.TimeUnit
 
@@ -127,7 +125,7 @@ class GpxRecyclerViewAdapter(val context: Context, contentList: OrderedRealmColl
         return holder
     }
 
-        override fun onBindViewHolder(viewHolder: RecyclerView.ViewHolder, position: Int) {
+    override fun onBindViewHolder(viewHolder: RecyclerView.ViewHolder, position: Int) {
         when (viewHolder) {
             is GpxContentViewHolder -> bindContentViewHolder(viewHolder, position)
             is DeletedViewHolder -> bindDeletedViewHolder(viewHolder, position)
@@ -146,11 +144,6 @@ class GpxRecyclerViewAdapter(val context: Context, contentList: OrderedRealmColl
         val segment = gpx.trackList.firstOrNull()?.segments?.firstOrNull()
         val distance = segment?.distance ?: 0f
         viewHolder.distanceView.text = context.resources.getString(R.string.distance_km, distance)
-        Glide.with(context)
-                .load(GpxModelKey(gpx.identifier))
-                .placeholder(R.drawable.preview_placeholder)
-                .diskCacheStrategy(DiskCacheStrategy.NONE) // Caching was causing wrong/duplicate previews showing up on routes todo Figure out why caching is broken
-                .into(viewHolder.previewImageView)
 
         viewHolder.setExportLoading(fileHelper?.isExporting() == gpx.identifier)
     }

@@ -4,6 +4,7 @@
     <color name="colorAccent">#546e7a</color>
     <color name="colorAccentDark">#37474f</color>
     <color name="colorAccentLight">#78909c</color>
+    <color name="darkGrayBlue">#1f1f30</color>
     <color name="transparent">#000000</color>
     <color name="white">#fff</color>
     <color name="gGrey">#efeeec</color>

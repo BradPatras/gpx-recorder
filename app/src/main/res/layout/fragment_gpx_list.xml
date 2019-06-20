@@ -17,7 +17,7 @@
         android:dividerHeight="4dp"
         android:footerDividersEnabled="true"
         android:headerDividersEnabled="true"
-        android:paddingTop="4dp"
+        android:paddingTop="8dp"
         android:scrollbars="none"
         app:layout_constraintBottom_toTopOf="@id/current_recording_view"
         app:layout_constraintEnd_toEndOf="parent"

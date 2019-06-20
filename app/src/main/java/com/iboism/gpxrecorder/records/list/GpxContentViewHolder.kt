@@ -20,7 +20,6 @@ class GpxContentViewHolder(view: View): RecyclerView.ViewHolder(view) {
     val distanceView = view.findViewById(R.id.gpx_content_distance) as TextView
     val waypointCountView = view.findViewById(R.id.gpx_content_waypoint_count) as TextView
     private val exportProgressBar = view.findViewById(R.id.gpx_content_export_progress_bar) as ProgressBar
-    var previewImageView = view.findViewById(R.id.preview_image) as ImageView
 
     init {
         exportProgressBar.isIndeterminate = true
