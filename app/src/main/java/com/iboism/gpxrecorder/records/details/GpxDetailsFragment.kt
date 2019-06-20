@@ -33,6 +33,10 @@ class GpxDetailsFragment : Fragment() {
         mapController?.toggleMapType()
     }
 
+    private val deleteRouteTouchConsumer = Consumer<Unit> {
+        deleteRouteAndPopFragment()
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         gpxId = arguments?.get(Keys.GpxId) as? Long
@@ -65,6 +69,7 @@ class GpxDetailsFragment : Fragment() {
         compositeDisposable.add(detailsView.gpxTitleObservable.subscribe(gpxTitleConsumer))
         compositeDisposable.add(detailsView.exportTouchObservable.subscribe(exportTouchConsumer))
         compositeDisposable.add(detailsView.mapTypeToggleObservable.subscribe(mapLayerTouchConsumer))
+        compositeDisposable.add(detailsView.deleteRouteObservable.subscribe(deleteRouteTouchConsumer))
 
         realm.close()
 
@@ -75,11 +80,23 @@ class GpxDetailsFragment : Fragment() {
         }
     }
 
+    private fun deleteRouteAndPopFragment() {
+        val realm = Realm.getDefaultInstance()
+        realm.executeTransaction { itRealm ->
+            gpxId?.let {
+                GpxContent.withId(it, itRealm)?.deleteFromRealm()
+            }
+        }
+        realm.close()
+
+        fragmentManager?.popBackStack()
+    }
+
     private fun exportPressed() {
         val gpxId = gpxId ?: return
         val context = context ?: return
 
-       detailsView.setButtonsExporting(true)
+        detailsView.setButtonsExporting(true)
         fileHelper?.apply {
             shareGpxFile(context, gpxId).subscribe {
                 detailsView.setButtonsExporting(false)
