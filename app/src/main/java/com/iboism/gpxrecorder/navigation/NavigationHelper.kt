@@ -1,7 +1,7 @@
 package com.iboism.gpxrecorder.navigation
 
 import android.app.Activity
-import android.app.AlertDialog
+import androidx.appcompat.app.AlertDialog
 import android.content.Intent
 import android.net.Uri
 import com.google.android.material.navigation.NavigationView

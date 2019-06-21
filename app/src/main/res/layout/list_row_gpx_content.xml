@@ -18,7 +18,8 @@
         android:background="@drawable/background_rounded"
         android:clipToPadding="false"
         android:minHeight="80dp"
-        android:padding="10dp">
+        android:paddingTop="10dp"
+        android:paddingBottom="10dp">
 
         <TextView
             android:id="@+id/gpx_content_title"
@@ -26,10 +27,10 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginEnd="8dp"
-            android:layout_marginStart="8dp"
             android:ellipsize="end"
             android:lines="1"
             android:text="title"
+            android:textSize="18sp"
             app:layout_constraintEnd_toStartOf="@+id/frameLayout"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintStart_toStartOf="parent"/>
@@ -50,7 +51,7 @@
             android:id="@+id/frameLayout"
             android:layout_width="30dp"
             android:layout_height="30dp"
-            android:layout_marginEnd="8dp"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent">
 
@@ -58,6 +59,7 @@
                 android:id="@+id/gpx_content_export_button"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                android:padding="4dp"
                 android:background="@drawable/ic_open_in"
                 android:backgroundTint="@android:color/darker_gray"
                 />
@@ -74,13 +76,12 @@
             android:id="@+id/gpx_content_distance"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginEnd="8dp"
             android:gravity="bottom|end"
             android:text="0"
             android:textAllCaps="false"
-            android:textColor="@android:color/holo_red_dark"
-            android:textSize="18sp"
+            android:textSize="16sp"
             android:typeface="normal"
+            app:layout_constraintTop_toBottomOf="@id/frameLayout"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             />
@@ -91,7 +92,7 @@
             android:layout_height="20dp"
             android:src="@drawable/ic_calendar"
             android:tint="@android:color/darker_gray"
-            android:layout_marginStart="8dp"
+            android:layout_marginStart="4dp"
             android:layout_marginEnd="8dp"
             app:layout_constraintBottom_toBottomOf="@id/gpx_content_date"
             app:layout_constraintStart_toStartOf="parent"
@@ -104,7 +105,7 @@
             android:layout_height="20dp"
             android:src="@drawable/ic_route"
             android:tint="@android:color/darker_gray"
-            android:layout_marginStart="8dp"
+            android:layout_marginStart="4dp"
             android:layout_marginEnd="8dp"
             app:layout_constraintBottom_toBottomOf="@id/gpx_content_waypoint_count"
             app:layout_constraintTop_toTopOf="@+id/gpx_content_waypoint_count"

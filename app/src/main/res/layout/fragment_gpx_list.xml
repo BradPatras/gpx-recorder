@@ -6,12 +6,13 @@
     android:clipToPadding="false"
     android:clipChildren="false"
     android:id="@+id/fragment_gpx_list"
+    android:background="@android:color/white"
     tools:context="com.iboism.gpxrecorder.records.list.GpxListFragment">
 
     <androidx.recyclerview.widget.RecyclerView android:id="@+id/gpx_listView"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:background="@android:color/transparent"
+        android:background="@android:color/white"
         android:clipToPadding="false"
         android:divider="@android:color/transparent"
         android:dividerHeight="4dp"
@@ -19,6 +20,8 @@
         android:headerDividersEnabled="true"
         android:paddingTop="8dp"
         android:scrollbars="none"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
         app:layout_constraintBottom_toTopOf="@id/current_recording_view"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
