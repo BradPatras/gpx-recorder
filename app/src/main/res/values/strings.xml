@@ -1,6 +1,4 @@
 <resources>
-    <string name="gmap_api" translatable="false">AIzaSyBKxsf-1on8NAJJe9ZzGMx79t7JcTKiDvc</string>
-
     <string name="app_name" translatable="false">GPX Recorder</string>
 
     <string name="navigation_drawer_open" translatable="false">Open navigation drawer</string>
