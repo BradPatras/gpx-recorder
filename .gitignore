@@ -9,4 +9,4 @@
 */google-services.json
 *.apk
 app/release/*
-*/google_maps_api.xml
+*google_maps_api.xml
