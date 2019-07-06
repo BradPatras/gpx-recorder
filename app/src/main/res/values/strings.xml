@@ -1,6 +1,4 @@
 <resources>
-    <string name="gmap_api" translatable="false">AIzaSyBKxsf-1on8NAJJe9ZzGMx79t7JcTKiDvc</string>
-
     <string name="app_name" translatable="false">GPX Recorder</string>
 
     <string name="navigation_drawer_open" translatable="false">Open navigation drawer</string>
@@ -45,7 +43,7 @@
     <string name="pause_recording">Pause</string>
     <string name="enter_title" translatable="false">Enter Title</string>
     <string name="interval_minutes" translatable="false">Interval</string>
-    <string name="how_often_to_record_track_points" translatable="false">How often to record track points</string>
+    <string name="how_often_to_record_track_points" translatable="false">How often to record track points. (Approximately)</string>
     <string name="start">Start</string>
     <string name="new_recording">New Recording</string>
     <string name="title">Title</string>
@@ -66,5 +64,9 @@
     <string name="legal">Legal</string>
     <string name="clear_all_alert_title" translatable="false">Warning</string>
     <string name="clear_all_alert_message" translatable="false">This action will remove all recordings and cancel the current recording</string>
-    <string name="clear_all_alert_button">Clear All</string>
+    <string name="clear_all_alert_button" translatable="false">Clear All</string>
+    <string name="delete_recording_alert_message" translatable="false">This action cannot be undone</string>
+    <string name="delete" translatable="false">Delete</string>
+    <string name="delete_recording_alert_title" translatable="false">Are you sure you want to delete this route?</string>
+
 </resources>

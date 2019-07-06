@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:paddingLeft="4dp"
@@ -16,16 +17,7 @@
         android:layout_height="wrap_content"
         android:background="@drawable/background_rounded"
         android:clipToPadding="false"
-        android:minHeight="80dp"
-        android:padding="10dp">
-
-        <ImageView
-            android:id="@+id/preview_image"
-            android:layout_width="80dp"
-            android:layout_height="80dp"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent" />
+        android:minHeight="70dp">
 
         <TextView
             android:id="@+id/gpx_content_title"
@@ -33,21 +25,23 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginEnd="8dp"
-            android:layout_marginStart="8dp"
             android:ellipsize="end"
             android:lines="1"
             android:text="title"
+            android:textSize="18sp"
+            android:layout_marginTop="8dp"
             app:layout_constraintEnd_toStartOf="@+id/frameLayout"
-            app:layout_constraintStart_toEndOf="@id/preview_image"
-            app:layout_constraintTop_toTopOf="parent"/>
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"/>
 
         <TextView
             android:id="@+id/gpx_content_date"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="4dp"
+            android:layout_marginBottom="8dp"
             android:layout_marginStart="8dp"
             android:layout_marginTop="8dp"
+            android:textSize="14sp"
             android:text=""
             app:layout_constraintBottom_toTopOf="@id/gpx_content_waypoint_count"
             app:layout_constraintStart_toEndOf="@id/date_icon"
@@ -57,7 +51,7 @@
             android:id="@+id/frameLayout"
             android:layout_width="30dp"
             android:layout_height="30dp"
-            android:layout_marginEnd="8dp"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent">
 
@@ -65,6 +59,7 @@
                 android:id="@+id/gpx_content_export_button"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                android:padding="4dp"
                 android:background="@drawable/ic_open_in"
                 android:backgroundTint="@android:color/darker_gray"
                 />
@@ -73,7 +68,7 @@
                 android:id="@+id/gpx_content_export_progress_bar"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:tint="@android:color/darker_gray"
+                android:indeterminateTint="@android:color/darker_gray"
                 android:visibility="gone"/>
         </FrameLayout>
 
@@ -81,46 +76,49 @@
             android:id="@+id/gpx_content_distance"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginEnd="8dp"
             android:gravity="bottom|end"
             android:text="0"
             android:textAllCaps="false"
-            android:textColor="@android:color/holo_red_dark"
-            android:textSize="18sp"
             android:typeface="normal"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
+            android:textSize="14sp"
+            android:layout_marginStart="8dp"
+            app:layout_constraintBaseline_toBaselineOf="@id/gpx_content_waypoint_count"
+            app:layout_constraintStart_toEndOf="@id/gpx_content_waypoint_count"
             />
 
         <ImageView
             android:id="@+id/date_icon"
             android:layout_width="20dp"
             android:layout_height="20dp"
-            android:layout_marginStart="8dp"
             android:src="@drawable/ic_calendar"
             android:tint="@android:color/darker_gray"
+            android:layout_marginStart="4dp"
+            android:layout_marginEnd="8dp"
             app:layout_constraintBottom_toBottomOf="@id/gpx_content_date"
-            app:layout_constraintStart_toEndOf="@+id/preview_image"
+            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="@+id/gpx_content_date"
-            app:layout_constraintVertical_bias="0.0" />
+            />
 
         <ImageView
             android:id="@+id/waypoints_icon"
             android:layout_width="20dp"
             android:layout_height="20dp"
-            android:layout_marginStart="8dp"
             android:src="@drawable/ic_route"
             android:tint="@android:color/darker_gray"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/preview_image"
+            android:layout_marginStart="4dp"
+            android:layout_marginEnd="8dp"
+            app:layout_constraintBottom_toBottomOf="@id/gpx_content_waypoint_count"
             app:layout_constraintTop_toTopOf="@+id/gpx_content_waypoint_count"
-            app:layout_constraintVertical_bias="0.0" />
+            app:layout_constraintStart_toStartOf="parent"
+            />
 
         <TextView
             android:id="@+id/gpx_content_waypoint_count"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
+            android:layout_marginBottom="8dp"
+            android:textSize="14sp"
             android:text="0"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toEndOf="@id/waypoints_icon"/>

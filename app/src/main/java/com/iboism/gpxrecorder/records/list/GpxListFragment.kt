@@ -29,6 +29,9 @@ import com.iboism.gpxrecorder.recording.RecorderServiceConnection
 import com.iboism.gpxrecorder.recording.waypoint.CreateWaypointDialogActivity
 import org.greenrobot.eventbus.EventBus
 import org.greenrobot.eventbus.Subscribe
+import androidx.recyclerview.widget.DividerItemDecoration
+
+
 
 class GpxListFragment : Fragment(), RecorderServiceConnection.OnServiceConnectedDelegate {
     private val placeholderViews = listOf(R.id.placeholder_routes_text, R.id.placeholder_routes_icon)
@@ -185,6 +188,9 @@ class GpxListFragment : Fragment(), RecorderServiceConnection.OnServiceConnected
         gpx_listView.layoutManager = LinearLayoutManager(view.context)
         gpx_listView.adapter = adapter
         gpx_listView.setHasFixedSize(true)
+
+        val dividerItemDecoration = DividerItemDecoration(gpx_listView.context, DividerItemDecoration.VERTICAL)
+        gpx_listView.addItemDecoration(dividerItemDecoration)
 
         setPlaceholdersHidden(gpxContentList.isNotEmpty())
         gpxContentList.addChangeListener(gpxChangeListener)
