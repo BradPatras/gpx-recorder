@@ -17,9 +17,7 @@
         android:layout_height="wrap_content"
         android:background="@drawable/background_rounded"
         android:clipToPadding="false"
-        android:minHeight="80dp"
-        android:paddingTop="10dp"
-        android:paddingBottom="10dp">
+        android:minHeight="70dp">
 
         <TextView
             android:id="@+id/gpx_content_title"
@@ -31,6 +29,7 @@
             android:lines="1"
             android:text="title"
             android:textSize="18sp"
+            android:layout_marginTop="8dp"
             app:layout_constraintEnd_toStartOf="@+id/frameLayout"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintStart_toStartOf="parent"/>
@@ -42,6 +41,7 @@
             android:layout_marginBottom="8dp"
             android:layout_marginStart="8dp"
             android:layout_marginTop="8dp"
+            android:textSize="14sp"
             android:text=""
             app:layout_constraintBottom_toTopOf="@id/gpx_content_waypoint_count"
             app:layout_constraintStart_toEndOf="@id/date_icon"
@@ -79,11 +79,11 @@
             android:gravity="bottom|end"
             android:text="0"
             android:textAllCaps="false"
-            android:textSize="16sp"
             android:typeface="normal"
-            app:layout_constraintTop_toBottomOf="@id/frameLayout"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
+            android:textSize="14sp"
+            android:layout_marginStart="8dp"
+            app:layout_constraintBaseline_toBaselineOf="@id/gpx_content_waypoint_count"
+            app:layout_constraintStart_toEndOf="@id/gpx_content_waypoint_count"
             />
 
         <ImageView
@@ -117,7 +117,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
-            android:layout_marginBottom="4dp"
+            android:layout_marginBottom="8dp"
+            android:textSize="14sp"
             android:text="0"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toEndOf="@id/waypoints_icon"/>

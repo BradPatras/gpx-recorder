@@ -43,7 +43,7 @@
     <string name="pause_recording">Pause</string>
     <string name="enter_title" translatable="false">Enter Title</string>
     <string name="interval_minutes" translatable="false">Interval</string>
-    <string name="how_often_to_record_track_points" translatable="false">How often to record track points</string>
+    <string name="how_often_to_record_track_points" translatable="false">How often to record track points. (Approximately)</string>
     <string name="start">Start</string>
     <string name="new_recording">New Recording</string>
     <string name="title">Title</string>

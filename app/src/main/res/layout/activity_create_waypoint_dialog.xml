@@ -54,16 +54,15 @@
 
     <Button
         android:id="@+id/done_button"
-        style="@style/Widget.AppCompat.Button.Borderless.Colored"
+        style="@style/Widget.MaterialComponents.Button.TextButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="12dp"
         android:layout_marginTop="12dp"
         android:text="@string/done"
-        android:textColor="@color/white"
+        android:textColor="@color/colorAccent"
         android:gravity="center"
         android:textSize="14sp"
-        android:backgroundTint="@color/colorAccentLight"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/note_editText"/>

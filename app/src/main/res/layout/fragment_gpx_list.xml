@@ -72,7 +72,7 @@
         android:layout_height="wrap_content"
         android:rotation="50"
         app:tint="@color/white"
-        app:backgroundTint="@color/colorAccentLight"
+        app:backgroundTint="@color/colorAccent"
         app:srcCompat="@drawable/ic_direction_arrow"
         app:layout_constraintTop_toTopOf="@id/toolbar_wrapper_layout"
         app:layout_constraintBottom_toTopOf="@id/toolbar_wrapper_layout"

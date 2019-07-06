@@ -10,8 +10,12 @@
     </style>
 
     <style name="Theme.MaterialComponents.NoActionBarDialog" parent="@style/Theme.MaterialComponents.Light.Dialog.Alert">
+        <item name="colorPrimary">@color/colorAccentLight</item>
+        <item name="colorPrimaryDark">@color/colorAccentDark</item>
+        <item name="colorAccent">@color/colorAccent</item>
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
+        <item name="android:windowContentOverlay">@null</item>
     </style>
 
     <style name="AppTheme.NoActionBar">
