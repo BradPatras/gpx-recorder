@@ -30,6 +30,7 @@ class RecordingConfiguratorModal : Fragment() {
             val prefs = PreferenceManager.getDefaultSharedPreferences(context)
             val initialInterval = prefs.getLong(RecordingConfiguration.intervalKey, RecordingConfiguration.defaultInterval)
             configuratorView = RecordingConfiguratorView(this, initialInterval)
+            configuratorView.restoreInstanceState(savedInstanceState)
             configuratorView.doneButton.setOnClickListener {
                 PreferenceManager.getDefaultSharedPreferences(context).edit()
                         .putLong(RecordingConfiguration.intervalKey, configuratorView.getIntervalMillis())
@@ -57,6 +58,11 @@ class RecordingConfiguratorModal : Fragment() {
     override fun onDetach() {
         listener = null
         super.onDetach()
+    }
+
+    override fun onSaveInstanceState(outState: Bundle) {
+        super.onSaveInstanceState(outState)
+        configuratorView.onSaveInstanceState(outState)
     }
 
     interface Listener {

@@ -1,5 +1,6 @@
 package com.iboism.gpxrecorder.records.details
 
+import android.os.Bundle
 import androidx.appcompat.app.AlertDialog
 import android.view.MenuItem
 import android.view.View
@@ -8,6 +9,8 @@ import com.iboism.gpxrecorder.R
 import io.reactivex.subjects.PublishSubject
 import kotlinx.android.synthetic.main.fragment_gpx_content_viewer.view.*
 
+const private val DRAFT_TITLE_KEY: String = "GpxDetailsView_titleDraft"
+
 class GpxDetailsView(
         val root: View,
         val titleText: String,
@@ -15,6 +18,7 @@ class GpxDetailsView(
         val waypointsText: String,
         val dateText: String
         ) {
+
     private var savedText = ""
     private val moreMenu: PopupMenu = PopupMenu(root.context, root.more_btn)
     private val shareMenuItem: MenuItem = moreMenu.menu.add("Share")
@@ -45,6 +49,21 @@ class GpxDetailsView(
             }
 
             return@setOnMenuItemClickListener true
+        }
+    }
+
+    fun restoreInstanceState(outState: Bundle?) {
+        val titleDraft = outState?.getString(DRAFT_TITLE_KEY) ?: return
+
+        editPressed()
+        root.title_et.text.clear()
+        root.title_et.text.append(titleDraft)
+        outState.remove(DRAFT_TITLE_KEY)
+    }
+
+    fun onSaveInstanceState(outState: Bundle) {
+        if (root.title_et.isEnabled) {
+            outState.putString(DRAFT_TITLE_KEY, root.title_et.text.toString())
         }
     }
 

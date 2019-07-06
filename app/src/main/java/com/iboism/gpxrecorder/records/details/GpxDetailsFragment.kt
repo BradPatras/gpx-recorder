@@ -65,6 +65,7 @@ class GpxDetailsFragment : Fragment() {
                 dateText = DateTimeFormatHelper.toReadableString(gpxContent.date),
                 waypointsText = resources.getQuantityString(R.plurals.waypoint_count, gpxContent.waypointList.size, gpxContent.waypointList.size)
         )
+        detailsView.restoreInstanceState(savedInstanceState)
 
         compositeDisposable.add(detailsView.gpxTitleObservable.subscribe(gpxTitleConsumer))
         compositeDisposable.add(detailsView.exportTouchObservable.subscribe(exportTouchConsumer))
@@ -149,6 +150,7 @@ class GpxDetailsFragment : Fragment() {
 
     override fun onSaveInstanceState(outState: Bundle) {
         map_view?.onSaveInstanceState(outState)
+        detailsView.onSaveInstanceState(outState)
         super.onSaveInstanceState(outState)
     }
 

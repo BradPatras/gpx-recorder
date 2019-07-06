@@ -14,6 +14,9 @@ import com.iboism.gpxrecorder.util.PermissionHelper
 import io.realm.Realm
 import kotlinx.android.synthetic.main.activity_create_waypoint_dialog.*
 
+private const val DRAFT_TITLE_KEY = "CreateWaypointDialog_draftTitle"
+private const val DRAFT_NOTE_KEY = "CreateWaypointDialog_draftNote"
+
 class CreateWaypointDialogActivity : AppCompatActivity() {
 
     private val fusedLocation by lazy {
@@ -22,7 +25,7 @@ class CreateWaypointDialogActivity : AppCompatActivity() {
 
     private val locationConfiguration by lazy {
         LocationRequest.create()
-                .setInterval(5 * 1000) // 5 seconds
+                .setInterval(1) // 1 second
                 .setMaxWaitTime(20 * 1000) // 20 seconds
                 .setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY)
                 .setNumUpdates(1)
@@ -36,7 +39,7 @@ class CreateWaypointDialogActivity : AppCompatActivity() {
         val gpxId = checkNotNull(bundle[Keys.GpxId] as? Long) { waypointError() }
 
         done_button.setOnClickListener {
-            startWaypointService(gpxId,title_editText.text.toString(), note_editText.text.toString())
+            startWaypointService(gpxId, title_editText.text.toString(), note_editText.text.toString())
         }
 
         val realm = Realm.getDefaultInstance()
@@ -46,6 +49,26 @@ class CreateWaypointDialogActivity : AppCompatActivity() {
             note_editText.text.insert(0, "@%.2fkm".format(dist))
         }
         realm.close()
+
+        restoreInstanceState(savedInstanceState)
+    }
+
+    override fun onSaveInstanceState(outState: Bundle) {
+        super.onSaveInstanceState(outState)
+        outState.putString(DRAFT_TITLE_KEY, title_editText.text.toString())
+        outState.putString(DRAFT_NOTE_KEY, note_editText.text.toString())
+    }
+
+    private fun restoreInstanceState(outState: Bundle?) {
+        outState?.getString(DRAFT_TITLE_KEY)?.let { draftTitle ->
+            title_editText.text.clear()
+            title_editText.text.append(draftTitle)
+        }
+
+        outState?.getString(DRAFT_NOTE_KEY)?.let {draftNote ->
+            note_editText.text.clear()
+            note_editText.text.append(draftNote)
+        }
     }
 
     private fun waypointError() {
