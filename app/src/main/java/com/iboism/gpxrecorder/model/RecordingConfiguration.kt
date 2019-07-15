@@ -35,12 +35,12 @@ class RecordingConfiguration(
 
 
         fun fromBundle(bundle: Bundle): RecordingConfiguration? {
-            if (!bundle.containsKey(titleKey)) return null
-            if (!bundle.containsKey(intervalKey)) return null
+            val title = bundle.getString(titleKey) ?: return null
+            val interval = bundle.getLong(intervalKey)
 
             return RecordingConfiguration(
-                    bundle.getString(titleKey),
-                    bundle.getLong(intervalKey)
+                    title,
+                    interval
             )
         }
     }

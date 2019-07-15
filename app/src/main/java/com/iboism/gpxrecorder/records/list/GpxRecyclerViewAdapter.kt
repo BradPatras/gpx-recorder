@@ -180,7 +180,7 @@ class GpxRecyclerViewAdapter(val context: Context, contentList: OrderedRealmColl
 
     private fun deleteRow(identifier: Long) {
         val realm = Realm.getDefaultInstance()
-        realm.executeTransaction { _ ->
+        realm.executeTransaction {
             data?.where()?.equalTo(GpxContent.primaryKey, identifier)?.findFirst()?.deleteFromRealm()
             hiddenRowIdentifiers.remove(identifier)
         }
