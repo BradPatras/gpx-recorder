@@ -10,11 +10,18 @@ Android app to record gps routes in the background and allow user to export rout
 - [Apache Commons IO](https://commons.apache.org/proper/commons-io/) for file writing
 - [Kotlin](https://kotlinlang.org/) for kicks
 - [RxJava](https://github.com/ReactiveX/RxJava) for handling everything asynchronous
-- [Glide](https://github.com/bumptech/glide) for caching and fetching route previews smoothly
 - [EventBus](https://github.com/greenrobot/EventBus) For assisting with Service<->App communication
 <br><br>
 
 ## Releases
+### - 2.0 | July 5, 2019
+- Removed route previews from list
+- Removed Glide library from project
+- Added warnings for route deletion
+- Added map type toggle
+- Implemented bottom app bar and bottom menu sheet
+- Added currently recording route controls to main app screen
+<br><br>
 ### - 1.8 | March 19, 2019
 - Switched all route preview loading and caching to Glide using DataFetcher and ModelLoader subclasses
 - Added link to legal
