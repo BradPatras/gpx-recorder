@@ -68,5 +68,7 @@
     <string name="delete_recording_alert_message" translatable="false">This action cannot be undone</string>
     <string name="delete" translatable="false">Delete</string>
     <string name="delete_recording_alert_title" translatable="false">Are you sure you want to delete this route?</string>
+    <string name="expand">Expand</string>
+    <string name="recording_in_progress">Recording in progress</string>
 
 </resources>

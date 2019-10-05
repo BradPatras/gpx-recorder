@@ -10,18 +10,18 @@
     <string name="done">fertig</string>
     <string name="add_note_hint">Füg ein Notiz hinzu</string>
     <string name="add_title_hint">Füg ein Titel hinzu</string>
-    <string name="add_waypoint">Legen Wegpunkt</string>
+    <string name="add_waypoint">Wegpunkt</string>
     <string name="error">Fehler</string>
     <string name="date">Datum</string>
     <string name="delete_recordings">Alles Lösche Aufzeichnung</string>
-    <string name="stop_recording">Stoppen Aufzeichnung</string>
+    <string name="stop_recording">Stoppen</string>
     <string name="start">Beginnen</string>
     <string name="title">Titel</string>
     <string name="notification_recording_in_progress">Aufzeichnungstandort</string>
-    <string name="pause_recording">Pausieren Aufzeichnung</string>
+    <string name="pause_recording">Pausieren</string>
     <string name="privacy_policy">Datenschutz-Bestimmungen</string>
     <string name="legal">Legal</string>
-    <string name="resume_recording">Fortsetzen Aufzuichnung</string>
+    <string name="resume_recording">Fortsetzen</string>
     <string name="new_recording">Neue Aufzeichnung</string>
     <string name="distance_km">%.2f km</string>
     <plurals name="waypoint_count">
@@ -29,4 +29,6 @@
         <item quantity="other">%d Wegpunkte</item>
     </plurals>
     <string name="shortcut_label">Starte die Aufnahme</string>
+    <string name="expand">Erweitern</string>
+    <string name="recording_in_progress">Derzeit aufnehmen</string>
 </resources>
