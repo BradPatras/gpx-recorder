@@ -30,7 +30,8 @@ import com.iboism.gpxrecorder.recording.waypoint.CreateWaypointDialogActivity
 import org.greenrobot.eventbus.EventBus
 import org.greenrobot.eventbus.Subscribe
 import androidx.recyclerview.widget.DividerItemDecoration
-
+import com.iboism.gpxrecorder.recording.RecorderFragment
+import kotlinx.android.synthetic.main.current_recording_view.view.*
 
 
 class GpxListFragment : Fragment(), RecorderServiceConnection.OnServiceConnectedDelegate {
@@ -211,6 +212,21 @@ class GpxListFragment : Fragment(), RecorderServiceConnection.OnServiceConnected
         current_recording_view.addWaypointButton.setOnClickListener(this::addWaypointButtonClicked)
         current_recording_view.playPauseButton.setOnClickListener(this::playPauseButtonClicked)
         current_recording_view.stopButton.setOnClickListener(this::stopButtonClicked)
+        current_recording_view.expand_iv.setOnClickListener {
+            showRecordingFragment()
+        }
+    }
+
+    private fun showRecordingFragment() {
+        val gpxId = currentlyRecordingRouteId ?: return
+        if (isTransitioning) return
+        isTransitioning = true
+        fragmentManager?.beginTransaction()
+                ?.setCustomAnimations(R.anim.slide_in_right, android.R.anim.fade_out, R.anim.none, android.R.anim.slide_out_right)
+                ?.replace(R.id.content_container, RecorderFragment.newInstance(gpxId))
+                ?.addToBackStack("recorder")
+                ?.commit()
+
     }
 
     private fun addWaypointButtonClicked(view: View) {

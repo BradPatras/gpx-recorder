@@ -33,8 +33,17 @@ class MapController(private val mapView: MapView, private val gpxId: Long): OnMa
     private var isMapSetup = false
     private var map: GoogleMap? = null
 
+    var shouldDrawEnd = true
+
     init {
         mapView.viewTreeObserver.addOnGlobalLayoutListener(this)
+    }
+
+    fun redraw() {
+        if (!isMapReady || !isLayoutReady || !isMapSetup) return
+        val realm = Realm.getDefaultInstance()
+        GpxContent.withId(gpxId, realm)?.let { map?.drawContent(it, false) }
+        realm.close()
     }
 
     fun onDestroy() {
@@ -65,7 +74,7 @@ class MapController(private val mapView: MapView, private val gpxId: Long): OnMa
         }
 
         val realm = Realm.getDefaultInstance()
-        GpxContent.withId(gpxId, realm)?.let { map.drawContent(it) }
+        GpxContent.withId(gpxId, realm)?.let { map.drawContent(it, true) }
         realm.close()
     }
 
@@ -81,7 +90,8 @@ class MapController(private val mapView: MapView, private val gpxId: Long): OnMa
         setupMapIfNeeded()
     }
 
-    private fun GoogleMap.drawContent(gpx: GpxContent) {
+    private fun GoogleMap.drawContent(gpx: GpxContent, shouldCenter: Boolean) {
+        this.clear()
         val trackBounds = this.drawTracks(gpx.trackList.toList())
         this.drawWaypoints(gpx.waypointList.toList())
 
@@ -123,13 +133,15 @@ class MapController(private val mapView: MapView, private val gpxId: Long): OnMa
                     .anchor(.5f, .5f))
         }
         // draw marker at end
-        tracks.lastOrNull()?.segments?.lastOrNull()?.points?.lastOrNull()?.let {
-            this.addMarker(MarkerOptions().position(LatLng(it.lat, it.lon))
-                    .flat(true)
-                    .title("End")
-                    .snippet(DateTimeFormatHelper.toReadableString(it.time))
-                    .icon(getBitmapDescriptor(R.drawable.ic_stop_pt))
-                    .anchor(.5f, .5f))
+        if (shouldDrawEnd) {
+            tracks.lastOrNull()?.segments?.lastOrNull()?.points?.lastOrNull()?.let {
+                this.addMarker(MarkerOptions().position(LatLng(it.lat, it.lon))
+                        .flat(true)
+                        .title("End")
+                        .snippet(DateTimeFormatHelper.toReadableString(it.time))
+                        .icon(getBitmapDescriptor(R.drawable.ic_stop_pt))
+                        .anchor(.5f, .5f))
+            }
         }
 
         allPoints.forEach {

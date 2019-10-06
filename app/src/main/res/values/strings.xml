@@ -1,33 +1,37 @@
 <resources>
+    <plurals name="point_count">
+        <item quantity="one">%1$d point</item>
+        <item quantity="other">%1$d points</item>
+    </plurals>
+
+    <plurals name="waypoint_count">
+        <item quantity="one">%d waypoint</item>
+        <item quantity="other">%d waypoints</item>
+    </plurals>
     <string name="app_name" translatable="false">GPX Recorder</string>
 
     <string name="navigation_drawer_open" translatable="false">Open navigation drawer</string>
     <string name="navigation_drawer_close" translatable="false">Close navigation drawer</string>
 
+    <!-- Alert stuff -->
     <string name="action_settings">Settings</string>
     <string name="title_activity_recording_configuration">New Recording</string>
-
-    <!-- Alert stuff -->
     <string name="denied_alert_title">Permissions Required</string>
     <string name="denied_alert_message">Cannot record GPX tracks without location permissions</string>
     <string name="denied_alert_button">Grant permissions</string>
-    <string name="denied_forever_alert_message">Please enable Location permissions in the app settings</string>
-    <string name="file_share_failed">Something went wrong while trying to share the file.</string>
 
     <!-- Strings related to Settings -->
 
+    <string name="denied_forever_alert_message">Please enable Location permissions in the app settings</string>
+    <string name="file_share_failed">Something went wrong while trying to share the file.</string>
     <string name="done">done</string>
     <string name="add_note_hint">Add note…</string>
+
     <string name="add_title_hint">Add title…</string>
     <string name="add_waypoint">Add Waypoint</string>
-
     <string name="error">Error</string>
     <string name="cannot_create_waypoint" translatable="false">Cannot create waypoint at this time</string>
     <string name="failed_to_place_waypoint" translatable="false">Failed to place waypoint</string>
-    <plurals name="point_count">
-        <item quantity="one">%1$d point</item>
-        <item quantity="other">%1$d points</item>
-    </plurals>
     <string name="points" translatable="false">points</string>
     <string name="date">Date</string>
     <string name="delete_recordings">Delete Recordings</string>
@@ -48,10 +52,6 @@
     <string name="new_recording">New Recording</string>
     <string name="title">Title</string>
     <string name="gpx_recorder" translatable="false">GPX Recorder</string>
-    <plurals name="waypoint_count">
-        <item quantity="one">%d waypoint</item>
-        <item quantity="other">%d waypoints</item>
-    </plurals>
     <string name="distance_km">%.2f km</string>
     <string name="channel_name" translatable="false">Recording</string>
     <string name="channel_description" translatable="false">Control current recording session</string>

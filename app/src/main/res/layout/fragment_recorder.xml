@@ -3,63 +3,62 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/current_recording_layout"
+    android:id="@+id/current_recording_fragment_layout"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
+    android:layout_height="match_parent"
     android:background="@color/colorAccent"
     android:paddingTop="6dp"
-    android:paddingBottom="6dp"
-    android:paddingLeft="10dp"
-    android:paddingRight="10dp"
-    android:clickable="true"
-    android:focusable="true">
+    android:paddingBottom="20dp"
+   >
 
     <ImageView
-        android:id="@+id/expand_iv"
+        android:id="@+id/collapse_iv"
         android:layout_width="35dp"
         android:layout_height="35dp"
         android:layout_marginEnd="8dp"
         android:background="@android:color/transparent"
         android:scaleType="fitCenter"
         android:src="@drawable/ic_chevron_up"
+        android:rotation="180"
         android:contentDescription="@string/expand"
         android:tint="@android:color/white"
-        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintBottom_toBottomOf="@id/route_title_tv"
+        app:layout_constraintTop_toTopOf="@id/current_rec_header" />
 
-    <TextView android:id="@+id/current_rec_header"
+    <TextView
+        android:id="@+id/current_rec_header"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
+        android:layout_marginTop="4dp"
+        android:layout_marginStart="8dp"
+        android:text="@string/recording_in_progress"
         android:textAlignment="viewStart"
-        android:layout_marginBottom="2dp"
         android:textColor="@android:color/white"
         android:textSize="14sp"
-        android:text="@string/recording_in_progress"/>
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/collapse_iv"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
         android:id="@+id/route_title_tv"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:ellipsize="end"
         android:text=""
+        android:textAlignment="viewStart"
         android:textColor="@android:color/white"
         android:textSize="18sp"
-        android:textAlignment="viewStart"
-        app:layout_constraintBottom_toTopOf="@id/add_wpt_btn"
-        app:layout_constraintEnd_toStartOf="@+id/expand_iv"
+        app:layout_constraintEnd_toStartOf="@+id/collapse_iv"
         app:layout_constraintStart_toStartOf="@id/current_rec_header"
-        app:layout_constraintTop_toBottomOf="@id/current_rec_header"
-        android:ellipsize="end"/>
+        app:layout_constraintTop_toBottomOf="@id/current_rec_header" />
 
     <Button
         android:id="@+id/add_wpt_btn"
         style="@style/Widget.AppCompat.Button.Small"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="4dp"
         android:orientation="horizontal"
         android:paddingStart="10dp"
         android:paddingEnd="10dp"
@@ -68,9 +67,9 @@
         android:textColor="@android:color/white"
         android:textSize="12sp"
         android:tint="@android:color/black"
+        android:layout_marginStart="8dp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/route_title_tv" />
+        app:layout_constraintStart_toStartOf="parent" />
 
     <Button
         android:id="@+id/playpause_btn"
@@ -78,7 +77,6 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="10dp"
-        android:layout_marginTop="4dp"
         android:orientation="horizontal"
         android:text="@string/pause_recording"
         android:textAllCaps="false"
@@ -87,15 +85,13 @@
         android:tint="@android:color/black"
         app:iconPadding="0dp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/add_wpt_btn"
-        app:layout_constraintTop_toBottomOf="@+id/route_title_tv" />
+        app:layout_constraintStart_toEndOf="@+id/add_wpt_btn" />
 
     <Button
         android:id="@+id/stop_btn"
         style="@style/Widget.AppCompat.Button.Small"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="4dp"
         android:layout_marginStart="10dp"
         android:orientation="horizontal"
         android:text="@string/stop_recording"
@@ -104,7 +100,17 @@
         android:textSize="12sp"
         android:tint="@android:color/black"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/playpause_btn"
+        app:layout_constraintStart_toEndOf="@+id/playpause_btn" />
+
+    <com.google.android.gms.maps.MapView
+        android:id="@+id/map_view"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginBottom="12dp"
+        android:layout_marginTop="12dp"
+        app:layout_constraintBottom_toTopOf="@+id/stop_btn"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/route_title_tv" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
