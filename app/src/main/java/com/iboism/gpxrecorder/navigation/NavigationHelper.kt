@@ -47,7 +47,7 @@ class NavigationHelper(private val activity: Activity) : NavigationView.OnNaviga
             }
 
             R.id.nav_privacy_policy ->
-                activity.launchExternalIntent(Intent(Intent.ACTION_VIEW, Uri.parse("http://bradpatras.github.io/privacy")))
+                activity.launchExternalIntent(Intent(Intent.ACTION_VIEW, Uri.parse("http://bradpatras.github.io/gpx_privacy_policy")))
         }
 
         return true
