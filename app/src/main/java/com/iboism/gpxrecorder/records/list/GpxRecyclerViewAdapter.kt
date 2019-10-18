@@ -1,14 +1,18 @@
 package com.iboism.gpxrecorder.records.list
 
 import android.content.Context
+import android.content.Intent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.iboism.gpxrecorder.Events
+import com.iboism.gpxrecorder.Keys
 import com.iboism.gpxrecorder.R
 import com.iboism.gpxrecorder.model.GpxContent
+import com.iboism.gpxrecorder.recording.LocationRecorderService
 import com.iboism.gpxrecorder.recording.RecorderServiceConnection
+import com.iboism.gpxrecorder.recording.waypoint.CreateWaypointDialogActivity
 import com.iboism.gpxrecorder.util.DateTimeFormatHelper
 import com.iboism.gpxrecorder.util.FileHelper
 import io.reactivex.Single
@@ -31,6 +35,7 @@ class GpxRecyclerViewAdapter(val context: Context, contentList: OrderedRealmColl
     private var currentlyRecordingRouteId: Long? = null
     private var serviceConnection: RecorderServiceConnection = RecorderServiceConnection(this)
     var contentViewerOpener: ((gpxId: Long) -> Unit)? = null
+    var currentRecordingOpener: (() -> Unit)? = null
 
     init {
         setHasStableIds(true)
@@ -51,7 +56,7 @@ class GpxRecyclerViewAdapter(val context: Context, contentList: OrderedRealmColl
         serviceConnection.requestConnection(context)
     }
 
-    @Subscribe()
+    @Subscribe
     fun onServiceStoppedEvent(event: Events.RecordingStoppedEvent) {
         currentlyRecordingRouteId = null
     }
@@ -72,12 +77,10 @@ class GpxRecyclerViewAdapter(val context: Context, contentList: OrderedRealmColl
 
     override fun getItemViewType(position: Int): Int {
         val identifier: Long = getItem(position)?.identifier ?: return super.getItemViewType(position)
-        return if (hiddenRowIdentifiers.contains(identifier)) {
-            VIEW_TYPE_DELETED
-        } else if (currentlyRecordingRouteId == identifier) {
-            VIEW_TYPE_CURRENT
-        } else {
-            super.getItemViewType(position)
+        return when {
+            hiddenRowIdentifiers.contains(identifier) -> VIEW_TYPE_DELETED
+            currentlyRecordingRouteId == identifier -> VIEW_TYPE_CURRENT
+            else -> super.getItemViewType(position)
         }
     }
 
@@ -121,15 +124,49 @@ class GpxRecyclerViewAdapter(val context: Context, contentList: OrderedRealmColl
     private fun onCreateCurrentRecordingViewHolder(parent: ViewGroup): CurrentRecordingViewHolder {
         val rowView = LayoutInflater.from(parent.context).inflate(R.layout.list_row_current_route, parent, false)
         val holder = CurrentRecordingViewHolder(rowView)
-        holder.rootView.visibility = View.GONE
-        return holder
+        holder.rootView.setOnClickListener {
+            currentRecordingOpener?.invoke()
+        }
+        holder.addWaypointButton?.setOnClickListener(this::addWaypointButtonClicked)
+        holder.playPauseButton?.setOnClickListener(this::playPauseButtonClicked)
+        holder.stopButton?.setOnClickListener(this::stopButtonClicked)
+
+        return  holder
     }
 
+    private fun addWaypointButtonClicked(view: View) {
+        currentlyRecordingRouteId?.let {
+            context.startActivity(Intent(context, CreateWaypointDialogActivity::class.java).putExtra(Keys.GpxId, it))
+        }
+    }
+
+    private fun playPauseButtonClicked(view: View) {
+        serviceConnection.service?.let {
+            notifyDataSetChanged()
+            if (it.isPaused) {
+                it.resumeRecording()
+            } else {
+                it.pauseRecording()
+            }
+        }
+    }
+
+    private fun stopButtonClicked(view: View) {
+        LocationRecorderService.requestStopRecording(context)
+    }
     override fun onBindViewHolder(viewHolder: RecyclerView.ViewHolder, position: Int) {
         when (viewHolder) {
             is GpxContentViewHolder -> bindContentViewHolder(viewHolder, position)
             is DeletedViewHolder -> bindDeletedViewHolder(viewHolder, position)
+            is CurrentRecordingViewHolder -> bindCurrentViewHolder(viewHolder, position)
         }
+    }
+
+    private fun bindCurrentViewHolder(viewHolder: CurrentRecordingViewHolder, position: Int) {
+        val gpx = getItem(position) ?: return
+        viewHolder.routeTitle?.text = gpx.title
+        val playPauseText = if(serviceConnection.service?.isPaused == true) R.string.resume_recording else R.string.pause_recording
+        viewHolder.playPauseButton?.text = context.getString(playPauseText)
     }
 
     private fun bindContentViewHolder(viewHolder: GpxContentViewHolder, position: Int) {

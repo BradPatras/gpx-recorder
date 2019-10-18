@@ -11,34 +11,19 @@
     android:paddingBottom="20dp"
    >
 
-    <ImageView
-        android:id="@+id/collapse_iv"
-        android:layout_width="35dp"
-        android:layout_height="35dp"
-        android:layout_marginEnd="8dp"
-        android:background="@android:color/transparent"
-        android:scaleType="fitCenter"
-        android:src="@drawable/ic_chevron_up"
-        android:rotation="180"
-        android:contentDescription="@string/expand"
-        android:tint="@android:color/white"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintBottom_toBottomOf="@id/route_title_tv"
-        app:layout_constraintTop_toTopOf="@id/current_rec_header" />
-
     <TextView
         android:id="@+id/current_rec_header"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="4dp"
         android:layout_marginStart="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginTop="4dp"
         android:text="@string/recording_in_progress"
         android:textAlignment="viewStart"
         android:textColor="@android:color/white"
         android:textSize="14sp"
-        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toStartOf="@id/collapse_iv"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
@@ -50,7 +35,7 @@
         android:textAlignment="viewStart"
         android:textColor="@android:color/white"
         android:textSize="18sp"
-        app:layout_constraintEnd_toStartOf="@+id/collapse_iv"
+        app:layout_constraintEnd_toEndOf="@id/current_rec_header"
         app:layout_constraintStart_toStartOf="@id/current_rec_header"
         app:layout_constraintTop_toBottomOf="@id/current_rec_header" />
 

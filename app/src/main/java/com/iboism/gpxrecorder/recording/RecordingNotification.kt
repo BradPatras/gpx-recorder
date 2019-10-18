@@ -25,13 +25,13 @@ class RecordingNotification(val context: Context, val id: Long) {
     private val setWaypointIntent = Intent(context, CreateWaypointDialogActivity::class.java).putExtra(Keys.GpxId, id)
     private val setWaypointPendingIntent = PendingIntent.getActivity(context, id.toInt(), setWaypointIntent, 0)
 
-    private val pauseRecordingIntent = Intent(context, LocationRecorderService::class.java).putExtra(Keys.PauseService, true)
+    private val pauseRecordingIntent = LocationRecorderService.createPauseRecordingIntent(context)
     private val pauseRecordingPendingIntent = PendingIntent.getService(context, 2, pauseRecordingIntent, PendingIntent.FLAG_UPDATE_CURRENT)
 
-    private val resumeRecordingIntent = Intent(context, LocationRecorderService::class.java).putExtra(Keys.ResumeService, true)
+    private val resumeRecordingIntent = LocationRecorderService.createResumeRecordingIntent(context)
     private val resumeRecordingPendingIntent = PendingIntent.getService(context, 3, resumeRecordingIntent, PendingIntent.FLAG_UPDATE_CURRENT)
 
-    private val stopRecordingIntent = Intent(context, LocationRecorderService::class.java).putExtra(Keys.StopService, true)
+    private val stopRecordingIntent = LocationRecorderService.createStopRecordingIntent(context)
     private val stopRecordingPendingIntent = PendingIntent.getService(context, 4, stopRecordingIntent, PendingIntent.FLAG_UPDATE_CURRENT)
 
     fun notification(): Notification {

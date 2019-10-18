@@ -18,11 +18,8 @@
         android:dividerHeight="4dp"
         android:footerDividersEnabled="true"
         android:headerDividersEnabled="true"
-        android:paddingTop="8dp"
         android:scrollbars="none"
-        android:layout_marginStart="16dp"
-        android:layout_marginEnd="16dp"
-        app:layout_constraintBottom_toTopOf="@id/current_recording_view"
+        app:layout_constraintBottom_toTopOf="@id/toolbar_wrapper_layout"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
@@ -57,14 +54,6 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         app:layout_constraintGuide_percent=".5" />
-
-    <com.iboism.gpxrecorder.recording.CurrentRecordingView android:id="@+id/current_recording_view"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:layout_constraintBottom_toTopOf="@id/toolbar_wrapper_layout"
-        android:elevation="5dp"
-        android:clipToPadding="false"
-        android:visibility="gone" />
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/fab"

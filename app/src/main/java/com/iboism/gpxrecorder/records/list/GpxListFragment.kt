@@ -1,6 +1,5 @@
 package com.iboism.gpxrecorder.records.list
 
-import android.content.Intent
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -15,23 +14,14 @@ import io.realm.Realm
 import io.realm.RealmResults
 import io.realm.Sort
 import kotlinx.android.synthetic.main.fragment_gpx_list.*
-import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.ItemTouchHelper
-import androidx.recyclerview.widget.RecyclerView
-import android.widget.Button
 import androidx.appcompat.app.AppCompatActivity
+import androidx.recyclerview.widget.*
 import com.iboism.gpxrecorder.Events
-import com.iboism.gpxrecorder.Keys
 import com.iboism.gpxrecorder.navigation.BottomNavigationDrawer
-import com.iboism.gpxrecorder.navigation.NavigationHelper
-import com.iboism.gpxrecorder.recording.LocationRecorderService
 import com.iboism.gpxrecorder.recording.RecorderServiceConnection
-import com.iboism.gpxrecorder.recording.waypoint.CreateWaypointDialogActivity
 import org.greenrobot.eventbus.EventBus
 import org.greenrobot.eventbus.Subscribe
-import androidx.recyclerview.widget.DividerItemDecoration
 import com.iboism.gpxrecorder.recording.RecorderFragment
-import kotlinx.android.synthetic.main.current_recording_view.view.*
 
 
 class GpxListFragment : Fragment(), RecorderServiceConnection.OnServiceConnectedDelegate {
@@ -69,13 +59,12 @@ class GpxListFragment : Fragment(), RecorderServiceConnection.OnServiceConnected
 
     override fun onResume() {
         super.onResume()
-        current_recording_view.setPaused(serviceConnection.service?.isPaused ?: false)
+        updateCurrentRecordingView(currentlyRecordingRouteId)
     }
 
     override fun onServiceConnected(serviceConnection: RecorderServiceConnection) {
         currentlyRecordingRouteId = serviceConnection.service?.gpxId
         updateCurrentRecordingView(currentlyRecordingRouteId)
-        current_recording_view.setPaused(serviceConnection.service?.isPaused ?: false)
     }
 
     override fun onServiceDisconnected() {
@@ -95,16 +84,6 @@ class GpxListFragment : Fragment(), RecorderServiceConnection.OnServiceConnected
         updateCurrentRecordingView(null)
     }
 
-    @Subscribe
-    fun onServicePausedEvent(event: Events.RecordingPausedEvent) {
-        current_recording_view.setPaused(serviceConnection.service?.isPaused ?: false)
-    }
-
-    @Subscribe
-    fun onServiceResumedEvent(event: Events.RecordingResumedEvent) {
-        current_recording_view.setPaused(serviceConnection.service?.isPaused ?: false)
-    }
-
     private fun requestServiceConnectionIfNeeded() {
         if (serviceConnection.service == null) {
             serviceConnection.requestConnection(requireContext())
@@ -114,29 +93,11 @@ class GpxListFragment : Fragment(), RecorderServiceConnection.OnServiceConnected
     }
 
     private fun updateCurrentRecordingView(gpxId: Long?) {
-        val realm = Realm.getDefaultInstance()
-        val gpx = GpxContent.withId(gpxId, realm)
-        realm.close()
-
-        if (gpx == null) {
-            hideRecordingView()
-            return
+        if (gpxId != null) {
+            fab.hide()
+        } else {
+            fab.show()
         }
-
-        showRecordingView()
-        current_recording_view.apply {
-            routeTitle.text = gpx.title
-        }
-    }
-
-    private fun hideRecordingView() {
-        current_recording_view.visibility = View.GONE
-        fab.show()
-    }
-
-    private fun showRecordingView() {
-        current_recording_view.visibility = View.VISIBLE
-        fab.hide()
     }
 
     private fun onFabClicked(view: View) {
@@ -150,13 +111,24 @@ class GpxListFragment : Fragment(), RecorderServiceConnection.OnServiceConnected
         })
     }
 
-    private fun openContentViewer(gpxId: Long) {
+    private fun showContentViewerFragment(gpxId: Long) {
         if (isTransitioning) return
         isTransitioning = true
         fragmentManager?.beginTransaction()
                 ?.setCustomAnimations(R.anim.slide_in_right, android.R.anim.fade_out, R.anim.none, android.R.anim.slide_out_right)
                 ?.replace(R.id.content_container, GpxDetailsFragment.newInstance(gpxId))
                 ?.addToBackStack("view")
+                ?.commit()
+    }
+
+    private fun showRecordingFragment() {
+        val gpxId = currentlyRecordingRouteId ?: return
+        if (isTransitioning) return
+        isTransitioning = true
+        fragmentManager?.beginTransaction()
+                ?.setCustomAnimations(R.anim.slide_in_right, android.R.anim.fade_out, R.anim.none, android.R.anim.slide_out_right)
+                ?.replace(R.id.content_container, RecorderFragment.newInstance(gpxId))
+                ?.addToBackStack("recorder")
                 ?.commit()
     }
 
@@ -181,15 +153,21 @@ class GpxListFragment : Fragment(), RecorderServiceConnection.OnServiceConnected
 
         fab.setOnClickListener(this::onFabClicked)
         val adapter = GpxRecyclerViewAdapter(view.context, gpxContentList)
-        adapter.contentViewerOpener = this::openContentViewer
+        adapter.contentViewerOpener = this::showContentViewerFragment
+        adapter.currentRecordingOpener = this::showRecordingFragment
 
         this.adapter = adapter
+        adapter.registerAdapterDataObserver(object: RecyclerView.AdapterDataObserver() {
+            override fun onItemRangeInserted(positionStart: Int, itemCount: Int) {
+                gpx_listView?.scrollToPosition(0)
+            }
+        })
 
         ItemTouchHelper(GpxListSwipeHandler(adapter::rowDismissed)).attachToRecyclerView(gpx_listView)
         gpx_listView.layoutManager = LinearLayoutManager(view.context)
         gpx_listView.adapter = adapter
         gpx_listView.setHasFixedSize(true)
-
+        (gpx_listView.itemAnimator as DefaultItemAnimator).supportsChangeAnimations = false
         val dividerItemDecoration = DividerItemDecoration(gpx_listView.context, DividerItemDecoration.VERTICAL)
         gpx_listView.addItemDecoration(dividerItemDecoration)
 
@@ -203,51 +181,11 @@ class GpxListFragment : Fragment(), RecorderServiceConnection.OnServiceConnected
                 super.onScrolled(recyclerView, dx, dy)
                 if (dy > 0 && fab.visibility == View.VISIBLE) {
                     fab.hide()
-                } else if (dy < 0 && fab.visibility != View.VISIBLE && current_recording_view.visibility != View.VISIBLE) {
+                } else if (dy < 0 && fab.visibility != View.VISIBLE && currentlyRecordingRouteId == null) {
                     fab.show()
                 }
             }
         })
-
-        current_recording_view.addWaypointButton.setOnClickListener(this::addWaypointButtonClicked)
-        current_recording_view.playPauseButton.setOnClickListener(this::playPauseButtonClicked)
-        current_recording_view.stopButton.setOnClickListener(this::stopButtonClicked)
-        current_recording_view.expand_iv.setOnClickListener {
-            showRecordingFragment()
-        }
-    }
-
-    private fun showRecordingFragment() {
-        val gpxId = currentlyRecordingRouteId ?: return
-        if (isTransitioning) return
-        isTransitioning = true
-        fragmentManager?.beginTransaction()
-                ?.setCustomAnimations(R.anim.slide_in_right, android.R.anim.fade_out, R.anim.none, android.R.anim.slide_out_right)
-                ?.replace(R.id.content_container, RecorderFragment.newInstance(gpxId))
-                ?.addToBackStack("recorder")
-                ?.commit()
-
-    }
-
-    private fun addWaypointButtonClicked(view: View) {
-        currentlyRecordingRouteId?.let {
-            context?.startActivity(Intent(context, CreateWaypointDialogActivity::class.java).putExtra(Keys.GpxId, it))
-        }
-    }
-
-    private fun playPauseButtonClicked(view: View) {
-        serviceConnection.service?.let {
-            current_recording_view.setPaused(it.isPaused)
-            if (it.isPaused) {
-                it.resumeRecording()
-            } else {
-                it.pauseRecording()
-            }
-        }
-    }
-
-    private fun stopButtonClicked(view: View) {
-        context?.startService(Intent(context, LocationRecorderService::class.java).putExtra(Keys.StopService, true))
     }
 
     private fun setPlaceholdersHidden(hidden: Boolean) {

@@ -1,32 +1,40 @@
 package com.iboism.gpxrecorder.recording
 
 import android.content.Context
+import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.annotation.MainThread
 import androidx.fragment.app.Fragment
 import com.iboism.gpxrecorder.Events
 import com.iboism.gpxrecorder.Keys
 import com.iboism.gpxrecorder.R
 import com.iboism.gpxrecorder.model.GpxContent
 import com.iboism.gpxrecorder.model.Segment
+import com.iboism.gpxrecorder.model.TrackPoint
+import com.iboism.gpxrecorder.recording.waypoint.CreateWaypointDialogActivity
 import com.iboism.gpxrecorder.records.details.MapController
+import io.reactivex.Observable
 import io.reactivex.Single
 import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.disposables.Disposable
 import io.realm.Realm
-import kotlinx.android.synthetic.main.fragment_gpx_content_viewer.*
 import kotlinx.android.synthetic.main.fragment_gpx_content_viewer.map_view
-import kotlinx.android.synthetic.main.fragment_gpx_list.*
 import kotlinx.android.synthetic.main.fragment_recorder.*
 import org.greenrobot.eventbus.EventBus
 import org.greenrobot.eventbus.Subscribe
+import java.util.concurrent.TimeUnit
 
 class RecorderFragment : Fragment(), RecorderServiceConnection.OnServiceConnectedDelegate {
     private var gpxId: Long? = null
     private var mapController: MapController? = null
     private var serviceConnection: RecorderServiceConnection = RecorderServiceConnection(this)
 
+    private var observableInterval: Observable<Long> = Observable.interval(5, TimeUnit.SECONDS).observeOn(AndroidSchedulers.mainThread())
+    private var intervalObserver: Disposable? = null
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         gpxId = arguments?.get(Keys.GpxId) as? Long
@@ -41,12 +49,10 @@ class RecorderFragment : Fragment(), RecorderServiceConnection.OnServiceConnecte
         super.onViewCreated(view, savedInstanceState)
 
         val gpxId = gpxId ?: return
-        val realm = Realm.getDefaultInstance()
-        val gpxContent = GpxContent.withId(gpxId, realm) ?: return
 
-        gpxContent.trackList.first()?.segments?.first()?.addChangeListener<Segment> { segment ->
-            updateUI(gpxId)
-        }
+        add_wpt_btn?.setOnClickListener(this::addWaypointButtonClicked)
+        playpause_btn?.setOnClickListener(this::playPauseButtonClicked)
+        stop_btn?.setOnClickListener(this::stopButtonClicked)
 
         updateUI(gpxId)
 
@@ -56,8 +62,26 @@ class RecorderFragment : Fragment(), RecorderServiceConnection.OnServiceConnecte
             mapController?.shouldDrawEnd = false
             it.getMapAsync(mapController)
         }
+    }
 
-       realm.close()
+    private fun addWaypointButtonClicked(view: View) {
+        context?.startActivity(Intent(context, CreateWaypointDialogActivity::class.java).putExtra(Keys.GpxId, gpxId))
+    }
+
+    private fun playPauseButtonClicked(view: View) {
+        serviceConnection.service?.let {
+            if (it.isPaused) {
+                it.resumeRecording()
+            } else {
+                it.pauseRecording()
+            }
+        }
+    }
+
+    private fun stopButtonClicked(view: View) {
+        context?.let {
+            LocationRecorderService.requestStopRecording(it)
+        }
     }
 
     override fun onAttach(context: Context) {
@@ -74,6 +98,10 @@ class RecorderFragment : Fragment(), RecorderServiceConnection.OnServiceConnecte
     override fun onResume() {
         super.onResume()
         map_view?.onResume()
+
+        intervalObserver = observableInterval.subscribe {
+            mapController?.redraw()
+        }
     }
 
     override fun onDestroyView() {
@@ -85,6 +113,7 @@ class RecorderFragment : Fragment(), RecorderServiceConnection.OnServiceConnecte
     override fun onPause() {
         super.onPause()
         map_view?.onPause()
+        intervalObserver?.dispose()
     }
 
     override fun onLowMemory() {
@@ -113,16 +142,15 @@ class RecorderFragment : Fragment(), RecorderServiceConnection.OnServiceConnecte
             isPaused = it.isPaused
         }
 
-        val updateUI = Single.just(Pair(gpxContent.title, isPaused))
+        val update = Single.just(Pair(gpxContent.title, isPaused))
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe { pair ->
-                    route_title_tv.text = pair.first
+                    route_title_tv?.text = pair.first
                     val pauseResumeString = if (pair.second) R.string.resume_recording else R.string.pause_recording
-                    playpause_btn.setText(pauseResumeString)
+                    playpause_btn?.setText(pauseResumeString)
                     mapController?.redraw()
                 }
-
-
+        realm.close()
     }
 
     override fun onServiceConnected(serviceConnection: RecorderServiceConnection) {

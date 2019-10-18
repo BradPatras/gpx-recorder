@@ -14,6 +14,7 @@ import com.google.android.gms.maps.model.BitmapDescriptorFactory
 import android.graphics.Bitmap
 import android.graphics.Canvas
 import android.os.Build
+import android.util.Log
 import androidx.core.content.res.ResourcesCompat
 import androidx.annotation.DrawableRes
 import androidx.core.content.ContextCompat
@@ -42,7 +43,7 @@ class MapController(private val mapView: MapView, private val gpxId: Long): OnMa
     fun redraw() {
         if (!isMapReady || !isLayoutReady || !isMapSetup) return
         val realm = Realm.getDefaultInstance()
-        GpxContent.withId(gpxId, realm)?.let { map?.drawContent(it, false) }
+        GpxContent.withId(gpxId, realm)?.let { map?.drawContent(realm.copyFromRealm(it), false) }
         realm.close()
     }
 
@@ -74,7 +75,7 @@ class MapController(private val mapView: MapView, private val gpxId: Long): OnMa
         }
 
         val realm = Realm.getDefaultInstance()
-        GpxContent.withId(gpxId, realm)?.let { map.drawContent(it, true) }
+        GpxContent.withId(gpxId, realm)?.let { map.drawContent(realm.copyFromRealm(it), true) }
         realm.close()
     }
 
@@ -91,11 +92,10 @@ class MapController(private val mapView: MapView, private val gpxId: Long): OnMa
     }
 
     private fun GoogleMap.drawContent(gpx: GpxContent, shouldCenter: Boolean) {
-        this.clear()
         val trackBounds = this.drawTracks(gpx.trackList.toList())
         this.drawWaypoints(gpx.waypointList.toList())
 
-        if (trackBounds != null) {
+        if (trackBounds != null && shouldCenter) {
             this.moveCamera(CameraUpdateFactory.newLatLngBounds(trackBounds, 50))
         }
     }
@@ -108,6 +108,7 @@ class MapController(private val mapView: MapView, private val gpxId: Long): OnMa
         tracks.forEach { track ->
             val points = track.segments.flatMap { it.getLatLngPoints().blockingGet() }
             allPoints += points
+
             this.addPolyline(
                     PolylineOptions()
                             .color(ContextCompat.getColor(mapView.context, R.color.white))
@@ -122,7 +123,7 @@ class MapController(private val mapView: MapView, private val gpxId: Long): OnMa
                             .width(12f)
                             .addAll(points))
             }
-
+        Log.i("MapBug", "Drawing ${allPoints.count()} points")
         // draw marker at start
         tracks.firstOrNull()?.segments?.firstOrNull()?.points?.firstOrNull()?.let {
             this.addMarker(MarkerOptions().position(LatLng(it.lat, it.lon))
