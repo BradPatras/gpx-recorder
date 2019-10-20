@@ -11,8 +11,8 @@ import com.iboism.gpxrecorder.model.GpxContent
 import com.iboism.gpxrecorder.model.RecordingConfiguration
 import com.iboism.gpxrecorder.model.Segment
 import com.iboism.gpxrecorder.model.Track
-import com.iboism.gpxrecorder.navigation.NavigationHelper
 import com.iboism.gpxrecorder.recording.LocationRecorderService
+import com.iboism.gpxrecorder.recording.RecorderFragment
 import com.iboism.gpxrecorder.recording.configurator.RecordingConfiguratorModal
 import com.iboism.gpxrecorder.records.list.GpxListFragment
 import io.realm.Realm
@@ -67,6 +67,23 @@ class MainActivity : AppCompatActivity(), RecordingConfiguratorModal.Listener {
 
         if (Keys.ShortcutAction == intent.action) {
             RecordingConfiguratorModal.show(fragmentManager = supportFragmentManager)
+        }
+    }
+
+    override fun onNewIntent(intent: Intent?) {
+        super.onNewIntent(intent)
+        val recorderFragmentTag = "recorder"
+
+        // Do nothing if recorderFragment is already presented
+        if (supportFragmentManager.backStackEntryCount > 0 && supportFragmentManager.getBackStackEntryAt(supportFragmentManager.backStackEntryCount - 1).name == recorderFragmentTag)
+            return
+
+        (intent?.extras?.get(Keys.GpxId) as? Long)?.let { gpxId ->
+            supportFragmentManager.beginTransaction()
+                    .add(R.id.content_container, RecorderFragment.newInstance(gpxId))
+                    .addToBackStack(recorderFragmentTag)
+                    .commit()
+            intent.extras?.remove(Keys.GpxId)
         }
     }
 

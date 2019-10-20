@@ -28,7 +28,7 @@ class RecordingConfiguratorModal : Fragment() {
 
         return inflater.inflate(R.layout.config_dialog, container, false)?.apply {
             val prefs = PreferenceManager.getDefaultSharedPreferences(context)
-            val initialInterval = prefs.getLong(RecordingConfiguration.intervalKey, RecordingConfiguration.defaultInterval)
+            val initialInterval = prefs.getLong(RecordingConfiguration.intervalKey, RecordingConfiguration.REQUEST_INTERVAL)
             configuratorView = RecordingConfiguratorView(this, initialInterval)
             configuratorView.restoreInstanceState(savedInstanceState)
             configuratorView.doneButton.setOnClickListener {

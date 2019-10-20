@@ -19,8 +19,8 @@ const val CHANNEL_ID = "com.iboism.gpxrecorder.recording"
 class RecordingNotification(val context: Context, val id: Long) {
     private var isPaused = false
 
-    private val openAppIntent = Intent(context, MainActivity::class.java)
-    private val openAppPendingIntent = PendingIntent.getActivity(context, 0, openAppIntent, 0)
+    private val openAppIntent = Intent(context, MainActivity::class.java).putExtra(Keys.GpxId, id)
+    private val openAppPendingIntent = PendingIntent.getActivity(context, id.toInt(), openAppIntent, 0)
 
     private val setWaypointIntent = Intent(context, CreateWaypointDialogActivity::class.java).putExtra(Keys.GpxId, id)
     private val setWaypointPendingIntent = PendingIntent.getActivity(context, id.toInt(), setWaypointIntent, 0)

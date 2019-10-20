@@ -6,18 +6,21 @@ import com.google.android.gms.location.LocationRequest
 /**
  * Created by bradpatras on 12/2/17.
  */
+
 class RecordingConfiguration(
         var title: String = "Unititled Recording",
-        var interval: Long = defaultInterval // 2.5 minutes
+        var interval: Long = REQUEST_INTERVAL,
+        var maxWait: Long = (interval * 1.25).toLong(),
+        var fastestInterval: Long = interval / 2
 ) {
 
     fun locationRequest(): LocationRequest {
         return LocationRequest()
                 .setInterval(interval)
                 .setSmallestDisplacement(2.5f)
-                .setMaxWaitTime(interval)
+                .setMaxWaitTime(maxWait)
                 .setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY)
-                .setFastestInterval(interval/2)
+                .setFastestInterval(fastestInterval)
     }
 
     fun toBundle(): Bundle {
@@ -31,8 +34,7 @@ class RecordingConfiguration(
         const val titleKey = "kTitle"
         const val intervalKey = "kInterval"
         const val configKey = "kConfig"
-        const val defaultInterval: Long = 150000
-
+        const val REQUEST_INTERVAL: Long = 150000
 
         fun fromBundle(bundle: Bundle): RecordingConfiguration? {
             val title = bundle.getString(titleKey) ?: return null
