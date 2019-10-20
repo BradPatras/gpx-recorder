@@ -136,11 +136,12 @@ class LocationRecorderService : Service() {
         location?.let { loc ->
             if (loc.accuracy > 40) return
             val realm = Realm.getDefaultInstance()
-            realm.executeTransaction {
-                val trkpt = TrackPoint(lat = loc.latitude, lon = loc.longitude, ele = loc.altitude)
-                it.copyToRealm(trkpt)
-                val gpx = GpxContent.withId(gpxId, it)
-                gpx?.trackList?.last()?.segments?.last()?.addPoint(trkpt)
+            realm.executeTransaction { r ->
+                val point = TrackPoint(lat = loc.latitude, lon = loc.longitude, ele = loc.altitude)
+                r.copyToRealm(point)
+                GpxContent.withId(gpxId, r)?.let { gpx ->
+                    gpx.trackList.last()?.segments?.last()?.addPoint(point)
+                }
             }
             realm.close()
         }

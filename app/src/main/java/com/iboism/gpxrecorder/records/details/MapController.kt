@@ -1,7 +1,6 @@
 package com.iboism.gpxrecorder.records.details
 
 import android.Manifest
-import android.annotation.SuppressLint
 import android.content.pm.PackageManager
 import com.google.android.gms.maps.model.*
 import com.google.android.gms.maps.model.JointType.ROUND
@@ -101,13 +100,13 @@ class MapController(private val mapView: MapView, private val gpxId: Long): OnMa
     }
 
     private fun GoogleMap.drawTracks(tracks: List<Track>): LatLngBounds? {
-        var allPoints: List<LatLng> = emptyList()
+        var allPoints: MutableList<LatLng> = mutableListOf()
         val boundsBuilder = LatLngBounds.Builder()
-
+        clear()
         // draw track lines
         tracks.forEach { track ->
             val points = track.segments.flatMap { it.getLatLngPoints().blockingGet() }
-            allPoints += points
+            allPoints.addAll(points)
 
             this.addPolyline(
                     PolylineOptions()
