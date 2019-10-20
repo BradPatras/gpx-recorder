@@ -17,6 +17,7 @@ import com.iboism.gpxrecorder.recording.configurator.RecordingConfiguratorModal
 import com.iboism.gpxrecorder.records.list.GpxListFragment
 import io.realm.Realm
 import io.realm.RealmList
+import io.realm.kotlin.createObject
 import kotlinx.android.synthetic.main.activity_main.*
 
 
@@ -85,18 +86,12 @@ class MainActivity : AppCompatActivity(), RecordingConfiguratorModal.Listener {
 
     @SuppressLint("MissingPermission")
     private fun startRecording(configuration: RecordingConfiguration) {
-        val newGpx = GpxContent(title = configuration.title, trackList = RealmList(Track(segments = RealmList(Segment()))))
         val realm = Realm.getDefaultInstance()
         realm.executeTransaction {
+            val newGpx = GpxContent(title = configuration.title, trackList = RealmList(Track(segments = RealmList(Segment()))))
             it.copyToRealm(newGpx)
+            LocationRecorderService.requestStartRecording(this, newGpx.identifier, configuration.toBundle())
         }
         realm.close()
-
-        val intent = Intent(this@MainActivity, LocationRecorderService::class.java)
-        intent.putExtra(Keys.StartService, true)
-        intent.putExtra(Keys.GpxId, newGpx.identifier)
-        intent.putExtra(RecordingConfiguration.configKey, configuration.toBundle())
-
-        startService(intent)
     }
 }

@@ -37,7 +37,7 @@ class NavigationHelper(private val activity: Activity) : NavigationView.OnNaviga
                         .setMessage(R.string.clear_all_alert_message)
                         .setCancelable(true)
                         .setPositiveButton(R.string.clear_all_alert_button) { _, _ ->
-                            Intent(activity, LocationRecorderService::class.java).putExtra(Keys.StopService, true)
+                          LocationRecorderService.requestStopRecording(activity)
                             val realm = Realm.getDefaultInstance()
                             realm.executeTransaction {
                                 it.delete(GpxContent::class.java)

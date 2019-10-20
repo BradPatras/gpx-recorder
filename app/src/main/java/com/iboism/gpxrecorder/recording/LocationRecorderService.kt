@@ -136,10 +136,12 @@ class LocationRecorderService : Service() {
         location?.let { loc ->
             if (loc.accuracy > 40) return
             val realm = Realm.getDefaultInstance()
-            realm.executeTransaction {
-                val trkpt = TrackPoint(lat = loc.latitude, lon = loc.longitude, ele = loc.altitude)
-                val gpx = GpxContent.withId(gpxId, it)
-                gpx?.trackList?.last()?.segments?.last()?.addPoint(trkpt)
+            realm.executeTransaction { r ->
+                val point = TrackPoint(lat = loc.latitude, lon = loc.longitude, ele = loc.altitude)
+                r.copyToRealm(point)
+                GpxContent.withId(gpxId, r)?.let { gpx ->
+                    gpx.trackList.last()?.segments?.last()?.addPoint(point)
+                }
             }
             realm.close()
         }
@@ -147,6 +149,40 @@ class LocationRecorderService : Service() {
 
     inner class ServiceBinder : Binder() {
         fun getService() = this@LocationRecorderService
+    }
+
+    companion object {
+        fun createStopRecordingIntent(context: Context): Intent {
+            return Intent(context, LocationRecorderService::class.java).putExtra(Keys.StopService, true)
+        }
+
+        fun createPauseRecordingIntent(context: Context): Intent {
+            return Intent(context, LocationRecorderService::class.java).putExtra(Keys.PauseService, true)
+        }
+
+        fun createResumeRecordingIntent(context: Context): Intent {
+            return Intent(context, LocationRecorderService::class.java).putExtra(Keys.ResumeService, true)
+        }
+
+        fun requestStopRecording(context: Context) {
+            context.startService(createStopRecordingIntent(context))
+        }
+
+        fun requestPauseRecording(context: Context) {
+            context.startService(createPauseRecordingIntent(context))
+        }
+
+        fun requestResumeRecording(context: Context) {
+            context.startService(createResumeRecordingIntent(context))
+        }
+
+        fun requestStartRecording(context: Context, gpxId: Long, configBundle: Bundle) {
+            val intent = Intent(context, LocationRecorderService::class.java)
+            intent.putExtra(Keys.StartService, true)
+            intent.putExtra(Keys.GpxId, gpxId)
+            intent.putExtra(RecordingConfiguration.configKey, configBundle)
+            context.startService(intent)
+        }
     }
 }
 
