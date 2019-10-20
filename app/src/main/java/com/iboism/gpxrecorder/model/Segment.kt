@@ -57,18 +57,6 @@ open class Segment(
                 }
     }
 
-    fun getLatLngPointsSync(): List<LatLng> {
-        val realm = Realm.getDefaultInstance()
-        val pts = Realm.getDefaultInstance()
-                .where(Segment::class.java)
-                .equalTo(primaryKey, identifier)
-                .findFirst()
-                ?.points ?: emptyList<TrackPoint>()
-        realm.close()
-
-        return pts.map { LatLng(it.lat,it.lon) }
-    }
-
     companion object Keys {
         const val primaryKey = "identifier"
     }
