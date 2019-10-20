@@ -3,18 +3,14 @@ package com.iboism.gpxrecorder.recording
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.annotation.MainThread
 import androidx.fragment.app.Fragment
 import com.iboism.gpxrecorder.Events
 import com.iboism.gpxrecorder.Keys
 import com.iboism.gpxrecorder.R
 import com.iboism.gpxrecorder.model.GpxContent
-import com.iboism.gpxrecorder.model.Segment
-import com.iboism.gpxrecorder.model.TrackPoint
 import com.iboism.gpxrecorder.recording.waypoint.CreateWaypointDialogActivity
 import com.iboism.gpxrecorder.records.details.MapController
 import io.reactivex.Observable
@@ -94,7 +90,6 @@ class RecorderFragment : Fragment(), RecorderServiceConnection.OnServiceConnecte
         EventBus.getDefault().unregister(this)
     }
 
-    // todo look into switching to MapFragment so I don't have to do these
     override fun onResume() {
         super.onResume()
         map_view?.onResume()
