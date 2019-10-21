@@ -71,7 +71,7 @@ class GpxDetailsView(
         root.title_et.isEnabled = true
         root.title_et.isFocusableInTouchMode = true
         root.title_et.requestFocusFromTouch()
-        root.title_et.setBackgroundResource(R.drawable.rect_rounded_grey)
+        root.title_et.setBackgroundResource(R.drawable.rect_rounded_light_accent)
         savedText = root.title_et.text.toString()
         root.title_edit_btn.setOnClickListener { applyPressed() }
         root.title_edit_btn.setImageResource(R.drawable.ic_check)
@@ -100,7 +100,7 @@ class GpxDetailsView(
     private fun applyPressed() {
         root.title_et.isEnabled = false
         root.title_et.clearFocus()
-        root.title_et.setBackgroundResource(R.color.white)
+        root.title_et.setBackgroundResource(R.color.colorAccent)
         root.title_edit_btn.setOnClickListener { editPressed() }
         root.title_edit_btn.setImageResource(R.drawable.ic_edit)
         root.more_btn.setOnClickListener { morePressed() }
@@ -111,7 +111,7 @@ class GpxDetailsView(
     private fun cancelPressed() {
         root.title_et.isEnabled = false
         root.title_et.clearFocus()
-        root.title_et.setBackgroundResource(R.color.white)
+        root.title_et.setBackgroundResource(R.color.colorAccent)
         root.title_et.setText("")
         root.title_et.append(savedText)
         root.title_edit_btn.setOnClickListener { editPressed() }
