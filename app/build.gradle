@@ -16,8 +16,8 @@ android {
         applicationId "com.iboism.gpxrecorder"
         minSdkVersion 21
         targetSdkVersion 28
-        versionCode 30
-        versionName "2.0"
+        versionCode 31
+        versionName "2.1"
     }
     buildTypes {
         release {
@@ -36,7 +36,8 @@ dependencies {
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
     implementation 'androidx.appcompat:appcompat:1.1.0'
     implementation 'androidx.legacy:legacy-support-v4:1.0.0'
-    implementation 'com.google.android.material:material:1.1.0-alpha10'
+    implementation 'androidx.preference:preference-ktx:1.1.0'
+    implementation 'com.google.android.material:material:1.1.0-beta01'
     implementation 'androidx.constraintlayout:constraintlayout:2.0.0-beta2'
     implementation 'com.google.android.gms:play-services-maps:17.0.0'
     implementation 'com.crashlytics.sdk.android:crashlytics:2.10.1'
