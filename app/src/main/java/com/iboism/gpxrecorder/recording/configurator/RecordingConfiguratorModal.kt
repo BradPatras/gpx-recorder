@@ -3,17 +3,15 @@ package com.iboism.gpxrecorder.recording.configurator
 import android.content.Context
 import android.os.Bundle
 import android.preference.PreferenceManager
-import androidx.fragment.app.Fragment
-import androidx.fragment.app.FragmentManager
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.view.inputmethod.InputMethodManager
+import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentManager
 import com.iboism.gpxrecorder.R
+import com.iboism.gpxrecorder.extensions.hideSoftKeyBoard
 import com.iboism.gpxrecorder.model.RecordingConfiguration
 import com.iboism.gpxrecorder.util.circularRevealOnNextLayout
-import androidx.core.content.ContextCompat.getSystemService
-import com.iboism.gpxrecorder.extensions.hideSoftKeyBoard
 
 
 const val REVEAL_ORIGIN_X_KEY = "kRevealXOrigin"

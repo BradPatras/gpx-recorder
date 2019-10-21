@@ -1,9 +1,9 @@
 package com.iboism.gpxrecorder.records.list
 
-import androidx.recyclerview.widget.RecyclerView
 import android.view.View
 import android.widget.Button
 import android.widget.TextView
+import androidx.recyclerview.widget.RecyclerView
 import com.iboism.gpxrecorder.R
 import kotlinx.android.synthetic.main.list_row_current_route.view.*
 

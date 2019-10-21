@@ -2,6 +2,15 @@ package com.iboism.gpxrecorder.records.details
 
 import android.Manifest
 import android.content.pm.PackageManager
+import android.graphics.Bitmap
+import android.graphics.Canvas
+import android.os.Build
+import android.util.Log
+import android.view.ViewTreeObserver
+import androidx.annotation.DrawableRes
+import androidx.core.content.ContextCompat
+import androidx.core.content.res.ResourcesCompat
+import com.google.android.gms.maps.*
 import com.google.android.gms.maps.model.*
 import com.google.android.gms.maps.model.JointType.ROUND
 import com.iboism.gpxrecorder.R
@@ -9,18 +18,6 @@ import com.iboism.gpxrecorder.model.GpxContent
 import com.iboism.gpxrecorder.model.Track
 import com.iboism.gpxrecorder.model.Waypoint
 import com.iboism.gpxrecorder.util.DateTimeFormatHelper
-import com.google.android.gms.maps.model.BitmapDescriptorFactory
-import android.graphics.Bitmap
-import android.graphics.Canvas
-import android.os.Build
-import android.util.Log
-import androidx.core.content.res.ResourcesCompat
-import androidx.annotation.DrawableRes
-import androidx.core.content.ContextCompat
-import android.view.ViewTreeObserver
-import com.google.android.gms.maps.*
-import com.google.android.gms.maps.model.BitmapDescriptor
-import com.google.android.gms.maps.model.LatLngBounds
 import io.realm.Realm
 
 /**

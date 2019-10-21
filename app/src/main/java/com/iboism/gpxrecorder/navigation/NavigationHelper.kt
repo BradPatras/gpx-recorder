@@ -1,18 +1,15 @@
 package com.iboism.gpxrecorder.navigation
 
 import android.app.Activity
-import androidx.appcompat.app.AlertDialog
 import android.content.Intent
 import android.net.Uri
-import com.google.android.material.navigation.NavigationView
-import androidx.core.view.GravityCompat
 import android.view.MenuItem
-import com.iboism.gpxrecorder.Keys
+import androidx.appcompat.app.AlertDialog
+import com.google.android.material.navigation.NavigationView
 import com.iboism.gpxrecorder.R
 import com.iboism.gpxrecorder.model.GpxContent
 import com.iboism.gpxrecorder.recording.LocationRecorderService
 import io.realm.Realm
-import kotlinx.android.synthetic.main.activity_main.*
 
 /**
  * Created by Brad on 2/17/2018.

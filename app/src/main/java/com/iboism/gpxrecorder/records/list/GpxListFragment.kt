@@ -1,27 +1,27 @@
 package com.iboism.gpxrecorder.records.list
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.appcompat.app.AppCompatActivity
+import androidx.fragment.app.Fragment
+import androidx.recyclerview.widget.*
+import com.iboism.gpxrecorder.Events
 import com.iboism.gpxrecorder.R
 import com.iboism.gpxrecorder.model.GpxContent
+import com.iboism.gpxrecorder.navigation.BottomNavigationDrawer
+import com.iboism.gpxrecorder.recording.RecorderFragment
+import com.iboism.gpxrecorder.recording.RecorderServiceConnection
 import com.iboism.gpxrecorder.recording.configurator.RecordingConfiguratorModal
-import com.iboism.gpxrecorder.util.PermissionHelper
 import com.iboism.gpxrecorder.records.details.GpxDetailsFragment
+import com.iboism.gpxrecorder.util.PermissionHelper
 import io.realm.Realm
 import io.realm.RealmResults
 import io.realm.Sort
 import kotlinx.android.synthetic.main.fragment_gpx_list.*
-import androidx.appcompat.app.AppCompatActivity
-import androidx.recyclerview.widget.*
-import com.iboism.gpxrecorder.Events
-import com.iboism.gpxrecorder.navigation.BottomNavigationDrawer
-import com.iboism.gpxrecorder.recording.RecorderServiceConnection
 import org.greenrobot.eventbus.EventBus
 import org.greenrobot.eventbus.Subscribe
-import com.iboism.gpxrecorder.recording.RecorderFragment
 
 
 class GpxListFragment : Fragment(), RecorderServiceConnection.OnServiceConnectedDelegate {

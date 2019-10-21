@@ -1,8 +1,8 @@
 package com.iboism.gpxrecorder.model
 
-import io.realm.RealmObject
 import com.iboism.gpxrecorder.util.DateTimeFormatHelper
 import com.iboism.gpxrecorder.util.UUIDHelper
+import io.realm.RealmObject
 import io.realm.annotations.PrimaryKey
 
 /**

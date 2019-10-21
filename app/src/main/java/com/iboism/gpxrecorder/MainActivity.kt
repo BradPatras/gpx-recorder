@@ -3,7 +3,6 @@ package com.iboism.gpxrecorder
 import android.annotation.SuppressLint
 import android.content.Intent
 import android.os.Bundle
-import androidx.core.view.GravityCompat
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import com.iboism.gpxrecorder.extensions.getRealmInitFailure
@@ -17,8 +16,6 @@ import com.iboism.gpxrecorder.recording.configurator.RecordingConfiguratorModal
 import com.iboism.gpxrecorder.records.list.GpxListFragment
 import io.realm.Realm
 import io.realm.RealmList
-import io.realm.kotlin.createObject
-import kotlinx.android.synthetic.main.activity_main.*
 
 
 class MainActivity : AppCompatActivity(), RecordingConfiguratorModal.Listener {

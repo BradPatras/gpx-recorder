@@ -7,9 +7,9 @@ import android.os.Build
 import androidx.annotation.RequiresApi
 import com.crashlytics.android.Crashlytics
 import com.getkeepsafe.relinker.MissingLibraryException
+import com.iboism.gpxrecorder.extensions.setRealmInitFailure
 import com.iboism.gpxrecorder.model.Schema
 import com.iboism.gpxrecorder.recording.CHANNEL_ID
-import com.iboism.gpxrecorder.extensions.setRealmInitFailure
 import io.realm.Realm
 import io.realm.exceptions.RealmException
 

@@ -1,10 +1,10 @@
 package com.iboism.gpxrecorder.records.details
 
 import android.os.Bundle
-import androidx.appcompat.app.AlertDialog
 import android.view.MenuItem
 import android.view.View
 import android.widget.PopupMenu
+import androidx.appcompat.app.AlertDialog
 import com.iboism.gpxrecorder.R
 import io.reactivex.subjects.PublishSubject
 import kotlinx.android.synthetic.main.fragment_gpx_content_viewer.view.*

@@ -5,7 +5,6 @@ import android.content.Context
 import android.content.Intent
 import android.content.ServiceConnection
 import android.os.IBinder
-import java.lang.IllegalArgumentException
 
 class RecorderServiceConnection(private val delegate: OnServiceConnectedDelegate) {
     interface OnServiceConnectedDelegate {

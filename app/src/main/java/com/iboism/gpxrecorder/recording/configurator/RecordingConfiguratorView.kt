@@ -1,9 +1,7 @@
 package com.iboism.gpxrecorder.recording.configurator
 
-import android.content.Context
 import android.os.Bundle
 import android.view.View
-import android.widget.Button
 import android.widget.EditText
 import android.widget.NumberPicker
 import android.widget.TextView

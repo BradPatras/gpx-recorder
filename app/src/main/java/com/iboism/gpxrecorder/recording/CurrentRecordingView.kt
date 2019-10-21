@@ -1,10 +1,10 @@
 package com.iboism.gpxrecorder.recording
 
 import android.content.Context
-import androidx.constraintlayout.widget.ConstraintLayout
 import android.util.AttributeSet
 import android.view.LayoutInflater
 import android.widget.Button
+import androidx.constraintlayout.widget.ConstraintLayout
 import com.iboism.gpxrecorder.R
 import kotlinx.android.synthetic.main.current_recording_view.view.*
 

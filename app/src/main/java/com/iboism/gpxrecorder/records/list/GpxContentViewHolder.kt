@@ -1,15 +1,11 @@
 package com.iboism.gpxrecorder.records.list
 
-import androidx.recyclerview.widget.RecyclerView
 import android.view.View
-import android.widget.*
-import com.google.android.gms.maps.model.LatLng
+import android.widget.ImageButton
+import android.widget.ProgressBar
+import android.widget.TextView
+import androidx.recyclerview.widget.RecyclerView
 import com.iboism.gpxrecorder.R
-import com.iboism.gpxrecorder.model.Segment
-import com.iboism.gpxrecorder.extensions.takeGist
-import io.reactivex.Single
-import io.reactivex.android.schedulers.AndroidSchedulers
-import io.reactivex.schedulers.Schedulers
 
 class GpxContentViewHolder(view: View): RecyclerView.ViewHolder(view) {
     val rootView = view

@@ -28,9 +28,9 @@ class RecorderFragment : Fragment(), RecorderServiceConnection.OnServiceConnecte
     private var gpxId: Long? = null
     private var mapController: MapController? = null
     private var serviceConnection: RecorderServiceConnection = RecorderServiceConnection(this)
-
     private var observableInterval: Observable<Long> = Observable.interval(5, TimeUnit.SECONDS).observeOn(AndroidSchedulers.mainThread())
     private var intervalObserver: Disposable? = null
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         gpxId = arguments?.get(Keys.GpxId) as? Long
@@ -153,7 +153,7 @@ class RecorderFragment : Fragment(), RecorderServiceConnection.OnServiceConnecte
     }
 
     override fun onServiceDisconnected() {
-        dismiss() // todo: show completed route details page maybe
+        dismiss()
     }
 
     @Subscribe(sticky = true)
@@ -163,7 +163,6 @@ class RecorderFragment : Fragment(), RecorderServiceConnection.OnServiceConnecte
 
     @Subscribe
     fun onServiceStoppedEvent(event: Events.RecordingStoppedEvent) {
-        // todo: show completed route details page
         serviceConnection.service = null
     }
 

@@ -5,10 +5,10 @@ import android.app.PendingIntent
 import android.content.Context
 import android.content.Intent
 import androidx.core.app.NotificationCompat
-import com.iboism.gpxrecorder.R
-import com.iboism.gpxrecorder.MainActivity
-import com.iboism.gpxrecorder.recording.waypoint.CreateWaypointDialogActivity
 import com.iboism.gpxrecorder.Keys
+import com.iboism.gpxrecorder.MainActivity
+import com.iboism.gpxrecorder.R
+import com.iboism.gpxrecorder.recording.waypoint.CreateWaypointDialogActivity
 
 /**
  * Created by bradpatras on 12/13/17.

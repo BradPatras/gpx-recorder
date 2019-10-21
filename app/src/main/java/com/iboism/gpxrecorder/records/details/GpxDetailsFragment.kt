@@ -1,14 +1,15 @@
 package com.iboism.gpxrecorder.records.details
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.Fragment
 import com.iboism.gpxrecorder.Keys
 import com.iboism.gpxrecorder.R
 import com.iboism.gpxrecorder.model.GpxContent
-import com.iboism.gpxrecorder.util.*
+import com.iboism.gpxrecorder.util.DateTimeFormatHelper
+import com.iboism.gpxrecorder.util.FileHelper
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.functions.Consumer
 import io.realm.Realm

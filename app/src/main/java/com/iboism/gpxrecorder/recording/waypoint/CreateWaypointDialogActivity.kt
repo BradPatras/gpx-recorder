@@ -6,10 +6,10 @@ import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import com.google.android.gms.location.LocationRequest
 import com.google.android.gms.location.LocationServices
+import com.iboism.gpxrecorder.Keys
 import com.iboism.gpxrecorder.R
 import com.iboism.gpxrecorder.model.GpxContent
 import com.iboism.gpxrecorder.util.Alerts
-import com.iboism.gpxrecorder.Keys
 import com.iboism.gpxrecorder.util.PermissionHelper
 import io.realm.Realm
 import kotlinx.android.synthetic.main.activity_create_waypoint_dialog.*

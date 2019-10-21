@@ -14,10 +14,10 @@ import com.google.android.gms.location.LocationResult
 import com.google.android.gms.location.LocationServices
 import com.google.firebase.analytics.FirebaseAnalytics
 import com.iboism.gpxrecorder.Events
+import com.iboism.gpxrecorder.Keys
 import com.iboism.gpxrecorder.model.GpxContent
 import com.iboism.gpxrecorder.model.RecordingConfiguration
 import com.iboism.gpxrecorder.model.TrackPoint
-import com.iboism.gpxrecorder.Keys
 import com.iboism.gpxrecorder.util.AnalyticsKeys
 import io.realm.Realm
 import org.greenrobot.eventbus.EventBus
