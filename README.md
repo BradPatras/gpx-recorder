@@ -14,7 +14,7 @@ Android app to record gps routes in the background and allow user to export rout
 <br><br>
 
 ## Releases
-### - 2.1 | In beta
+### - 2.1 | Dec 22, 2019
 - Moved recording controls to a list cell
 - Added recorder page to allow viewing route while recording
 <br><br>
