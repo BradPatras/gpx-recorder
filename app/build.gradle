@@ -4,18 +4,16 @@ apply plugin: 'kotlin-android'
 
 apply plugin: 'kotlin-android-extensions'
 
-apply plugin: 'realm-android'
-
 apply plugin: 'kotlin-kapt'
 
-apply plugin: 'io.fabric'
+apply plugin: 'realm-android'
 
 android {
-    compileSdkVersion 28
+    compileSdkVersion 30
     defaultConfig {
         applicationId "com.iboism.gpxrecorder"
         minSdkVersion 21
-        targetSdkVersion 28
+        targetSdkVersion 30
         versionCode 31
         versionName "2.1"
     }
