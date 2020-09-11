@@ -4,6 +4,7 @@ import android.Manifest
 import android.app.Activity
 import android.content.Intent
 import android.net.Uri
+import android.os.Build
 import android.provider.Settings
 import com.iboism.gpxrecorder.BuildConfig
 import com.karumi.dexter.Dexter
@@ -19,8 +20,12 @@ import com.karumi.dexter.listener.multi.MultiplePermissionsListener
 class PermissionHelper private constructor(val activity: Activity) {
 
     fun checkLocationPermissions(onAllowed: () -> Unit) {
+        val permissions = mutableListOf(Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION)
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+            permissions.add(Manifest.permission.ACCESS_BACKGROUND_LOCATION)
+        }
         Dexter.withActivity(activity)
-                .withPermissions(Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION)
+                .withPermissions(permissions)
                 .withListener(
                         Listener(
                                 onAllowed,
