@@ -3,7 +3,6 @@ package com.iboism.gpxrecorder.extensions
 import android.content.Context
 import android.view.View
 import android.view.inputmethod.InputMethodManager
-import com.crashlytics.android.Crashlytics
 import com.iboism.gpxrecorder.model.REALM_INIT_FAILED_KEY
 import com.iboism.gpxrecorder.model.REALM_SHARED_PREFERENCES_NAME
 
@@ -25,6 +24,5 @@ fun Context.hideSoftKeyBoard(view: View) {
         imm?.hideSoftInputFromWindow(view.windowToken, InputMethodManager.HIDE_NOT_ALWAYS)
     } catch (e: Exception) {
         // no-op If we can't hide the keyboard, it's no big deal.
-        Crashlytics.logException(e)
     }
 }

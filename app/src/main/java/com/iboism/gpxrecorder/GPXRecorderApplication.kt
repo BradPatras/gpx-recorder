@@ -5,7 +5,6 @@ import android.app.NotificationChannel
 import android.app.NotificationManager
 import android.os.Build
 import androidx.annotation.RequiresApi
-import com.crashlytics.android.Crashlytics
 import com.getkeepsafe.relinker.MissingLibraryException
 import com.iboism.gpxrecorder.extensions.setRealmInitFailure
 import com.iboism.gpxrecorder.model.Schema
@@ -27,10 +26,8 @@ class GPXRecorderApplication: Application() {
             applicationContext.setRealmInitFailure(false)
         } catch (e: RealmException) {
             applicationContext.setRealmInitFailure(true)
-            Crashlytics.logException(e)
         } catch (e: MissingLibraryException) {
             applicationContext.setRealmInitFailure(true) //todo
-            Crashlytics.logException(e)
         }
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {

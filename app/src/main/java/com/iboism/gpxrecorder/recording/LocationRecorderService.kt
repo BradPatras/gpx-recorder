@@ -12,7 +12,6 @@ import android.os.IBinder
 import com.google.android.gms.location.LocationCallback
 import com.google.android.gms.location.LocationResult
 import com.google.android.gms.location.LocationServices
-import com.google.firebase.analytics.FirebaseAnalytics
 import com.iboism.gpxrecorder.Events
 import com.iboism.gpxrecorder.Keys
 import com.iboism.gpxrecorder.model.GpxContent
@@ -60,7 +59,6 @@ class LocationRecorderService : Service() {
     }
 
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
-        logServiceCommandEvent(intent?.extras)
         when {
             intent?.extras?.containsKey(Keys.StopService) == true -> stopRecording()
             intent?.extras?.containsKey(Keys.PauseService) == true -> pauseRecording()
@@ -118,18 +116,6 @@ class LocationRecorderService : Service() {
         fusedLocation.requestLocationUpdates(config.locationRequest(),
                 locationCallback,
                 mainLooper)
-    }
-
-    private fun logServiceCommandEvent(intentExtras: Bundle?) {
-        when {
-            intentExtras?.containsKey(Keys.StopService) == true -> AnalyticsKeys.RECORDING_STOPPED
-            intentExtras?.containsKey(Keys.PauseService) == true -> AnalyticsKeys.RECORDING_PAUSED
-            intentExtras?.containsKey(Keys.ResumeService) == true -> AnalyticsKeys.RECORDING_RESUMED
-            intentExtras?.containsKey(Keys.StartService) == true -> AnalyticsKeys.RECORDING_STARTED
-            else -> null
-        }?.let {
-            FirebaseAnalytics.getInstance(applicationContext).logEvent(it, null)
-        }
     }
 
     private fun onLocationChanged(location: Location?) {

@@ -70,6 +70,7 @@
     <string name="delete_recording_alert_title" translatable="false">Are you sure you want to delete this route?</string>
     <string name="expand">Expand</string>
     <string name="recording_in_progress">Recording in progress</string>
+    <string name="denied_alert_message_background" translatable="false">If \"All the time\" location permission isn\'t granted, the app won\'t be able to record your route unless you keep the screen on and the app open. \n\nNote: The app will only access your location when you are recording a route.</string>
 
 
 </resources>
