@@ -2,6 +2,7 @@ package com.iboism.gpxrecorder.util
 
 import android.content.Context
 import android.content.DialogInterface
+import android.content.pm.PackageManager
 import android.os.Build
 import androidx.appcompat.app.AlertDialog
 import com.iboism.gpxrecorder.R
@@ -12,22 +13,18 @@ import com.iboism.gpxrecorder.R
 class Alerts(val context: Context) {
     fun permissionDeniedAlert(action: () -> Unit): AlertDialog {
         val message = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
-            context.getString(R.string.denied_alert_message_background)
+            val permissionTitle = if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.R) {
+                context.packageManager.backgroundPermissionOptionLabel
+            } else {
+                context.getString(R.string.background_permission_title)
+            }
+            context.getString(R.string.denied_alert_message_background, permissionTitle)
         } else {
             context.getString(R.string.denied_alert_message)
         }
         return AlertDialog.Builder(context)
                 .setTitle(context.getString(R.string.denied_alert_title))
                 .setMessage(message)
-                .setPositiveButton(context.getString(R.string.denied_alert_button)) { _, _ -> action.invoke() }
-                .setCancelable(true)
-                .create()
-    }
-
-    fun permissionDeniedForeverAlert(action: () -> Unit): AlertDialog {
-        return AlertDialog.Builder(context)
-                .setTitle(context.getString(R.string.denied_alert_title))
-                .setMessage(context.getString(R.string.denied_forever_alert_message))
                 .setPositiveButton(context.getString(R.string.denied_alert_button)) { _, _ -> action.invoke() }
                 .setCancelable(true)
                 .create()

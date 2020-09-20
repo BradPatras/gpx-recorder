@@ -43,11 +43,6 @@ class PermissionHelper private constructor(private val activity: Activity) {
                                     Alerts(activity)
                                             .permissionDeniedAlert { checkLocationPermissions(onAllowed) }
                                             .show()
-                                },
-                                onDeniedForever = {
-                                    Alerts(activity)
-                                            .permissionDeniedForeverAlert { openApplicationSettings() }
-                                            .show()
                                 }
                         )
                 ).check()
@@ -74,20 +69,18 @@ class PermissionHelper private constructor(private val activity: Activity) {
     private class Listener(
             val onAllowed: () -> Unit,
             val onDenied: () -> Unit,
-            val onDeniedForever: () -> Unit
     ) : MultiplePermissionsListener {
         override fun onPermissionsChecked(report: MultiplePermissionsReport?) {
             report?.let {
                 when {
                     it.areAllPermissionsGranted() -> onAllowed.invoke()
-                    it.isAnyPermissionPermanentlyDenied -> onDeniedForever.invoke()
                     else -> onDenied.invoke()
                 }
             }
         }
 
         override fun onPermissionRationaleShouldBeShown(permissions: MutableList<PermissionRequest>?, token: PermissionToken?) {
-            token?.continuePermissionRequest() //figure out what to do here
+            token?.continuePermissionRequest()
         }
     }
 }
