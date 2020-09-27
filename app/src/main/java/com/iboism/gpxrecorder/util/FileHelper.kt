@@ -1,6 +1,12 @@
 package com.iboism.gpxrecorder.util
 
+import android.R.attr.bitmap
+import android.R.attr.data
 import android.content.Context
+import android.graphics.Bitmap
+import android.net.Uri
+import android.widget.Toast
+import androidx.core.net.toUri
 import com.iboism.gpxrecorder.R
 import com.iboism.gpxrecorder.model.GpxContent
 import io.reactivex.Completable
@@ -11,6 +17,9 @@ import io.realm.Realm
 import org.apache.commons.io.FileUtils
 import org.apache.commons.io.IOUtils
 import java.io.File
+import java.io.FileOutputStream
+import java.io.OutputStream
+import java.net.URI
 import java.nio.charset.StandardCharsets
 
 
@@ -22,27 +31,21 @@ private const val SHARE_PATH = "shared"
 private const val REPLACE_CONTENT_TAG = "replacemewithcontent"
 private const val FILE_EXTENSION = ".gpx"
 
+private enum class FileDestinationType {
+    CACHE,
+}
+
 class FileHelper {
     private var exporting: Long? = null
 
     fun isExporting() = exporting
 
-    private fun gpxFileWith(context: Context, gpxContentId: Long): Single<File> {
-        exporting = gpxContentId
-        return Single.just(gpxContentId)
-                .observeOn(Schedulers.io())
-                .map {
-                    val realm = Realm.getDefaultInstance()
-                    val gpx = GpxContent.withId(it, realm) ?: throw Exception()
-                    val file = writeGpxToFile(context, gpx)
-                    realm.close()
-                    return@map file
-                }
-                .doFinally { exporting = null }
-    }
-
     fun shareGpxFile(context: Context, gpxContentId: Long): Completable {
-        return gpxFileWith(context, gpxContentId)
+        val sharedFilesDir = File(context.cacheDir, SHARE_PATH).apply { this.mkdirs() }
+        val filename = getGpxFilename(context, gpxContentId)
+        val sharedFile = File(sharedFilesDir, filename)
+
+        return createGpxFile(context, gpxContentId, sharedFile)
                 .observeOn(AndroidSchedulers.mainThread())
                 .map { file ->
                     ShareHelper(context).shareFile(file)
@@ -52,6 +55,48 @@ class FileHelper {
                 }
     }
 
+    fun saveGpxFile(context: Context, gpxContentId: Long, destinationFileURI: Uri): Completable {
+        return createGpxFile(context, gpxContentId, destinationFileURI)
+                .observeOn(AndroidSchedulers.mainThread())
+                .ignoreElement().onErrorComplete {
+                    Alerts(context).genericError(R.string.file_save_failed).show()
+                    return@onErrorComplete true
+                }
+    }
+
+    fun getGpxFilename(context: Context, gpxContentId: Long): String {
+        val realm = Realm.getDefaultInstance()
+        val gpx = GpxContent.withId(gpxContentId, realm) ?: throw Exception()
+        return gpx.title.getLegalFilename().withGpxExt()
+    }
+
+    private fun createGpxFile(context: Context, gpxContentId: Long, destFile: File): Single<File> {
+        exporting = gpxContentId
+        return Single.just(gpxContentId)
+                .observeOn(Schedulers.io())
+                .map {
+                    val realm = Realm.getDefaultInstance()
+                    val gpx = GpxContent.withId(it, realm) ?: throw Exception()
+                    writeGpxToFile(context, gpx, destFile)
+                    realm.close()
+                    return@map destFile
+                }
+                .doFinally { exporting = null }
+    }
+
+    private fun createGpxFile(context: Context, gpxContentId: Long, uri: Uri): Single<Unit> {
+        exporting = gpxContentId
+        return Single.just(gpxContentId)
+                .observeOn(Schedulers.io())
+                .map {
+                    val realm = Realm.getDefaultInstance()
+                    val gpx = GpxContent.withId(it, realm) ?: throw Exception()
+                    writeGpxToStream(context, gpx, uri)
+                    realm.close()
+                }
+                .doFinally { exporting = null }
+    }
+
     private fun getGpxStub(context: Context): String {
         val inputStream = context.resources.openRawResource(R.raw.gpx_stub)
         val gpxStub = IOUtils.toString(inputStream, StandardCharsets.UTF_8)
@@ -59,14 +104,23 @@ class FileHelper {
         return gpxStub
     }
 
-    private fun writeGpxToFile(context: Context, gpx: GpxContent): File {
-        val sharedFilesPath = File(context.cacheDir, SHARE_PATH).apply { this.mkdirs() }
+    private fun writeGpxToFile(context: Context, gpx: GpxContent, file: File): File {
         val gpxFull = getGpxStub(context).replaceFirst(REPLACE_CONTENT_TAG, gpx.getXmlString())
-        val gpxSharedFile = File(sharedFilesPath, gpx.title.getLegalFilename().withGpxExt())
+        FileUtils.writeStringToFile(file, gpxFull, StandardCharsets.UTF_8)
 
-        FileUtils.writeStringToFile(gpxSharedFile, gpxFull, StandardCharsets.UTF_8)
+        return file
+    }
 
-        return gpxSharedFile
+    private fun writeGpxToStream(context: Context, gpx: GpxContent, uri: Uri) {
+        val gpxFull = getGpxStub(context).replaceFirst(REPLACE_CONTENT_TAG, gpx.getXmlString())
+        val fileOutputStream = context.contentResolver.openOutputStream(uri) ?: return
+        try {
+            fileOutputStream.write(gpxFull.encodeToByteArray())
+            fileOutputStream.flush()
+            fileOutputStream.close()
+        } catch (e: java.lang.Exception) {
+            e.printStackTrace()
+        }
     }
 
     private fun String.getLegalFilename(): String {

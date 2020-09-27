@@ -5,6 +5,7 @@ import android.content.Intent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.PopupMenu
 import androidx.recyclerview.widget.RecyclerView
 import com.iboism.gpxrecorder.Events
 import com.iboism.gpxrecorder.Keys
@@ -29,7 +30,12 @@ import java.util.concurrent.TimeUnit
 private const val VIEW_TYPE_DELETED = 1
 private const val VIEW_TYPE_CURRENT = 2
 
-class GpxRecyclerViewAdapter(val context: Context, contentList: OrderedRealmCollection<GpxContent>) : RealmRecyclerViewAdapter<GpxContent, RecyclerView.ViewHolder>(contentList, true), RecorderServiceConnection.OnServiceConnectedDelegate {
+class GpxRecyclerViewAdapter(
+        val context: Context,
+        contentList: OrderedRealmCollection<GpxContent>,
+        val saveFileHandler: ((gpxId: Long) -> Unit)
+) : RealmRecyclerViewAdapter<GpxContent, RecyclerView.ViewHolder>(contentList, true),
+        RecorderServiceConnection.OnServiceConnectedDelegate {
     private var fileHelper: FileHelper? = null
     private var hiddenRowIdentifiers: MutableList<Long> = mutableListOf()
     private var currentlyRecordingRouteId: Long? = null
@@ -105,15 +111,35 @@ class GpxRecyclerViewAdapter(val context: Context, contentList: OrderedRealmColl
         }
 
         holder.exportButton.setOnClickListener {
-            fileHelper?.apply {
-                holder.setExportLoading(true)
-                shareGpxFile(it.context, holder.itemId).subscribe {
-                    holder.setExportLoading(false)
+            val menu = PopupMenu(context, it)
+            val shareMenuItem = menu.menu.add("Share")
+            val saveMenuItem = menu.menu.add("Save to device")
+
+            menu.setOnMenuItemClickListener { item ->
+                when(item) {
+                    shareMenuItem -> sharePressed(context, holder)
+                    saveMenuItem -> savePressed(context, holder)
                 }
+                return@setOnMenuItemClickListener true
             }
+
+            menu.show()
         }
 
         return holder
+    }
+
+    private fun sharePressed(context: Context, holder: GpxContentViewHolder) {
+        fileHelper?.apply {
+            holder.setExportLoading(true)
+            shareGpxFile(context, holder.itemId).subscribe {
+                holder.setExportLoading(false)
+            }
+        }
+    }
+
+    private fun savePressed(context: Context, holder: GpxContentViewHolder) {
+        saveFileHandler(holder.itemId)
     }
 
     private fun onCreateDeletedViewHolder(parent: ViewGroup): DeletedViewHolder {

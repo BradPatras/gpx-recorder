@@ -5,8 +5,8 @@
     <string name="denied_alert_title">Berechtigungen Erforderlich</string>
     <string name="denied_alert_message">Standortberechtigungen erforderlich</string>
     <string name="denied_alert_button">Gewähren Sie Berechtigungen</string>
-    <string name="denied_forever_alert_message">Bitte erlauben Sie Standortberechtigungen in App-Einstellungen</string>
     <string name="file_share_failed">Etwas ist schief gelaufen. Bitte versuche es erneut</string>
+    <string name="file_save_failed">Etwas ist schief gelaufen. Bitte versuche es erneut</string>
     <string name="done">fertig</string>
     <string name="add_note_hint">Füg ein Notiz hinzu</string>
     <string name="add_title_hint">Füg ein Titel hinzu</string>

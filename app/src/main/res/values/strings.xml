@@ -23,6 +23,7 @@
     <!-- Strings related to Settings -->
 
     <string name="file_share_failed">Something went wrong while trying to share the file.</string>
+    <string name="file_save_failed">Something went wrong while trying to save the file.</string>
     <string name="done">done</string>
     <string name="add_note_hint">Add note…</string>
 

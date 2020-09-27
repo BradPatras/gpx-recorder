@@ -1,5 +1,7 @@
 package com.iboism.gpxrecorder.records.details
 
+import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -15,6 +17,8 @@ import io.reactivex.functions.Consumer
 import io.realm.Realm
 import kotlinx.android.synthetic.main.fragment_gpx_content_viewer.*
 
+const val CREATE_FILE_INTENT_ID = 1
+
 class GpxDetailsFragment : Fragment() {
     private lateinit var detailsView: GpxDetailsView
     private var gpxId: Long? = null
@@ -28,6 +32,10 @@ class GpxDetailsFragment : Fragment() {
 
     private val exportTouchConsumer = Consumer<Unit> {
         exportPressed()
+    }
+
+    private val saveToDeviceConsumer = Consumer<Unit> {
+        saveToDevicePressed()
     }
 
     private val mapLayerTouchConsumer = Consumer<Unit> {
@@ -72,6 +80,7 @@ class GpxDetailsFragment : Fragment() {
         compositeDisposable.add(detailsView.exportTouchObservable.subscribe(exportTouchConsumer))
         compositeDisposable.add(detailsView.mapTypeToggleObservable.subscribe(mapLayerTouchConsumer))
         compositeDisposable.add(detailsView.deleteRouteObservable.subscribe(deleteRouteTouchConsumer))
+        compositeDisposable.add(detailsView.saveTouchObservable.subscribe(saveToDeviceConsumer))
 
         realm.close()
 
@@ -79,6 +88,13 @@ class GpxDetailsFragment : Fragment() {
             it.onCreate(savedInstanceState)
             mapController = MapController(it, gpxId)
             it.getMapAsync(mapController)
+        }
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        when(requestCode) {
+            CREATE_FILE_INTENT_ID -> onSaveLocationSelected(data?.data)
         }
     }
 
@@ -91,7 +107,7 @@ class GpxDetailsFragment : Fragment() {
         }
         realm.close()
 
-        fragmentManager?.popBackStack()
+        parentFragmentManager.popBackStack()
     }
 
     private fun exportPressed() {
@@ -106,9 +122,41 @@ class GpxDetailsFragment : Fragment() {
         }
     }
 
+    private fun saveToDevicePressed() {
+        showSystemFolderPicker()
+    }
+
+    private fun showSystemFolderPicker() {
+        val context = context ?: return
+        val gpxId = gpxId ?: return
+        val filename = fileHelper?.getGpxFilename(context, gpxId) ?: return
+
+        val intent = Intent(Intent.ACTION_CREATE_DOCUMENT).apply {
+            addCategory(Intent.CATEGORY_OPENABLE)
+            type = "text/xml"
+
+            putExtra(Intent.EXTRA_TITLE, filename)
+        }
+
+        startActivityForResult(intent, CREATE_FILE_INTENT_ID)
+    }
+
+    private fun onSaveLocationSelected(location: Uri?) {
+        val destination = location ?: return
+        val gpxId = gpxId ?: return
+        val context = context ?: return
+
+        detailsView.setButtonsExporting(true)
+        fileHelper?.apply {
+            saveGpxFile(context, gpxId, destination).subscribe {
+                detailsView.setButtonsExporting(false)
+            }
+        }
+    }
+
     private fun updateGpxTitle(newTitle: String) {
         val realm = Realm.getDefaultInstance()
-        realm.executeTransaction {itRealm ->
+        realm.executeTransaction { itRealm ->
             gpxId?.let {
                 GpxContent.withId(it, itRealm)?.title = newTitle
             }

@@ -41,7 +41,7 @@ class PermissionHelper private constructor(private val activity: Activity) {
                                 onAllowed,
                                 onDenied = {
                                     Alerts(activity)
-                                            .permissionDeniedAlert { checkLocationPermissions(onAllowed) }
+                                            .permissionDeniedAlert { openApplicationSettings() }
                                             .show()
                                 }
                         )
@@ -50,12 +50,10 @@ class PermissionHelper private constructor(private val activity: Activity) {
 
     fun checkPermission(permissionName: String): Boolean {
         return if (Build.VERSION.SDK_INT >= 23) {
-            val granted =
-                    ContextCompat.checkSelfPermission(activity, permissionName)
+            val granted = ContextCompat.checkSelfPermission(activity, permissionName)
             granted == PackageManager.PERMISSION_GRANTED
         } else {
-            val granted =
-                    PermissionChecker.checkSelfPermission(activity, permissionName)
+            val granted = PermissionChecker.checkSelfPermission(activity, permissionName)
             granted == PermissionChecker.PERMISSION_GRANTED
         }
     }
