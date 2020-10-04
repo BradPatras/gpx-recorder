@@ -91,13 +91,6 @@ class GpxDetailsFragment : Fragment() {
         }
     }
 
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        super.onActivityResult(requestCode, resultCode, data)
-        when(requestCode) {
-            CREATE_FILE_INTENT_ID -> onSaveLocationSelected(data?.data)
-        }
-    }
-
     private fun deleteRouteAndPopFragment() {
         val realm = Realm.getDefaultInstance()
         realm.executeTransaction { itRealm ->
@@ -124,34 +117,6 @@ class GpxDetailsFragment : Fragment() {
 
     private fun saveToDevicePressed() {
         showSystemFolderPicker()
-    }
-
-    private fun showSystemFolderPicker() {
-        val context = context ?: return
-        val gpxId = gpxId ?: return
-        val filename = fileHelper?.getGpxFilename(context, gpxId) ?: return
-
-        val intent = Intent(Intent.ACTION_CREATE_DOCUMENT).apply {
-            addCategory(Intent.CATEGORY_OPENABLE)
-            type = "text/xml"
-
-            putExtra(Intent.EXTRA_TITLE, filename)
-        }
-
-        startActivityForResult(intent, CREATE_FILE_INTENT_ID)
-    }
-
-    private fun onSaveLocationSelected(location: Uri?) {
-        val destination = location ?: return
-        val gpxId = gpxId ?: return
-        val context = context ?: return
-
-        detailsView.setButtonsExporting(true)
-        fileHelper?.apply {
-            saveGpxFile(context, gpxId, destination).subscribe {
-                detailsView.setButtonsExporting(false)
-            }
-        }
     }
 
     private fun updateGpxTitle(newTitle: String) {
