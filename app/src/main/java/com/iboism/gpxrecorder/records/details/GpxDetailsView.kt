@@ -22,7 +22,6 @@ class GpxDetailsView(
     private var savedText = ""
     private val moreMenu: PopupMenu = PopupMenu(root.context, root.more_btn)
     private val shareMenuItem: MenuItem = moreMenu.menu.add("Share")
-    private val saveMenuItem: MenuItem = moreMenu.menu.add("Save to device")
     private val mapToggleMenuItem: MenuItem = moreMenu.menu.add("Toggle map type")
     private val deleteMenuItem: MenuItem = moreMenu.menu.add("Delete route")
 
@@ -30,7 +29,6 @@ class GpxDetailsView(
     var gpxTitleObservable: PublishSubject<String> = PublishSubject.create()
     var mapTypeToggleObservable: PublishSubject<Unit> = PublishSubject.create()
     var deleteRouteObservable: PublishSubject<Unit> = PublishSubject.create()
-    var saveTouchObservable: PublishSubject<Unit> = PublishSubject.create()
 
     init {
         root.title_et.isEnabled = false
@@ -47,7 +45,6 @@ class GpxDetailsView(
                 shareMenuItem -> exportPressed()
                 mapToggleMenuItem -> mapTypeToggleObservable.onNext(Unit)
                 deleteMenuItem -> deletePressed()
-                saveMenuItem -> savePressed()
                 else -> return@setOnMenuItemClickListener false
             }
 
@@ -94,10 +91,6 @@ class GpxDetailsView(
 
     private fun exportPressed() {
         exportTouchObservable.onNext(Unit)
-    }
-
-    private fun savePressed() {
-        saveTouchObservable.onNext(Unit)
     }
 
     private fun morePressed() {

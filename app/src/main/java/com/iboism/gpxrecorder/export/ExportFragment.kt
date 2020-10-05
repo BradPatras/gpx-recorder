@@ -25,6 +25,7 @@ class ExportFragment: Fragment(R.layout.fragment_export) {
         super.onViewCreated(view, savedInstanceState)
         export_share_btn?.setOnClickListener { onShareClicked() }
         export_save_btn?.setOnClickListener { onSaveClicked() }
+        export_progress_bar.isIndeterminate = true
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
@@ -34,8 +35,21 @@ class ExportFragment: Fragment(R.layout.fragment_export) {
         }
     }
 
-    private fun onShareClicked() {
+    private fun setLoadingState(isLoading: Boolean) {
+        export_save_btn.isEnabled = !isLoading
+        export_share_btn.isEnabled = !isLoading
+        export_progress_bar.visibility = if (isLoading) View.VISIBLE else View.GONE
+    }
 
+    private fun onShareClicked() {
+        val context = context ?: return
+        setLoadingState(true)
+        fileHelper?.apply {
+            shareGpxFile(context, gpxId.value).subscribe {
+                setLoadingState(false)
+                parentFragmentManager.popBackStack()
+            }
+        }
     }
 
     private fun onSaveClicked() {
@@ -44,7 +58,6 @@ class ExportFragment: Fragment(R.layout.fragment_export) {
 
     private fun showSystemFolderPicker() {
         val context = context ?: return
-        val gpxId = gpxId ?: return
         val filename = fileHelper?.getGpxFilename(context, gpxId.value) ?: return
 
         val intent = Intent(Intent.ACTION_CREATE_DOCUMENT).apply {
@@ -59,12 +72,12 @@ class ExportFragment: Fragment(R.layout.fragment_export) {
 
     private fun onSaveLocationSelected(location: Uri?) {
         val destination = location ?: return
-        val gpxId = gpxId ?: return
         val context = context ?: return
-        // set loading = true
+        setLoadingState(true)
         fileHelper?.apply {
             saveGpxFile(context, gpxId.value, destination).subscribe {
-                // set loading = false
+                setLoadingState(false)
+                parentFragmentManager.popBackStack()
             }
         }
     }

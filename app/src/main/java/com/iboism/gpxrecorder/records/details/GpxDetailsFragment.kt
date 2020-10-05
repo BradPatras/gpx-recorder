@@ -1,7 +1,5 @@
 package com.iboism.gpxrecorder.records.details
 
-import android.content.Intent
-import android.net.Uri
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -9,9 +7,11 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import com.iboism.gpxrecorder.Keys
 import com.iboism.gpxrecorder.R
+import com.iboism.gpxrecorder.export.ExportFragment
 import com.iboism.gpxrecorder.model.GpxContent
 import com.iboism.gpxrecorder.util.DateTimeFormatHelper
 import com.iboism.gpxrecorder.util.FileHelper
+import com.iboism.gpxrecorder.util.Holder
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.functions.Consumer
 import io.realm.Realm
@@ -21,7 +21,7 @@ const val CREATE_FILE_INTENT_ID = 1
 
 class GpxDetailsFragment : Fragment() {
     private lateinit var detailsView: GpxDetailsView
-    private var gpxId: Long? = null
+    private lateinit var gpxId: Holder<Long>
     private var fileHelper: FileHelper? = null
     private val compositeDisposable = CompositeDisposable()
     private var mapController: MapController? = null
@@ -34,10 +34,6 @@ class GpxDetailsFragment : Fragment() {
         exportPressed()
     }
 
-    private val saveToDeviceConsumer = Consumer<Unit> {
-        saveToDevicePressed()
-    }
-
     private val mapLayerTouchConsumer = Consumer<Unit> {
         mapController?.toggleMapType()
     }
@@ -48,7 +44,7 @@ class GpxDetailsFragment : Fragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        gpxId = arguments?.get(Keys.GpxId) as? Long
+        gpxId = Holder(requireArguments().get(Keys.GpxId) as Long)
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
@@ -59,10 +55,8 @@ class GpxDetailsFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        // Can't do anything if we don't have an Id and corresponding gpxContent //TODO handle invalid state
-        val gpxId = gpxId ?: return
         val realm = Realm.getDefaultInstance()
-        val gpxContent = GpxContent.withId(gpxId, realm) ?: return
+        val gpxContent = GpxContent.withId(gpxId.value, realm) ?: return
         fileHelper = FileHelper()
 
         val distance = gpxContent.trackList.first()?.segments?.first()?.distance ?: 0f
@@ -80,13 +74,12 @@ class GpxDetailsFragment : Fragment() {
         compositeDisposable.add(detailsView.exportTouchObservable.subscribe(exportTouchConsumer))
         compositeDisposable.add(detailsView.mapTypeToggleObservable.subscribe(mapLayerTouchConsumer))
         compositeDisposable.add(detailsView.deleteRouteObservable.subscribe(deleteRouteTouchConsumer))
-        compositeDisposable.add(detailsView.saveTouchObservable.subscribe(saveToDeviceConsumer))
 
         realm.close()
 
         map_view?.let {
             it.onCreate(savedInstanceState)
-            mapController = MapController(it, gpxId)
+            mapController = MapController(it, gpxId.value)
             it.getMapAsync(mapController)
         }
     }
@@ -94,9 +87,7 @@ class GpxDetailsFragment : Fragment() {
     private fun deleteRouteAndPopFragment() {
         val realm = Realm.getDefaultInstance()
         realm.executeTransaction { itRealm ->
-            gpxId?.let {
-                GpxContent.withId(it, itRealm)?.deleteFromRealm()
-            }
+            GpxContent.withId(gpxId.value, itRealm)?.deleteFromRealm()
         }
         realm.close()
 
@@ -104,32 +95,20 @@ class GpxDetailsFragment : Fragment() {
     }
 
     private fun exportPressed() {
-        val gpxId = gpxId ?: return
-        val context = context ?: return
-
-        detailsView.setButtonsExporting(true)
-        fileHelper?.apply {
-            shareGpxFile(context, gpxId).subscribe {
-                detailsView.setButtonsExporting(false)
-            }
-        }
-    }
-
-    private fun saveToDevicePressed() {
-        showSystemFolderPicker()
+        parentFragmentManager.beginTransaction()
+                .add(R.id.content_container, ExportFragment.newInstance(gpxId.value))
+                .addToBackStack("export")
+                .commit()
     }
 
     private fun updateGpxTitle(newTitle: String) {
         val realm = Realm.getDefaultInstance()
         realm.executeTransaction { itRealm ->
-            gpxId?.let {
-                GpxContent.withId(it, itRealm)?.title = newTitle
-            }
+            GpxContent.withId(gpxId.value, itRealm)?.title = newTitle
         }
         realm.close()
     }
 
-    // todo look into switching to MapFragment so I don't have to do these
     override fun onResume() {
         super.onResume()
         map_view?.onResume()

@@ -39,6 +39,16 @@
         android:text="Save to device"
         />
 
+    <ProgressBar
+        android:id="@+id/export_progress_bar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@id/export_title_tv"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        />
+
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/center_x"
         android:layout_width="0dp"

@@ -33,10 +33,9 @@ private const val VIEW_TYPE_CURRENT = 2
 class GpxRecyclerViewAdapter(
         val context: Context,
         contentList: OrderedRealmCollection<GpxContent>,
-        val saveFileHandler: ((gpxId: Long) -> Unit)
+        val exportFileHandler: ((gpxId: Long) -> Unit)
 ) : RealmRecyclerViewAdapter<GpxContent, RecyclerView.ViewHolder>(contentList, true),
         RecorderServiceConnection.OnServiceConnectedDelegate {
-    private var fileHelper: FileHelper? = null
     private var hiddenRowIdentifiers: MutableList<Long> = mutableListOf()
     private var currentlyRecordingRouteId: Long? = null
     private var serviceConnection: RecorderServiceConnection = RecorderServiceConnection(this)
@@ -70,7 +69,6 @@ class GpxRecyclerViewAdapter(
     override fun onDetachedFromRecyclerView(recyclerView: RecyclerView) {
         super.onDetachedFromRecyclerView(recyclerView)
         serviceConnection.disconnect(context)
-        fileHelper = null
     }
 
     override fun onAttachedToRecyclerView(recyclerView: RecyclerView) {
@@ -91,10 +89,6 @@ class GpxRecyclerViewAdapter(
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
-        if (fileHelper == null) {
-            fileHelper = FileHelper.getInstance()
-        }
-
         return when(viewType) {
             VIEW_TYPE_DELETED -> onCreateDeletedViewHolder(parent)
             VIEW_TYPE_CURRENT -> onCreateCurrentRecordingViewHolder(parent)
@@ -111,35 +105,14 @@ class GpxRecyclerViewAdapter(
         }
 
         holder.exportButton.setOnClickListener {
-            val menu = PopupMenu(context, it)
-            val shareMenuItem = menu.menu.add("Share")
-            val saveMenuItem = menu.menu.add("Save to device")
-
-            menu.setOnMenuItemClickListener { item ->
-                when(item) {
-                    shareMenuItem -> sharePressed(context, holder)
-                    saveMenuItem -> savePressed(context, holder)
-                }
-                return@setOnMenuItemClickListener true
-            }
-
-            menu.show()
+            exportPressed(context, holder)
         }
 
         return holder
     }
 
-    private fun sharePressed(context: Context, holder: GpxContentViewHolder) {
-        fileHelper?.apply {
-            holder.setExportLoading(true)
-            shareGpxFile(context, holder.itemId).subscribe {
-                holder.setExportLoading(false)
-            }
-        }
-    }
-
-    private fun savePressed(context: Context, holder: GpxContentViewHolder) {
-        saveFileHandler(holder.itemId)
+    private fun exportPressed(context: Context, holder: GpxContentViewHolder) {
+        exportFileHandler(holder.itemId)
     }
 
     private fun onCreateDeletedViewHolder(parent: ViewGroup): DeletedViewHolder {
@@ -207,8 +180,6 @@ class GpxRecyclerViewAdapter(
         val segment = gpx.trackList.firstOrNull()?.segments?.firstOrNull()
         val distance = segment?.distance ?: 0f
         viewHolder.distanceView.text = context.resources.getString(R.string.distance_km, distance)
-
-        viewHolder.setExportLoading(fileHelper?.isExporting() == gpx.identifier)
     }
 
     private fun bindDeletedViewHolder(viewHolder: DeletedViewHolder, position: Int) {

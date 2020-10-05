@@ -11,6 +11,7 @@ import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.*
 import com.iboism.gpxrecorder.Events
 import com.iboism.gpxrecorder.R
+import com.iboism.gpxrecorder.export.ExportFragment
 import com.iboism.gpxrecorder.model.GpxContent
 import com.iboism.gpxrecorder.navigation.BottomNavigationDrawer
 import com.iboism.gpxrecorder.recording.RecorderFragment
@@ -35,8 +36,6 @@ class GpxListFragment : Fragment(), RecorderServiceConnection.OnServiceConnected
     private val placeholderViews = listOf(R.id.placeholder_routes_text, R.id.placeholder_routes_icon)
     private val gpxContentList = Realm.getDefaultInstance().where(GpxContent::class.java).findAll().sort("date", Sort.DESCENDING)
     private var adapter: GpxRecyclerViewAdapter? = null
-    private val fileHelper = FileHelper()
-    private var savingId: Long? = null
     private var isTransitioning = false
     private var currentlyRecordingRouteId: Long? = null
     private val compositeDisposable = CompositeDisposable()
@@ -162,7 +161,7 @@ class GpxListFragment : Fragment(), RecorderServiceConnection.OnServiceConnected
         }
 
         fab.setOnClickListener(this::onFabClicked)
-        val adapter = GpxRecyclerViewAdapter(view.context, gpxContentList) { saveRouteToDevice(it) }
+        val adapter = GpxRecyclerViewAdapter(view.context, gpxContentList) { exportRoute(it) }
         adapter.contentViewerOpener = this::showContentViewerFragment
         adapter.currentRecordingOpener = this::showRecordingFragment
 
@@ -198,41 +197,11 @@ class GpxListFragment : Fragment(), RecorderServiceConnection.OnServiceConnected
         })
     }
 
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        super.onActivityResult(requestCode, resultCode, data)
-        when(requestCode) {
-            CREATE_FILE_INTENT_ID -> onSaveLocationSelected(data?.data)
-        }
-    }
-
-    private fun saveRouteToDevice(gpxId: Long) {
-        savingId = gpxId
-        showSystemFolderPicker()
-    }
-
-    private fun showSystemFolderPicker() {
-        val context = context ?: return
-        val gpxId = savingId ?: return
-        val filename = fileHelper.getGpxFilename(context, gpxId) ?: return
-
-        val intent = Intent(Intent.ACTION_CREATE_DOCUMENT).apply {
-            addCategory(Intent.CATEGORY_OPENABLE)
-            type = "text/xml"
-
-            putExtra(Intent.EXTRA_TITLE, filename)
-        }
-
-        startActivityForResult(intent, CREATE_FILE_INTENT_ID)
-    }
-
-    private fun onSaveLocationSelected(location: Uri?) {
-        val destination = location ?: return
-        val gpxId = savingId ?: return
-        val context = context ?: return
-
-        compositeDisposable.add(fileHelper.saveGpxFile(context, gpxId, destination).subscribe {
-            savingId = null
-        })
+    private fun exportRoute(gpxId: Long) {
+        parentFragmentManager.beginTransaction()
+                .add(R.id.content_container, ExportFragment.newInstance(gpxId))
+                .addToBackStack("export")
+                .commit()
     }
 
     private fun setPlaceholdersHidden(hidden: Boolean) {

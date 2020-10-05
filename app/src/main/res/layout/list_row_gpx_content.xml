@@ -62,12 +62,6 @@
                 android:backgroundTint="@android:color/darker_gray"
                 />
 
-            <ProgressBar
-                android:id="@+id/gpx_content_export_progress_bar"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:indeterminateTint="@android:color/darker_gray"
-                android:visibility="gone"/>
         </FrameLayout>
 
         <TextView
@@ -89,26 +83,24 @@
             android:layout_width="20dp"
             android:layout_height="20dp"
             android:src="@drawable/ic_calendar"
-            android:tint="@android:color/darker_gray"
             android:layout_marginStart="4dp"
             android:layout_marginEnd="8dp"
             app:layout_constraintBottom_toBottomOf="@id/gpx_content_date"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="@+id/gpx_content_date"
-            />
+            app:tint="@android:color/darker_gray" />
 
         <ImageView
             android:id="@+id/waypoints_icon"
             android:layout_width="20dp"
             android:layout_height="20dp"
             android:src="@drawable/ic_route"
-            android:tint="@android:color/darker_gray"
             android:layout_marginStart="4dp"
             android:layout_marginEnd="8dp"
             app:layout_constraintBottom_toBottomOf="@id/gpx_content_waypoint_count"
             app:layout_constraintTop_toTopOf="@+id/gpx_content_waypoint_count"
             app:layout_constraintStart_toStartOf="parent"
-            />
+            app:tint="@android:color/darker_gray" />
 
         <TextView
             android:id="@+id/gpx_content_waypoint_count"
