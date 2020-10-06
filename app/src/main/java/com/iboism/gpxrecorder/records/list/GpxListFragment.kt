@@ -198,10 +198,7 @@ class GpxListFragment : Fragment(), RecorderServiceConnection.OnServiceConnected
     }
 
     private fun exportRoute(gpxId: Long) {
-        parentFragmentManager.beginTransaction()
-                .add(R.id.content_container, ExportFragment.newInstance(gpxId))
-                .addToBackStack("export")
-                .commit()
+        ExportFragment.newInstance(gpxId).show(parentFragmentManager, "export")
     }
 
     private fun setPlaceholdersHidden(hidden: Boolean) {

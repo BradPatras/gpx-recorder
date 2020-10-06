@@ -95,10 +95,7 @@ class GpxDetailsFragment : Fragment() {
     }
 
     private fun exportPressed() {
-        parentFragmentManager.beginTransaction()
-                .add(R.id.content_container, ExportFragment.newInstance(gpxId.value))
-                .addToBackStack("export")
-                .commit()
+        ExportFragment.newInstance(gpxId.value).show(parentFragmentManager, "export")
     }
 
     private fun updateGpxTitle(newTitle: String) {

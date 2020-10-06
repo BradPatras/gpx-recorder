@@ -1,9 +1,14 @@
 package com.iboism.gpxrecorder.export
 
 import android.content.Intent
+import android.graphics.Color
+import android.graphics.drawable.ColorDrawable
 import android.net.Uri
 import android.os.Bundle
+import android.view.LayoutInflater
 import android.view.View
+import android.view.ViewGroup
+import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.Fragment
 import com.iboism.gpxrecorder.Keys
 import com.iboism.gpxrecorder.R
@@ -12,9 +17,14 @@ import com.iboism.gpxrecorder.util.FileHelper
 import com.iboism.gpxrecorder.util.Holder
 import kotlinx.android.synthetic.main.fragment_export.*
 
-class ExportFragment: Fragment(R.layout.fragment_export) {
+class ExportFragment: DialogFragment() {
     private lateinit var gpxId: Holder<Long>
     private var fileHelper: FileHelper? = null
+
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+        dialog?.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+        return inflater.inflate(R.layout.fragment_export, container)
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
