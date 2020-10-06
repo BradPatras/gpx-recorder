@@ -21,7 +21,7 @@ class GpxDetailsView(
 
     private var savedText = ""
     private val moreMenu: PopupMenu = PopupMenu(root.context, root.more_btn)
-    private val shareMenuItem: MenuItem = moreMenu.menu.add("Share")
+    private val exportMenuItem: MenuItem = moreMenu.menu.add("Export")
     private val mapToggleMenuItem: MenuItem = moreMenu.menu.add("Toggle map type")
     private val deleteMenuItem: MenuItem = moreMenu.menu.add("Delete route")
 
@@ -42,7 +42,7 @@ class GpxDetailsView(
 
         moreMenu.setOnMenuItemClickListener { menuItem ->
             when (menuItem) {
-                shareMenuItem -> exportPressed()
+                exportMenuItem -> exportPressed()
                 mapToggleMenuItem -> mapTypeToggleObservable.onNext(Unit)
                 deleteMenuItem -> deletePressed()
                 else -> return@setOnMenuItemClickListener false

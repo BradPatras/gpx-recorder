@@ -19,7 +19,7 @@ import kotlinx.android.synthetic.main.fragment_export.*
 
 class ExportFragment: DialogFragment() {
     private lateinit var gpxId: Holder<Long>
-    private var fileHelper: FileHelper? = null
+    private val fileHelper: FileHelper? by lazy { FileHelper() }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         dialog?.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
