@@ -72,5 +72,7 @@
     <string name="recording_in_progress">Recording in progress</string>
     <string name="denied_alert_message_background" translatable="false">If \"%1$s\" location permission isn\'t granted, the app won\'t be able to record your route. \n\nThe app will only access your location when you are recording a route.</string>
     <string name="background_permission_title" translatable="false">Allow all the time</string>
+    <string name="share">Share</string>
+    <string name="save_to_device">Save to device</string>
 
 </resources>

@@ -2,6 +2,8 @@ package com.iboism.gpxrecorder.recording.waypoint
 
 import android.annotation.SuppressLint
 import android.app.PendingIntent
+import android.graphics.Color
+import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import com.google.android.gms.location.LocationRequest
@@ -25,6 +27,7 @@ class CreateWaypointDialogActivity : AppCompatActivity() {
 
     private val locationConfiguration by lazy {
         LocationRequest.create()
+        LocationRequest.create()
                 .setInterval(1) // 1 second
                 .setMaxWaitTime(20 * 1000) // 20 seconds
                 .setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY)
@@ -34,7 +37,7 @@ class CreateWaypointDialogActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_create_waypoint_dialog)
-
+        window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
         val bundle = intent.extras ?: return waypointError()
         val gpxId = checkNotNull(bundle[Keys.GpxId] as? Long) { waypointError() }
 

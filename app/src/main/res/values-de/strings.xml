@@ -31,4 +31,6 @@
     <string name="shortcut_label">Starte die Aufnahme</string>
     <string name="expand">Erweitern</string>
     <string name="recording_in_progress">Derzeit aufnehmen</string>
+    <string name="save_to_device">Speichern</string>
+    <string name="share">Teilen</string>
 </resources>

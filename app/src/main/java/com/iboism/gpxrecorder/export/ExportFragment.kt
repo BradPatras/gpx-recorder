@@ -8,6 +8,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.view.isVisible
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.Fragment
 import com.iboism.gpxrecorder.Keys
@@ -15,11 +16,17 @@ import com.iboism.gpxrecorder.R
 import com.iboism.gpxrecorder.records.details.CREATE_FILE_INTENT_ID
 import com.iboism.gpxrecorder.util.FileHelper
 import com.iboism.gpxrecorder.util.Holder
+import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.disposables.CompositeDisposable
 import kotlinx.android.synthetic.main.fragment_export.*
+import kotlinx.coroutines.*
+import java.util.concurrent.TimeUnit
 
 class ExportFragment: DialogFragment() {
     private lateinit var gpxId: Holder<Long>
     private val fileHelper: FileHelper? by lazy { FileHelper() }
+    private val uiScope = CoroutineScope(Dispatchers.Main)
+    private val compositeDisposable = CompositeDisposable()
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         dialog?.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
@@ -46,20 +53,19 @@ class ExportFragment: DialogFragment() {
     }
 
     private fun setLoadingState(isLoading: Boolean) {
-        export_save_btn.isEnabled = !isLoading
-        export_share_btn.isEnabled = !isLoading
+        export_save_btn.visibility = if (isLoading) View.INVISIBLE else View.VISIBLE
+        export_share_btn.visibility = if (isLoading) View.INVISIBLE else View.VISIBLE
         export_progress_bar.visibility = if (isLoading) View.VISIBLE else View.GONE
     }
 
     private fun onShareClicked() {
         val context = context ?: return
         setLoadingState(true)
-        fileHelper?.apply {
-            shareGpxFile(context, gpxId.value).subscribe {
-                setLoadingState(false)
-                parentFragmentManager.popBackStack()
-            }
+        val export = fileHelper?.shareGpxFile(context, gpxId.value)?.subscribe {
+            setLoadingState(false)
+            parentFragmentManager.popBackStack()
         }
+        export?.let { compositeDisposable.add(it) }
     }
 
     private fun onSaveClicked() {
@@ -85,11 +91,18 @@ class ExportFragment: DialogFragment() {
         val context = context ?: return
         setLoadingState(true)
         fileHelper?.apply {
-            saveGpxFile(context, gpxId.value, destination).subscribe {
-                setLoadingState(false)
-                parentFragmentManager.popBackStack()
+            saveGpxFile(context, gpxId.value, destination).delay(1, TimeUnit.SECONDS).subscribe {
+                uiScope.launch {
+                    setLoadingState(false)
+                    this@ExportFragment.dismiss()
+                }
             }
         }
+    }
+
+    override fun onDetach() {
+        super.onDetach()
+        compositeDisposable.clear()
     }
 
     companion object {

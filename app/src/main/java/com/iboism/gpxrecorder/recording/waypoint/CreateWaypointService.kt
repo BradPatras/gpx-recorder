@@ -16,8 +16,7 @@ import io.realm.Realm
 class CreateWaypointService : BroadcastReceiver()  {
     override fun onReceive(context: Context?, intent: Intent?) {
         if (intent == null) return
-        val (gpxId, title, note) = harvestParameters(intent)
-                ?: return
+        val (gpxId, title, note) = harvestParameters(intent) ?: return
 
         createWaypoint(LocationResult.extractResult(intent), title, note)?.let { waypoint ->
             val realm = Realm.getDefaultInstance()

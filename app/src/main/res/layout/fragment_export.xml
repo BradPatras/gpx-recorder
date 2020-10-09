@@ -2,7 +2,7 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@drawable/export_background"
+    android:background="@drawable/dialog_background"
     android:paddingTop="24dp"
     android:paddingBottom="12dp"
     android:paddingHorizontal="24dp"
@@ -27,8 +27,9 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toRightOf="@id/center_x"
         android:layout_marginTop="16dp"
+        android:textColor="@color/colorAccent"
         style="@style/Widget.MaterialComponents.Button.TextButton"
-        android:text="Share"
+        android:text="@string/share"
         />
 
     <Button
@@ -40,8 +41,9 @@
         app:layout_constraintTop_toBottomOf="@id/export_title_tv"
         app:layout_constraintBottom_toBottomOf="parent"
         android:layout_marginTop="16dp"
+        android:textColor="@color/colorAccent"
         style="@style/Widget.MaterialComponents.Button.TextButton"
-        android:text="Save to device"
+        android:text="@string/save_to_device"
         />
 
     <ProgressBar
