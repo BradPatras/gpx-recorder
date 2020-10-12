@@ -33,4 +33,5 @@
     <string name="recording_in_progress">Derzeit aufnehmen</string>
     <string name="save_to_device">Speichern</string>
     <string name="share">Teilen</string>
+    <string name="okay">OK</string>
 </resources>

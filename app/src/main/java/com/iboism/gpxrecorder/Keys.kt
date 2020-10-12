@@ -16,5 +16,8 @@ class Keys {
 
         // App shortcut action
         const val ShortcutAction = "com.iboism.gpxrecorder.START_RECORDING"
+
+        // Shared Preferences
+        const val HasShownLocationJustification = "kHasShownLocationJustification"
     }
 }

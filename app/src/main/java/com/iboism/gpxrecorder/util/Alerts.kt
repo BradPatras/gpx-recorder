@@ -38,4 +38,13 @@ class Alerts(val context: Context) {
                 .setOnDismissListener(onDismiss)
                 .create()
     }
+
+    fun backgroundLocationJustificationAlert(onDismiss: (DialogInterface) -> Unit): AlertDialog {
+        return AlertDialog.Builder(context)
+                .setTitle(context.getString(R.string.background_location_justification_title))
+                .setMessage(context.getString(R.string.background_location_justification_desc))
+                .setNeutralButton(R.string.okay) {_, _ -> }
+                .setOnDismissListener(onDismiss)
+                .create()
+    }
 }

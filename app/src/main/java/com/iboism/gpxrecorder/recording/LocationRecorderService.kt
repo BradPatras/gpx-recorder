@@ -17,7 +17,6 @@ import com.iboism.gpxrecorder.Keys
 import com.iboism.gpxrecorder.model.GpxContent
 import com.iboism.gpxrecorder.model.RecordingConfiguration
 import com.iboism.gpxrecorder.model.TrackPoint
-import com.iboism.gpxrecorder.util.AnalyticsKeys
 import io.realm.Realm
 import org.greenrobot.eventbus.EventBus
 
