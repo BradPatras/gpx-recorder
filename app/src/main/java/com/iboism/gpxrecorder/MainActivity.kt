@@ -14,11 +14,13 @@ import com.iboism.gpxrecorder.recording.LocationRecorderService
 import com.iboism.gpxrecorder.recording.RecorderFragment
 import com.iboism.gpxrecorder.recording.configurator.RecordingConfiguratorModal
 import com.iboism.gpxrecorder.records.list.GpxListFragment
+import com.iboism.gpxrecorder.util.PermissionHelper
 import io.realm.Realm
 import io.realm.RealmList
 
 
 class MainActivity : AppCompatActivity(), RecordingConfiguratorModal.Listener {
+    private val recorderFragmentTag = "recorder"
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -63,24 +65,32 @@ class MainActivity : AppCompatActivity(), RecordingConfiguratorModal.Listener {
         }
 
         if (Keys.ShortcutAction == intent.action) {
-            RecordingConfiguratorModal.show(fragmentManager = supportFragmentManager)
+           handleStartRecordingAction()
         }
     }
 
     override fun onNewIntent(intent: Intent?) {
         super.onNewIntent(intent)
-        val recorderFragmentTag = "recorder"
+        (intent?.extras?.get(Keys.GpxId) as? Long)?.let {
+            intent.extras?.remove(Keys.GpxId)
+            handleOpenRecordingIntent(it)
+        }
+    }
 
+    private fun handleOpenRecordingIntent(gpxId: Long) {
         // Do nothing if recorderFragment is already presented
         if (supportFragmentManager.backStackEntryCount > 0 && supportFragmentManager.getBackStackEntryAt(supportFragmentManager.backStackEntryCount - 1).name == recorderFragmentTag)
             return
 
-        (intent?.extras?.get(Keys.GpxId) as? Long)?.let { gpxId ->
-            supportFragmentManager.beginTransaction()
-                    .add(R.id.content_container, RecorderFragment.newInstance(gpxId))
-                    .addToBackStack(recorderFragmentTag)
-                    .commit()
-            intent.extras?.remove(Keys.GpxId)
+        supportFragmentManager.beginTransaction()
+                .add(R.id.content_container, RecorderFragment.newInstance(gpxId))
+                .addToBackStack(recorderFragmentTag)
+                .commit()
+    }
+
+    private fun handleStartRecordingAction() {
+        PermissionHelper.getInstance(this).checkLocationPermissions {
+            RecordingConfiguratorModal.show(fragmentManager = supportFragmentManager)
         }
     }
 
