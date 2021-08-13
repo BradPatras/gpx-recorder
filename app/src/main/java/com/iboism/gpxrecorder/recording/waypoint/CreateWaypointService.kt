@@ -9,7 +9,6 @@ import com.iboism.gpxrecorder.model.GpxContent
 import com.iboism.gpxrecorder.model.Waypoint
 import io.realm.Realm
 
-
 /**
  * Created by Brad on 12/14/2017.
  */

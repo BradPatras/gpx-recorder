@@ -14,13 +14,16 @@ android {
         applicationId "com.iboism.gpxrecorder"
         minSdkVersion 21
         targetSdkVersion 30
-        versionCode 34
-        versionName "2.2"
+        versionCode 35
+        versionName "2.3"
     }
     buildTypes {
+        debug {
+            minifyEnabled true
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
         release {
-            minifyEnabled false
-            shrinkResources false
+            minifyEnabled true
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
@@ -32,16 +35,16 @@ android {
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
-    implementation 'androidx.appcompat:appcompat:1.2.0'
+    implementation 'androidx.appcompat:appcompat:1.3.1'
     implementation 'androidx.legacy:legacy-support-v4:1.0.0'
     implementation 'androidx.preference:preference-ktx:1.1.1'
-    implementation 'com.google.android.material:material:1.1.0-beta01'
-    implementation 'androidx.constraintlayout:constraintlayout:2.0.1'
-    implementation 'com.google.android.gms:play-services-maps:17.0.0'
+    implementation 'com.google.android.material:material:1.5.0-alpha01'
+    implementation 'androidx.constraintlayout:constraintlayout:2.1.0'
+    implementation 'com.google.android.gms:play-services-maps:17.0.1'
 
     implementation 'com.karumi:dexter:6.2.1'
     implementation group: 'commons-io', name: 'commons-io', version: '2.6'
-    implementation 'com.google.android.gms:play-services-location:17.1.0'
+    implementation 'com.google.android.gms:play-services-location:18.0.0'
     implementation 'io.realm:android-adapters:3.1.0'
     implementation 'io.reactivex.rxjava2:rxandroid:2.1.0'
     implementation 'io.reactivex.rxjava2:rxjava:2.2.0'

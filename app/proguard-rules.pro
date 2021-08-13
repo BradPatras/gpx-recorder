@@ -26,3 +26,8 @@
 -keep @io.realm.internal.Keep class *
 -dontwarn javax.**
 -dontwarn io.realm.**
+-keepattributes *Annotation*
+-keepclassmembers class * {
+    @org.greenrobot.eventbus.Subscribe <methods>;
+}
+-keep enum org.greenrobot.eventbus.ThreadMode { *; }

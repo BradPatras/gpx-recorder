@@ -63,7 +63,7 @@ class ExportFragment: DialogFragment() {
         setLoadingState(true)
         val export = fileHelper?.shareGpxFile(context, gpxId.value)?.subscribe {
             setLoadingState(false)
-            parentFragmentManager.popBackStack()
+            this@ExportFragment.dismiss()
         }
         export?.let { compositeDisposable.add(it) }
     }
