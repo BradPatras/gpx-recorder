@@ -16,6 +16,10 @@ Android app to record gps routes in the background and allow user to export rout
 <br><br>
 
 ## Releases
+### - 2.3 | Aug 13, 2021
+- Fixed time zone issue - timestamps are always in UTC now
+- Reduced waypoint location max wait time to 5 seconds
+<br><br>
 ### - 2.2 | Oct 10, 2020
 - Updated target to Android 11
 - Added "Save to device" option when exporting route.
