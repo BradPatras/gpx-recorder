@@ -5,7 +5,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
-import com.iboism.gpxrecorder.R
 import com.iboism.gpxrecorder.databinding.BottomNavigationDrawerLayoutBinding
 
 class BottomNavigationDrawer: BottomSheetDialogFragment() {

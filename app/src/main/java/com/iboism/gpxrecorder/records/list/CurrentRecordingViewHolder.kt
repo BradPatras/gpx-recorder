@@ -1,20 +1,19 @@
 package com.iboism.gpxrecorder.records.list
 
-import android.view.View
 import android.widget.Button
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.iboism.gpxrecorder.R
-import kotlinx.android.synthetic.main.list_row_current_route.view.*
+import com.iboism.gpxrecorder.databinding.ListRowCurrentRouteBinding
 
-class CurrentRecordingViewHolder(view: View): RecyclerView.ViewHolder(view) {
-    val rootView = view
-    val routeTitle: TextView? = view.route_title_tv
-    val addWaypointButton: Button? = view.add_wpt_btn
-    val playPauseButton: Button? = view.playpause_btn
-    val stopButton: Button? = view.stop_btn
+class CurrentRecordingViewHolder(binding: ListRowCurrentRouteBinding): RecyclerView.ViewHolder(binding.root) {
+    val rootView = binding.root
+    val routeTitle: TextView = binding.routeTitleTv
+    val addWaypointButton: Button = binding.addWptBtn
+    val playPauseButton: Button = binding.playpauseBtn
+    val stopButton: Button = binding.stopBtn
 
     fun setPaused(isPaused: Boolean) {
-        playPauseButton?.text = if (isPaused) rootView.context.getText(R.string.resume_recording) else rootView.context.getText(R.string.pause_recording)
+        playPauseButton.text = if (isPaused) rootView.context.getText(R.string.resume_recording) else rootView.context.getText(R.string.pause_recording)
     }
 }

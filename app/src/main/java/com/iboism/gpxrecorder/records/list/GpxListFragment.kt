@@ -1,7 +1,5 @@
 package com.iboism.gpxrecorder.records.list
 
-import android.content.Intent
-import android.net.Uri
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -11,22 +9,19 @@ import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.*
 import com.iboism.gpxrecorder.Events
 import com.iboism.gpxrecorder.R
+import com.iboism.gpxrecorder.databinding.FragmentGpxListBinding
 import com.iboism.gpxrecorder.export.ExportFragment
 import com.iboism.gpxrecorder.model.GpxContent
 import com.iboism.gpxrecorder.navigation.BottomNavigationDrawer
 import com.iboism.gpxrecorder.recording.RecorderFragment
 import com.iboism.gpxrecorder.recording.RecorderServiceConnection
 import com.iboism.gpxrecorder.recording.configurator.RecordingConfiguratorModal
-import com.iboism.gpxrecorder.records.details.CREATE_FILE_INTENT_ID
 import com.iboism.gpxrecorder.records.details.GpxDetailsFragment
-import com.iboism.gpxrecorder.util.FileHelper
 import com.iboism.gpxrecorder.util.PermissionHelper
-import io.reactivex.Single
 import io.reactivex.disposables.CompositeDisposable
 import io.realm.Realm
 import io.realm.RealmResults
 import io.realm.Sort
-import kotlinx.android.synthetic.main.fragment_gpx_list.*
 import org.greenrobot.eventbus.EventBus
 import org.greenrobot.eventbus.Subscribe
 
@@ -40,6 +35,8 @@ class GpxListFragment : Fragment(), RecorderServiceConnection.OnServiceConnected
     private var currentlyRecordingRouteId: Long? = null
     private val compositeDisposable = CompositeDisposable()
     private var serviceConnection: RecorderServiceConnection = RecorderServiceConnection(this)
+    private lateinit var binding: FragmentGpxListBinding
+    
     private val gpxChangeListener = { gpxContent: RealmResults<GpxContent> ->
         setPlaceholdersHidden(gpxContent.isNotEmpty())
     }
@@ -103,9 +100,9 @@ class GpxListFragment : Fragment(), RecorderServiceConnection.OnServiceConnected
 
     private fun updateCurrentRecordingView(gpxId: Long?) {
         if (gpxId != null) {
-            fab.hide()
+            binding.fab.hide()
         } else {
-            fab.show()
+            binding.fab.show()
         }
     }
 
@@ -141,8 +138,9 @@ class GpxListFragment : Fragment(), RecorderServiceConnection.OnServiceConnected
                 .commit()
     }
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        return inflater.inflate(R.layout.fragment_gpx_list, container, false)
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
+        binding = FragmentGpxListBinding.inflate(inflater, container, false)
+        return binding.root
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -154,13 +152,13 @@ class GpxListFragment : Fragment(), RecorderServiceConnection.OnServiceConnected
         super.onViewCreated(view, savedInstanceState)
 
         val activity = (requireActivity() as AppCompatActivity)
-        activity.setSupportActionBar(bottomAppBar)
-        bottomAppBar.setNavigationOnClickListener {
+        activity.setSupportActionBar(binding.bottomAppBar)
+        binding.bottomAppBar.setNavigationOnClickListener {
             val bottomNavDrawerFragment = BottomNavigationDrawer()
             bottomNavDrawerFragment.show(parentFragmentManager, bottomNavDrawerFragment.tag)
         }
 
-        fab.setOnClickListener(this::onFabClicked)
+        binding.fab.setOnClickListener(this::onFabClicked)
         val adapter = GpxRecyclerViewAdapter(view.context, gpxContentList) { exportRoute(it) }
         adapter.contentViewerOpener = this::showContentViewerFragment
         adapter.currentRecordingOpener = this::showRecordingFragment
@@ -168,30 +166,30 @@ class GpxListFragment : Fragment(), RecorderServiceConnection.OnServiceConnected
         this.adapter = adapter
         adapter.registerAdapterDataObserver(object: RecyclerView.AdapterDataObserver() {
             override fun onItemRangeInserted(positionStart: Int, itemCount: Int) {
-                gpx_listView?.scrollToPosition(0)
+                binding.gpxListView.scrollToPosition(0)
             }
         })
 
-        ItemTouchHelper(GpxListSwipeHandler(adapter::rowDismissed)).attachToRecyclerView(gpx_listView)
-        gpx_listView.layoutManager = LinearLayoutManager(view.context)
-        gpx_listView.adapter = adapter
-        gpx_listView.setHasFixedSize(true)
-        (gpx_listView.itemAnimator as DefaultItemAnimator).supportsChangeAnimations = false
-        val dividerItemDecoration = DividerItemDecoration(gpx_listView.context, DividerItemDecoration.VERTICAL)
-        gpx_listView.addItemDecoration(dividerItemDecoration)
+        ItemTouchHelper(GpxListSwipeHandler(adapter::rowDismissed)).attachToRecyclerView(binding.gpxListView)
+        binding.gpxListView.layoutManager = LinearLayoutManager(view.context)
+        binding.gpxListView.adapter = adapter
+        binding.gpxListView.setHasFixedSize(true)
+        (binding.gpxListView.itemAnimator as DefaultItemAnimator).supportsChangeAnimations = false
+        val dividerItemDecoration = DividerItemDecoration(binding.gpxListView.context, DividerItemDecoration.VERTICAL)
+        binding.gpxListView.addItemDecoration(dividerItemDecoration)
 
         setPlaceholdersHidden(gpxContentList.isNotEmpty())
         gpxContentList.addChangeListener(gpxChangeListener)
 
         isTransitioning = false
 
-        gpx_listView.addOnScrollListener(object : RecyclerView.OnScrollListener() {
+        binding.gpxListView.addOnScrollListener(object : RecyclerView.OnScrollListener() {
             override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
                 super.onScrolled(recyclerView, dx, dy)
-                if (dy > 0 && fab.visibility == View.VISIBLE) {
-                    fab.hide()
-                } else if (dy < 0 && fab.visibility != View.VISIBLE && currentlyRecordingRouteId == null) {
-                    fab.show()
+                if (dy > 0 && binding.fab.visibility == View.VISIBLE) {
+                    binding.fab.hide()
+                } else if (dy < 0 && binding.fab.visibility != View.VISIBLE && currentlyRecordingRouteId == null) {
+                    binding.fab.show()
                 }
             }
         })
@@ -202,7 +200,7 @@ class GpxListFragment : Fragment(), RecorderServiceConnection.OnServiceConnected
     }
 
     private fun setPlaceholdersHidden(hidden: Boolean) {
-        fragment_gpx_list?.let { root ->
+        binding.fragmentGpxList.let { root ->
             if (hidden) {
                 placeholderViews.forEach {
                     root.findViewById<View>(it).apply {
@@ -214,7 +212,7 @@ class GpxListFragment : Fragment(), RecorderServiceConnection.OnServiceConnected
                 placeholderViews.forEach {
                     root.findViewById<View>(it).apply {
                         this.visibility = View.VISIBLE
-                        this.animate().alpha(2.0f).start()
+                        this.animate().alpha(1.0f).start()
                     }
                 }
             }
@@ -224,7 +222,7 @@ class GpxListFragment : Fragment(), RecorderServiceConnection.OnServiceConnected
     override fun onDestroyView() {
         super.onDestroyView()
         gpxContentList.removeChangeListener(gpxChangeListener)
-        gpx_listView.adapter = null
+        binding.gpxListView.adapter = null
     }
 
     companion object {

@@ -5,17 +5,18 @@ import android.content.Intent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.PopupMenu
 import androidx.recyclerview.widget.RecyclerView
 import com.iboism.gpxrecorder.Events
 import com.iboism.gpxrecorder.Keys
 import com.iboism.gpxrecorder.R
+import com.iboism.gpxrecorder.databinding.ListRowCurrentRouteBinding
+import com.iboism.gpxrecorder.databinding.ListRowDeletedBinding
+import com.iboism.gpxrecorder.databinding.ListRowGpxContentBinding
 import com.iboism.gpxrecorder.model.GpxContent
 import com.iboism.gpxrecorder.recording.LocationRecorderService
 import com.iboism.gpxrecorder.recording.RecorderServiceConnection
 import com.iboism.gpxrecorder.recording.waypoint.CreateWaypointDialogActivity
 import com.iboism.gpxrecorder.util.DateTimeFormatHelper
-import com.iboism.gpxrecorder.util.FileHelper
 import io.reactivex.Single
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.realm.OrderedRealmCollection
@@ -97,8 +98,8 @@ class GpxRecyclerViewAdapter(
     }
 
     private fun onCreateContentViewHolder(parent: ViewGroup): GpxContentViewHolder {
-        val rowView = LayoutInflater.from(parent.context).inflate(R.layout.list_row_gpx_content, parent, false)
-        val holder = GpxContentViewHolder(rowView)
+        val binding = ListRowGpxContentBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+        val holder = GpxContentViewHolder(binding)
 
         holder.rootView.setOnClickListener {
             contentViewerOpener?.invoke(holder.itemId)
@@ -116,19 +117,19 @@ class GpxRecyclerViewAdapter(
     }
 
     private fun onCreateDeletedViewHolder(parent: ViewGroup): DeletedViewHolder {
-        val rowView = LayoutInflater.from(parent.context).inflate(R.layout.list_row_deleted, parent, false)
-        return DeletedViewHolder(rowView)
+        val binding = ListRowDeletedBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+        return DeletedViewHolder(binding)
     }
 
     private fun onCreateCurrentRecordingViewHolder(parent: ViewGroup): CurrentRecordingViewHolder {
-        val rowView = LayoutInflater.from(parent.context).inflate(R.layout.list_row_current_route, parent, false)
-        val holder = CurrentRecordingViewHolder(rowView)
+        val binding = ListRowCurrentRouteBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+        val holder = CurrentRecordingViewHolder(binding)
         holder.rootView.setOnClickListener {
             currentRecordingOpener?.invoke()
         }
-        holder.addWaypointButton?.setOnClickListener(this::addWaypointButtonClicked)
-        holder.playPauseButton?.setOnClickListener(this::playPauseButtonClicked)
-        holder.stopButton?.setOnClickListener(this::stopButtonClicked)
+        holder.addWaypointButton.setOnClickListener(this::addWaypointButtonClicked)
+        holder.playPauseButton.setOnClickListener(this::playPauseButtonClicked)
+        holder.stopButton.setOnClickListener(this::stopButtonClicked)
 
         return  holder
     }

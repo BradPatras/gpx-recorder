@@ -1,18 +1,14 @@
 package com.iboism.gpxrecorder.records.list
 
-import android.view.View
-import android.widget.ImageButton
-import android.widget.ProgressBar
-import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
-import com.iboism.gpxrecorder.R
+import com.iboism.gpxrecorder.databinding.ListRowGpxContentBinding
 
-class GpxContentViewHolder(view: View): RecyclerView.ViewHolder(view) {
-    val rootView = view
-    val contentView = view.findViewById(R.id.main_content_layout) as View
-    val titleView = view.findViewById(R.id.gpx_content_title) as TextView
-    val dateView = view.findViewById(R.id.gpx_content_date) as TextView
-    val exportButton = view.findViewById(R.id.gpx_content_export_button) as ImageButton
-    val distanceView = view.findViewById(R.id.gpx_content_distance) as TextView
-    val waypointCountView = view.findViewById(R.id.gpx_content_waypoint_count) as TextView
+class GpxContentViewHolder(binding: ListRowGpxContentBinding): RecyclerView.ViewHolder(binding.root) {
+    val rootView = binding.root
+    val contentView = binding.mainContentLayout
+    val titleView = binding.gpxContentTitle
+    val dateView = binding.gpxContentDate
+    val exportButton = binding.gpxContentExportButton
+    val distanceView = binding.gpxContentDistance
+    val waypointCountView = binding.gpxContentWaypointCount
 }

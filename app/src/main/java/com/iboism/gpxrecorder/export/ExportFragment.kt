@@ -8,18 +8,16 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.core.view.isVisible
 import androidx.fragment.app.DialogFragment
-import androidx.fragment.app.Fragment
 import com.iboism.gpxrecorder.Keys
-import com.iboism.gpxrecorder.R
 import com.iboism.gpxrecorder.databinding.FragmentExportBinding
 import com.iboism.gpxrecorder.records.details.CREATE_FILE_INTENT_ID
 import com.iboism.gpxrecorder.util.FileHelper
 import com.iboism.gpxrecorder.util.Holder
-import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
-import kotlinx.coroutines.*
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 import java.util.concurrent.TimeUnit
 
 class ExportFragment: DialogFragment() {

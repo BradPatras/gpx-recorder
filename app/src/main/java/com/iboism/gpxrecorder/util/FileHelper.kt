@@ -1,12 +1,7 @@
 package com.iboism.gpxrecorder.util
 
-import android.R.attr.bitmap
-import android.R.attr.data
 import android.content.Context
-import android.graphics.Bitmap
 import android.net.Uri
-import android.widget.Toast
-import androidx.core.net.toUri
 import com.iboism.gpxrecorder.R
 import com.iboism.gpxrecorder.model.GpxContent
 import io.reactivex.Completable
@@ -17,9 +12,6 @@ import io.realm.Realm
 import org.apache.commons.io.FileUtils
 import org.apache.commons.io.IOUtils
 import java.io.File
-import java.io.FileOutputStream
-import java.io.OutputStream
-import java.net.URI
 import java.nio.charset.StandardCharsets
 
 

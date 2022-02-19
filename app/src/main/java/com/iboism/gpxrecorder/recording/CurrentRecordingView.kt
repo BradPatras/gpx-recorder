@@ -3,7 +3,6 @@ package com.iboism.gpxrecorder.recording
 import android.content.Context
 import android.util.AttributeSet
 import android.view.LayoutInflater
-import android.widget.Button
 import androidx.constraintlayout.widget.ConstraintLayout
 import com.iboism.gpxrecorder.R
 import com.iboism.gpxrecorder.databinding.CurrentRecordingViewBinding
