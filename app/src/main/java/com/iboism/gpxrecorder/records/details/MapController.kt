@@ -6,7 +6,6 @@ import android.content.pm.PackageManager
 import android.graphics.Bitmap
 import android.graphics.Canvas
 import android.os.Build
-import android.util.Log
 import android.view.ViewTreeObserver
 import androidx.annotation.DrawableRes
 import androidx.core.content.ContextCompat
@@ -99,7 +98,7 @@ class MapController(private val mapView: MapView, private val gpxId: Long): OnMa
     }
 
     private fun GoogleMap.drawTracks(tracks: List<Track>): LatLngBounds? {
-        var allPoints: MutableList<LatLng> = mutableListOf()
+        val allPoints: MutableList<LatLng> = mutableListOf()
         val boundsBuilder = LatLngBounds.Builder()
         clear()
         // draw track lines
@@ -121,7 +120,7 @@ class MapController(private val mapView: MapView, private val gpxId: Long): OnMa
                             .width(12f)
                             .addAll(points))
             }
-        Log.i("MapBug", "Drawing ${allPoints.count()} points")
+
         // draw marker at start
         tracks.firstOrNull()?.segments?.firstOrNull()?.points?.firstOrNull()?.let {
             this.addMarker(MarkerOptions().position(LatLng(it.lat, it.lon))

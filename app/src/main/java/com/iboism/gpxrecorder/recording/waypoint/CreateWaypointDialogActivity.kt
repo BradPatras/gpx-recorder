@@ -4,6 +4,7 @@ import android.annotation.SuppressLint
 import android.app.PendingIntent
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
+import android.os.Build
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import com.google.android.gms.location.LocationRequest
@@ -70,7 +71,7 @@ class CreateWaypointDialogActivity : AppCompatActivity() {
             binding.titleEditText.text.append(draftTitle)
         }
 
-        outState?.getString(DRAFT_NOTE_KEY)?.let {draftNote ->
+        outState?.getString(DRAFT_NOTE_KEY)?.let { draftNote ->
             binding.noteEditText.text.clear()
             binding.noteEditText.text.append(draftNote)
         }
@@ -84,8 +85,14 @@ class CreateWaypointDialogActivity : AppCompatActivity() {
 
     @SuppressLint("MissingPermission")
     private fun startWaypointService(gpxId: Long, title: String, note: String) {
+        val intentFlags = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
+            PendingIntent.FLAG_MUTABLE
+        } else {
+            0
+        }
+
         val waypointIntent = CreateWaypointService.startServiceIntent(applicationContext, gpxId, title, note)
-        val waypointPendingIntent = PendingIntent.getBroadcast(applicationContext, 0, waypointIntent, 0)
+        val waypointPendingIntent = PendingIntent.getBroadcast(applicationContext, 0, waypointIntent, intentFlags)
         PermissionHelper.getInstance(this@CreateWaypointDialogActivity)
                 .checkLocationPermissions {
                     fusedLocation.requestLocationUpdates(locationConfiguration, waypointPendingIntent)

@@ -65,7 +65,8 @@
             android:excludeFromRecents="true"
             android:launchMode="singleTask"
             android:taskAffinity="com.iboism.gpxrecorder.addWaypoint"
-            android:theme="@style/Theme.MaterialComponents.NoActionBarDialog">
+            android:theme="@style/Theme.MaterialComponents.NoActionBarDialog"
+            android:exported="true">
         </activity>
     </application>
 

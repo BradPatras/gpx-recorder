@@ -4,6 +4,7 @@ import android.app.Notification
 import android.app.PendingIntent
 import android.content.Context
 import android.content.Intent
+import android.os.Build
 import androidx.core.app.NotificationCompat
 import com.iboism.gpxrecorder.Keys
 import com.iboism.gpxrecorder.MainActivity
@@ -19,20 +20,26 @@ const val CHANNEL_ID = "com.iboism.gpxrecorder.recording"
 class RecordingNotification(val context: Context, val id: Long) {
     private var isPaused = false
 
+    private var intentFlags = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+        PendingIntent.FLAG_IMMUTABLE or PendingIntent.FLAG_UPDATE_CURRENT
+    } else {
+        PendingIntent.FLAG_UPDATE_CURRENT
+    }
+
     private val openAppIntent = Intent(context, MainActivity::class.java).putExtra(Keys.GpxId, id)
-    private val openAppPendingIntent = PendingIntent.getActivity(context, id.toInt(), openAppIntent, 0)
+    private val openAppPendingIntent = PendingIntent.getActivity(context, id.toInt(), openAppIntent, intentFlags)
 
     private val setWaypointIntent = Intent(context, CreateWaypointDialogActivity::class.java).putExtra(Keys.GpxId, id)
-    private val setWaypointPendingIntent = PendingIntent.getActivity(context, id.toInt(), setWaypointIntent, 0)
+    private val setWaypointPendingIntent = PendingIntent.getActivity(context, id.toInt(), setWaypointIntent, intentFlags)
 
     private val pauseRecordingIntent = LocationRecorderService.createPauseRecordingIntent(context)
-    private val pauseRecordingPendingIntent = PendingIntent.getService(context, 2, pauseRecordingIntent, PendingIntent.FLAG_UPDATE_CURRENT)
+    private val pauseRecordingPendingIntent = PendingIntent.getService(context, 2, pauseRecordingIntent, intentFlags)
 
     private val resumeRecordingIntent = LocationRecorderService.createResumeRecordingIntent(context)
-    private val resumeRecordingPendingIntent = PendingIntent.getService(context, 3, resumeRecordingIntent, PendingIntent.FLAG_UPDATE_CURRENT)
+    private val resumeRecordingPendingIntent = PendingIntent.getService(context, 3, resumeRecordingIntent, intentFlags)
 
     private val stopRecordingIntent = LocationRecorderService.createStopRecordingIntent(context)
-    private val stopRecordingPendingIntent = PendingIntent.getService(context, 4, stopRecordingIntent, PendingIntent.FLAG_UPDATE_CURRENT)
+    private val stopRecordingPendingIntent = PendingIntent.getService(context, 4, stopRecordingIntent, intentFlags)
 
     fun notification(): Notification {
 

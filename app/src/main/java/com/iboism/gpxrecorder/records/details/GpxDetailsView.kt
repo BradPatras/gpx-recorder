@@ -20,7 +20,7 @@ class GpxDetailsView(
         ) {
 
     private var savedText = ""
-    private val moreMenu: PopupMenu = PopupMenu(binding.root.context, binding.root)
+    private val moreMenu: PopupMenu = PopupMenu(binding.root.context, binding.moreBtn)
     private val exportMenuItem: MenuItem = moreMenu.menu.add("Export")
     private val mapToggleMenuItem: MenuItem = moreMenu.menu.add("Toggle map type")
     private val deleteMenuItem: MenuItem = moreMenu.menu.add("Delete route")

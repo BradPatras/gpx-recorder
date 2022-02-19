@@ -41,9 +41,9 @@ class ExportFragment: DialogFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-//        export_share_btn?.setOnClickListener { onShareClicked() }
-//        export_save_btn?.setOnClickListener { onSaveClicked() }
-//        export_progress_bar.isIndeterminate = true
+        binding.exportShareBtn.setOnClickListener { onShareClicked() }
+        binding.exportSaveBtn.setOnClickListener { onSaveClicked() }
+        binding.exportProgressBar.isIndeterminate = true
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
@@ -54,9 +54,9 @@ class ExportFragment: DialogFragment() {
     }
 
     private fun setLoadingState(isLoading: Boolean) {
-//        export_save_btn.visibility = if (isLoading) View.INVISIBLE else View.VISIBLE
-//        export_share_btn.visibility = if (isLoading) View.INVISIBLE else View.VISIBLE
-//        export_progress_bar.visibility = if (isLoading) View.VISIBLE else View.GONE
+        binding.exportSaveBtn.visibility = if (isLoading) View.INVISIBLE else View.VISIBLE
+        binding.exportShareBtn.visibility = if (isLoading) View.INVISIBLE else View.VISIBLE
+        binding.exportProgressBar.visibility = if (isLoading) View.VISIBLE else View.GONE
     }
 
     private fun onShareClicked() {
