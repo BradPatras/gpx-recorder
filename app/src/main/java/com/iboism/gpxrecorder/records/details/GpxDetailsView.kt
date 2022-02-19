@@ -6,39 +6,38 @@ import android.view.View
 import android.widget.PopupMenu
 import androidx.appcompat.app.AlertDialog
 import com.iboism.gpxrecorder.R
+import com.iboism.gpxrecorder.databinding.FragmentGpxContentViewerBinding
 import io.reactivex.subjects.PublishSubject
-import kotlinx.android.synthetic.main.fragment_gpx_content_viewer.view.*
 
 const private val DRAFT_TITLE_KEY: String = "GpxDetailsView_titleDraft"
 
 class GpxDetailsView(
-        val root: View,
-        val titleText: String,
-        val distanceText: String,
-        val waypointsText: String,
-        val dateText: String
+    val binding: FragmentGpxContentViewerBinding,
+    val titleText: String,
+    val distanceText: String,
+    val waypointsText: String,
+    val dateText: String
         ) {
 
     private var savedText = ""
-    private val moreMenu: PopupMenu = PopupMenu(root.context, root.more_btn)
+    private val moreMenu: PopupMenu = PopupMenu(binding.root.context, binding.root)
     private val exportMenuItem: MenuItem = moreMenu.menu.add("Export")
     private val mapToggleMenuItem: MenuItem = moreMenu.menu.add("Toggle map type")
     private val deleteMenuItem: MenuItem = moreMenu.menu.add("Delete route")
-
     var exportTouchObservable: PublishSubject<Unit> = PublishSubject.create()
     var gpxTitleObservable: PublishSubject<String> = PublishSubject.create()
     var mapTypeToggleObservable: PublishSubject<Unit> = PublishSubject.create()
     var deleteRouteObservable: PublishSubject<Unit> = PublishSubject.create()
 
     init {
-        root.title_et.isEnabled = false
-        root.title_et.append(titleText)
-        root.distance_tv.text = distanceText
-        root.waypoint_tv.text = waypointsText
-        root.date_tv.text = dateText
+        binding.titleEt.isEnabled = false
+        binding.titleEt.append(titleText)
+        binding.distanceTv.text = distanceText
+        binding.waypointTv.text = waypointsText
+        binding.dateTv.text = dateText
 
-        root.title_edit_btn.setOnClickListener { editPressed() }
-        root.more_btn.setOnClickListener { morePressed() }
+        binding.titleEditBtn.setOnClickListener { editPressed() }
+        binding.moreBtn.setOnClickListener { morePressed() }
 
         moreMenu.setOnMenuItemClickListener { menuItem ->
             when (menuItem) {
@@ -56,31 +55,31 @@ class GpxDetailsView(
         val titleDraft = outState?.getString(DRAFT_TITLE_KEY) ?: return
 
         editPressed()
-        root.title_et.text.clear()
-        root.title_et.text.append(titleDraft)
+        binding.titleEt.text.clear()
+        binding.titleEt.text.append(titleDraft)
         outState.remove(DRAFT_TITLE_KEY)
     }
 
     fun onSaveInstanceState(outState: Bundle) {
-        if (root.title_et.isEnabled) {
-            outState.putString(DRAFT_TITLE_KEY, root.title_et.text.toString())
+        if (binding.titleEt.isEnabled) {
+            outState.putString(DRAFT_TITLE_KEY, binding.titleEt.text.toString())
         }
     }
 
     private fun editPressed() {
-        root.title_et.isEnabled = true
-        root.title_et.isFocusableInTouchMode = true
-        root.title_et.requestFocusFromTouch()
-        root.title_et.setBackgroundResource(R.drawable.rect_rounded_light_accent)
-        savedText = root.title_et.text.toString()
-        root.title_edit_btn.setOnClickListener { applyPressed() }
-        root.title_edit_btn.setImageResource(R.drawable.ic_check)
-        root.more_btn.setOnClickListener { cancelPressed() }
-        root.more_btn.setImageResource(R.drawable.ic_close)
+        binding.titleEt.isEnabled = true
+        binding.titleEt.isFocusableInTouchMode = true
+        binding.titleEt.requestFocusFromTouch()
+        binding.titleEt.setBackgroundResource(R.drawable.rect_rounded_light_accent)
+        savedText = binding.titleEt.text.toString()
+        binding.titleEditBtn.setOnClickListener { applyPressed() }
+        binding.titleEditBtn.setImageResource(R.drawable.ic_check)
+        binding.moreBtn.setOnClickListener { cancelPressed() }
+        binding.moreBtn.setImageResource(R.drawable.ic_close)
     }
 
     private fun deletePressed() {
-        AlertDialog.Builder(root.context)
+        AlertDialog.Builder(binding.root.context)
                 .setTitle(R.string.delete_recording_alert_title)
                 .setMessage(R.string.delete_recording_alert_message)
                 .setCancelable(true)
@@ -98,33 +97,33 @@ class GpxDetailsView(
     }
 
     private fun applyPressed() {
-        root.title_et.isEnabled = false
-        root.title_et.clearFocus()
-        root.title_et.setBackgroundResource(R.color.colorAccent)
-        root.title_edit_btn.setOnClickListener { editPressed() }
-        root.title_edit_btn.setImageResource(R.drawable.ic_edit)
-        root.more_btn.setOnClickListener { morePressed() }
-        root.more_btn.setImageResource(R.drawable.ic_more)
-        gpxTitleObservable.onNext(root.title_et.text.toString())
+        binding.titleEt.isEnabled = false
+        binding.titleEt.clearFocus()
+        binding.titleEt.setBackgroundResource(R.color.colorAccent)
+        binding.titleEditBtn.setOnClickListener { editPressed() }
+        binding.titleEditBtn.setImageResource(R.drawable.ic_edit)
+        binding.moreBtn.setOnClickListener { morePressed() }
+        binding.moreBtn.setImageResource(R.drawable.ic_more)
+        gpxTitleObservable.onNext(binding.titleEt.text.toString())
     }
 
     private fun cancelPressed() {
-        root.title_et.isEnabled = false
-        root.title_et.clearFocus()
-        root.title_et.setBackgroundResource(R.color.colorAccent)
-        root.title_et.setText("")
-        root.title_et.append(savedText)
-        root.title_edit_btn.setOnClickListener { editPressed() }
-        root.title_edit_btn.setImageResource(R.drawable.ic_edit)
-        root.more_btn.setOnClickListener { morePressed() }
-        root.more_btn.setImageResource(R.drawable.ic_more)
+        binding.titleEt.isEnabled = false
+        binding.titleEt.clearFocus()
+        binding.titleEt.setBackgroundResource(R.color.colorAccent)
+        binding.titleEt.setText("")
+        binding.titleEt.append(savedText)
+        binding.titleEditBtn.setOnClickListener { editPressed() }
+        binding.titleEditBtn.setImageResource(R.drawable.ic_edit)
+        binding.moreBtn.setOnClickListener { morePressed() }
+        binding.moreBtn.setImageResource(R.drawable.ic_more)
     }
 
     fun setButtonsExporting(isExporting: Boolean) {
-        root.title_edit_btn.isEnabled = !isExporting
-        root.more_btn.isEnabled = !isExporting
-        root.more_btn.visibility = if (isExporting) View.INVISIBLE else View.VISIBLE
-        root.export_progress_bar.visibility = if (isExporting) View.VISIBLE else View.GONE
+        binding.titleEditBtn.isEnabled = !isExporting
+        binding.moreBtn.isEnabled = !isExporting
+        binding.moreBtn.visibility = if (isExporting) View.INVISIBLE else View.VISIBLE
+        binding.exportProgressBar.visibility = if (isExporting) View.VISIBLE else View.GONE
     }
 }
 

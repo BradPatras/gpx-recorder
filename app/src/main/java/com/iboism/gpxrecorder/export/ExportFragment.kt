@@ -13,12 +13,12 @@ import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.Fragment
 import com.iboism.gpxrecorder.Keys
 import com.iboism.gpxrecorder.R
+import com.iboism.gpxrecorder.databinding.FragmentExportBinding
 import com.iboism.gpxrecorder.records.details.CREATE_FILE_INTENT_ID
 import com.iboism.gpxrecorder.util.FileHelper
 import com.iboism.gpxrecorder.util.Holder
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
-import kotlinx.android.synthetic.main.fragment_export.*
 import kotlinx.coroutines.*
 import java.util.concurrent.TimeUnit
 
@@ -28,9 +28,12 @@ class ExportFragment: DialogFragment() {
     private val uiScope = CoroutineScope(Dispatchers.Main)
     private val compositeDisposable = CompositeDisposable()
 
+    private lateinit var binding: FragmentExportBinding
+
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         dialog?.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
-        return inflater.inflate(R.layout.fragment_export, container)
+        binding = FragmentExportBinding.inflate(inflater, container, container != null)
+        return binding.root
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -40,9 +43,9 @@ class ExportFragment: DialogFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        export_share_btn?.setOnClickListener { onShareClicked() }
-        export_save_btn?.setOnClickListener { onSaveClicked() }
-        export_progress_bar.isIndeterminate = true
+//        export_share_btn?.setOnClickListener { onShareClicked() }
+//        export_save_btn?.setOnClickListener { onSaveClicked() }
+//        export_progress_bar.isIndeterminate = true
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
@@ -53,9 +56,9 @@ class ExportFragment: DialogFragment() {
     }
 
     private fun setLoadingState(isLoading: Boolean) {
-        export_save_btn.visibility = if (isLoading) View.INVISIBLE else View.VISIBLE
-        export_share_btn.visibility = if (isLoading) View.INVISIBLE else View.VISIBLE
-        export_progress_bar.visibility = if (isLoading) View.VISIBLE else View.GONE
+//        export_save_btn.visibility = if (isLoading) View.INVISIBLE else View.VISIBLE
+//        export_share_btn.visibility = if (isLoading) View.INVISIBLE else View.VISIBLE
+//        export_progress_bar.visibility = if (isLoading) View.VISIBLE else View.GONE
     }
 
     private fun onShareClicked() {

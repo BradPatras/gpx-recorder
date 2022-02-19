@@ -10,6 +10,7 @@ import androidx.fragment.app.Fragment
 import com.iboism.gpxrecorder.Events
 import com.iboism.gpxrecorder.Keys
 import com.iboism.gpxrecorder.R
+import com.iboism.gpxrecorder.databinding.FragmentRecorderBinding
 import com.iboism.gpxrecorder.model.GpxContent
 import com.iboism.gpxrecorder.recording.waypoint.CreateWaypointDialogActivity
 import com.iboism.gpxrecorder.records.details.MapController
@@ -18,8 +19,6 @@ import io.reactivex.Single
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.Disposable
 import io.realm.Realm
-import kotlinx.android.synthetic.main.fragment_gpx_content_viewer.map_view
-import kotlinx.android.synthetic.main.fragment_recorder.*
 import org.greenrobot.eventbus.EventBus
 import org.greenrobot.eventbus.Subscribe
 import java.util.concurrent.TimeUnit
@@ -30,6 +29,7 @@ class RecorderFragment : Fragment(), RecorderServiceConnection.OnServiceConnecte
     private var serviceConnection: RecorderServiceConnection = RecorderServiceConnection(this)
     private var observableInterval: Observable<Long> = Observable.interval(5, TimeUnit.SECONDS).observeOn(AndroidSchedulers.mainThread())
     private var intervalObserver: Disposable? = null
+    private lateinit var binding: FragmentRecorderBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -38,7 +38,8 @@ class RecorderFragment : Fragment(), RecorderServiceConnection.OnServiceConnecte
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
-        return inflater.inflate(R.layout.fragment_recorder, container, false)
+        binding = FragmentRecorderBinding.inflate(layoutInflater, container, false)
+        return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -46,17 +47,18 @@ class RecorderFragment : Fragment(), RecorderServiceConnection.OnServiceConnecte
 
         val gpxId = gpxId ?: return
 
-        add_wpt_btn?.setOnClickListener(this::addWaypointButtonClicked)
-        playpause_btn?.setOnClickListener(this::playPauseButtonClicked)
-        stop_btn?.setOnClickListener(this::stopButtonClicked)
+        binding.addWptBtn.setOnClickListener(this::addWaypointButtonClicked)
+        binding.playpauseBtn.setOnClickListener(this::playPauseButtonClicked)
+        binding.stopBtn.setOnClickListener(this::stopButtonClicked)
 
         updateUI(gpxId)
 
-        map_view?.let {
+        binding.mapView.let {
             it.onCreate(savedInstanceState)
-            mapController = MapController(it, gpxId)
+            val controller = MapController(it, gpxId)
             mapController?.shouldDrawEnd = false
-            it.getMapAsync(mapController)
+            it.getMapAsync(controller)
+            mapController = controller
         }
     }
 
@@ -92,7 +94,7 @@ class RecorderFragment : Fragment(), RecorderServiceConnection.OnServiceConnecte
 
     override fun onResume() {
         super.onResume()
-        map_view?.onResume()
+        binding.mapView.onResume()
 
         intervalObserver = observableInterval.subscribe {
             mapController?.redraw()
@@ -100,29 +102,29 @@ class RecorderFragment : Fragment(), RecorderServiceConnection.OnServiceConnecte
     }
 
     override fun onDestroyView() {
-        map_view?.onDestroy()
+        binding.mapView.onDestroy()
         mapController?.onDestroy()
         super.onDestroyView()
     }
 
     override fun onPause() {
         super.onPause()
-        map_view?.onPause()
+        binding.mapView.onPause()
         intervalObserver?.dispose()
     }
 
     override fun onLowMemory() {
         super.onLowMemory()
-        map_view?.onLowMemory()
+        binding.mapView.onLowMemory()
     }
 
     override fun onStart() {
         super.onStart()
-        map_view?.onStart()
+        binding.mapView.onStart()
     }
 
     override fun onSaveInstanceState(outState: Bundle) {
-        map_view?.onSaveInstanceState(outState)
+        binding.mapView.onSaveInstanceState(outState)
         super.onSaveInstanceState(outState)
     }
 
@@ -140,9 +142,9 @@ class RecorderFragment : Fragment(), RecorderServiceConnection.OnServiceConnecte
         val update = Single.just(Pair(gpxContent.title, isPaused))
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe { pair ->
-                    route_title_tv?.text = pair.first
+                    binding.routeTitleTv.text = pair.first
                     val pauseResumeString = if (pair.second) R.string.resume_recording else R.string.pause_recording
-                    playpause_btn?.setText(pauseResumeString)
+                    binding.playpauseBtn.setText(pauseResumeString)
                     mapController?.redraw()
                 }
         realm.close()

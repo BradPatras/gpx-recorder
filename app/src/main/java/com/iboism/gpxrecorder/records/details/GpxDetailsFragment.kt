@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import com.iboism.gpxrecorder.Keys
 import com.iboism.gpxrecorder.R
+import com.iboism.gpxrecorder.databinding.FragmentGpxContentViewerBinding
 import com.iboism.gpxrecorder.export.ExportFragment
 import com.iboism.gpxrecorder.model.GpxContent
 import com.iboism.gpxrecorder.util.DateTimeFormatHelper
@@ -15,7 +16,6 @@ import com.iboism.gpxrecorder.util.Holder
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.functions.Consumer
 import io.realm.Realm
-import kotlinx.android.synthetic.main.fragment_gpx_content_viewer.*
 
 const val CREATE_FILE_INTENT_ID = 1
 
@@ -25,6 +25,7 @@ class GpxDetailsFragment : Fragment() {
     private var fileHelper: FileHelper? = null
     private val compositeDisposable = CompositeDisposable()
     private var mapController: MapController? = null
+    private lateinit var binding: FragmentGpxContentViewerBinding
 
     private var gpxTitleConsumer: Consumer<in String> = Consumer {
         updateGpxTitle(it)
@@ -49,8 +50,8 @@ class GpxDetailsFragment : Fragment() {
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
-
-        return inflater.inflate(R.layout.fragment_gpx_content_viewer, container, false)
+        binding = FragmentGpxContentViewerBinding.inflate(layoutInflater, container, false)
+        return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -62,7 +63,7 @@ class GpxDetailsFragment : Fragment() {
         val distance = gpxContent.trackList.first()?.segments?.first()?.distance ?: 0f
 
         detailsView = GpxDetailsView(
-                root = detail_root,
+                binding = binding,
                 titleText = gpxContent.title,
                 distanceText = resources.getString(R.string.distance_km, distance),
                 dateText = DateTimeFormatHelper.toReadableString(gpxContent.date),
@@ -77,10 +78,11 @@ class GpxDetailsFragment : Fragment() {
 
         realm.close()
 
-        map_view?.let {
+        binding.mapView.let {
             it.onCreate(savedInstanceState)
-            mapController = MapController(it, gpxId.value)
-            it.getMapAsync(mapController)
+            val controller = MapController(it, gpxId.value)
+            mapController = controller
+            it.getMapAsync(controller)
         }
     }
 
@@ -108,7 +110,7 @@ class GpxDetailsFragment : Fragment() {
 
     override fun onResume() {
         super.onResume()
-        map_view?.onResume()
+        binding.mapView.onResume()
     }
 
     override fun onDestroy() {
@@ -117,29 +119,29 @@ class GpxDetailsFragment : Fragment() {
     }
 
     override fun onDestroyView() {
-        detail_root.removeAllViews()
-        map_view?.onDestroy()
+        binding.detailRoot.removeAllViews()
+        binding.mapView.onDestroy()
         mapController?.onDestroy()
         super.onDestroyView()
     }
 
     override fun onPause() {
         super.onPause()
-        map_view?.onPause()
+        binding.mapView.onPause()
     }
 
     override fun onLowMemory() {
         super.onLowMemory()
-        map_view?.onLowMemory()
+        binding.mapView.onLowMemory()
     }
 
     override fun onStart() {
         super.onStart()
-        map_view?.onStart()
+        binding.mapView.onStart()
     }
 
     override fun onSaveInstanceState(outState: Bundle) {
-        map_view?.onSaveInstanceState(outState)
+        binding.mapView.onSaveInstanceState(outState)
         detailsView.onSaveInstanceState(outState)
         super.onSaveInstanceState(outState)
     }

@@ -1,6 +1,7 @@
 package com.iboism.gpxrecorder.records.details
 
 import android.Manifest
+import android.annotation.SuppressLint
 import android.content.pm.PackageManager
 import android.graphics.Bitmap
 import android.graphics.Canvas
@@ -53,6 +54,7 @@ class MapController(private val mapView: MapView, private val gpxId: Long): OnMa
         }
     }
 
+    @SuppressLint("MissingPermission")
     private fun setupMapIfNeeded() {
         if (!isMapReady || !isLayoutReady || isMapSetup) return
         val map = map ?: return
@@ -81,7 +83,7 @@ class MapController(private val mapView: MapView, private val gpxId: Long): OnMa
         setupMapIfNeeded()
     }
 
-    override fun onMapReady(map: GoogleMap?) {
+    override fun onMapReady(map: GoogleMap) {
         isMapReady = true
         this.map = map
         setupMapIfNeeded()

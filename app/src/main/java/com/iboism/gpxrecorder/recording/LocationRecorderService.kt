@@ -40,8 +40,8 @@ class LocationRecorderService : Service() {
 
     private val locationCallback by lazy {
         object : LocationCallback() {
-            override fun onLocationResult(locationResult: LocationResult?) {
-                onLocationChanged(locationResult?.lastLocation)
+            override fun onLocationResult(locationResult: LocationResult) {
+                onLocationChanged(locationResult.lastLocation)
             }
         }
     }

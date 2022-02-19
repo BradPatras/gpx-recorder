@@ -10,16 +10,18 @@ import com.google.android.gms.location.LocationRequest
 import com.google.android.gms.location.LocationServices
 import com.iboism.gpxrecorder.Keys
 import com.iboism.gpxrecorder.R
+import com.iboism.gpxrecorder.databinding.ActivityCreateWaypointDialogBinding
 import com.iboism.gpxrecorder.model.GpxContent
 import com.iboism.gpxrecorder.util.Alerts
 import com.iboism.gpxrecorder.util.PermissionHelper
 import io.realm.Realm
-import kotlinx.android.synthetic.main.activity_create_waypoint_dialog.*
 
 private const val DRAFT_TITLE_KEY = "CreateWaypointDialog_draftTitle"
 private const val DRAFT_NOTE_KEY = "CreateWaypointDialog_draftNote"
 
 class CreateWaypointDialogActivity : AppCompatActivity() {
+
+    private lateinit var binding: ActivityCreateWaypointDialogBinding
 
     private val fusedLocation by lazy {
         LocationServices.getFusedLocationProviderClient(this@CreateWaypointDialogActivity)
@@ -35,20 +37,21 @@ class CreateWaypointDialogActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_create_waypoint_dialog)
+        binding = ActivityCreateWaypointDialogBinding.inflate(layoutInflater)
+        setContentView(binding.root)
         window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
         val bundle = intent.extras ?: return waypointError()
         val gpxId = checkNotNull(bundle[Keys.GpxId] as? Long) { waypointError() }
 
-        done_button.setOnClickListener {
-            startWaypointService(gpxId, title_editText.text.toString(), note_editText.text.toString())
+        binding.doneButton.setOnClickListener {
+            startWaypointService(gpxId, binding.titleEditText.text.toString(), binding.noteEditText.text.toString())
         }
 
         val realm = Realm.getDefaultInstance()
         realm.executeTransaction {
             val gpxContent = GpxContent.withId(gpxId, it)
             val dist = gpxContent?.trackList?.first()?.segments?.first()?.distance?.toDouble() ?: 0.0
-            note_editText.text.insert(0, "@%.2fkm".format(dist))
+            binding.noteEditText.text.insert(0, "@%.2fkm".format(dist))
         }
         realm.close()
 
@@ -57,19 +60,19 @@ class CreateWaypointDialogActivity : AppCompatActivity() {
 
     override fun onSaveInstanceState(outState: Bundle) {
         super.onSaveInstanceState(outState)
-        outState.putString(DRAFT_TITLE_KEY, title_editText.text.toString())
-        outState.putString(DRAFT_NOTE_KEY, note_editText.text.toString())
+        outState.putString(DRAFT_TITLE_KEY, binding.titleEditText.text.toString())
+        outState.putString(DRAFT_NOTE_KEY, binding.noteEditText.text.toString())
     }
 
     private fun restoreInstanceState(outState: Bundle?) {
         outState?.getString(DRAFT_TITLE_KEY)?.let { draftTitle ->
-            title_editText.text.clear()
-            title_editText.text.append(draftTitle)
+            binding.titleEditText.text.clear()
+            binding.titleEditText.text.append(draftTitle)
         }
 
         outState?.getString(DRAFT_NOTE_KEY)?.let {draftNote ->
-            note_editText.text.clear()
-            note_editText.text.append(draftNote)
+            binding.noteEditText.text.clear()
+            binding.noteEditText.text.append(draftNote)
         }
     }
 

@@ -6,17 +6,18 @@ import android.view.View
 import android.view.ViewGroup
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.iboism.gpxrecorder.R
-import kotlinx.android.synthetic.main.bottom_navigation_drawer_layout.*
+import com.iboism.gpxrecorder.databinding.BottomNavigationDrawerLayoutBinding
 
 class BottomNavigationDrawer: BottomSheetDialogFragment() {
     private val navigationHelper: NavigationHelper by lazy { NavigationHelper(requireActivity()) }
-
+    private lateinit var binding: BottomNavigationDrawerLayoutBinding
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        return inflater.inflate(R.layout.bottom_navigation_drawer_layout, container, false)
+        binding = BottomNavigationDrawerLayoutBinding.inflate(inflater, container, false)
+        return binding.root
     }
 
-    override fun onActivityCreated(savedInstanceState: Bundle?) {
-        super.onActivityCreated(savedInstanceState)
-        nav_view.setNavigationItemSelectedListener(navigationHelper)
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        binding.navView.setNavigationItemSelectedListener(navigationHelper)
     }
 }
