@@ -16,6 +16,11 @@ Android app to record gps routes in the background and allow user to export rout
 <br><br>
 
 ## Releases
+### - 2.4 | Feb 20, 2022
+- Updated dependency versions
+- Added licenses info
+- Migrated from Kotlin synthetics to view binding
+<br><br>
 ### - 2.3 | Aug 13, 2021
 - Fixed time zone issue - timestamps are always in UTC now
 - Reduced waypoint location max wait time to 5 seconds
