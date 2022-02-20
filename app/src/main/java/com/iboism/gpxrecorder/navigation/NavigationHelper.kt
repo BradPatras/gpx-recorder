@@ -5,6 +5,7 @@ import android.content.Intent
 import android.net.Uri
 import android.view.MenuItem
 import androidx.appcompat.app.AlertDialog
+import com.google.android.gms.oss.licenses.OssLicensesMenuActivity
 import com.google.android.material.navigation.NavigationView
 import com.iboism.gpxrecorder.R
 import com.iboism.gpxrecorder.model.GpxContent
@@ -45,6 +46,9 @@ class NavigationHelper(private val activity: Activity) : NavigationView.OnNaviga
 
             R.id.nav_privacy_policy ->
                 activity.launchExternalIntent(Intent(Intent.ACTION_VIEW, Uri.parse("http://bradpatras.github.io/gpx_privacy_policy")))
+
+            R.id.nav_licenses ->
+                activity.startActivity(Intent(activity.applicationContext, OssLicensesMenuActivity::class.java))
         }
 
         return true

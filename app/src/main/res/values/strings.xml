@@ -77,5 +77,6 @@
     <string name="background_location_justification_title" translatable="false">Background Location Access</string>
     <string name="background_location_justification_desc" translatable="false">This app collects location data to enable the route recorder function even when the app is closed or not in use. The app will attempt to show a notification whenever collecting data but it may not appear depending on the notification preferences on your device.\n\n Your location will ONLY be collected while you are recording a route.</string>
     <string name="okay">Okay</string>
+    <string name="open_source_license_info">Open Source License Info</string>
 
 </resources>

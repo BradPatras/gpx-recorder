@@ -33,6 +33,10 @@
                 android:id="@+id/nav_privacy_policy"
                 android:title="@string/privacy_policy"
                 android:icon="@drawable/ic_privacy_policy"/>
+            <item
+                android:id="@+id/nav_licenses"
+                android:title="@string/open_source_license_info"
+                android:icon="@drawable/ic_source"/>
         </menu>
     </item>
 </menu>
