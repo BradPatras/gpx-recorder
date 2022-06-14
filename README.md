@@ -15,6 +15,21 @@ Android app to record gps routes in the background and allow user to export rout
 - [EventBus](https://github.com/greenrobot/EventBus) For assisting with Service<->App communication
 <br><br>
 
+## Arch Notes
+### Background Recording
+To record location in the background, the app uses a [foreground service](https://developer.android.com/guide/components/foreground-services) class, [LocationRecorderService](https://github.com/BradPatras/gpx-recorder/blob/7ba14c9e5d526b578ae5ad00b2dbfdf61f5a8f48/app/src/main/java/com/iboism/gpxrecorder/recording/LocationRecorderService.kt#L26).  The nice thing about using foreground services is that it's much less likely to be killed by over-zealous system optomization initiatives. The main requirement of a foreground service is that you must present a notification as long as it's running. This requirement works perfectly for this app because it allows us to provide the user with route recording actions such as pausing/stopping/adding a waypoint. 
+
+Internally the `LocationRecorderService` utilizes the [FusedLocationProvider](https://developers.google.com/location-context/fused-location-provider) library from google.  The interface is pretty simple, you feed it a [configuration](https://github.com/BradPatras/gpx-recorder/blob/7ba14c9e5d526b578ae5ad00b2dbfdf61f5a8f48/app/src/main/java/com/iboism/gpxrecorder/model/RecordingConfiguration.kt#L18), start the location request, and then handle the location updates as they roll in.
+
+The foreground service is controlled in two ways: 
+#### Android Intents
+When a user taps on a button on the foreground service notification, the service receives an intent. It checks the intent's extras for keys and performs the [corresponding action](https://github.com/BradPatras/gpx-recorder/blob/7ba14c9e5d526b578ae5ad00b2dbfdf61f5a8f48/app/src/main/java/com/iboism/gpxrecorder/recording/LocationRecorderService.kt#L61).
+
+#### Service Binding
+The app can't directly access the running service like a normal static instance or class, a connection must be made using a [Service Binding](https://github.com/BradPatras/gpx-recorder/blob/master/app/src/main/java/com/iboism/gpxrecorder/recording/RecorderServiceConnection.kt).  Once a connection is established, functions of the service can be accessed directly through the connection.
+
+[EventBus](https://github.com/greenrobot/EventBus) is also used to allow the service to notify the app when important things happen that may require UI to be updated.
+
 ## Releases
 ### - 2.4 | Feb 20, 2022
 - Updated dependency versions
