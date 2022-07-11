@@ -187,7 +187,7 @@ class RecorderFragment : Fragment(), RecorderServiceConnection.OnServiceConnecte
     }
 
     private fun dismiss() {
-        fragmentManager?.popBackStack()
+        parentFragmentManager?.popBackStack()
     }
 
     companion object {

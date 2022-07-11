@@ -6,18 +6,18 @@ import android.view.View
 import android.widget.PopupMenu
 import androidx.appcompat.app.AlertDialog
 import com.iboism.gpxrecorder.R
-import com.iboism.gpxrecorder.databinding.FragmentGpxContentViewerBinding
+import com.iboism.gpxrecorder.databinding.FragmentRouteDetailsBinding
 import io.reactivex.subjects.PublishSubject
 
-const private val DRAFT_TITLE_KEY: String = "GpxDetailsView_titleDraft"
+private const val DRAFT_TITLE_KEY: String = "GpxDetailsView_titleDraft"
 
 class GpxDetailsView(
-    val binding: FragmentGpxContentViewerBinding,
+    val binding: FragmentRouteDetailsBinding,
     val titleText: String,
     val distanceText: String,
     val waypointsText: String,
     val dateText: String
-        ) {
+    ) {
 
     private var savedText = ""
     private val moreMenu: PopupMenu = PopupMenu(binding.root.context, binding.moreBtn)
@@ -28,6 +28,7 @@ class GpxDetailsView(
     var gpxTitleObservable: PublishSubject<String> = PublishSubject.create()
     var mapTypeToggleObservable: PublishSubject<Unit> = PublishSubject.create()
     var deleteRouteObservable: PublishSubject<Unit> = PublishSubject.create()
+    var resumeRecordingObservable: PublishSubject<Unit> = PublishSubject.create()
 
     init {
         binding.titleEt.isEnabled = false
@@ -117,6 +118,16 @@ class GpxDetailsView(
         binding.titleEditBtn.setImageResource(R.drawable.ic_edit)
         binding.moreBtn.setOnClickListener { morePressed() }
         binding.moreBtn.setImageResource(R.drawable.ic_more)
+    }
+
+    private fun resumePressed() {
+        AlertDialog.Builder(binding.root.context)
+            .setTitle("Resume recording")
+            .setMessage("If a route recording is progress, it will be stopped.  Would you like to continue recording this route?")
+            .setCancelable(true)
+            .setPositiveButton("Continue") { _, _ ->
+                resumeRecordingObservable.onNext(Unit)
+            }.create().show()
     }
 
     fun setButtonsExporting(isExporting: Boolean) {

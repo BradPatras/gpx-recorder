@@ -16,6 +16,7 @@ import com.iboism.gpxrecorder.util.circularRevealOnNextLayout
 
 const val REVEAL_ORIGIN_X_KEY = "kRevealXOrigin"
 const val REVEAL_ORIGIN_Y_KEY = "kRevealYOrigin"
+const val READ_ONLY_TITLE = "kReadOnlyTitle"
 
 class RecordingConfiguratorModal : Fragment() {
     private lateinit var configuratorView: RecordingConfiguratorView
@@ -27,7 +28,8 @@ class RecordingConfiguratorModal : Fragment() {
         return inflater.inflate(R.layout.config_dialog, container, false)?.apply {
             val prefs = PreferenceManager.getDefaultSharedPreferences(context)
             val initialInterval = prefs.getLong(RecordingConfiguration.intervalKey, RecordingConfiguration.REQUEST_INTERVAL)
-            configuratorView = RecordingConfiguratorView(this, initialInterval)
+            val readOnlyTitle = arguments?.getString(READ_ONLY_TITLE)
+            configuratorView = RecordingConfiguratorView(this, initialInterval, title = readOnlyTitle, isTitleEditable = readOnlyTitle == null)
             configuratorView.restoreInstanceState(savedInstanceState)
             configuratorView.doneButton.setOnClickListener {
                 PreferenceManager.getDefaultSharedPreferences(context).edit()
@@ -44,6 +46,7 @@ class RecordingConfiguratorModal : Fragment() {
 
             val originX = arguments?.getInt(REVEAL_ORIGIN_X_KEY) ?: return@apply
             val originY = arguments?.getInt(REVEAL_ORIGIN_Y_KEY) ?: return@apply
+
             this.circularRevealOnNextLayout(originX, originY)
         }
     }
@@ -70,12 +73,13 @@ class RecordingConfiguratorModal : Fragment() {
     companion object {
         fun instance() = RecordingConfiguratorModal()
 
-        fun circularReveal(originXY: Pair<Int,Int>, fragmentManager: FragmentManager?) {
+        fun circularReveal(originXY: Pair<Int,Int>, readOnlyTitle: String? = null, fragmentManager: FragmentManager?) {
             val configFragment = RecordingConfiguratorModal.instance()
 
             val args = Bundle()
             args.putInt(REVEAL_ORIGIN_X_KEY, originXY.first)
             args.putInt(REVEAL_ORIGIN_Y_KEY, originXY.second)
+            args.putString(READ_ONLY_TITLE, readOnlyTitle)
             configFragment.arguments = args
 
             show(fragmentManager, configFragment)

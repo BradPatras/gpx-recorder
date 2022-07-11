@@ -1,6 +1,7 @@
 package com.iboism.gpxrecorder.recording.configurator
 
 import android.os.Bundle
+import android.text.Editable
 import android.view.View
 import android.widget.EditText
 import android.widget.NumberPicker
@@ -14,13 +15,17 @@ import com.iboism.gpxrecorder.R
 private const val DRAFT_INTERVAL_KEY = "RecordingConfiguratorView_draftInterval"
 private const val DRAFT_TITLE_KEY = "RecordingConfiguratorView_draftTitle"
 
-class RecordingConfiguratorView(root: View,
-                                initialIntervalMillis: Long,
-                                val titleEditText: EditText = root.findViewById(R.id.config_title_editText),
-                                val doneButton: TextView = root.findViewById(R.id.start_button),
-                                val hoursPicker: NumberPicker = root.findViewById(R.id.interval_hours_picker),
-                                val minutesPicker: NumberPicker = root.findViewById(R.id.interval_minutes_picker),
-                                val secondsPicker: NumberPicker = root.findViewById(R.id.interval_seconds_picker)) {
+class RecordingConfiguratorView(
+    root: View,
+    initialIntervalMillis: Long,
+    val titleEditText: EditText = root.findViewById(R.id.config_title_editText),
+    val doneButton: TextView = root.findViewById(R.id.start_button),
+    private val hoursPicker: NumberPicker = root.findViewById(R.id.interval_hours_picker),
+    private val minutesPicker: NumberPicker = root.findViewById(R.id.interval_minutes_picker),
+    private val secondsPicker: NumberPicker = root.findViewById(R.id.interval_seconds_picker),
+    val title: String? = null,
+    val isTitleEditable: Boolean = true
+) {
 
     init {
         hoursPicker.minValue = 0
@@ -33,6 +38,11 @@ class RecordingConfiguratorView(root: View,
         secondsPicker.maxValue = 59
         secondsPicker.wrapSelectorWheel = true
 
+        title?.let {
+            titleEditText.setText(it)
+        }
+
+        titleEditText.isEnabled = isTitleEditable
         setInterval(initialIntervalMillis)
     }
 

@@ -7,12 +7,14 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import com.iboism.gpxrecorder.Keys
 import com.iboism.gpxrecorder.R
-import com.iboism.gpxrecorder.databinding.FragmentGpxContentViewerBinding
+import com.iboism.gpxrecorder.databinding.FragmentRouteDetailsBinding
 import com.iboism.gpxrecorder.export.ExportFragment
 import com.iboism.gpxrecorder.model.GpxContent
+import com.iboism.gpxrecorder.recording.configurator.RecordingConfiguratorModal
 import com.iboism.gpxrecorder.util.DateTimeFormatHelper
 import com.iboism.gpxrecorder.util.FileHelper
 import com.iboism.gpxrecorder.util.Holder
+import com.iboism.gpxrecorder.util.PermissionHelper
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.functions.Consumer
 import io.realm.Realm
@@ -25,7 +27,7 @@ class GpxDetailsFragment : Fragment() {
     private var fileHelper: FileHelper? = null
     private val compositeDisposable = CompositeDisposable()
     private var mapController: MapController? = null
-    private lateinit var binding: FragmentGpxContentViewerBinding
+    private lateinit var binding: FragmentRouteDetailsBinding
 
     private var gpxTitleConsumer: Consumer<in String> = Consumer {
         updateGpxTitle(it)
@@ -43,14 +45,18 @@ class GpxDetailsFragment : Fragment() {
         deleteRouteAndPopFragment()
     }
 
+    private val resumeRecordingTouchConsumer = Consumer<Unit> {
+        resumeRecording(binding.resumeFab)
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         gpxId = Holder(requireArguments().get(Keys.GpxId) as Long)
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
-                              savedInstanceState: Bundle?): View? {
-        binding = FragmentGpxContentViewerBinding.inflate(layoutInflater, container, false)
+                              savedInstanceState: Bundle?): View {
+        binding = FragmentRouteDetailsBinding.inflate(layoutInflater, container, false)
         return binding.root
     }
 
@@ -75,7 +81,7 @@ class GpxDetailsFragment : Fragment() {
         compositeDisposable.add(detailsView.exportTouchObservable.subscribe(exportTouchConsumer))
         compositeDisposable.add(detailsView.mapTypeToggleObservable.subscribe(mapLayerTouchConsumer))
         compositeDisposable.add(detailsView.deleteRouteObservable.subscribe(deleteRouteTouchConsumer))
-
+        compositeDisposable.add(detailsView.resumeRecordingObservable.subscribe(resumeRecordingTouchConsumer))
         realm.close()
 
         binding.mapView.let {
@@ -98,6 +104,17 @@ class GpxDetailsFragment : Fragment() {
 
     private fun exportPressed() {
         ExportFragment.newInstance(gpxId.value).show(parentFragmentManager, "export")
+    }
+
+    private fun resumeRecording(view: View) {
+        // TODO: Test this and figure out navigation
+        PermissionHelper.getInstance(this.requireActivity()).checkLocationPermissions(onAllowed = {
+            RecordingConfiguratorModal.circularReveal(
+                originXY = Pair(view.x.toInt() + (view.width / 2), view.y.toInt() + (view.height / 2)),
+                fragmentManager = parentFragmentManager,
+                readOnlyTitle = binding.titleEt.text.toString()
+            )
+        })
     }
 
     private fun updateGpxTitle(newTitle: String) {
