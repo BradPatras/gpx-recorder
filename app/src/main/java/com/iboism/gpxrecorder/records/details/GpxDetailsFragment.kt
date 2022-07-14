@@ -112,7 +112,8 @@ class GpxDetailsFragment : Fragment() {
             RecordingConfiguratorModal.circularReveal(
                 originXY = Pair(view.x.toInt() + (view.width / 2), view.y.toInt() + (view.height / 2)),
                 fragmentManager = parentFragmentManager,
-                readOnlyTitle = binding.titleEt.text.toString()
+                readOnlyTitle = binding.titleEt.text.toString(),
+                gpxId = gpxId.value
             )
         })
     }

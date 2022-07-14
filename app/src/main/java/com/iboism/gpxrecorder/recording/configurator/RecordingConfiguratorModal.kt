@@ -16,7 +16,8 @@ import com.iboism.gpxrecorder.util.circularRevealOnNextLayout
 
 const val REVEAL_ORIGIN_X_KEY = "kRevealXOrigin"
 const val REVEAL_ORIGIN_Y_KEY = "kRevealYOrigin"
-const val READ_ONLY_TITLE = "kReadOnlyTitle"
+const val READ_ONLY_TITLE_KEY = "kReadOnlyTitle"
+const val GPX_ID_KEY = "kGpxId"
 
 class RecordingConfiguratorModal : Fragment() {
     private lateinit var configuratorView: RecordingConfiguratorView
@@ -28,24 +29,27 @@ class RecordingConfiguratorModal : Fragment() {
         return inflater.inflate(R.layout.config_dialog, container, false)?.apply {
             val prefs = PreferenceManager.getDefaultSharedPreferences(context)
             val initialInterval = prefs.getLong(RecordingConfiguration.intervalKey, RecordingConfiguration.REQUEST_INTERVAL)
-            val readOnlyTitle = arguments?.getString(READ_ONLY_TITLE)
+            val readOnlyTitle = arguments?.get(READ_ONLY_TITLE_KEY) as? String
+            val gpxId = arguments?.get(GPX_ID_KEY) as? Long
+
             configuratorView = RecordingConfiguratorView(this, initialInterval, title = readOnlyTitle, isTitleEditable = readOnlyTitle == null)
             configuratorView.restoreInstanceState(savedInstanceState)
-            configuratorView.doneButton.setOnClickListener {
+            configuratorView.doneButton.setOnClickListener { clickedView ->
                 PreferenceManager.getDefaultSharedPreferences(context).edit()
                         .putLong(RecordingConfiguration.intervalKey, configuratorView.getIntervalMillis())
                         .apply()
-                context.hideSoftKeyBoard(it)
+                context.hideSoftKeyBoard(clickedView)
                 listener?.configurationCreated (
-                        RecordingConfiguration(
+                        gpxId = gpxId,
+                        configuration = RecordingConfiguration(
                                 title = configuratorView.titleEditText.text.toString().takeIf { it.isNotEmpty() } ?: "Untitled",
                                 interval = configuratorView.getIntervalMillis()
                         ))
-                this@RecordingConfiguratorModal.fragmentManager?.popBackStack()
+                this@RecordingConfiguratorModal.parentFragmentManager.popBackStack()
             }
 
-            val originX = arguments?.getInt(REVEAL_ORIGIN_X_KEY) ?: return@apply
-            val originY = arguments?.getInt(REVEAL_ORIGIN_Y_KEY) ?: return@apply
+            val originX = arguments?.get(REVEAL_ORIGIN_X_KEY) as? Int ?: 0
+            val originY = arguments?.get(REVEAL_ORIGIN_Y_KEY) as? Int ?: 0
 
             this.circularRevealOnNextLayout(originX, originY)
         }
@@ -67,19 +71,25 @@ class RecordingConfiguratorModal : Fragment() {
     }
 
     interface Listener {
-        fun configurationCreated(configuration: RecordingConfiguration)
+        fun configurationCreated(gpxId: Long?, configuration: RecordingConfiguration)
     }
 
     companion object {
         fun instance() = RecordingConfiguratorModal()
 
-        fun circularReveal(originXY: Pair<Int,Int>, readOnlyTitle: String? = null, fragmentManager: FragmentManager?) {
+        fun circularReveal(
+            originXY: Pair<Int,Int>,
+            readOnlyTitle: String? = null,
+            gpxId: Long? = null,
+            fragmentManager: FragmentManager?
+        ) {
             val configFragment = RecordingConfiguratorModal.instance()
 
             val args = Bundle()
             args.putInt(REVEAL_ORIGIN_X_KEY, originXY.first)
             args.putInt(REVEAL_ORIGIN_Y_KEY, originXY.second)
-            args.putString(READ_ONLY_TITLE, readOnlyTitle)
+            args.putString(READ_ONLY_TITLE_KEY, readOnlyTitle)
+            gpxId?.let { args.putLong(GPX_ID_KEY, it) }
             configFragment.arguments = args
 
             show(fragmentManager, configFragment)

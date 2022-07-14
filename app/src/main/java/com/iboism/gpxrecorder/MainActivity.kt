@@ -94,8 +94,8 @@ class MainActivity : AppCompatActivity(), RecordingConfiguratorModal.Listener {
         }
     }
 
-    override fun configurationCreated(configuration: RecordingConfiguration) {
-        startRecording(configuration)
+    override fun configurationCreated(gpxId: Long?, configuration: RecordingConfiguration) {
+        startRecording(gpxId = gpxId, configuration = configuration)
     }
 
     private fun showSchemaFailure() {
@@ -109,12 +109,17 @@ class MainActivity : AppCompatActivity(), RecordingConfiguratorModal.Listener {
     }
 
     @SuppressLint("MissingPermission")
-    private fun startRecording(configuration: RecordingConfiguration) {
+    private fun startRecording(gpxId: Long?, configuration: RecordingConfiguration) {
         val realm = Realm.getDefaultInstance()
         realm.executeTransaction {
-            val newGpx = GpxContent(title = configuration.title, trackList = RealmList(Track(segments = RealmList(Segment()))))
-            it.copyToRealm(newGpx)
-            LocationRecorderService.requestStartRecording(this, newGpx.identifier, configuration.toBundle())
+            var id = gpxId
+            if (id == null) {
+                val newGpx = GpxContent(title = configuration.title, trackList = RealmList(Track(segments = RealmList(Segment()))))
+                id = newGpx.identifier
+                it.copyToRealm(newGpx)
+            }
+
+            LocationRecorderService.requestStartRecording(this, id, configuration.toBundle())
         }
         realm.close()
     }

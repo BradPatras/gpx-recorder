@@ -39,6 +39,7 @@ class GpxDetailsView(
 
         binding.titleEditBtn.setOnClickListener { editPressed() }
         binding.moreBtn.setOnClickListener { morePressed() }
+        binding.resumeFab.setOnClickListener { resumePressed() }
 
         moreMenu.setOnMenuItemClickListener { menuItem ->
             when (menuItem) {
