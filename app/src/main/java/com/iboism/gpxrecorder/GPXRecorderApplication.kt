@@ -27,7 +27,7 @@ class GPXRecorderApplication: Application() {
         } catch (e: RealmException) {
             applicationContext.setRealmInitFailure(true)
         } catch (e: MissingLibraryException) {
-            applicationContext.setRealmInitFailure(true) //todo
+            applicationContext.setRealmInitFailure(true)
         }
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {

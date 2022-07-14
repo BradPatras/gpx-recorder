@@ -48,8 +48,8 @@ class RecordingConfiguratorModal : Fragment() {
                 this@RecordingConfiguratorModal.parentFragmentManager.popBackStack()
             }
 
-            val originX = arguments?.get(REVEAL_ORIGIN_X_KEY) as? Int ?: 0
-            val originY = arguments?.get(REVEAL_ORIGIN_Y_KEY) as? Int ?: 0
+            val originX = arguments?.get(REVEAL_ORIGIN_X_KEY) as? Int ?: return@apply
+            val originY = arguments?.get(REVEAL_ORIGIN_Y_KEY) as? Int ?: return@apply
 
             this.circularRevealOnNextLayout(originX, originY)
         }
@@ -79,8 +79,6 @@ class RecordingConfiguratorModal : Fragment() {
 
         fun circularReveal(
             originXY: Pair<Int,Int>,
-            readOnlyTitle: String? = null,
-            gpxId: Long? = null,
             fragmentManager: FragmentManager?
         ) {
             val configFragment = RecordingConfiguratorModal.instance()
@@ -88,15 +86,12 @@ class RecordingConfiguratorModal : Fragment() {
             val args = Bundle()
             args.putInt(REVEAL_ORIGIN_X_KEY, originXY.first)
             args.putInt(REVEAL_ORIGIN_Y_KEY, originXY.second)
-            args.putString(READ_ONLY_TITLE_KEY, readOnlyTitle)
-            gpxId?.let { args.putLong(GPX_ID_KEY, it) }
             configFragment.arguments = args
 
             show(fragmentManager, configFragment)
         }
 
         fun show(fragmentManager: FragmentManager?, configFragment: RecordingConfiguratorModal = instance()) {
-
             // marshmallow bug workaround https://issuetracker.google.com/issues/37067655
             if (android.os.Build.VERSION.SDK_INT == android.os.Build.VERSION_CODES.M) {
                 fragmentManager?.beginTransaction()

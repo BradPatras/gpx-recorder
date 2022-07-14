@@ -10,6 +10,8 @@ import com.iboism.gpxrecorder.R
 import com.iboism.gpxrecorder.databinding.FragmentRouteDetailsBinding
 import com.iboism.gpxrecorder.export.ExportFragment
 import com.iboism.gpxrecorder.model.GpxContent
+import com.iboism.gpxrecorder.recording.configurator.GPX_ID_KEY
+import com.iboism.gpxrecorder.recording.configurator.READ_ONLY_TITLE_KEY
 import com.iboism.gpxrecorder.recording.configurator.RecordingConfiguratorModal
 import com.iboism.gpxrecorder.util.DateTimeFormatHelper
 import com.iboism.gpxrecorder.util.FileHelper
@@ -107,15 +109,20 @@ class GpxDetailsFragment : Fragment() {
     }
 
     private fun resumeRecording(view: View) {
-        // TODO: Test this and figure out navigation
         PermissionHelper.getInstance(this.requireActivity()).checkLocationPermissions(onAllowed = {
-            RecordingConfiguratorModal.circularReveal(
-                originXY = Pair(view.x.toInt() + (view.width / 2), view.y.toInt() + (view.height / 2)),
-                fragmentManager = parentFragmentManager,
-                readOnlyTitle = binding.titleEt.text.toString(),
-                gpxId = gpxId.value
-            )
+           showConfiguratorModal()
         })
+    }
+
+    private fun showConfiguratorModal() {
+        val args = Bundle()
+        args.putString(READ_ONLY_TITLE_KEY, binding.titleEt.text.toString())
+        args.putLong(GPX_ID_KEY, gpxId.value)
+        val frag = RecordingConfiguratorModal.instance()
+        frag.arguments = args
+
+        parentFragmentManager.popBackStackImmediate()
+        RecordingConfiguratorModal.show(parentFragmentManager, frag)
     }
 
     private fun updateGpxTitle(newTitle: String) {
