@@ -16,12 +16,12 @@
         android:layout_height="wrap_content"
         android:layout_marginEnd="16dp"
         android:layout_marginBottom="16dp"
-        android:rotation="50"
         app:backgroundTint="@color/colorAccent"
         app:layout_constraintBottom_toBottomOf="@+id/map_view"
         app:layout_constraintEnd_toEndOf="@+id/map_view"
-        app:srcCompat="@drawable/ic_direction_arrow"
-        app:tint="@color/white" />
+        app:srcCompat="@drawable/ic_near_me"
+        app:tint="@color/white"
+        android:contentDescription="Resume route button" />
 
     <EditText
         android:id="@+id/title_et"

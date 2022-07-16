@@ -116,6 +116,7 @@ class GpxDetailsFragment : Fragment() {
 
     private fun showConfiguratorModal() {
         val args = Bundle()
+
         args.putString(READ_ONLY_TITLE_KEY, binding.titleEt.text.toString())
         args.putLong(GPX_ID_KEY, gpxId.value)
         val frag = RecordingConfiguratorModal.instance()

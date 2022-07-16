@@ -107,38 +107,41 @@ class MapController(private val mapView: MapView, private val gpxId: Long): OnMa
             allPoints.addAll(points)
 
             this.addPolyline(
-                    PolylineOptions()
-                            .color(ContextCompat.getColor(mapView.context, R.color.white))
-                            .jointType(ROUND)
-                            .width(16f)
-                            .addAll(points))
+                PolylineOptions()
+                    .color(ContextCompat.getColor(mapView.context, R.color.white))
+                    .jointType(ROUND)
+                    .width(16.5f)
+                    .addAll(points)
+                    .geodesic(true))
 
             this.addPolyline(
-                    PolylineOptions()
-                            .color(ContextCompat.getColor(mapView.context, R.color.gLightBlue))
-                            .jointType(ROUND)
-                            .width(12f)
-                            .addAll(points))
-            }
+                PolylineOptions()
+                    .color(ContextCompat.getColor(mapView.context, R.color.gLightBlue))
+                    .jointType(ROUND)
+                    .width(12f)
+                    .addAll(points)
+                    .geodesic(true))
+        }
 
         // draw marker at start
         tracks.firstOrNull()?.segments?.firstOrNull()?.points?.firstOrNull()?.let {
             this.addMarker(MarkerOptions().position(LatLng(it.lat, it.lon))
-                    .flat(true)
-                    .title("Start")
-                    .snippet(DateTimeFormatHelper.toReadableString(it.time))
-                    .icon(getBitmapDescriptor(R.drawable.ic_start_pt))
-                    .anchor(.5f, .5f))
+                .flat(true)
+                .title("Start")
+                .snippet(DateTimeFormatHelper.toReadableString(it.time))
+                .icon(getBitmapDescriptor(R.drawable.ic_start_pt))
+                .anchor(.5f, .5f))
         }
+
         // draw marker at end
         if (shouldDrawEnd) {
             tracks.lastOrNull()?.segments?.lastOrNull()?.points?.lastOrNull()?.let {
                 this.addMarker(MarkerOptions().position(LatLng(it.lat, it.lon))
-                        .flat(true)
-                        .title("End")
-                        .snippet(DateTimeFormatHelper.toReadableString(it.time))
-                        .icon(getBitmapDescriptor(R.drawable.ic_stop_pt))
-                        .anchor(.5f, .5f))
+                    .flat(true)
+                    .title("End")
+                    .snippet(DateTimeFormatHelper.toReadableString(it.time))
+                    .icon(getBitmapDescriptor(R.drawable.ic_stop_pt))
+                    .anchor(.5f, .5f))
             }
         }
 
@@ -152,18 +155,18 @@ class MapController(private val mapView: MapView, private val gpxId: Long): OnMa
     private fun GoogleMap.drawWaypoints(waypoints: List<Waypoint>) {
         waypoints.forEach {
             this.addMarker(MarkerOptions().position(LatLng(it.lat,it.lon))
-                    .flat(true)
-                    .title(it.title)
-                    .snippet(it.desc)
-                    .icon(getBitmapDescriptor(R.drawable.ic_waypoint_pt))
-                    .anchor(.5f, .5f))
+                .flat(true)
+                .title(it.title)
+                .snippet(it.desc)
+                .icon(getBitmapDescriptor(R.drawable.ic_waypoint_pt))
+                .anchor(.5f, .5f))
         }
     }
 
     private fun getBitmapDescriptor(@DrawableRes id: Int): BitmapDescriptor {
         val vectorDrawable = ResourcesCompat.getDrawable(mapView.context.resources, id, null)
         val bitmap = Bitmap.createBitmap(vectorDrawable!!.intrinsicWidth,
-                vectorDrawable.intrinsicHeight, Bitmap.Config.ARGB_8888)
+            vectorDrawable.intrinsicHeight, Bitmap.Config.ARGB_8888)
         val canvas = Canvas(bitmap)
         vectorDrawable.setBounds(0, 0, canvas.width, canvas.height)
         vectorDrawable.draw(canvas)

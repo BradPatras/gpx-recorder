@@ -45,25 +45,6 @@
             app:layout_constraintStart_toEndOf="@id/date_icon"
             app:layout_constraintTop_toBottomOf="@+id/gpx_content_title"/>
 
-        <FrameLayout
-            android:id="@+id/frameLayout"
-            android:layout_width="30dp"
-            android:layout_height="30dp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent">
-
-            <ImageButton
-                android:id="@+id/gpx_content_export_button"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:padding="4dp"
-                android:background="@drawable/ic_open_in"
-                android:backgroundTint="@android:color/darker_gray"
-                />
-
-        </FrameLayout>
-
         <TextView
             android:id="@+id/gpx_content_distance"
             android:layout_width="wrap_content"

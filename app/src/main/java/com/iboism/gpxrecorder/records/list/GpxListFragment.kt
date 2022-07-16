@@ -7,16 +7,17 @@ import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.*
+import com.google.android.material.divider.MaterialDividerItemDecoration
 import com.iboism.gpxrecorder.Events
 import com.iboism.gpxrecorder.R
 import com.iboism.gpxrecorder.databinding.FragmentGpxListBinding
-import com.iboism.gpxrecorder.export.ExportFragment
 import com.iboism.gpxrecorder.model.GpxContent
 import com.iboism.gpxrecorder.navigation.BottomNavigationDrawer
 import com.iboism.gpxrecorder.recording.RecorderFragment
 import com.iboism.gpxrecorder.recording.RecorderServiceConnection
 import com.iboism.gpxrecorder.recording.configurator.RecordingConfiguratorModal
 import com.iboism.gpxrecorder.records.details.GpxDetailsFragment
+import com.iboism.gpxrecorder.util.DP
 import com.iboism.gpxrecorder.util.PermissionHelper
 import io.reactivex.disposables.CompositeDisposable
 import io.realm.Realm
@@ -159,7 +160,7 @@ class GpxListFragment : Fragment(), RecorderServiceConnection.OnServiceConnected
         }
 
         binding.fab.setOnClickListener(this::onFabClicked)
-        val adapter = GpxRecyclerViewAdapter(view.context, gpxContentList) { exportRoute(it) }
+        val adapter = GpxRecyclerViewAdapter(view.context, gpxContentList)
         adapter.contentViewerOpener = this::showContentViewerFragment
         adapter.currentRecordingOpener = this::showRecordingFragment
 
@@ -175,8 +176,10 @@ class GpxListFragment : Fragment(), RecorderServiceConnection.OnServiceConnected
         binding.gpxListView.adapter = adapter
         binding.gpxListView.setHasFixedSize(true)
         (binding.gpxListView.itemAnimator as DefaultItemAnimator).supportsChangeAnimations = false
-        val dividerItemDecoration = DividerItemDecoration(binding.gpxListView.context, DividerItemDecoration.VERTICAL)
-        binding.gpxListView.addItemDecoration(dividerItemDecoration)
+        val divider = MaterialDividerItemDecoration(view.context, DividerItemDecoration.VERTICAL)
+        divider.isLastItemDecorated = false
+        divider.dividerInsetStart = DP(20f, view.context).pxValue
+        binding.gpxListView.addItemDecoration(divider)
 
         setPlaceholdersHidden(gpxContentList.isNotEmpty())
         gpxContentList.addChangeListener(gpxChangeListener)
@@ -193,10 +196,6 @@ class GpxListFragment : Fragment(), RecorderServiceConnection.OnServiceConnected
                 }
             }
         })
-    }
-
-    private fun exportRoute(gpxId: Long) {
-        ExportFragment.newInstance(gpxId).show(parentFragmentManager, "export")
     }
 
     private fun setPlaceholdersHidden(hidden: Boolean) {

@@ -2,6 +2,6 @@
     android:viewportWidth="28.0" android:width="18dp" xmlns:android="http://schemas.android.com/apk/res/android">
     <path android:fillColor="#C70303"
         android:pathData="M1.5,14C1.5,7.101 7.101,1.5 14,1.5C20.899,1.5 26.5,7.101 26.5,14C26.5,20.899 20.899,26.5 14,26.5C7.101,26.5 1.5,20.899 1.5,14Z"
-        android:strokeColor="#000000" android:strokeLineCap="square"
-        android:strokeLineJoin="miter" android:strokeWidth="1.75"/>
+        android:strokeColor="@color/white" android:strokeLineCap="square"
+        android:strokeLineJoin="miter" android:strokeWidth="2.75"/>
 </vector>

@@ -34,7 +34,6 @@ private const val VIEW_TYPE_CURRENT = 2
 class GpxRecyclerViewAdapter(
         val context: Context,
         contentList: OrderedRealmCollection<GpxContent>,
-        val exportFileHandler: ((gpxId: Long) -> Unit)
 ) : RealmRecyclerViewAdapter<GpxContent, RecyclerView.ViewHolder>(contentList, true),
         RecorderServiceConnection.OnServiceConnectedDelegate {
     private var hiddenRowIdentifiers: MutableList<Long> = mutableListOf()
@@ -49,12 +48,13 @@ class GpxRecyclerViewAdapter(
 
     override fun onServiceConnected(serviceConnection: RecorderServiceConnection) {
         currentlyRecordingRouteId = serviceConnection.service?.gpxId
-        notifyDataSetChanged()
+        currentlyRecordingRouteId?.let { notifyItemChanged(it) }
     }
 
     override fun onServiceDisconnected() {
+        val changedId = currentlyRecordingRouteId
         currentlyRecordingRouteId = null
-        notifyDataSetChanged()
+        changedId?.let { notifyItemChanged(it) }
     }
 
     @Subscribe(sticky = true)
@@ -64,16 +64,14 @@ class GpxRecyclerViewAdapter(
 
     @Subscribe
     fun onServiceStoppedEvent(event: Events.RecordingStoppedEvent) {
+        val changedId = currentlyRecordingRouteId
         currentlyRecordingRouteId = null
+        changedId?.let { notifyItemChanged(it) }
     }
 
     override fun onDetachedFromRecyclerView(recyclerView: RecyclerView) {
         super.onDetachedFromRecyclerView(recyclerView)
         serviceConnection.disconnect(context)
-    }
-
-    override fun onAttachedToRecyclerView(recyclerView: RecyclerView) {
-        super.onAttachedToRecyclerView(recyclerView)
     }
 
     override fun getItemId(position: Int): Long {
@@ -105,15 +103,7 @@ class GpxRecyclerViewAdapter(
             contentViewerOpener?.invoke(holder.itemId)
         }
 
-        holder.exportButton.setOnClickListener {
-            exportPressed(context, holder)
-        }
-
         return holder
-    }
-
-    private fun exportPressed(context: Context, holder: GpxContentViewHolder) {
-        exportFileHandler(holder.itemId)
     }
 
     private fun onCreateDeletedViewHolder(parent: ViewGroup): DeletedViewHolder {
@@ -134,6 +124,12 @@ class GpxRecyclerViewAdapter(
         return  holder
     }
 
+    private fun notifyItemChanged(id: Long) {
+        val itemIndex = data?.indexOfFirst { it.identifier == id } ?: return
+
+        notifyItemChanged(itemIndex)
+    }
+
     private fun addWaypointButtonClicked(view: View) {
         currentlyRecordingRouteId?.let {
             context.startActivity(Intent(context, CreateWaypointDialogActivity::class.java).putExtra(Keys.GpxId, it))
@@ -141,12 +137,12 @@ class GpxRecyclerViewAdapter(
     }
 
     private fun playPauseButtonClicked(view: View) {
-        serviceConnection.service?.let {
-            notifyDataSetChanged()
-            if (it.isPaused) {
-                it.resumeRecording()
+        serviceConnection.service?.let { recordingService ->
+            currentlyRecordingRouteId?.let { notifyItemChanged(it) }
+            if (recordingService.isPaused) {
+                recordingService.resumeRecording()
             } else {
-                it.pauseRecording()
+                recordingService.pauseRecording()
             }
         }
     }
@@ -154,6 +150,7 @@ class GpxRecyclerViewAdapter(
     private fun stopButtonClicked(view: View) {
         LocationRecorderService.requestStopRecording(context)
     }
+
     override fun onBindViewHolder(viewHolder: RecyclerView.ViewHolder, position: Int) {
         when (viewHolder) {
             is GpxContentViewHolder -> bindContentViewHolder(viewHolder, position)
@@ -164,9 +161,9 @@ class GpxRecyclerViewAdapter(
 
     private fun bindCurrentViewHolder(viewHolder: CurrentRecordingViewHolder, position: Int) {
         val gpx = getItem(position) ?: return
-        viewHolder.routeTitle?.text = gpx.title
+        viewHolder.routeTitle.text = gpx.title
         val playPauseText = if(serviceConnection.service?.isPaused == true) R.string.resume_recording else R.string.pause_recording
-        viewHolder.playPauseButton?.text = context.getString(playPauseText)
+        viewHolder.playPauseButton.text = context.getString(playPauseText)
     }
 
     private fun bindContentViewHolder(viewHolder: GpxContentViewHolder, position: Int) {

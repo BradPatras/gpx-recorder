@@ -14,8 +14,6 @@
         android:layout_height="0dp"
         android:background="@android:color/white"
         android:clipToPadding="false"
-        android:divider="@android:color/transparent"
-        android:dividerHeight="4dp"
         android:footerDividersEnabled="true"
         android:headerDividersEnabled="true"
         android:scrollbars="none"
@@ -43,11 +41,11 @@
         android:layout_width="80dp"
         android:layout_height="80dp"
         android:src="@drawable/ic_route"
-        android:tint="@android:color/darker_gray"
         android:layout_marginBottom="16dp"
         app:layout_constraintBottom_toTopOf="@+id/guideline_center"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:tint="@android:color/darker_gray" />
 
     <androidx.constraintlayout.widget.Guideline android:id="@+id/guideline_center"
         android:layout_width="wrap_content"
@@ -59,14 +57,14 @@
         android:id="@+id/fab"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:rotation="50"
         app:tint="@color/white"
         app:backgroundTint="@color/colorAccent"
-        app:srcCompat="@drawable/ic_direction_arrow"
+        app:srcCompat="@drawable/ic_near_me"
         app:layout_constraintTop_toTopOf="@id/toolbar_wrapper_layout"
         app:layout_constraintBottom_toTopOf="@id/toolbar_wrapper_layout"
         app:layout_constraintRight_toRightOf="parent"
-        android:layout_marginRight="12dp"/>
+        android:layout_marginEnd="12dp"
+        android:contentDescription="Start recording button" />
 
     <androidx.coordinatorlayout.widget.CoordinatorLayout android:id="@+id/toolbar_wrapper_layout"
         android:layout_height="wrap_content"

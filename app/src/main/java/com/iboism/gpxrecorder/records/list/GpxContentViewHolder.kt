@@ -8,7 +8,6 @@ class GpxContentViewHolder(binding: ListRowGpxContentBinding): RecyclerView.View
     val contentView = binding.mainContentLayout
     val titleView = binding.gpxContentTitle
     val dateView = binding.gpxContentDate
-    val exportButton = binding.gpxContentExportButton
     val distanceView = binding.gpxContentDistance
     val waypointCountView = binding.gpxContentWaypointCount
 }
