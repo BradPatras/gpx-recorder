@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@android:color/white"
+    android:background="@color/surface"
     android:paddingTop="10dp"
     android:clickable="true"
     android:focusable="true">
@@ -19,6 +19,7 @@
         android:hint="@string/enter_title"
         android:lines="1"
         android:singleLine="true"
+        android:textColor="@color/textOnSurface"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
@@ -34,6 +35,7 @@
         android:layout_marginStart="4dp"
         android:text="h"
         android:textSize="16sp"
+        android:textColor="@color/textOnSurface"
         app:layout_constraintStart_toEndOf="@+id/interval_hours_picker"
         app:layout_constraintEnd_toStartOf="@id/interval_minutes_picker"
         app:layout_constraintTop_toTopOf="@+id/interval_minutes_picker"
@@ -48,6 +50,7 @@
         android:layout_marginStart="4dp"
         android:text="m"
         android:textSize="16sp"
+        android:textColor="@color/textOnSurface"
         app:layout_constraintStart_toEndOf="@+id/interval_minutes_picker"
         app:layout_constraintEnd_toStartOf="@id/interval_seconds_picker"
         app:layout_constraintTop_toTopOf="@+id/interval_minutes_picker"
@@ -62,6 +65,7 @@
         android:layout_marginStart="4dp"
         android:text="s"
         android:textSize="16sp"
+        android:textColor="@color/textOnSurface"
         app:layout_constraintStart_toEndOf="@+id/interval_seconds_picker"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="@+id/interval_minutes_picker"
@@ -93,7 +97,6 @@
         android:layout_width="wrap_content"
         android:layout_height="100dp"
         android:layout_marginTop="8dp"
-
         app:layout_constraintRight_toRightOf="@id/hguide_one_fourth"
         app:layout_constraintLeft_toLeftOf="@id/hguide_one_fourth"
         app:layout_constraintTop_toBottomOf="@+id/textView2" />
@@ -126,6 +129,7 @@
         android:layout_marginTop="18dp"
         android:text="@string/interval_minutes"
         android:textSize="18sp"
+        android:textColor="@color/textOnSurface"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/config_title_editText" />
 
@@ -140,6 +144,7 @@
         android:textAlignment="textStart"
         android:textAppearance="@style/TextAppearance.AppCompat.Caption"
         android:textSize="12sp"
+        android:textColor="@color/secondaryOnSurface"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="@+id/textView2"
@@ -161,7 +166,7 @@
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="@+id/textView2"
         app:layout_constraintTop_toBottomOf="@id/textView3"
-        android:textColor="@android:color/holo_red_light"/>
+        android:textColor="@color/warning"/>
 
     <TextView
         android:id="@+id/start_button"
@@ -171,7 +176,7 @@
         android:background="@color/colorAccent"
         android:gravity="center"
         android:text="@string/start"
-        android:textColor="@color/white"
+        android:textColor="@color/onAccent"
         android:textSize="36sp"
         android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -188,7 +193,7 @@
         android:layout_marginEnd="8dp"
         android:text="@string/new_recording"
         android:textAppearance="@style/TextAppearance.AppCompat.Headline"
-        android:textColor="@android:color/black"
+        android:textColor="@color/textOnSurface"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />

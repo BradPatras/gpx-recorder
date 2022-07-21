@@ -4,11 +4,18 @@
     <color name="colorAccent">#277da4</color>
     <color name="colorAccentDark">#37474f</color>
     <color name="colorAccentLight">#77bcdc</color>
-    <color name="darkGrayBlue">#1f1f30</color>
-    <color name="transparent">#000000</color>
+    <color name="buttonTextOnSurface">@color/colorAccent</color>
+    <color name="buttonTextOnAccent">#fff</color>
+    <color name="onAccent">#fff</color>
+    <color name="secondaryOnAccent">#e2e2e2</color>
+    <color name="onSurface">#040404</color>
+    <color name="surface">#fff</color>
+    <color name="surfaceSecondary">#e2e2e2</color>
+    <color name="warning">#a01c1c</color>
+    <color name="secondaryOnSurface">#343830</color>
+    <color name="tertiaryOnSurface">#767a72</color>
     <color name="white">#fff</color>
     <color name="gGrey">#efeeec</color>
     <color name="gLightBlue">#46b4fb</color>
     <color name="gLightGreen">#c1ecb0</color>
-    <color name="offWhite">#e3e3e3</color>
 </resources>

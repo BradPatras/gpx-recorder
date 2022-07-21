@@ -6,7 +6,7 @@
     android:id="@+id/current_recording_layout"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@color/offWhite"
+    android:background="@color/surfaceSecondary"
     android:paddingLeft="16dp"
     android:paddingRight="16dp"
     android:paddingBottom="5dp"
@@ -23,7 +23,7 @@
         android:textAlignment="viewStart"
         android:layout_marginBottom="2dp"
         android:textSize="14sp"
-        android:textColor="@color/colorAccentDark"
+        android:textColor="@color/onSurface"
         android:text="@string/recording_in_progress"/>
 
     <TextView
@@ -37,6 +37,7 @@
         android:maxLines="2"
         android:singleLine="false"
         android:textAlignment="viewStart"
+        android:textColor="@color/onSurface"
         app:layout_constraintBottom_toTopOf="@id/add_wpt_btn"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -45,7 +46,7 @@
 
     <Button
         android:id="@+id/add_wpt_btn"
-        style="@style/Widget.AppCompat.Button.Small"
+        style="@style/Widget.Material3.Button.TextButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="4dp"
@@ -55,16 +56,15 @@
         android:paddingEnd="10dp"
         android:text="@string/add_waypoint"
         android:textAllCaps="false"
-        android:textColor="@android:color/white"
+        android:textColor="@color/buttonTextOnSurface"
         android:textSize="12sp"
-        android:tint="@android:color/black"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/route_title_tv" />
 
     <Button
         android:id="@+id/playpause_btn"
-        style="@style/Widget.AppCompat.Button.Small"
+        style="@style/Widget.Material3.Button.TextButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="10dp"
@@ -72,9 +72,8 @@
         android:orientation="horizontal"
         android:text="@string/pause_recording"
         android:textAllCaps="false"
-        android:textColor="@android:color/white"
+        android:textColor="@color/buttonTextOnSurface"
         android:textSize="12sp"
-        android:tint="@android:color/black"
         app:iconPadding="0dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toEndOf="@+id/add_wpt_btn"
@@ -82,7 +81,7 @@
 
     <Button
         android:id="@+id/stop_btn"
-        style="@style/Widget.AppCompat.Button.Small"
+        style="@style/Widget.Material3.Button.TextButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="4dp"
@@ -90,9 +89,8 @@
         android:orientation="horizontal"
         android:text="@string/stop_recording"
         android:textAllCaps="false"
-        android:textColor="@android:color/white"
+        android:textColor="@color/buttonTextOnSurface"
         android:textSize="12sp"
-        android:tint="@android:color/black"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toEndOf="@+id/playpause_btn"
         app:layout_constraintTop_toBottomOf="@+id/route_title_tv" />

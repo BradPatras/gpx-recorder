@@ -17,7 +17,7 @@
         android:layout_marginEnd="8dp"
         android:text="@string/recording_in_progress"
         android:textAlignment="viewStart"
-        android:textColor="@android:color/white"
+        android:textColor="@color/onAccent"
         android:textSize="14sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -30,7 +30,7 @@
         android:ellipsize="end"
         android:text=""
         android:textAlignment="viewStart"
-        android:textColor="@android:color/white"
+        android:textColor="@color/onAccent"
         android:textSize="18sp"
         app:layout_constraintEnd_toEndOf="@id/current_rec_header"
         app:layout_constraintStart_toStartOf="@id/current_rec_header"
@@ -38,7 +38,7 @@
 
     <Button
         android:id="@+id/add_wpt_btn"
-        style="@style/Widget.AppCompat.Button.Small"
+        style="@style/Widget.Material3.Button.TextButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="8dp"
@@ -47,16 +47,15 @@
         android:paddingEnd="20dp"
         android:text="@string/add_waypoint"
         android:textAllCaps="false"
-        android:textColor="@android:color/white"
+        android:textColor="@color/onAccent"
         android:textSize="12sp"
-        android:tint="@android:color/black"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/playpause_btn"
         app:layout_constraintTop_toBottomOf="@id/guideline3" />
 
     <Button
         android:id="@+id/playpause_btn"
-        style="@style/Widget.AppCompat.Button.Small"
+        style="@style/Widget.Material3.Button.TextButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="8dp"
@@ -65,9 +64,8 @@
         android:paddingEnd="20dp"
         android:text="@string/pause_recording"
         android:textAllCaps="false"
-        android:textColor="@android:color/white"
+        android:textColor="@color/onAccent"
         android:textSize="12sp"
-        android:tint="@android:color/black"
         app:iconPadding="0dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintTop_toBottomOf="@id/guideline3"
@@ -75,7 +73,7 @@
 
     <Button
         android:id="@+id/stop_btn"
-        style="@style/Widget.AppCompat.Button.Small"
+        style="@style/Widget.Material3.Button.TextButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="12dp"
@@ -84,9 +82,8 @@
         android:orientation="horizontal"
         android:text="@string/stop_recording"
         android:textAllCaps="false"
-        android:textColor="@android:color/white"
+        android:textColor="@color/onAccent"
         android:textSize="12sp"
-        android:tint="@android:color/black"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintTop_toBottomOf="@id/guideline3"
         app:layout_constraintEnd_toEndOf="parent" />

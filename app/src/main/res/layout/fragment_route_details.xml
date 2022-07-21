@@ -36,8 +36,8 @@
         android:lines="1"
         android:padding="8dp"
         android:textAppearance="@style/TextAppearance.AppCompat.Headline"
-        android:textColor="@android:color/white"
-        android:textColorHint="@color/offWhite"
+        android:textColor="@color/onAccent"
+        android:textColorHint="@color/secondaryOnAccent"
         app:layout_constraintEnd_toStartOf="@+id/title_edit_btn"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
@@ -61,7 +61,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
         android:layout_marginBottom="8dp"
-        android:textColor="@android:color/white"
+        android:textColor="@color/onAccent"
         app:layout_constraintBottom_toTopOf="@+id/waypoint_tv"
         app:layout_constraintStart_toStartOf="parent" />
 
@@ -71,7 +71,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
         android:layout_marginBottom="8dp"
-        android:textColor="@android:color/white"
+        android:textColor="@color/onAccent"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
 
@@ -82,7 +82,7 @@
         android:layout_marginEnd="16dp"
         android:layout_marginBottom="8dp"
         android:textAlignment="textEnd"
-        android:textColor="@android:color/white"
+        android:textColor="@color/onAccent"
         app:layout_constraintBottom_toTopOf="@+id/waypoint_tv"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/date_tv"
@@ -100,7 +100,7 @@
         app:layout_constraintBottom_toTopOf="@+id/map_view"
         app:layout_constraintEnd_toStartOf="@id/more_btn"
         app:layout_constraintTop_toTopOf="parent"
-        app:tint="@android:color/white" />
+        app:tint="@color/onAccent" />
 
     <ImageButton android:id="@+id/more_btn"
         android:alpha=".9"
@@ -114,14 +114,14 @@
         app:layout_constraintBottom_toTopOf="@+id/map_view"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:tint="@android:color/white" />
+        app:tint="@color/onAccent" />
 
     <ProgressBar
         android:id="@+id/export_progress_bar"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:alpha=".9"
-        android:indeterminateTint="@android:color/white"
+        android:indeterminateTint="@color/onAccent"
         app:layout_constraintTop_toTopOf="@id/more_btn"
         app:layout_constraintBottom_toBottomOf="@id/more_btn"
         app:layout_constraintLeft_toLeftOf="@id/more_btn"

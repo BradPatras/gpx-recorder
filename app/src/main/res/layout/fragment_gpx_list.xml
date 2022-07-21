@@ -6,13 +6,13 @@
     android:clipToPadding="false"
     android:clipChildren="false"
     android:id="@+id/fragment_gpx_list"
-    android:background="@android:color/white"
+    android:background="@color/surface"
     tools:context="com.iboism.gpxrecorder.records.list.GpxListFragment">
 
     <androidx.recyclerview.widget.RecyclerView android:id="@+id/gpx_listView"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:background="@android:color/white"
+        android:background="@color/surface"
         android:clipToPadding="false"
         android:footerDividersEnabled="true"
         android:headerDividersEnabled="true"
@@ -31,7 +31,7 @@
         android:layout_marginStart="26dp"
         android:text="Recorded routes will show up here"
         android:textAlignment="center"
-        android:textColor="@android:color/darker_gray"
+        android:textColor="@color/tertiaryOnSurface"
         android:textSize="22sp"
         app:layout_constraintTop_toBottomOf="@id/guideline_center"
         app:layout_constraintEnd_toEndOf="parent"
@@ -45,7 +45,7 @@
         app:layout_constraintBottom_toTopOf="@+id/guideline_center"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:tint="@android:color/darker_gray" />
+        app:tint="@color/tertiaryOnSurface" />
 
     <androidx.constraintlayout.widget.Guideline android:id="@+id/guideline_center"
         android:layout_width="wrap_content"
@@ -57,7 +57,7 @@
         android:id="@+id/fab"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:tint="@color/white"
+        app:tint="@color/onAccent"
         app:backgroundTint="@color/colorAccent"
         app:srcCompat="@drawable/ic_near_me"
         app:layout_constraintTop_toTopOf="@id/toolbar_wrapper_layout"
@@ -84,7 +84,7 @@
             app:fabAlignmentMode="end"
             app:fabCradleVerticalOffset="16dp"
             app:fabAnimationMode="slide"
-            android:foregroundTint="@color/white"
+            android:foregroundTint="@color/onAccent"
             app:backgroundTint="@color/colorAccentDark"
             app:navigationIcon="@drawable/ic_menu"
             />
