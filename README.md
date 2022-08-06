@@ -30,6 +30,9 @@ The app can't directly access the running service like a normal static instance 
 
 [EventBus](https://github.com/greenrobot/EventBus) is also used to allow the service to notify the app when important things happen that may require UI to be updated.
 
+### Route Storage
+The routes are all stored locally with a [Realm](https://www.realm.io) database. The format of realm object storage makes it really straightforward to store the nested data that makes up a route.  `Routes` have `Waypoints` and `Segments` which are made up of `TrackPoints`.  The app is entirely offline focused so the realm database is the source of truth and all updates to the UI related to routes happen as a result of the database being updated.
+
 ## Releases
 ### - 2.4 | Feb 20, 2022
 - Updated dependency versions
