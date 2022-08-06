@@ -4,24 +4,11 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/colorAccent"
+    android:background="@color/color_accent"
     android:clickable="true"
     android:focusable="true"
     android:id="@+id/detail_root"
     tools:context="com.iboism.gpxrecorder.records.details.GpxDetailsFragment">
-
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/resume_fab"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="16dp"
-        android:layout_marginBottom="16dp"
-        app:backgroundTint="@color/colorAccent"
-        app:layout_constraintBottom_toBottomOf="@+id/map_view"
-        app:layout_constraintEnd_toEndOf="@+id/map_view"
-        app:srcCompat="@drawable/ic_near_me"
-        app:tint="@color/white"
-        android:contentDescription="Resume route button" />
 
     <EditText
         android:id="@+id/title_et"
@@ -36,9 +23,9 @@
         android:lines="1"
         android:padding="8dp"
         android:textAppearance="@style/TextAppearance.AppCompat.Headline"
-        android:textColor="@color/onAccent"
-        android:textColorHint="@color/secondaryOnAccent"
-        app:layout_constraintEnd_toStartOf="@+id/title_edit_btn"
+        android:textColor="@color/on_accent"
+        android:textColorHint="@color/on_accent_secondary"
+        app:layout_constraintEnd_toStartOf="@+id/resume_btn"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -61,7 +48,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
         android:layout_marginBottom="8dp"
-        android:textColor="@color/onAccent"
+        android:textColor="@color/on_accent"
         app:layout_constraintBottom_toTopOf="@+id/waypoint_tv"
         app:layout_constraintStart_toStartOf="parent" />
 
@@ -71,7 +58,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
         android:layout_marginBottom="8dp"
-        android:textColor="@color/onAccent"
+        android:textColor="@color/on_accent"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
 
@@ -82,25 +69,25 @@
         android:layout_marginEnd="16dp"
         android:layout_marginBottom="8dp"
         android:textAlignment="textEnd"
-        android:textColor="@color/onAccent"
+        android:textColor="@color/on_accent"
         app:layout_constraintBottom_toTopOf="@+id/waypoint_tv"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/date_tv"
         app:layout_constraintTop_toTopOf="@+id/date_tv" />
 
     <ImageButton
-        android:id="@+id/title_edit_btn"
+        android:id="@+id/resume_btn"
         android:layout_width="wrap_content"
         android:layout_height="0dp"
         android:layout_marginEnd="8dp"
         android:padding="4dp"
         android:background="@android:color/transparent"
-        android:src="@drawable/ic_edit"
-        android:contentDescription="@string/edit_title_content_description"
+        android:src="@drawable/ic_near_me"
+        android:contentDescription="@string/resume_recording"
         app:layout_constraintBottom_toTopOf="@+id/map_view"
         app:layout_constraintEnd_toStartOf="@id/more_btn"
         app:layout_constraintTop_toTopOf="parent"
-        app:tint="@color/onAccent" />
+        app:tint="@color/on_accent" />
 
     <ImageButton android:id="@+id/more_btn"
         android:alpha=".9"
@@ -114,14 +101,14 @@
         app:layout_constraintBottom_toTopOf="@+id/map_view"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:tint="@color/onAccent" />
+        app:tint="@color/on_accent" />
 
     <ProgressBar
         android:id="@+id/export_progress_bar"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:alpha=".9"
-        android:indeterminateTint="@color/onAccent"
+        android:indeterminateTint="@color/on_accent"
         app:layout_constraintTop_toTopOf="@id/more_btn"
         app:layout_constraintBottom_toBottomOf="@id/more_btn"
         app:layout_constraintLeft_toLeftOf="@id/more_btn"

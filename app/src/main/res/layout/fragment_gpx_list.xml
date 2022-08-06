@@ -31,7 +31,7 @@
         android:layout_marginStart="26dp"
         android:text="Recorded routes will show up here"
         android:textAlignment="center"
-        android:textColor="@color/tertiaryOnSurface"
+        android:textColor="@color/on_surface_tertiary"
         android:textSize="22sp"
         app:layout_constraintTop_toBottomOf="@id/guideline_center"
         app:layout_constraintEnd_toEndOf="parent"
@@ -45,7 +45,7 @@
         app:layout_constraintBottom_toTopOf="@+id/guideline_center"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:tint="@color/tertiaryOnSurface" />
+        app:tint="@color/on_surface_tertiary" />
 
     <androidx.constraintlayout.widget.Guideline android:id="@+id/guideline_center"
         android:layout_width="wrap_content"
@@ -57,8 +57,8 @@
         android:id="@+id/fab"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:tint="@color/onAccent"
-        app:backgroundTint="@color/colorAccent"
+        app:tint="@color/on_accent"
+        app:backgroundTint="@color/color_accent"
         app:srcCompat="@drawable/ic_near_me"
         app:layout_constraintTop_toTopOf="@id/toolbar_wrapper_layout"
         app:layout_constraintBottom_toTopOf="@id/toolbar_wrapper_layout"
@@ -84,8 +84,8 @@
             app:fabAlignmentMode="end"
             app:fabCradleVerticalOffset="16dp"
             app:fabAnimationMode="slide"
-            android:foregroundTint="@color/onAccent"
-            app:backgroundTint="@color/colorAccentDark"
+            android:foregroundTint="@color/on_accent"
+            app:backgroundTint="@color/color_accent_dark"
             app:navigationIcon="@drawable/ic_menu"
             />
 

@@ -1,21 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#80c776</color>
-    <color name="colorAccent">#277da4</color>
-    <color name="colorAccentDark">#37474f</color>
-    <color name="colorAccentLight">#77bcdc</color>
-    <color name="buttonTextOnSurface">@color/colorAccent</color>
-    <color name="buttonTextOnAccent">#fff</color>
-    <color name="onAccent">#fff</color>
-    <color name="secondaryOnAccent">#e2e2e2</color>
-    <color name="onSurface">#e2e2e2</color>
+    <color name="color_primary">#80c776</color>
+    <color name="color_accent">#277da4</color>
+    <color name="color_accent_dark">#37474f</color>
+    <color name="color_accent_light">#77bcdc</color>
+    <color name="button_text_on_surface">@color/color_accent</color>
+    <color name="button_text_on_accent">#fff</color>
+    <color name="on_accent">#fff</color>
+    <color name="on_accent_secondary">#d0d0d0</color>
+    <color name="on_surface">#e2e2e2</color>
     <color name="surface">#1f1f1f</color>
-    <color name="surfaceSecondary">#303030</color>
+    <color name="surface_secondary">#303030</color>
     <color name="warning">#a01c1c</color>
-    <color name="secondaryOnSurface">#d2d2d2</color>
-    <color name="tertiaryOnSurface">#c8c8c8</color>
+    <color name="on_surface_secondary">#d0d0d0</color>
+    <color name="on_surface_tertiary">#c1c1c1</color>
     <color name="white">#fff</color>
-    <color name="gGrey">#efeeec</color>
-    <color name="gLightBlue">#46b4fb</color>
-    <color name="gLightGreen">#c1ecb0</color>
+    <color name="google_grey">#efeeec</color>
+    <color name="google_light_blue">#46b4fb</color>
+    <color name="google_light_green">#c1ecb0</color>
 </resources>

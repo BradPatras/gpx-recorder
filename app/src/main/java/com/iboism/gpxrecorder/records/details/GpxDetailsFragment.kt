@@ -48,7 +48,7 @@ class GpxDetailsFragment : Fragment() {
     }
 
     private val resumeRecordingTouchConsumer = Consumer<Unit> {
-        resumeRecording(binding.resumeFab)
+        resumeRecording(binding.resumeBtn)
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -77,14 +77,18 @@ class GpxDetailsFragment : Fragment() {
                 dateText = DateTimeFormatHelper.toReadableString(gpxContent.date),
                 waypointsText = resources.getQuantityString(R.plurals.waypoint_count, gpxContent.waypointList.size, gpxContent.waypointList.size)
         )
+
+        realm.close()
+
         detailsView.restoreInstanceState(savedInstanceState)
 
-        compositeDisposable.add(detailsView.gpxTitleObservable.subscribe(gpxTitleConsumer))
-        compositeDisposable.add(detailsView.exportTouchObservable.subscribe(exportTouchConsumer))
-        compositeDisposable.add(detailsView.mapTypeToggleObservable.subscribe(mapLayerTouchConsumer))
-        compositeDisposable.add(detailsView.deleteRouteObservable.subscribe(deleteRouteTouchConsumer))
-        compositeDisposable.add(detailsView.resumeRecordingObservable.subscribe(resumeRecordingTouchConsumer))
-        realm.close()
+        compositeDisposable.addAll(
+            detailsView.gpxTitleObservable.subscribe(gpxTitleConsumer),
+            detailsView.exportTouchObservable.subscribe(exportTouchConsumer),
+            detailsView.mapTypeToggleObservable.subscribe(mapLayerTouchConsumer),
+            detailsView.deleteRouteObservable.subscribe(deleteRouteTouchConsumer),
+            detailsView.resumeRecordingObservable.subscribe(resumeRecordingTouchConsumer)
+        )
 
         binding.mapView.let {
             it.onCreate(savedInstanceState)

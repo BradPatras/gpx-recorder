@@ -25,12 +25,14 @@
             android:layout_marginEnd="8dp"
             android:ellipsize="end"
             android:lines="1"
-            android:textSize="18sp"
-            android:textColor="@color/onSurface"
+            android:textSize="20sp"
+            android:textFontWeight="400"
+            android:textColor="@color/on_surface"
             android:layout_marginTop="8dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintStart_toStartOf="parent"/>
+            app:layout_constraintStart_toStartOf="parent"
+            android:text="@string/title"/>
 
         <TextView
             android:id="@+id/gpx_content_date"
@@ -41,7 +43,7 @@
             android:layout_marginTop="8dp"
             android:textSize="14sp"
             android:text=""
-            android:textColor="@color/onSurface"
+            android:textColor="@color/on_surface_tertiary"
             app:layout_constraintBottom_toTopOf="@id/gpx_content_waypoint_count"
             app:layout_constraintStart_toEndOf="@id/date_icon"
             app:layout_constraintTop_toBottomOf="@+id/gpx_content_title"/>
@@ -55,7 +57,7 @@
             android:textAllCaps="false"
             android:typeface="normal"
             android:textSize="14sp"
-            android:textColor="@color/onSurface"
+            android:textColor="@color/on_surface_tertiary"
             android:layout_marginStart="8dp"
             app:layout_constraintBaseline_toBaselineOf="@id/gpx_content_waypoint_count"
             app:layout_constraintStart_toEndOf="@id/gpx_content_waypoint_count"
@@ -71,7 +73,7 @@
             app:layout_constraintBottom_toBottomOf="@id/gpx_content_date"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="@+id/gpx_content_date"
-            app:tint="@color/tertiaryOnSurface" />
+            app:tint="@color/on_surface_tertiary" />
 
         <ImageView
             android:id="@+id/waypoints_icon"
@@ -83,7 +85,7 @@
             app:layout_constraintBottom_toBottomOf="@id/gpx_content_waypoint_count"
             app:layout_constraintTop_toTopOf="@+id/gpx_content_waypoint_count"
             app:layout_constraintStart_toStartOf="parent"
-            app:tint="@color/tertiaryOnSurface" />
+            app:tint="@color/on_surface_tertiary" />
 
         <TextView
             android:id="@+id/gpx_content_waypoint_count"
@@ -92,7 +94,7 @@
             android:layout_marginStart="8dp"
             android:layout_marginBottom="8dp"
             android:textSize="14sp"
-            android:textColor="@color/onSurface"
+            android:textColor="@color/on_surface_tertiary"
             android:text="0"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toEndOf="@id/waypoints_icon"/>

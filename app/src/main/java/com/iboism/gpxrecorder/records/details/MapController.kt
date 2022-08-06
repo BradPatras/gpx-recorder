@@ -116,7 +116,7 @@ class MapController(private val mapView: MapView, private val gpxId: Long): OnMa
 
             this.addPolyline(
                 PolylineOptions()
-                    .color(ContextCompat.getColor(mapView.context, R.color.gLightBlue))
+                    .color(ContextCompat.getColor(mapView.context, R.color.google_light_blue))
                     .jointType(ROUND)
                     .width(12f)
                     .addAll(points)
