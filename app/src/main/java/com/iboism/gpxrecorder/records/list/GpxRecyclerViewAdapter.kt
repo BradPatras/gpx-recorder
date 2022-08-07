@@ -9,9 +9,9 @@ import androidx.recyclerview.widget.RecyclerView
 import com.iboism.gpxrecorder.Events
 import com.iboism.gpxrecorder.Keys
 import com.iboism.gpxrecorder.R
-import com.iboism.gpxrecorder.databinding.ListRowCurrentRouteBinding
-import com.iboism.gpxrecorder.databinding.ListRowDeletedBinding
-import com.iboism.gpxrecorder.databinding.ListRowGpxContentBinding
+import com.iboism.gpxrecorder.databinding.ListRowActiveRouteBinding
+import com.iboism.gpxrecorder.databinding.ListRowDeletedRouteBinding
+import com.iboism.gpxrecorder.databinding.ListRowRouteBinding
 import com.iboism.gpxrecorder.model.GpxContent
 import com.iboism.gpxrecorder.recording.LocationRecorderService
 import com.iboism.gpxrecorder.recording.RecorderServiceConnection
@@ -95,9 +95,9 @@ class GpxRecyclerViewAdapter(
         }
     }
 
-    private fun onCreateContentViewHolder(parent: ViewGroup): GpxContentViewHolder {
-        val binding = ListRowGpxContentBinding.inflate(LayoutInflater.from(parent.context), parent, false)
-        val holder = GpxContentViewHolder(binding)
+    private fun onCreateContentViewHolder(parent: ViewGroup): RouteRowViewHolder {
+        val binding = ListRowRouteBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+        val holder = RouteRowViewHolder(binding)
 
         holder.rootView.setOnClickListener {
             contentViewerOpener?.invoke(holder.itemId)
@@ -106,14 +106,14 @@ class GpxRecyclerViewAdapter(
         return holder
     }
 
-    private fun onCreateDeletedViewHolder(parent: ViewGroup): DeletedViewHolder {
-        val binding = ListRowDeletedBinding.inflate(LayoutInflater.from(parent.context), parent, false)
-        return DeletedViewHolder(binding)
+    private fun onCreateDeletedViewHolder(parent: ViewGroup): DeletedRouteRowViewHolder {
+        val binding = ListRowDeletedRouteBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+        return DeletedRouteRowViewHolder(binding)
     }
 
-    private fun onCreateCurrentRecordingViewHolder(parent: ViewGroup): CurrentRecordingViewHolder {
-        val binding = ListRowCurrentRouteBinding.inflate(LayoutInflater.from(parent.context), parent, false)
-        val holder = CurrentRecordingViewHolder(binding)
+    private fun onCreateCurrentRecordingViewHolder(parent: ViewGroup): ActiveRouteRowViewHolder {
+        val binding = ListRowActiveRouteBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+        val holder = ActiveRouteRowViewHolder(binding)
         holder.rootView.setOnClickListener {
             currentRecordingOpener?.invoke()
         }
@@ -153,20 +153,20 @@ class GpxRecyclerViewAdapter(
 
     override fun onBindViewHolder(viewHolder: RecyclerView.ViewHolder, position: Int) {
         when (viewHolder) {
-            is GpxContentViewHolder -> bindContentViewHolder(viewHolder, position)
-            is DeletedViewHolder -> bindDeletedViewHolder(viewHolder, position)
-            is CurrentRecordingViewHolder -> bindCurrentViewHolder(viewHolder, position)
+            is RouteRowViewHolder -> bindContentViewHolder(viewHolder, position)
+            is DeletedRouteRowViewHolder -> bindDeletedViewHolder(viewHolder, position)
+            is ActiveRouteRowViewHolder -> bindCurrentViewHolder(viewHolder, position)
         }
     }
 
-    private fun bindCurrentViewHolder(viewHolder: CurrentRecordingViewHolder, position: Int) {
+    private fun bindCurrentViewHolder(viewHolder: ActiveRouteRowViewHolder, position: Int) {
         val gpx = getItem(position) ?: return
         viewHolder.routeTitle.text = gpx.title
         val playPauseText = if(serviceConnection.service?.isPaused == true) R.string.resume_recording else R.string.pause_recording
         viewHolder.playPauseButton.text = context.getString(playPauseText)
     }
 
-    private fun bindContentViewHolder(viewHolder: GpxContentViewHolder, position: Int) {
+    private fun bindContentViewHolder(viewHolder: RouteRowViewHolder, position: Int) {
         val gpx = getItem(position) ?: return
         val context = viewHolder.rootView.context
 
@@ -180,7 +180,7 @@ class GpxRecyclerViewAdapter(
         viewHolder.distanceView.text = context.resources.getString(R.string.distance_km, distance)
     }
 
-    private fun bindDeletedViewHolder(viewHolder: DeletedViewHolder, position: Int) {
+    private fun bindDeletedViewHolder(viewHolder: DeletedRouteRowViewHolder, position: Int) {
         viewHolder.rootView.setOnClickListener {
             unDismissRow(viewHolder.itemId, position)
         }

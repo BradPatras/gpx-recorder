@@ -4,9 +4,9 @@ import android.widget.Button
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.iboism.gpxrecorder.R
-import com.iboism.gpxrecorder.databinding.ListRowCurrentRouteBinding
+import com.iboism.gpxrecorder.databinding.ListRowActiveRouteBinding
 
-class CurrentRecordingViewHolder(binding: ListRowCurrentRouteBinding): RecyclerView.ViewHolder(binding.root) {
+class ActiveRouteRowViewHolder(binding: ListRowActiveRouteBinding): RecyclerView.ViewHolder(binding.root) {
     val rootView = binding.root
     val routeTitle: TextView = binding.routeTitleTv
     val addWaypointButton: Button = binding.addWptBtn

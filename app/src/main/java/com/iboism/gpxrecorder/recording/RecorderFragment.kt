@@ -10,7 +10,7 @@ import androidx.fragment.app.Fragment
 import com.iboism.gpxrecorder.Events
 import com.iboism.gpxrecorder.Keys
 import com.iboism.gpxrecorder.R
-import com.iboism.gpxrecorder.databinding.FragmentRecorderBinding
+import com.iboism.gpxrecorder.databinding.FragmentActiveRouteDetailsBinding
 import com.iboism.gpxrecorder.model.GpxContent
 import com.iboism.gpxrecorder.recording.waypoint.CreateWaypointDialogActivity
 import com.iboism.gpxrecorder.records.details.MapController
@@ -29,7 +29,7 @@ class RecorderFragment : Fragment(), RecorderServiceConnection.OnServiceConnecte
     private var serviceConnection: RecorderServiceConnection = RecorderServiceConnection(this)
     private var observableInterval: Observable<Long> = Observable.interval(5, TimeUnit.SECONDS).observeOn(AndroidSchedulers.mainThread())
     private var intervalObserver: Disposable? = null
-    private lateinit var binding: FragmentRecorderBinding
+    private lateinit var binding: FragmentActiveRouteDetailsBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -38,7 +38,7 @@ class RecorderFragment : Fragment(), RecorderServiceConnection.OnServiceConnecte
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
-        binding = FragmentRecorderBinding.inflate(layoutInflater, container, false)
+        binding = FragmentActiveRouteDetailsBinding.inflate(layoutInflater, container, false)
         return binding.root
     }
 

@@ -10,12 +10,12 @@ class GpxListSwipeHandler(private val onCellDismissed: ((position: Int) -> Unit)
 
     override fun getSwipeDirs(recyclerView: RecyclerView, viewHolder: RecyclerView.ViewHolder): Int {
         return when(viewHolder) {
-            is GpxContentViewHolder -> super.getSwipeDirs(recyclerView, viewHolder)
+            is RouteRowViewHolder -> super.getSwipeDirs(recyclerView, viewHolder)
             else -> 0
         }
     }
 
     override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
-        (viewHolder as? GpxContentViewHolder)?.let { onCellDismissed(it.adapterPosition) }
+        (viewHolder as? RouteRowViewHolder)?.let { onCellDismissed(it.adapterPosition) }
     }
 }

@@ -10,7 +10,7 @@ import androidx.recyclerview.widget.*
 import com.google.android.material.divider.MaterialDividerItemDecoration
 import com.iboism.gpxrecorder.Events
 import com.iboism.gpxrecorder.R
-import com.iboism.gpxrecorder.databinding.FragmentGpxListBinding
+import com.iboism.gpxrecorder.databinding.FragmentRouteListBinding
 import com.iboism.gpxrecorder.model.GpxContent
 import com.iboism.gpxrecorder.navigation.BottomNavigationDrawer
 import com.iboism.gpxrecorder.recording.RecorderFragment
@@ -36,7 +36,7 @@ class GpxListFragment : Fragment(), RecorderServiceConnection.OnServiceConnected
     private var currentlyRecordingRouteId: Long? = null
     private val compositeDisposable = CompositeDisposable()
     private var serviceConnection: RecorderServiceConnection = RecorderServiceConnection(this)
-    private lateinit var binding: FragmentGpxListBinding
+    private lateinit var binding: FragmentRouteListBinding
     
     private val gpxChangeListener = { gpxContent: RealmResults<GpxContent> ->
         setPlaceholdersHidden(gpxContent.isNotEmpty())
@@ -140,7 +140,7 @@ class GpxListFragment : Fragment(), RecorderServiceConnection.OnServiceConnected
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
-        binding = FragmentGpxListBinding.inflate(inflater, container, false)
+        binding = FragmentRouteListBinding.inflate(inflater, container, false)
         return binding.root
     }
 

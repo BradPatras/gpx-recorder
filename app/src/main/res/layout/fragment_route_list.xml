@@ -1,0 +1,94 @@
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:clipToPadding="false"
+    android:clipChildren="false"
+    android:id="@+id/fragment_gpx_list"
+    android:background="@color/md_background"
+    tools:context="com.iboism.gpxrecorder.records.list.GpxListFragment">
+
+    <androidx.recyclerview.widget.RecyclerView android:id="@+id/gpx_listView"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:background="@color/md_background"
+        android:clipToPadding="false"
+        android:footerDividersEnabled="true"
+        android:headerDividersEnabled="true"
+        android:scrollbars="none"
+        app:layout_constraintBottom_toTopOf="@id/toolbar_wrapper_layout"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        />
+
+    <TextView android:id="@+id/placeholder_routes_text"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="24dp"
+        android:layout_marginEnd="26dp"
+        android:layout_marginStart="26dp"
+        android:text="Recorded routes will show up here"
+        android:textAlignment="center"
+        android:textColor="@color/md_onSurface"
+        android:textSize="22sp"
+        app:layout_constraintTop_toBottomOf="@id/guideline_center"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <ImageView android:id="@+id/placeholder_routes_icon"
+        android:layout_width="80dp"
+        android:layout_height="80dp"
+        android:src="@drawable/ic_route"
+        android:layout_marginBottom="16dp"
+        app:layout_constraintBottom_toTopOf="@+id/guideline_center"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:tint="@color/md_onSurface" />
+
+    <androidx.constraintlayout.widget.Guideline android:id="@+id/guideline_center"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent=".5" />
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/fab"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:tint="@color/md_onSecondary"
+        app:backgroundTint="@color/md_secondary"
+        app:srcCompat="@drawable/ic_near_me"
+        app:layout_constraintTop_toTopOf="@id/toolbar_wrapper_layout"
+        app:layout_constraintBottom_toTopOf="@id/toolbar_wrapper_layout"
+        app:layout_constraintRight_toRightOf="parent"
+        android:layout_marginEnd="12dp"
+        android:contentDescription="Start recording button" />
+
+    <androidx.coordinatorlayout.widget.CoordinatorLayout android:id="@+id/toolbar_wrapper_layout"
+        android:layout_height="wrap_content"
+        android:layout_width="0dp"
+        android:clipToPadding="false"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        android:elevation="2dp"
+        >
+
+        <com.google.android.material.bottomappbar.BottomAppBar
+            android:id="@+id/bottomAppBar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom"
+            app:fabAlignmentMode="end"
+            app:fabCradleVerticalOffset="16dp"
+            app:fabAnimationMode="slide"
+            android:foregroundTint="@color/on_nav_bar_surface"
+            app:backgroundTint="@color/nav_bar_surface"
+            app:navigationIcon="@drawable/ic_menu"
+            />
+
+    </androidx.coordinatorlayout.widget.CoordinatorLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>
