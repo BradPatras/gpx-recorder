@@ -5,7 +5,7 @@
     android:id="@+id/layout_app_bar_main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/surface"
+    android:background="@color/md_surface"
     tools:context="com.iboism.gpxrecorder.MainActivity">
 
     <FrameLayout

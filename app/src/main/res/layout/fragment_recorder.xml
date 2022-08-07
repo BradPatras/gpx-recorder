@@ -5,8 +5,17 @@
     android:id="@+id/current_recording_fragment_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/color_accent"
-    android:paddingTop="6dp">
+    android:background="@color/md_surface">
+
+    <View
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:background="@color/nav_bar_surface"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/map_view"
+        />
 
     <TextView
         android:id="@+id/current_rec_header"
@@ -17,11 +26,13 @@
         android:layout_marginEnd="8dp"
         android:text="@string/recording_in_progress"
         android:textAlignment="viewStart"
-        android:textColor="@color/on_accent"
+        android:textColor="@color/on_nav_bar_surface"
         android:textSize="14sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        android:paddingTop="6dp"
+        />
 
     <TextView
         android:id="@+id/route_title_tv"
@@ -30,7 +41,7 @@
         android:ellipsize="end"
         android:text=""
         android:textAlignment="viewStart"
-        android:textColor="@color/on_accent"
+        android:textColor="@color/on_nav_bar_surface"
         android:textSize="18sp"
         app:layout_constraintEnd_toEndOf="@id/current_rec_header"
         app:layout_constraintStart_toStartOf="@id/current_rec_header"
@@ -41,14 +52,10 @@
         style="@style/Widget.Material3.Button.TextButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="8dp"
-        android:orientation="horizontal"
-        android:paddingStart="20dp"
-        android:paddingEnd="20dp"
         android:text="@string/add_waypoint"
         android:textAllCaps="false"
-        android:textColor="@color/on_accent"
-        android:textSize="12sp"
+        android:textColor="@color/button_text_on_surface"
+        android:textSize="14sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/playpause_btn"
         app:layout_constraintTop_toBottomOf="@id/guideline3" />
@@ -58,15 +65,10 @@
         style="@style/Widget.Material3.Button.TextButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="8dp"
-        android:orientation="horizontal"
-        android:paddingStart="20dp"
-        android:paddingEnd="20dp"
         android:text="@string/pause_recording"
         android:textAllCaps="false"
-        android:textColor="@color/on_accent"
-        android:textSize="12sp"
-        app:iconPadding="0dp"
+        android:textColor="@color/button_text_on_surface"
+        android:textSize="14sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintTop_toBottomOf="@id/guideline3"
         app:layout_constraintEnd_toStartOf="@+id/stop_btn" />
@@ -76,14 +78,10 @@
         style="@style/Widget.Material3.Button.TextButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="12dp"
-        android:paddingStart="20dp"
-        android:paddingEnd="20dp"
-        android:orientation="horizontal"
         android:text="@string/stop_recording"
         android:textAllCaps="false"
-        android:textColor="@color/on_accent"
-        android:textSize="12sp"
+        android:textColor="@color/button_text_on_surface"
+        android:textSize="14sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintTop_toBottomOf="@id/guideline3"
         app:layout_constraintEnd_toEndOf="parent" />

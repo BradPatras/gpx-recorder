@@ -6,13 +6,13 @@
     android:clipToPadding="false"
     android:clipChildren="false"
     android:id="@+id/fragment_gpx_list"
-    android:background="@color/surface"
+    android:background="@color/md_background"
     tools:context="com.iboism.gpxrecorder.records.list.GpxListFragment">
 
     <androidx.recyclerview.widget.RecyclerView android:id="@+id/gpx_listView"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:background="@color/surface"
+        android:background="@color/md_background"
         android:clipToPadding="false"
         android:footerDividersEnabled="true"
         android:headerDividersEnabled="true"
@@ -31,7 +31,7 @@
         android:layout_marginStart="26dp"
         android:text="Recorded routes will show up here"
         android:textAlignment="center"
-        android:textColor="@color/on_surface_tertiary"
+        android:textColor="@color/md_onSurface"
         android:textSize="22sp"
         app:layout_constraintTop_toBottomOf="@id/guideline_center"
         app:layout_constraintEnd_toEndOf="parent"
@@ -45,7 +45,7 @@
         app:layout_constraintBottom_toTopOf="@+id/guideline_center"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:tint="@color/on_surface_tertiary" />
+        app:tint="@color/md_onSurface" />
 
     <androidx.constraintlayout.widget.Guideline android:id="@+id/guideline_center"
         android:layout_width="wrap_content"
@@ -57,8 +57,8 @@
         android:id="@+id/fab"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:tint="@color/on_accent"
-        app:backgroundTint="@color/color_accent"
+        app:tint="@color/md_onSecondary"
+        app:backgroundTint="@color/md_secondary"
         app:srcCompat="@drawable/ic_near_me"
         app:layout_constraintTop_toTopOf="@id/toolbar_wrapper_layout"
         app:layout_constraintBottom_toTopOf="@id/toolbar_wrapper_layout"
@@ -84,8 +84,8 @@
             app:fabAlignmentMode="end"
             app:fabCradleVerticalOffset="16dp"
             app:fabAnimationMode="slide"
-            android:foregroundTint="@color/on_accent"
-            app:backgroundTint="@color/color_accent_dark"
+            android:foregroundTint="@color/on_nav_bar_surface"
+            app:backgroundTint="@color/nav_bar_surface"
             app:navigationIcon="@drawable/ic_menu"
             />
 

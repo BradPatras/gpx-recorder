@@ -103,7 +103,7 @@ class GpxDetailsView(
     private fun applyPressed() {
         binding.titleEt.isEnabled = false
         binding.titleEt.clearFocus()
-        binding.titleEt.setBackgroundResource(R.color.color_accent)
+        binding.titleEt.setBackgroundResource(R.color.nav_bar_surface)
         binding.resumeBtn.setOnClickListener { resumePressed() }
         binding.resumeBtn.setImageResource(R.drawable.ic_near_me)
         binding.moreBtn.setOnClickListener { morePressed() }
@@ -114,7 +114,7 @@ class GpxDetailsView(
     private fun cancelPressed() {
         binding.titleEt.isEnabled = false
         binding.titleEt.clearFocus()
-        binding.titleEt.setBackgroundResource(R.color.color_accent)
+        binding.titleEt.setBackgroundResource(R.color.nav_bar_surface)
         binding.titleEt.setText("")
         binding.titleEt.append(savedText)
         binding.resumeBtn.setOnClickListener { resumePressed() }

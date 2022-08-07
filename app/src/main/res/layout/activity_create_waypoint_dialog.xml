@@ -19,7 +19,7 @@
         android:layout_marginStart="8dp"
         android:text="@string/add_waypoint"
         android:textAppearance="@style/TextAppearance.MaterialComponents.Headline5"
-        android:textColor="@color/on_surface"
+        android:textColor="@color/md_onSurface"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -35,7 +35,7 @@
         android:inputType="textPersonName"
         android:lines="1"
         android:singleLine="true"
-        android:textColor="@color/on_surface"
+        android:textColor="@color/md_onSurface"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/title"/>
@@ -51,7 +51,7 @@
         android:lines="3"
         android:maxLines="6"
         android:singleLine="false"
-        android:textColor="@color/on_surface"
+        android:textColor="@color/md_onSurface"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/title_editText"/>

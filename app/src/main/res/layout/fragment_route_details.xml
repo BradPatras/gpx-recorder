@@ -4,11 +4,21 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/color_accent"
+    android:background="@color/md_surface"
     android:clickable="true"
     android:focusable="true"
     android:id="@+id/detail_root"
     tools:context="com.iboism.gpxrecorder.records.details.GpxDetailsFragment">
+
+    <View
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:background="@color/nav_bar_surface"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/map_view"
+        />
 
     <EditText
         android:id="@+id/title_et"
@@ -17,14 +27,14 @@
         android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
-        android:background="@android:color/transparent"
+        android:background="@color/nav_bar_surface"
         android:hint="@string/enter_title"
         android:inputType="textCapWords"
         android:lines="1"
         android:padding="8dp"
         android:textAppearance="@style/TextAppearance.AppCompat.Headline"
-        android:textColor="@color/on_accent"
-        android:textColorHint="@color/on_accent_secondary"
+        android:textColor="@color/on_nav_bar_surface"
+        android:textColorHint="@color/on_nav_bar_surface"
         app:layout_constraintEnd_toStartOf="@+id/resume_btn"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
@@ -48,7 +58,8 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
         android:layout_marginBottom="8dp"
-        android:textColor="@color/on_accent"
+        android:textColor="@color/md_onSurface"
+        android:textSize="14sp"
         app:layout_constraintBottom_toTopOf="@+id/waypoint_tv"
         app:layout_constraintStart_toStartOf="parent" />
 
@@ -58,7 +69,8 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
         android:layout_marginBottom="8dp"
-        android:textColor="@color/on_accent"
+        android:textColor="@color/md_onSurface"
+        android:textSize="14sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
 
@@ -69,7 +81,8 @@
         android:layout_marginEnd="16dp"
         android:layout_marginBottom="8dp"
         android:textAlignment="textEnd"
-        android:textColor="@color/on_accent"
+        android:textColor="@color/md_onSurface"
+        android:textSize="14sp"
         app:layout_constraintBottom_toTopOf="@+id/waypoint_tv"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/date_tv"
@@ -87,7 +100,7 @@
         app:layout_constraintBottom_toTopOf="@+id/map_view"
         app:layout_constraintEnd_toStartOf="@id/more_btn"
         app:layout_constraintTop_toTopOf="parent"
-        app:tint="@color/on_accent" />
+        app:tint="@color/on_nav_bar_surface" />
 
     <ImageButton android:id="@+id/more_btn"
         android:alpha=".9"
@@ -101,14 +114,14 @@
         app:layout_constraintBottom_toTopOf="@+id/map_view"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:tint="@color/on_accent" />
+        app:tint="@color/on_nav_bar_surface" />
 
     <ProgressBar
         android:id="@+id/export_progress_bar"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:alpha=".9"
-        android:indeterminateTint="@color/on_accent"
+        android:indeterminateTint="@color/on_nav_bar_surface"
         app:layout_constraintTop_toTopOf="@id/more_btn"
         app:layout_constraintBottom_toBottomOf="@id/more_btn"
         app:layout_constraintLeft_toLeftOf="@id/more_btn"

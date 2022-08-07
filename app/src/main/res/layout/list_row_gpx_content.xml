@@ -7,13 +7,13 @@
     android:paddingLeft="16dp"
     android:paddingRight="16dp"
     android:layout_marginBottom="5dp"
-    android:background="@color/surface">
+    android:background="@color/md_background">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/main_content_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@drawable/background_rounded"
+        android:background="@color/md_background"
         android:clipToPadding="false"
         android:minHeight="70dp">
 
@@ -27,7 +27,7 @@
             android:lines="1"
             android:textSize="20sp"
             android:textFontWeight="400"
-            android:textColor="@color/on_surface"
+            android:textColor="@color/md_onBackground"
             android:layout_marginTop="8dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent"
@@ -43,7 +43,7 @@
             android:layout_marginTop="8dp"
             android:textSize="14sp"
             android:text=""
-            android:textColor="@color/on_surface_tertiary"
+            android:textColor="@color/md_onBackgroundSecondary"
             app:layout_constraintBottom_toTopOf="@id/gpx_content_waypoint_count"
             app:layout_constraintStart_toEndOf="@id/date_icon"
             app:layout_constraintTop_toBottomOf="@+id/gpx_content_title"/>
@@ -57,7 +57,7 @@
             android:textAllCaps="false"
             android:typeface="normal"
             android:textSize="14sp"
-            android:textColor="@color/on_surface_tertiary"
+            android:textColor="@color/md_onBackgroundSecondary"
             android:layout_marginStart="8dp"
             app:layout_constraintBaseline_toBaselineOf="@id/gpx_content_waypoint_count"
             app:layout_constraintStart_toEndOf="@id/gpx_content_waypoint_count"
@@ -73,7 +73,7 @@
             app:layout_constraintBottom_toBottomOf="@id/gpx_content_date"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="@+id/gpx_content_date"
-            app:tint="@color/on_surface_tertiary" />
+            app:tint="@color/md_onBackgroundSecondary" />
 
         <ImageView
             android:id="@+id/waypoints_icon"
@@ -85,7 +85,7 @@
             app:layout_constraintBottom_toBottomOf="@id/gpx_content_waypoint_count"
             app:layout_constraintTop_toTopOf="@+id/gpx_content_waypoint_count"
             app:layout_constraintStart_toStartOf="parent"
-            app:tint="@color/on_surface_tertiary" />
+            app:tint="@color/md_onBackgroundSecondary" />
 
         <TextView
             android:id="@+id/gpx_content_waypoint_count"
@@ -94,7 +94,7 @@
             android:layout_marginStart="8dp"
             android:layout_marginBottom="8dp"
             android:textSize="14sp"
-            android:textColor="@color/on_surface_tertiary"
+            android:textColor="@color/md_onBackgroundSecondary"
             android:text="0"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toEndOf="@id/waypoints_icon"/>

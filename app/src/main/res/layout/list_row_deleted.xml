@@ -7,7 +7,7 @@
     android:layout_marginBottom="5dp"
     android:clipChildren="false"
     android:clipToPadding="false"
-    android:background="@android:color/transparent"
+    android:background="@color/md_background"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -24,7 +24,7 @@
             style="@style/Base.TextAppearance.AppCompat.Headline"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintBottom_toTopOf="@id/undo_message"
-            android:textColor="@color/on_surface"
+            android:textColor="@color/md_onBackground"
             android:textSize="18sp"
             android:text="Route Deleted"/>
 
