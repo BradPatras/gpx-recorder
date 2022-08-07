@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="export_formats_array">
+        <item>Gpx</item>
+        <item>GeoJSON</item>
+    </string-array>
+</resources>

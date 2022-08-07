@@ -8,8 +8,12 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.AdapterView
+import android.widget.ArrayAdapter
+import android.widget.SpinnerAdapter
 import androidx.fragment.app.DialogFragment
 import com.iboism.gpxrecorder.Keys
+import com.iboism.gpxrecorder.R
 import com.iboism.gpxrecorder.databinding.FragmentExportBinding
 import com.iboism.gpxrecorder.records.details.CREATE_FILE_INTENT_ID
 import com.iboism.gpxrecorder.util.FileHelper
@@ -28,7 +32,7 @@ class ExportFragment: DialogFragment() {
 
     private lateinit var binding: FragmentExportBinding
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         dialog?.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
         binding = FragmentExportBinding.inflate(inflater, container, container != null)
         return binding.root
@@ -43,6 +47,13 @@ class ExportFragment: DialogFragment() {
         super.onViewCreated(view, savedInstanceState)
         binding.exportShareBtn.setOnClickListener { onShareClicked() }
         binding.exportSaveBtn.setOnClickListener { onSaveClicked() }
+        binding.formatSelectorSpinner.adapter = ArrayAdapter(
+            this.requireContext(),
+            android.R.layout.simple_spinner_dropdown_item,
+            resources.getStringArray(R.array.export_formats_array)
+        )
+//        binding.formatSelectorSpinner.setPopupBackgroundResource(android.R.drawable.spinner_dropdown_background)
+
         binding.exportProgressBar.isIndeterminate = true
     }
 
@@ -62,7 +73,11 @@ class ExportFragment: DialogFragment() {
     private fun onShareClicked() {
         val context = context ?: return
         setLoadingState(true)
-        val export = fileHelper?.shareGpxFile(context, gpxId.value)?.subscribe {
+        val export = fileHelper?.shareRouteFile(
+            context,
+            gpxId.value,
+            getSelectedExportFormat()
+        )?.subscribe {
             setLoadingState(false)
             this@ExportFragment.dismiss()
         }
@@ -75,7 +90,11 @@ class ExportFragment: DialogFragment() {
 
     private fun showSystemFolderPicker() {
         val context = context ?: return
-        val filename = fileHelper?.getGpxFilename(context, gpxId.value) ?: return
+
+        val filename = fileHelper?.getRouteFilename(
+            gpxId.value,
+            getSelectedExportFormat()
+        ) ?: return
 
         val intent = Intent(Intent.ACTION_CREATE_DOCUMENT).apply {
             addCategory(Intent.CATEGORY_OPENABLE)
@@ -92,12 +111,28 @@ class ExportFragment: DialogFragment() {
         val context = context ?: return
         setLoadingState(true)
         fileHelper?.apply {
-            saveGpxFile(context, gpxId.value, destination).delay(1, TimeUnit.SECONDS).subscribe {
-                uiScope.launch {
-                    setLoadingState(false)
-                    this@ExportFragment.dismiss()
+            compositeDisposable.add(
+                saveRouteFile(
+                    context,
+                    gpxId.value,
+                    destination,
+                    getSelectedExportFormat()
+                )
+                    .delay(1, TimeUnit.SECONDS)
+                    .subscribe {
+                        uiScope.launch {
+                        setLoadingState(false)
+                        this@ExportFragment.dismiss()
+                    }
                 }
-            }
+            )
+        }
+    }
+
+    private fun getSelectedExportFormat(): FileHelper.Format {
+        return when(binding.formatSelectorSpinner.selectedItemPosition) {
+            0 -> FileHelper.Format.Gpx
+            else -> FileHelper.Format.GeoJson
         }
     }
 
