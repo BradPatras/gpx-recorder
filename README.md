@@ -33,7 +33,7 @@ The app can't directly access the running service like a normal static instance 
 ### Route Storage
 The routes are all stored locally with a [Realm](https://www.realm.io) database. The format of realm object storage makes it really straightforward to store the nested data that makes up a route.  `Routes` have `Waypoints` and `Tracks` which are made up of `Segments` which are made up of `TrackPoints`.  The app is entirely offline focused so the realm database is the source of truth and all updates to the UI related to routes happen as a result of the database being updated.
 
-A Route is converted to the `gpx` file format on-demand and the app **only** knows how to do `Route` -> `.gpx` conversions.  Converting `.gpx` files back into `Route` objects is not currently a feature.
+A Route is converted to the `gpx` or `geojson` file format on-demand and the app **only** knows how to do `Route` -> `.gpx`/`geojson` conversions.  Converting files back into `Route` objects is not currently a feature.
 
 ## Releases
 ### - 2.4 | Feb 20, 2022
