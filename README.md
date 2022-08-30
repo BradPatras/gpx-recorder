@@ -36,6 +36,12 @@ The routes are all stored locally with a [Realm](https://www.realm.io) database.
 A Route is converted to the `gpx` or `geojson` file format on-demand and the app **only** knows how to do `Route` -> `.gpx`/`geojson` conversions.  Converting files back into `Route` objects is not currently a feature.
 
 ## Releases
+### - 2.5 | In progress
+- Resume route feature
+- GeoJSON export format support
+- UI component updates
+- Dark mode support (color system rework)
+<br><br>
 ### - 2.4 | Feb 20, 2022
 - Updated dependency versions
 - Added licenses info
