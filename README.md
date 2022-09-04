@@ -1,6 +1,6 @@
 # gpx-recorder
 
-Android app to record gps routes in the background and allow user to export routes to GPX files
+Android app to record gps routes in the background and allow user to export routes to GPX or GoeJSON files
 
 [Google Play Store link](https://play.google.com/store/apps/details?id=com.iboism.gpxrecorder)
 
