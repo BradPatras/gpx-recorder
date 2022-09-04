@@ -9,7 +9,6 @@ import android.net.Uri
 import android.os.Build
 import android.provider.Settings
 import androidx.core.content.ContextCompat
-import androidx.core.content.PermissionChecker
 import com.iboism.gpxrecorder.BuildConfig
 import com.iboism.gpxrecorder.Keys
 import com.karumi.dexter.Dexter
@@ -61,13 +60,8 @@ class PermissionHelper private constructor(private val activity: Activity) {
     }
 
     fun checkPermission(permissionName: String): Boolean {
-        return if (Build.VERSION.SDK_INT >= 23) {
-            val granted = ContextCompat.checkSelfPermission(activity, permissionName)
-            granted == PackageManager.PERMISSION_GRANTED
-        } else {
-            val granted = PermissionChecker.checkSelfPermission(activity, permissionName)
-            granted == PermissionChecker.PERMISSION_GRANTED
-        }
+        val granted = ContextCompat.checkSelfPermission(activity, permissionName)
+        return granted == PackageManager.PERMISSION_GRANTED
     }
 
     private fun openApplicationSettings() {

@@ -20,11 +20,7 @@ const val CHANNEL_ID = "com.iboism.gpxrecorder.recording"
 class RecordingNotification(val context: Context, val id: Long) {
     private var isPaused = false
 
-    private var intentFlags = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-        PendingIntent.FLAG_IMMUTABLE or PendingIntent.FLAG_UPDATE_CURRENT
-    } else {
-        PendingIntent.FLAG_UPDATE_CURRENT
-    }
+    private var intentFlags = PendingIntent.FLAG_IMMUTABLE or PendingIntent.FLAG_UPDATE_CURRENT
 
     private val openAppIntent = Intent(context, MainActivity::class.java).putExtra(Keys.GpxId, id)
     private val openAppPendingIntent = PendingIntent.getActivity(context, id.toInt(), openAppIntent, intentFlags)

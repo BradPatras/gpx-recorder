@@ -22,7 +22,7 @@ class DateTimeFormatHelper {
         }
 
         fun toReadableString(dateString: String): String {
-            val date = dateFormatter.parse(dateString)
+            val date = dateFormatter.parse(dateString) ?: return ""
             return SimpleDateFormat
                     .getDateTimeInstance(SimpleDateFormat.MEDIUM, SimpleDateFormat.SHORT)
                     .format(date)

@@ -30,9 +30,7 @@ class GPXRecorderApplication: Application() {
             applicationContext.setRealmInitFailure(true)
         }
 
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            createNotificationChannel()
-        }
+        createNotificationChannel()
     }
 
     private fun initializeRealm() {
@@ -40,7 +38,6 @@ class GPXRecorderApplication: Application() {
         Realm.setDefaultConfiguration(Schema.configuration())
     }
 
-    @RequiresApi(Build.VERSION_CODES.O)
     private fun createNotificationChannel() {
         val name = getString(R.string.channel_name)
         val description = getString(R.string.channel_description)

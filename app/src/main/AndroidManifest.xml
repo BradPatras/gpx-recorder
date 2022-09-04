@@ -16,7 +16,6 @@
 
     <application
         android:name=".GPXRecorderApplication"
-        android:allowBackup="false"
         android:icon="@mipmap/ic_launcher6"
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher6_round"
@@ -38,7 +37,6 @@
 
         <activity
             android:name=".MainActivity"
-            android:label="@string/app_name"
             android:theme="@style/AppTheme.NoActionBar"
             android:launchMode="singleTask"
             android:exported="true">

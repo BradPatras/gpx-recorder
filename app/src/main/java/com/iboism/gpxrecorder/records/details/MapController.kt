@@ -63,11 +63,7 @@ class MapController(private val mapView: MapView, private val gpxId: Long): OnMa
         map.uiSettings.isCompassEnabled = true
         map.uiSettings.isMapToolbarEnabled = true
         map.mapType = GoogleMap.MAP_TYPE_TERRAIN
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            if (mapView.context.checkSelfPermission(Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
-                map.isMyLocationEnabled = true
-            }
-        } else {
+        if (mapView.context.checkSelfPermission(Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
             map.isMyLocationEnabled = true
         }
 

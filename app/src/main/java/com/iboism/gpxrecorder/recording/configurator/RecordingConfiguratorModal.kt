@@ -81,7 +81,7 @@ class RecordingConfiguratorModal : Fragment() {
             originXY: Pair<Int,Int>,
             fragmentManager: FragmentManager?
         ) {
-            val configFragment = RecordingConfiguratorModal.instance()
+            val configFragment = instance()
 
             val args = Bundle()
             args.putInt(REVEAL_ORIGIN_X_KEY, originXY.first)
@@ -92,20 +92,11 @@ class RecordingConfiguratorModal : Fragment() {
         }
 
         fun show(fragmentManager: FragmentManager?, configFragment: RecordingConfiguratorModal = instance()) {
-            // marshmallow bug workaround https://issuetracker.google.com/issues/37067655
-            if (android.os.Build.VERSION.SDK_INT == android.os.Build.VERSION_CODES.M) {
-                fragmentManager?.beginTransaction()
-                        ?.setCustomAnimations(android.R.anim.fade_in, android.R.anim.fade_out, android.R.anim.fade_in, android.R.anim.fade_out)
-                        ?.add(R.id.content_container, configFragment)
-                        ?.addToBackStack(null)
-                        ?.commitAllowingStateLoss()
-            } else {
-                fragmentManager?.beginTransaction()
-                        ?.setCustomAnimations(android.R.anim.fade_in, android.R.anim.fade_out, android.R.anim.fade_in, android.R.anim.fade_out)
-                        ?.add(R.id.content_container, configFragment)
-                        ?.addToBackStack(null)
-                        ?.commit()
-            }
+            fragmentManager?.beginTransaction()
+                    ?.setCustomAnimations(android.R.anim.fade_in, android.R.anim.fade_out, android.R.anim.fade_in, android.R.anim.fade_out)
+                    ?.add(R.id.content_container, configFragment)
+                    ?.addToBackStack(null)
+                    ?.commit()
         }
     }
 }

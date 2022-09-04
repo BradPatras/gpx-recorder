@@ -12,6 +12,7 @@ import com.iboism.gpxrecorder.R
 import com.iboism.gpxrecorder.databinding.ListRowActiveRouteBinding
 import com.iboism.gpxrecorder.databinding.ListRowDeletedRouteBinding
 import com.iboism.gpxrecorder.databinding.ListRowRouteBinding
+import com.iboism.gpxrecorder.external.RealmRecyclerViewAdapter
 import com.iboism.gpxrecorder.model.GpxContent
 import com.iboism.gpxrecorder.recording.LocationRecorderService
 import com.iboism.gpxrecorder.recording.RecorderServiceConnection
@@ -21,7 +22,6 @@ import io.reactivex.Single
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.realm.OrderedRealmCollection
 import io.realm.Realm
-import io.realm.RealmRecyclerViewAdapter
 import org.greenrobot.eventbus.Subscribe
 import java.util.concurrent.TimeUnit
 

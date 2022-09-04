@@ -8,9 +8,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.AdapterView
 import android.widget.ArrayAdapter
-import android.widget.SpinnerAdapter
 import androidx.fragment.app.DialogFragment
 import com.iboism.gpxrecorder.Keys
 import com.iboism.gpxrecorder.R
@@ -52,11 +50,11 @@ class ExportFragment: DialogFragment() {
             android.R.layout.simple_spinner_dropdown_item,
             resources.getStringArray(R.array.export_formats_array)
         )
-//        binding.formatSelectorSpinner.setPopupBackgroundResource(android.R.drawable.spinner_dropdown_background)
 
         binding.exportProgressBar.isIndeterminate = true
     }
 
+    @Deprecated("Deprecated in Java")
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         when(requestCode) {

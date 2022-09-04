@@ -37,7 +37,7 @@ class RecorderFragment : Fragment(), RecorderServiceConnection.OnServiceConnecte
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
-                              savedInstanceState: Bundle?): View? {
+                              savedInstanceState: Bundle?): View {
         binding = FragmentActiveRouteDetailsBinding.inflate(layoutInflater, container, false)
         return binding.root
     }
