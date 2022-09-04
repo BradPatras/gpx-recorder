@@ -83,9 +83,10 @@ class MainActivity : AppCompatActivity(), RecordingConfiguratorModal.Listener {
             return
 
         supportFragmentManager.beginTransaction()
-                .add(R.id.content_container, RecorderFragment.newInstance(gpxId))
-                .addToBackStack(recorderFragmentTag)
-                .commit()
+            .setCustomAnimations(R.anim.slide_in_right, android.R.anim.fade_out, R.anim.none, android.R.anim.slide_out_right)
+            .replace(R.id.content_container, RecorderFragment.newInstance(gpxId))
+            .addToBackStack("recorder")
+            .commit()
     }
 
     private fun handleStartRecordingAction() {
