@@ -21,7 +21,9 @@ import com.iboism.gpxrecorder.util.Holder
 import com.iboism.gpxrecorder.util.PermissionHelper
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.functions.Consumer
+import io.realm.ObjectChangeSet
 import io.realm.Realm
+import io.realm.RealmObjectChangeListener
 
 const val CREATE_FILE_INTENT_ID = 1
 
@@ -31,6 +33,7 @@ class GpxDetailsFragment : Fragment() {
     private var fileHelper: FileHelper? = null
     private val compositeDisposable = CompositeDisposable()
     private var mapController: MapController? = null
+    private var content: GpxContent? = null
     private lateinit var binding: FragmentRouteDetailsBinding
 
     private var gpxTitleConsumer: Consumer<in String> = Consumer {
@@ -72,8 +75,14 @@ class GpxDetailsFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         val realm = Realm.getDefaultInstance()
         val gpxContent = GpxContent.withId(gpxId.value, realm) ?: return
+        content = gpxContent
         fileHelper = FileHelper()
 
+        val listener = RealmObjectChangeListener { _: GpxContent?, _: ObjectChangeSet? ->
+           mapController?.redraw()
+        }
+
+        gpxContent.addChangeListener(listener)
         val distance = gpxContent.trackList.first()?.segments?.first()?.distance ?: 0f
 
         detailsView = GpxDetailsView(
@@ -157,6 +166,7 @@ class GpxDetailsFragment : Fragment() {
     override fun onDestroy() {
         super.onDestroy()
         compositeDisposable.dispose()
+        content?.removeAllChangeListeners()
     }
 
     override fun onDestroyView() {

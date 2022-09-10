@@ -9,6 +9,7 @@ import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import com.google.android.gms.location.LocationRequest
 import com.google.android.gms.location.LocationServices
+import com.google.android.gms.location.Priority
 import com.iboism.gpxrecorder.Keys
 import com.iboism.gpxrecorder.R
 import com.iboism.gpxrecorder.databinding.ActivityCreateWaypointDialogBinding
@@ -32,7 +33,7 @@ class CreateWaypointDialogActivity : AppCompatActivity() {
         LocationRequest.create()
                 .setInterval(1) // 1 second
                 .setMaxWaitTime(5000) // 5 seconds
-                .setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY)
+                .setPriority(Priority.PRIORITY_HIGH_ACCURACY)
                 .setNumUpdates(1)
     }
 
