@@ -31,6 +31,7 @@ class GpxDetailsView(
     var mapTypeToggleObservable: PublishSubject<Unit> = PublishSubject.create()
     var deleteRouteObservable: PublishSubject<Unit> = PublishSubject.create()
     var resumeRecordingObservable: PublishSubject<Unit> = PublishSubject.create()
+    var addWaypointObservable: PublishSubject<Unit> = PublishSubject.create()
 
     init {
         binding.titleEt.isEnabled = false
@@ -41,6 +42,7 @@ class GpxDetailsView(
 
         binding.resumeBtn.setOnClickListener { resumePressed() }
         binding.moreBtn.setOnClickListener { morePressed() }
+        binding.addWptBtn.setOnClickListener { addWaypointObservable.onNext(Unit) }
 
         moreMenu.setOnMenuItemClickListener { menuItem ->
             when (menuItem) {

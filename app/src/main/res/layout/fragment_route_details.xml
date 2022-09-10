@@ -63,6 +63,19 @@
         app:layout_constraintBottom_toTopOf="@+id/waypoint_tv"
         app:layout_constraintStart_toStartOf="parent" />
 
+    <Button
+        android:id="@+id/add_wpt_btn"
+        style="@style/Widget.Material3.Button.TextButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/add_waypoint"
+        android:textAllCaps="false"
+        android:textColor="@color/button_text_on_surface"
+        android:textSize="14sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/map_view" />
+
     <TextView
         android:id="@+id/waypoint_tv"
         android:layout_width="wrap_content"
@@ -84,7 +97,7 @@
         android:textColor="@color/md_onSurface"
         android:textSize="14sp"
         app:layout_constraintBottom_toTopOf="@+id/waypoint_tv"
-        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/add_wpt_btn"
         app:layout_constraintStart_toEndOf="@+id/date_tv"
         app:layout_constraintTop_toTopOf="@+id/date_tv" />
 

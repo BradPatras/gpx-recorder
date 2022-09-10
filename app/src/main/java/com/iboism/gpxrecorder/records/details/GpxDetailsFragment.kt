@@ -1,5 +1,6 @@
 package com.iboism.gpxrecorder.records.details
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -13,6 +14,7 @@ import com.iboism.gpxrecorder.model.GpxContent
 import com.iboism.gpxrecorder.recording.configurator.GPX_ID_KEY
 import com.iboism.gpxrecorder.recording.configurator.READ_ONLY_TITLE_KEY
 import com.iboism.gpxrecorder.recording.configurator.RecordingConfiguratorModal
+import com.iboism.gpxrecorder.recording.waypoint.CreateWaypointDialogActivity
 import com.iboism.gpxrecorder.util.DateTimeFormatHelper
 import com.iboism.gpxrecorder.util.FileHelper
 import com.iboism.gpxrecorder.util.Holder
@@ -51,6 +53,10 @@ class GpxDetailsFragment : Fragment() {
         resumeRecording(binding.resumeBtn)
     }
 
+    private val addWaypointTouchConsumer = Consumer<Unit> {
+        addWaypointButtonClicked()
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         gpxId = Holder(requireArguments().get(Keys.GpxId) as Long)
@@ -87,7 +93,8 @@ class GpxDetailsFragment : Fragment() {
             detailsView.exportTouchObservable.subscribe(exportTouchConsumer),
             detailsView.mapTypeToggleObservable.subscribe(mapLayerTouchConsumer),
             detailsView.deleteRouteObservable.subscribe(deleteRouteTouchConsumer),
-            detailsView.resumeRecordingObservable.subscribe(resumeRecordingTouchConsumer)
+            detailsView.resumeRecordingObservable.subscribe(resumeRecordingTouchConsumer),
+            detailsView.addWaypointObservable.subscribe(addWaypointTouchConsumer)
         )
 
         binding.mapView.let {
@@ -106,6 +113,10 @@ class GpxDetailsFragment : Fragment() {
         realm.close()
 
         parentFragmentManager.popBackStack()
+    }
+
+    private fun addWaypointButtonClicked() {
+        context?.startActivity(Intent(context, CreateWaypointDialogActivity::class.java).putExtra(Keys.GpxId, gpxId.value))
     }
 
     private fun exportPressed() {
