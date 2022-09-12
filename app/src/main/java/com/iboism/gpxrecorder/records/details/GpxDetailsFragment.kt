@@ -53,7 +53,7 @@ class GpxDetailsFragment : Fragment() {
     }
 
     private val resumeRecordingTouchConsumer = Consumer<Unit> {
-        resumeRecording(binding.resumeBtn)
+        resumeRecording()
     }
 
     private val addWaypointTouchConsumer = Consumer<Unit> {
@@ -132,7 +132,7 @@ class GpxDetailsFragment : Fragment() {
         ExportFragment.newInstance(gpxId.value).show(parentFragmentManager, "export")
     }
 
-    private fun resumeRecording(view: View) {
+    private fun resumeRecording() {
         PermissionHelper.getInstance(this.requireActivity()).checkLocationPermissions(onAllowed = {
            showConfiguratorModal()
         })
