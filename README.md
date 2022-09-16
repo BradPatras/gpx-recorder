@@ -40,8 +40,6 @@ A Route is converted to the `gpx` or `geojson` file format on-demand and the app
 - Fixed a crash related to realm library update
 - Add waypoint to stopped route feature
 <br><br>
-
-<details>
 ### - 2.5 | Sep 4, 2022
 - Resume route feature
 - GeoJSON export format support
@@ -53,7 +51,10 @@ A Route is converted to the `gpx` or `geojson` file format on-demand and the app
 - Added licenses info
 - Migrated from Kotlin synthetics to view binding
 <br><br>
-<summary>Previous releases</summary>
+
+<details>
+<summary>Older releases</summary>
+  
 ### - 2.3 | Aug 13, 2021
 - Fixed time zone issue - timestamps are always in UTC now
 - Reduced waypoint location max wait time to 5 seconds
