@@ -44,7 +44,7 @@ class RecordingConfiguratorView(
         }
 
         if (isResumingRoute) {
-            screenTitle.text = root.context.getText(R.string.resume_recording)
+            screenTitle.text = "Resume Recording"
         } else {
             screenTitle.text = root.context.getText(R.string.new_recording)
         }
