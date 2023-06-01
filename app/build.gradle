@@ -9,12 +9,12 @@ apply plugin: 'kotlin-kapt'
 apply plugin: 'realm-android'
 
 android {
-    compileSdkVersion 32
+    compileSdkVersion 33
 
     defaultConfig {
         applicationId "com.iboism.gpxrecorder"
         minSdkVersion 28
-        targetSdkVersion 32
+        targetSdkVersion 33
         versionCode 38
         versionName "2.6"
     }
@@ -46,27 +46,20 @@ android {
     }
 }
 
-configurations {
-    all {
-        // added because of a duplicate dependency build error, try removing next time material library updates
-        exclude group: 'androidx.lifecycle', module: 'lifecycle-viewmodel-ktx'
-    }
-}
-
 dependencies {
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
-    implementation 'androidx.appcompat:appcompat:1.5.0'
+    implementation 'androidx.appcompat:appcompat:1.6.1'
     implementation 'androidx.constraintlayout:constraintlayout:2.1.4'
     implementation 'androidx.legacy:legacy-support-v4:1.0.0'
     implementation 'androidx.preference:preference-ktx:1.2.0'
-    implementation 'com.google.android.gms:play-services-location:20.0.0'
+    implementation 'com.google.android.gms:play-services-location:21.0.1'
     implementation 'com.google.android.gms:play-services-maps:18.1.0'
-    implementation 'com.google.android.gms:play-services-oss-licenses:17.0.0'
-    implementation 'com.google.android.material:material:1.7.0-beta01'
-    implementation 'com.karumi:dexter:6.2.1'
+    implementation 'com.google.android.gms:play-services-oss-licenses:17.0.1'
+    implementation 'com.google.android.material:material:1.9.0'
+    implementation 'com.karumi:dexter:6.2.3'
     implementation 'io.reactivex.rxjava2:rxandroid:2.1.1'
-    implementation 'io.reactivex.rxjava2:rxjava:2.2.6'
-    implementation 'org.greenrobot:eventbus:3.1.1'
+    implementation 'io.reactivex.rxjava2:rxjava:2.2.21'
+    implementation 'org.greenrobot:eventbus:3.3.1'
     implementation fileTree(dir: 'libs', include: ['*.jar'])
-    implementation group: 'commons-io', name: 'commons-io', version: '2.6'
+    implementation group: 'commons-io', name: 'commons-io', version: '2.12.0'
 }
