@@ -4,6 +4,7 @@ import android.content.Context
 import android.content.DialogInterface
 import android.os.Build
 import androidx.appcompat.app.AlertDialog
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.iboism.gpxrecorder.R
 
 /**
@@ -21,7 +22,7 @@ class Alerts(val context: Context) {
         } else {
             context.getString(R.string.denied_alert_message)
         }
-        return AlertDialog.Builder(context)
+        return MaterialAlertDialogBuilder(context)
                 .setTitle(context.getString(R.string.denied_alert_title))
                 .setMessage(message)
                 .setPositiveButton(context.getString(R.string.denied_alert_button)) { _, _ -> action.invoke() }
@@ -30,7 +31,7 @@ class Alerts(val context: Context) {
     }
 
     fun genericError(messageResId: Int, onDismiss: (DialogInterface) -> Unit = {}): AlertDialog {
-        return AlertDialog.Builder(context)
+        return MaterialAlertDialogBuilder(context)
                 .setTitle(R.string.error)
                 .setMessage(messageResId)
                 .setCancelable(true)
@@ -39,7 +40,7 @@ class Alerts(val context: Context) {
     }
 
     fun backgroundLocationJustificationAlert(onDismiss: (DialogInterface) -> Unit): AlertDialog {
-        return AlertDialog.Builder(context)
+        return MaterialAlertDialogBuilder(context)
                 .setTitle(context.getString(R.string.background_location_justification_title))
                 .setMessage(context.getString(R.string.background_location_justification_desc))
                 .setNeutralButton(R.string.okay) {_, _ -> }

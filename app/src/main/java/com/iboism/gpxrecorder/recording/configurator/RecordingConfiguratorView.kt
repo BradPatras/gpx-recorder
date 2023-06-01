@@ -19,11 +19,13 @@ class RecordingConfiguratorView(
     initialIntervalMillis: Long,
     val titleEditText: EditText = root.findViewById(R.id.config_title_editText),
     val doneButton: TextView = root.findViewById(R.id.start_button),
+    val screenTitle: TextView = root.findViewById(R.id.title),
     private val hoursPicker: NumberPicker = root.findViewById(R.id.interval_hours_picker),
     private val minutesPicker: NumberPicker = root.findViewById(R.id.interval_minutes_picker),
     private val secondsPicker: NumberPicker = root.findViewById(R.id.interval_seconds_picker),
-    val title: String? = null,
-    val isTitleEditable: Boolean = true
+    val routeTitle: String? = null,
+    val isTitleEditable: Boolean = true,
+    val isResumingRoute: Boolean = false
 ) {
 
     init {
@@ -37,8 +39,14 @@ class RecordingConfiguratorView(
         secondsPicker.maxValue = 59
         secondsPicker.wrapSelectorWheel = true
 
-        title?.let {
+        routeTitle?.let {
             titleEditText.setText(it)
+        }
+
+        if (isResumingRoute) {
+            screenTitle.text = root.context.getText(R.string.resume_recording)
+        } else {
+            screenTitle.text = root.context.getText(R.string.new_recording)
         }
 
         titleEditText.isEnabled = isTitleEditable

@@ -2,8 +2,7 @@
 
     <!-- Base application theme. -->
     <style name="AppTheme" parent="Theme.MaterialComponents.DayNight">
-        <item name="colorPrimary">#00687B</item>
-        <item name="colorPrimaryDark">#00687B</item>
+        <item name="colorPrimary">@color/md_primary</item>
         <item name="colorAccent">@color/md_secondary</item>
         <item name="windowActionBar">false</item>
         <item name="android:windowContentOverlay">@null</item>
@@ -11,8 +10,7 @@
 
     <style name="Theme.MaterialComponents.NoActionBarDialog" parent="@style/Theme.MaterialComponents.DayNight.Dialog.Alert">
         <item name="colorPrimary">@color/md_primary</item>
-        <item name="colorPrimaryDark">@color/md_secondary</item>
-        <item name="colorAccent">@color/md_tertiary</item>
+        <item name="colorAccent">@color/md_secondary</item>
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
         <item name="android:windowContentOverlay">@null</item>

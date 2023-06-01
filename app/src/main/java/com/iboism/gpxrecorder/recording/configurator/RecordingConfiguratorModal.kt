@@ -32,7 +32,7 @@ class RecordingConfiguratorModal : Fragment() {
             val readOnlyTitle = arguments?.get(READ_ONLY_TITLE_KEY) as? String
             val gpxId = arguments?.get(GPX_ID_KEY) as? Long
 
-            configuratorView = RecordingConfiguratorView(this, initialInterval, title = readOnlyTitle, isTitleEditable = readOnlyTitle == null)
+            configuratorView = RecordingConfiguratorView(this, initialInterval, routeTitle = readOnlyTitle, isTitleEditable = readOnlyTitle == null)
             configuratorView.restoreInstanceState(savedInstanceState)
             configuratorView.doneButton.setOnClickListener { clickedView ->
                 PreferenceManager.getDefaultSharedPreferences(context).edit()
