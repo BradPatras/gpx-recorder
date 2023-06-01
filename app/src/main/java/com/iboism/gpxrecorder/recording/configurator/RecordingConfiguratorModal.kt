@@ -29,10 +29,16 @@ class RecordingConfiguratorModal : Fragment() {
         return inflater.inflate(R.layout.config_dialog, container, false)?.apply {
             val prefs = PreferenceManager.getDefaultSharedPreferences(context)
             val initialInterval = prefs.getLong(RecordingConfiguration.intervalKey, RecordingConfiguration.REQUEST_INTERVAL)
-            val readOnlyTitle = arguments?.get(READ_ONLY_TITLE_KEY) as? String
-            val gpxId = arguments?.get(GPX_ID_KEY) as? Long
+            val readOnlyTitle = arguments?.getString(READ_ONLY_TITLE_KEY)
+            val gpxId = arguments?.getLong(GPX_ID_KEY)
 
-            configuratorView = RecordingConfiguratorView(this, initialInterval, routeTitle = readOnlyTitle, isTitleEditable = readOnlyTitle == null)
+            configuratorView = RecordingConfiguratorView(
+                this,
+                initialInterval,
+                routeTitle = readOnlyTitle,
+                isTitleEditable = readOnlyTitle == null,
+                isResumingRoute = gpxId != null
+            )
             configuratorView.restoreInstanceState(savedInstanceState)
             configuratorView.doneButton.setOnClickListener { clickedView ->
                 PreferenceManager.getDefaultSharedPreferences(context).edit()
@@ -48,8 +54,8 @@ class RecordingConfiguratorModal : Fragment() {
                 this@RecordingConfiguratorModal.parentFragmentManager.popBackStack()
             }
 
-            val originX = arguments?.get(REVEAL_ORIGIN_X_KEY) as? Int ?: return@apply
-            val originY = arguments?.get(REVEAL_ORIGIN_Y_KEY) as? Int ?: return@apply
+            val originX = arguments?.getInt(REVEAL_ORIGIN_X_KEY) ?: return@apply
+            val originY = arguments?.getInt(REVEAL_ORIGIN_Y_KEY) ?: return@apply
 
             this.circularRevealOnNextLayout(originX, originY)
         }
