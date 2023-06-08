@@ -43,7 +43,7 @@ class Alerts(val context: Context) {
         return MaterialAlertDialogBuilder(context)
                 .setTitle(context.getString(R.string.background_location_justification_title))
                 .setMessage(context.getString(R.string.background_location_justification_desc))
-                .setNeutralButton(R.string.okay) {_, _ -> }
+                .setPositiveButton(R.string.okay) {_, _ -> }
                 .setOnDismissListener(onDismiss)
                 .create()
     }

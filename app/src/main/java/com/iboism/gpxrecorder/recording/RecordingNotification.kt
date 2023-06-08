@@ -4,7 +4,6 @@ import android.app.Notification
 import android.app.PendingIntent
 import android.content.Context
 import android.content.Intent
-import android.os.Build
 import androidx.core.app.NotificationCompat
 import com.iboism.gpxrecorder.Keys
 import com.iboism.gpxrecorder.MainActivity
@@ -48,12 +47,14 @@ class RecordingNotification(val context: Context, val id: Long) {
                 .addAction(R.drawable.ic_add_location, context.getString(R.string.add_waypoint), setWaypointPendingIntent)
                 .addAction(R.drawable.ic_cancel, context.getString(R.string.stop_recording), stopRecordingPendingIntent)
 
-        when {
-            isPaused -> builder.addAction(R.drawable.ic_play, context.getString(R.string.resume_recording), resumeRecordingPendingIntent)
-                    .setStyle(NotificationCompat.BigTextStyle().bigText(context.getString(R.string.notification_recording_paused)))
-            !isPaused -> builder.addAction(R.drawable.ic_pause, context.getString(R.string.pause_recording), pauseRecordingPendingIntent)
-                    .setStyle(NotificationCompat.BigTextStyle().bigText(context.getString(R.string.notification_recording_in_progress)))
+        if (isPaused) {
+            builder.addAction(R.drawable.ic_play, context.getString(R.string.resume_recording), resumeRecordingPendingIntent)
+                .setStyle(NotificationCompat.BigTextStyle().bigText(context.getString(R.string.notification_recording_paused)))
+        } else {
+            builder.addAction(R.drawable.ic_pause, context.getString(R.string.pause_recording), pauseRecordingPendingIntent)
+                .setStyle(NotificationCompat.BigTextStyle().bigText(context.getString(R.string.notification_recording_in_progress)))
         }
+
         return builder.build()
     }
 

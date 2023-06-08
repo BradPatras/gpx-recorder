@@ -2,6 +2,7 @@ package com.iboism.gpxrecorder.recording
 
 import android.annotation.SuppressLint
 import android.app.NotificationManager
+import android.app.PendingIntent
 import android.app.Service
 import android.content.Context
 import android.content.Intent
@@ -9,6 +10,7 @@ import android.location.Location
 import android.os.Binder
 import android.os.Bundle
 import android.os.IBinder
+import android.util.Log
 import com.google.android.gms.location.LocationCallback
 import com.google.android.gms.location.LocationResult
 import com.google.android.gms.location.LocationServices
@@ -19,11 +21,13 @@ import com.iboism.gpxrecorder.model.RecordingConfiguration
 import com.iboism.gpxrecorder.model.TrackPoint
 import io.realm.Realm
 import org.greenrobot.eventbus.EventBus
+import java.lang.Exception
 
 /**
  * Created by Brad on 11/19/2017.
  */
 class LocationRecorderService : Service() {
+    private val NOTIFICATION_ID: Int = 180153
     var gpxId: Long? = null
     var isPaused: Boolean = false
 
@@ -50,7 +54,7 @@ class LocationRecorderService : Service() {
         super.onDestroy()
         fusedLocation.removeLocationUpdates(locationCallback)
         Realm.getDefaultConfiguration()?.let{ Realm.compactRealm(it) }
-        stopForeground(true)
+        stopForeground(STOP_FOREGROUND_REMOVE)
     }
 
     override fun onBind(intent: Intent?): IBinder {
@@ -67,7 +71,7 @@ class LocationRecorderService : Service() {
         return super.onStartCommand(intent, flags, startId)
     }
 
-    fun stopRecording() {
+    private fun stopRecording() {
         EventBus.getDefault().apply {
             removeStickyEvent(Events.RecordingStartedEvent::class.java)
             post(Events.RecordingStoppedEvent(gpxId))
@@ -80,7 +84,7 @@ class LocationRecorderService : Service() {
         val gpxId = gpxId ?: return
         isPaused = true
         EventBus.getDefault().post(Events.RecordingPausedEvent(gpxId))
-        notificationManager.notify(gpxId.toInt(), notificationHelper.setPaused(true).notification())
+        notificationManager.notify(NOTIFICATION_ID, notificationHelper.setPaused(true).notification())
         fusedLocation.removeLocationUpdates(locationCallback)
     }
 
@@ -90,7 +94,7 @@ class LocationRecorderService : Service() {
         val gpxId = gpxId ?: return
         isPaused = false
         EventBus.getDefault().post(Events.RecordingResumedEvent(gpxId))
-        notificationManager.notify(gpxId.toInt(), notificationHelper.setPaused(false).notification())
+        notificationManager.notify(NOTIFICATION_ID, notificationHelper.setPaused(false).notification())
         fusedLocation.requestLocationUpdates(config.locationRequest(),
                 locationCallback,
                 mainLooper)
@@ -98,7 +102,7 @@ class LocationRecorderService : Service() {
 
     @SuppressLint("MissingPermission")
     private fun startRecording(intent: Intent?) {
-        val gpxId = intent?.extras?.get(Keys.GpxId) as? Long ?: return
+        val gpxId = intent?.extras?.getLong(Keys.GpxId) ?: return
         val notificationHelper = RecordingNotification(applicationContext, gpxId)
         val notification = notificationHelper.notification()
         isPaused = false
@@ -106,7 +110,8 @@ class LocationRecorderService : Service() {
         EventBus.getDefault().postSticky(Events.RecordingStartedEvent(gpxId))
         this.gpxId = gpxId
         this.notificationHelper = notificationHelper
-        startForeground(gpxId.toInt(), notification)
+
+        startForeground(NOTIFICATION_ID, notification)
 
         config = intent.extras?.getBundle(RecordingConfiguration.configKey)?.let {
             return@let RecordingConfiguration.fromBundle(it)
@@ -166,7 +171,7 @@ class LocationRecorderService : Service() {
             intent.putExtra(Keys.StartService, true)
             intent.putExtra(Keys.GpxId, gpxId)
             intent.putExtra(RecordingConfiguration.configKey, configBundle)
-            context.startService(intent)
+            context.startForegroundService(intent)
         }
     }
 }
