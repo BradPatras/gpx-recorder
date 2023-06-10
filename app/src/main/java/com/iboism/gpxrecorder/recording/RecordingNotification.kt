@@ -5,6 +5,8 @@ import android.app.PendingIntent
 import android.content.Context
 import android.content.Intent
 import androidx.core.app.NotificationCompat
+import androidx.core.app.NotificationCompat.FOREGROUND_SERVICE_IMMEDIATE
+import androidx.core.app.NotificationCompat.PRIORITY_HIGH
 import com.iboism.gpxrecorder.Keys
 import com.iboism.gpxrecorder.MainActivity
 import com.iboism.gpxrecorder.R
@@ -37,15 +39,17 @@ class RecordingNotification(val context: Context, val id: Long) {
     private val stopRecordingPendingIntent = PendingIntent.getService(context, 4, stopRecordingIntent, intentFlags)
 
     fun notification(): Notification {
-
         val builder = NotificationCompat.Builder(context, CHANNEL_ID)
-                .setContentTitle(context.getString(R.string.notification_title))
-                .setContentIntent(openAppPendingIntent)
-                .setContentText(context.getString(R.string.notification_recording_in_progress))
-                .setSmallIcon(R.drawable.ic_gpx_notification)
-                .setStyle(NotificationCompat.BigTextStyle().bigText(context.getString(R.string.notification_recording_in_progress)))
-                .addAction(R.drawable.ic_add_location, context.getString(R.string.add_waypoint), setWaypointPendingIntent)
-                .addAction(R.drawable.ic_cancel, context.getString(R.string.stop_recording), stopRecordingPendingIntent)
+            .setContentTitle(context.getString(R.string.notification_title))
+            .setContentIntent(openAppPendingIntent)
+            .setContentText(context.getString(R.string.notification_recording_in_progress))
+            .setOngoing(true)
+            .setPriority(PRIORITY_HIGH)
+            .setForegroundServiceBehavior(FOREGROUND_SERVICE_IMMEDIATE)
+            .setSmallIcon(R.drawable.ic_gpx_notification)
+            .setStyle(NotificationCompat.BigTextStyle().bigText(context.getString(R.string.notification_recording_in_progress)))
+            .addAction(R.drawable.ic_add_location, context.getString(R.string.add_waypoint), setWaypointPendingIntent)
+            .addAction(R.drawable.ic_cancel, context.getString(R.string.stop_recording), stopRecordingPendingIntent)
 
         if (isPaused) {
             builder.addAction(R.drawable.ic_play, context.getString(R.string.resume_recording), resumeRecordingPendingIntent)

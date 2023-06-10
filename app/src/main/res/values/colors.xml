@@ -32,6 +32,7 @@
     <color name="md_background">#FBFCFD</color>
     <color name="md_onBackground">#191C1D</color>
     <color name="md_onBackgroundSecondary">#30383B</color>
+    <color name="md_onBackgroundTertiary">#636D71</color>
     <color name="md_surface">#FBFCFD</color>
     <color name="md_onSurface">#191C1D</color>
     <color name="md_surfaceVariant">#DCE4E7</color>

@@ -31,6 +31,7 @@
     <color name="md_background">#191C1D</color>
     <color name="md_onBackground">#E1E3E4</color>
     <color name="md_onBackgroundSecondary">#b0b8bB</color>
+    <color name="md_onBackgroundTertiary">#8E999E</color>
     <color name="md_surface">#292C2D</color>
     <color name="md_onSurface">#E1E3E4</color>
     <color name="md_surfaceVariant">#40484B</color>

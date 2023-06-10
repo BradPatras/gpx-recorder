@@ -25,14 +25,21 @@
         tools:ignore="GoogleAppIndexingWarning">
         <uses-library
             android:name="org.apache.http.legacy"
-            android:required="false" />
+            android:required="false"
+            />
         <meta-data
             android:name="com.google.android.gms.version"
-            android:value="@integer/google_play_services_version"/>
-        <meta-data android:name="com.google.android.geo.API_KEY"
-                   android:value="@string/google_maps_key"/>
+            android:value="@integer/google_play_services_version"
+            />
+        <meta-data
+            android:name="com.google.android.geo.API_KEY"
+            android:value="@string/google_maps_key"
+            />
 
-        <service android:name=".recording.LocationRecorderService"/>
+        <service
+            android:name=".recording.LocationRecorderService"
+            android:foregroundServiceType="location"
+            />
 
         <receiver android:name=".recording.waypoint.CreateWaypointService"/>
 
@@ -45,8 +52,10 @@
                 <action android:name="android.intent.action.MAIN"/>
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
-            <meta-data android:name="android.app.shortcuts"
-                android:resource="@xml/shortcuts" />
+            <meta-data
+                android:name="android.app.shortcuts"
+                android:resource="@xml/shortcuts"
+                />
         </activity>
 
         <provider
@@ -56,7 +65,8 @@
             android:grantUriPermissions="true">
             <meta-data
                 android:name="android.support.FILE_PROVIDER_PATHS"
-                android:resource="@xml/filepaths"/>
+                android:resource="@xml/filepaths"
+                />
         </provider>
 
         <activity
@@ -68,11 +78,14 @@
             android:exported="true">
         </activity>
 
-        <activity android:name="com.google.android.gms.oss.licenses.OssLicensesMenuActivity"
-            android:theme="@style/Theme.AppCompat.DayNight.DarkActionBar"/>
+        <activity
+            android:name="com.google.android.gms.oss.licenses.OssLicensesMenuActivity"
+            android:theme="@style/Theme.AppCompat.DayNight.DarkActionBar"
+            />
 
-        <activity android:name="com.google.android.gms.oss.licenses.OssLicensesActivity"
-            android:theme="@style/Theme.AppCompat.DayNight.DarkActionBar"/>
+        <activity
+            android:name="com.google.android.gms.oss.licenses.OssLicensesActivity"
+            android:theme="@style/Theme.AppCompat.DayNight.DarkActionBar"
+            />
     </application>
-
 </manifest>

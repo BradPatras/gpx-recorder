@@ -120,7 +120,7 @@ class MainActivity : AppCompatActivity(), RecordingConfiguratorModal.Listener {
                 it.copyToRealm(newGpx)
             }
 
-            LocationRecorderService.requestStartRecording(this, id, configuration.toBundle())
+            LocationRecorderService.requestStartRecording(applicationContext, id, configuration.toBundle())
         }
         realm.close()
     }
