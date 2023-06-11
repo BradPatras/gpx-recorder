@@ -37,6 +37,10 @@ The routes are all stored locally with a [Realm](https://www.realm.io) database.
 A Route is converted to the `gpx` or `geojson` file format on-demand and the app **only** knows how to do `Route` -> `.gpx`/`geojson` conversions.  Converting files back into `Route` objects is not currently a feature.
 
 ## Releases
+### - 2.7 | Jun 10, 2023
+- Updated foreground service code to adhere to new Android requirements
+- Fixed some styling issues
+<br><br>
 ### - 2.6 | Sep 12, 2022
 - Fixed a crash related to realm library update
 - Add waypoint to stopped route feature
