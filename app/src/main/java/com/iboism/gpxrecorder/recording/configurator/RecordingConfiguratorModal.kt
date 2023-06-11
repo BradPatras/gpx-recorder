@@ -30,13 +30,13 @@ class RecordingConfiguratorModal : Fragment() {
             val prefs = PreferenceManager.getDefaultSharedPreferences(context)
             val initialInterval = prefs.getLong(RecordingConfiguration.intervalKey, RecordingConfiguration.REQUEST_INTERVAL)
             val readOnlyTitle = arguments?.getString(READ_ONLY_TITLE_KEY)
-            val gpxId = arguments?.getLong(GPX_ID_KEY)
+            val gpxId = if (arguments?.containsKey(GPX_ID_KEY) == true) arguments?.getLong(GPX_ID_KEY) else null
 
             configuratorView = RecordingConfiguratorView(
                 this,
                 initialInterval,
                 routeTitle = readOnlyTitle,
-                isTitleEditable = readOnlyTitle == null,
+                isTitleEditable = readOnlyTitle.isNullOrEmpty(),
                 isResumingRoute = gpxId != null
             )
             configuratorView.restoreInstanceState(savedInstanceState)
