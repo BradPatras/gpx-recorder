@@ -7,6 +7,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.lifecycleScope
 import com.iboism.gpxrecorder.Events
 import com.iboism.gpxrecorder.Keys
 import com.iboism.gpxrecorder.R
@@ -155,7 +156,9 @@ class RecorderFragment : Fragment(), RecorderServiceConnection.OnServiceConnecte
     }
 
     override fun onServiceDisconnected() {
-        dismiss()
+        lifecycleScope.launchWhenResumed {
+            dismiss()
+        }
     }
 
     @Subscribe(sticky = true)

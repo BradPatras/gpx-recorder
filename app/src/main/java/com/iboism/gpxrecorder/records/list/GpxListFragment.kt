@@ -6,6 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.*
 import com.google.android.material.divider.MaterialDividerItemDecoration
 import com.iboism.gpxrecorder.Events
@@ -76,7 +77,9 @@ class GpxListFragment : Fragment(), RecorderServiceConnection.OnServiceConnected
 
     override fun onServiceDisconnected() {
         currentlyRecordingRouteId = null
-        updateCurrentRecordingView(null)
+        lifecycleScope.launchWhenResumed {
+            updateCurrentRecordingView(null)
+        }
     }
 
     @Subscribe(sticky = true)
@@ -122,10 +125,10 @@ class GpxListFragment : Fragment(), RecorderServiceConnection.OnServiceConnected
         if (isTransitioning) return
         isTransitioning = true
         parentFragmentManager.beginTransaction()
-                .setCustomAnimations(R.anim.slide_in_right, android.R.anim.fade_out, R.anim.none, android.R.anim.slide_out_right)
-                .replace(R.id.content_container, GpxDetailsFragment.newInstance(gpxId))
-                .addToBackStack("view")
-                .commit()
+            .setCustomAnimations(R.anim.slide_in_right, R.anim.none, R.anim.none, R.anim.slide_out_right)
+            .replace(R.id.content_container, GpxDetailsFragment.newInstance(gpxId))
+            .addToBackStack("view")
+            .commit()
     }
 
     private fun showRecordingFragment() {
@@ -133,10 +136,10 @@ class GpxListFragment : Fragment(), RecorderServiceConnection.OnServiceConnected
         if (isTransitioning) return
         isTransitioning = true
         parentFragmentManager.beginTransaction()
-                .setCustomAnimations(R.anim.slide_in_right, android.R.anim.fade_out, R.anim.none, android.R.anim.slide_out_right)
-                .replace(R.id.content_container, RecorderFragment.newInstance(gpxId))
-                .addToBackStack("recorder")
-                .commit()
+            .setCustomAnimations(R.anim.slide_in_right, R.anim.none, R.anim.none, R.anim.slide_out_right)
+            .replace(R.id.content_container, RecorderFragment.newInstance(gpxId))
+            .addToBackStack("recorder")
+            .commit()
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
