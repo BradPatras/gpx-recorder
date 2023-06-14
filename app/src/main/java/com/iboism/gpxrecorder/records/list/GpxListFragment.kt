@@ -7,7 +7,11 @@ import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
-import androidx.recyclerview.widget.*
+import androidx.recyclerview.widget.DefaultItemAnimator
+import androidx.recyclerview.widget.DividerItemDecoration
+import androidx.recyclerview.widget.ItemTouchHelper
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.divider.MaterialDividerItemDecoration
 import com.iboism.gpxrecorder.Events
 import com.iboism.gpxrecorder.R
@@ -33,7 +37,6 @@ class GpxListFragment : Fragment(), RecorderServiceConnection.OnServiceConnected
     private val placeholderViews = listOf(R.id.placeholder_routes_text, R.id.placeholder_routes_icon)
     private val gpxContentList = Realm.getDefaultInstance().where(GpxContent::class.java).findAll().sort("date", Sort.DESCENDING)
     private var adapter: GpxRecyclerViewAdapter? = null
-    private var isTransitioning = false
     private var currentlyRecordingRouteId: Long? = null
     private val compositeDisposable = CompositeDisposable()
     private var serviceConnection: RecorderServiceConnection = RecorderServiceConnection(this)
@@ -111,8 +114,6 @@ class GpxListFragment : Fragment(), RecorderServiceConnection.OnServiceConnected
     }
 
     private fun onFabClicked(view: View) {
-        if (isTransitioning) return
-
         PermissionHelper.getInstance(this.requireActivity()).checkLocationPermissions(onAllowed = {
             RecordingConfiguratorModal.circularReveal(
                     originXY = Pair(view.x.toInt() + (view.width / 2), view.y.toInt() + (view.height / 2)),
@@ -122,8 +123,6 @@ class GpxListFragment : Fragment(), RecorderServiceConnection.OnServiceConnected
     }
 
     private fun showContentViewerFragment(gpxId: Long) {
-        if (isTransitioning) return
-        isTransitioning = true
         parentFragmentManager.beginTransaction()
             .setCustomAnimations(R.anim.slide_in_right, R.anim.none, R.anim.none, R.anim.slide_out_right)
             .replace(R.id.content_container, GpxDetailsFragment.newInstance(gpxId))
@@ -133,8 +132,6 @@ class GpxListFragment : Fragment(), RecorderServiceConnection.OnServiceConnected
 
     private fun showRecordingFragment() {
         val gpxId = currentlyRecordingRouteId ?: return
-        if (isTransitioning) return
-        isTransitioning = true
         parentFragmentManager.beginTransaction()
             .setCustomAnimations(R.anim.slide_in_right, R.anim.none, R.anim.none, R.anim.slide_out_right)
             .replace(R.id.content_container, RecorderFragment.newInstance(gpxId))
@@ -186,8 +183,6 @@ class GpxListFragment : Fragment(), RecorderServiceConnection.OnServiceConnected
 
         setPlaceholdersHidden(gpxContentList.isNotEmpty())
         gpxContentList.addChangeListener(gpxChangeListener)
-
-        isTransitioning = false
 
         binding.gpxListView.addOnScrollListener(object : RecyclerView.OnScrollListener() {
             override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {

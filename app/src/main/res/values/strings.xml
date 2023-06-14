@@ -29,54 +29,54 @@
 
     <string name="add_title_hint">Add title…</string>
     <string name="add_waypoint">Add Waypoint</string>
-    <string name="error">Error</string>
-    <string name="cannot_create_waypoint" translatable="false">Cannot create waypoint at this time</string>
-    <string name="failed_to_place_waypoint" translatable="false">Failed to place waypoint</string>
-    <string name="points" translatable="false">points</string>
-    <string name="date">Date</string>
-    <string name="delete_recordings">Delete Recordings</string>
-    <string name="developer_contact" translatable="false">Developer Contact</string>
-    <string name="twitter" translatable="false">Twitter</string>
-    <string name="github" translatable="false">Github</string>
+    <string name="background_location_justification_desc" translatable="false">This app collects location data to enable the route recorder function even when the app is closed or not in use. The app will attempt to show a notification whenever collecting data but it may not appear depending on the notification preferences on your device.\n\n Your location will ONLY be collected while you are recording a route.</string>
+    <string name="background_location_justification_title" translatable="false">Background Location Access</string>
+    <string name="background_permission_title" translatable="false">Allow all the time</string>
+    <string name="battery_drain_warning" translatable="false">Intervals shorter than 1 minute may cause battery drain</string>
     <string name="calculating_placeholder" translatable="false">calculating..</string>
-    <string name="notification_title" translatable="false">GPX Recorder</string>
+    <string name="cannot_create_waypoint" translatable="false">Cannot create waypoint at this time</string>
+    <string name="channel_description" translatable="false">Control current recording session</string>
+    <string name="channel_name" translatable="false">Recording</string>
+    <string name="clear_all_alert_button" translatable="false">Clear All</string>
+    <string name="clear_all_alert_message" translatable="false">This action will remove all recordings and cancel the current recording</string>
+    <string name="clear_all_alert_title" translatable="false">Warning</string>
+    <string name="date">Date</string>
+    <string name="delete" translatable="false">Delete</string>
+    <string name="delete_recording_alert_message" translatable="false">This action cannot be undone</string>
+    <string name="delete_recording_alert_title" translatable="false">Are you sure you want to delete this route?</string>
+    <string name="delete_recordings">Delete Recordings</string>
+    <string name="denied_alert_message_background" translatable="false">If \"%1$s\" location permission isn\'t granted, the app won\'t be able to record your route. \n\nThe app will only access your location when you are recording a route.</string>
+    <string name="developer_contact" translatable="false">Developer Contact</string>
+    <string name="distance_km">%.2f km</string>
+    <string name="edit_title_content_description" translatable="false">Edit title</string>
+    <string name="enter_title" translatable="false">Enter Title</string>
+    <string name="error">Error</string>
+    <string name="expand">Expand</string>
+    <string name="failed_to_place_waypoint" translatable="false">Failed to place waypoint</string>
+    <string name="github" translatable="false">Github</string>
+    <string name="gpx_recorder" translatable="false">GPX Recorder</string>
+    <string name="how_often_to_record_track_points" translatable="false">How often to record track points. (Approximately)</string>
+    <string name="init_error_message" translatable="false">Please check application file permissions and try again. \n\nNote: This app doesn\'t support rooted devices and must be installed from the Google Play Store.\n\nIf this problem persists, contact the developer.\n\nappdev.iboism@gmail.com</string>
+    <string name="init_error_title" translatable="false">Failed to Initialize Local Database</string>
+    <string name="interval_minutes" translatable="false">Interval</string>
+    <string name="legal">Legal</string>
+    <string name="new_recording">New Recording</string>
     <string name="notification_recording_in_progress">Location recording in progress</string>
     <string name="notification_recording_paused" translatable="false">Location recording paused</string>
-    <string name="stop_recording">Stop</string>
-    <string name="resume_recording">Resume</string>
-    <string name="pause_recording">Pause</string>
-    <string name="enter_title" translatable="false">Enter Title</string>
-    <string name="interval_minutes" translatable="false">Interval</string>
-    <string name="how_often_to_record_track_points" translatable="false">How often to record track points. (Approximately)</string>
-    <string name="start">Start</string>
-    <string name="new_recording">New Recording</string>
-    <string name="title">Title</string>
-    <string name="gpx_recorder" translatable="false">GPX Recorder</string>
-    <string name="distance_km">%.2f km</string>
-    <string name="channel_name" translatable="false">Recording</string>
-    <string name="channel_description" translatable="false">Control current recording session</string>
-    <string name="edit_title_content_description" translatable="false">Edit title</string>
-    <string name="init_error_title" translatable="false">Failed to Initialize Local Database</string>
-    <string name="init_error_message" translatable="false">Please check application file permissions and try again. \n\nNote: This app doesn\'t support rooted devices and must be installed from the Google Play Store.\n\nIf this problem persists, contact the developer.\n\nappdev.iboism@gmail.com</string>
-    <string name="shortcut_label">Start recording</string>
-    <string name="battery_drain_warning" translatable="false">Intervals shorter than 1 minute may cause battery drain</string>
-    <string name="privacy_policy">Privacy Policy</string>
-    <string name="legal">Legal</string>
-    <string name="clear_all_alert_title" translatable="false">Warning</string>
-    <string name="clear_all_alert_message" translatable="false">This action will remove all recordings and cancel the current recording</string>
-    <string name="clear_all_alert_button" translatable="false">Clear All</string>
-    <string name="delete_recording_alert_message" translatable="false">This action cannot be undone</string>
-    <string name="delete" translatable="false">Delete</string>
-    <string name="delete_recording_alert_title" translatable="false">Are you sure you want to delete this route?</string>
-    <string name="expand">Expand</string>
-    <string name="recording_in_progress">Recording in progress</string>
-    <string name="denied_alert_message_background" translatable="false">If \"%1$s\" location permission isn\'t granted, the app won\'t be able to record your route. \n\nThe app will only access your location when you are recording a route.</string>
-    <string name="background_permission_title" translatable="false">Allow all the time</string>
-    <string name="share">Share</string>
-    <string name="save_to_device">Save to device</string>
-    <string name="background_location_justification_title" translatable="false">Background Location Access</string>
-    <string name="background_location_justification_desc" translatable="false">This app collects location data to enable the route recorder function even when the app is closed or not in use. The app will attempt to show a notification whenever collecting data but it may not appear depending on the notification preferences on your device.\n\n Your location will ONLY be collected while you are recording a route.</string>
+    <string name="notification_title" translatable="false">GPX Recorder</string>
     <string name="okay">Okay</string>
     <string name="open_source_license_info" translatable="false">Open Source License Info</string>
+    <string name="pause_recording">Pause</string>
+    <string name="points" translatable="false">points</string>
+    <string name="privacy_policy">Privacy Policy</string>
+    <string name="recording_in_progress">Recording in progress</string>
+    <string name="resume_recording">Resume</string>
+    <string name="save_to_device">Save to device</string>
+    <string name="share">Share</string>
+    <string name="shortcut_label">Start recording</string>
+    <string name="start">Start</string>
+    <string name="stop_recording">Stop</string>
+    <string name="title">Title</string>
+    <string name="twitter" translatable="false">Twitter</string>
 
 </resources>
