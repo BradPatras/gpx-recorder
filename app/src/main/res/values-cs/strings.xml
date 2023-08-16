@@ -68,8 +68,14 @@
     <string name="start">Začít</string>
     <string name="stop_recording">Zastavit</string>
     <string name="title">Název</string>
-    <string name="email">E-mailem</string>
+    <string name="email">E-mail</string>
     <string name="hour_initial">h</string>
     <string name="minute_initial">m</string>
     <string name="second_initial">s</string>
+    <string name="export_file">Exportovat Soubor</string>
+    <string name="file_format">Formát souboru</string>
+    <string name="recorded_routes_will_show_up_here">Zde budou zobrazeny zaznamenané cesty</string>
+    <string name="start_recording_button">Tlačítko spuštění záznamu</string>
+    <string name="route_deleted">Cesta Odstraněna</string>
+    <string name="tap_to_undo">Klepnutím Vrátit Zpět</string>
 </resources>
