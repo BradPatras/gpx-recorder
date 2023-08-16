@@ -9,14 +9,14 @@ apply plugin: 'kotlin-kapt'
 apply plugin: 'realm-android'
 
 android {
-    compileSdkVersion 33
+    compileSdk 33
 
     defaultConfig {
         applicationId "com.iboism.gpxrecorder"
         minSdkVersion 28
         targetSdkVersion 33
-        versionCode 40
-        versionName "2.8"
+        versionCode 41
+        versionName "2.9"
     }
 
     buildFeatures {
