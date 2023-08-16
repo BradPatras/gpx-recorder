@@ -14,7 +14,7 @@
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         android:textAppearance="@style/TextAppearance.MaterialComponents.Headline5"
-        android:text="Export File"
+        android:text="@string/export_file"
         android:textColor="@color/md_onSurface"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"/>
@@ -24,7 +24,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textSize="16sp"
-        android:text="File format"
+        android:text="@string/file_format"
         android:textColor="@color/md_onSurface"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintTop_toTopOf="@id/format_selector_spinner"

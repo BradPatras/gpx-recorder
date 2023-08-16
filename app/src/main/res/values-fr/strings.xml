@@ -1,0 +1,151 @@
+<?xml version="1.0" encoding="UTF-8"?><resources>
+      
+  <plurals name="point_count">
+    <item quantity="one">%1$d point</item>
+    <item quantity="many">%1$d point</item>
+    <item quantity="other">%1$d point</item>
+  </plurals>
+      
+  <plurals name="waypoint_count">
+    <item quantity="one">%d étape</item>
+    <item quantity="many">%d étapes</item>
+    <item quantity="other">%d étapes</item>
+  </plurals>
+
+  <!-- Alert stuff -->
+      
+  <string name="action_settings">Paramètres</string>
+      
+  <string name="title_activity_recording_configuration">Nouvel enregistrement</string>
+      
+  <string name="denied_alert_title">Autorisations requises</string>
+      
+  <string name="denied_alert_message">Impossible d\'enregistrer des pistes GPX sans autorisations de localisation</string>
+      
+  <string name="denied_alert_button">Accorder des autorisations</string>
+      
+  <!-- Strings related to Settings -->
+      
+  <string name="file_share_failed">Une erreur s\'est produite lors de la tentative de partage du fichier.</string>
+      
+  <string name="file_save_failed">Une erreur s\'est produite lors de la tentative d\'enregistrement du fichier.</string>
+      
+  <string name="done">fait</string>
+      
+  <string name="add_note_hint">Ajouter une note…</string>
+      
+  <string name="add_title_hint">Ajouter un titre…</string>
+      
+  <string name="add_waypoint">Ajouter un waypoint</string>
+      
+  <string name="background_location_justification_desc">Cette application collecte des données de localisation pour activer la fonction d\'enregistrement d\'itinéraire même lorsque l\'application est fermée ou non utilisée. L\'application tentera d\'afficher une notification lors de la collecte de données, mais elle peut ne pas apparaître en fonction des préférences de notification sur votre appareil.\n\n Votre position sera UNIQUEMENT collectée pendant que vous enregistrez un itinéraire.</string>
+      
+  <string name="background_location_justification_title">Accès à l\'emplacement en arrière-plan</string>
+      
+  <string name="background_permission_title">Autoriser tout le temps</string>
+      
+  <string name="battery_drain_warning">Des intervalles inférieurs à 1 minute peuvent épuiser la batterie</string>
+      
+  <string name="calculating_placeholder">calculateur..</string>
+      
+  <string name="cannot_create_waypoint">Impossible de créer un waypoint pour le moment</string>
+      
+  <string name="channel_description">Contrôler la session d\'enregistrement en cours</string>
+      
+  <string name="channel_name">Enregistrement</string>
+      
+  <string name="clear_all_alert_button">Tout effacer</string>
+      
+  <string name="clear_all_alert_message">Cette action supprimera tous les enregistrements et annulera l\'enregistrement en cours</string>
+      
+  <string name="clear_all_alert_title">Avertissement</string>
+      
+  <string name="date">Date</string>
+      
+  <string name="delete">Supprimer</string>
+      
+  <string name="delete_recording_alert_message">Cette action ne peut pas être annulée</string>
+      
+  <string name="delete_recording_alert_title">Voulez-vous vraiment supprimer cet itinéraire ?</string>
+      
+  <string name="delete_recordings">Supprimer les enregistrements</string>
+      
+  <string name="denied_alert_message_background">Si \"%1$s\" l\'autorisation de localisation n\'est pas accordée, l\'application ne pourra pas enregistrer votre itinéraire.   L\'application n\'accède à votre position que lorsque vous enregistrez un itinéraire.</string>
+      
+  <string name="developer_contact">Coordonnées du développeur</string>
+      
+  <string name="distance_km">%.2f km</string>
+      
+  <string name="edit_title_content_description">Modifier le titre</string>
+      
+  <string name="enter_title">Entrez le titre</string>
+      
+  <string name="error">Erreur</string>
+      
+  <string name="expand">Développer</string>
+      
+  <string name="failed_to_place_waypoint">Impossible de placer le waypoint</string>
+
+  <string name="how_often_to_record_track_points">À quelle fréquence enregistrer les points de trace. (Environ)</string>
+      
+  <string name="init_error_message">Veuillez vérifier les autorisations du fichier d\'application et réessayer.   Remarque: Cette application ne prend pas en charge les appareils rootés et doit être installée à partir du Google Play Store.  Si ce problème persiste, contactez le développeur.  appdev.iboism\@gmail.com</string>
+      
+  <string name="init_error_title">Échec de l\'initialisation de la base de données locale</string>
+      
+  <string name="interval_minutes">Intervalle</string>
+      
+  <string name="legal">Légal</string>
+      
+  <string name="new_recording">Nouvel enregistrement</string>
+      
+  <string name="notification_recording_in_progress">Enregistrement de la position en cours</string>
+      
+  <string name="notification_recording_paused">Enregistrement de la position en pause</string>
+
+  <string name="okay">D\'accord</string>
+      
+  <string name="open_source_license_info">Informations sur la licence open source</string>
+      
+  <string name="pause_recording">Pause</string>
+      
+  <string name="points">points</string>
+      
+  <string name="privacy_policy">politique de confidentialité</string>
+      
+  <string name="recording_in_progress">Enregistrement en cours</string>
+      
+  <string name="resume_recording">CV</string>
+      
+  <string name="save_to_device">Enregistrer sur l\'appareil</string>
+      
+  <string name="share">Partager</string>
+      
+  <string name="shortcut_label">Commencer l\'enregistrement</string>
+      
+  <string name="start">Commencer</string>
+      
+  <string name="stop_recording">Arrêt</string>
+      
+  <string name="title">Titre</string>
+      
+  <string name="email">E-mail</string>
+      
+  <string name="hour_initial">h</string>
+      
+  <string name="minute_initial">m</string>
+      
+  <string name="second_initial">s</string>
+      
+  <string name="export_file">Exporter le fichier</string>
+      
+  <string name="file_format">Format de fichier</string>
+      
+  <string name="recorded_routes_will_show_up_here">Les itinéraires enregistrés s\'afficheront ici</string>
+      
+  <string name="start_recording_button">Bouton Démarrer l\'enregistrement</string>
+      
+  <string name="route_deleted">Itinéraire supprimé</string>
+      
+  <string name="tap_to_undo">Appuyez pour annuler</string>
+  
+</resources>

@@ -26,7 +26,7 @@
             app:layout_constraintBottom_toTopOf="@id/undo_message"
             android:textColor="@color/md_onBackground"
             android:textSize="18sp"
-            android:text="Route Deleted"/>
+            android:text="@string/route_deleted"/>
 
         <TextView
             android:id="@+id/undo_message"
@@ -37,7 +37,7 @@
             app:layout_constraintTop_toBottomOf="@+id/deleted_message"
             app:layout_constraintBottom_toBottomOf="parent"
             android:textSize="14sp"
-            android:text="Tap to Undo"/>
+            android:text="@string/tap_to_undo"/>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </FrameLayout>

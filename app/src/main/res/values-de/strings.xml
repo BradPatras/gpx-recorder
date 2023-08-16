@@ -1,37 +1,149 @@
-<?xml version="1.0" encoding="utf-8"?>
-<resources>
-    <string name="action_settings">Einstellungen</string>
-    <string name="title_activity_recording_configuration">Neue Aufzeichnung</string>
-    <string name="denied_alert_title">Berechtigungen Erforderlich</string>
-    <string name="denied_alert_message">Standortberechtigungen erforderlich</string>
-    <string name="denied_alert_button">Gewähren Sie Berechtigungen</string>
-    <string name="file_share_failed">Etwas ist schief gelaufen. Bitte versuche es erneut</string>
-    <string name="file_save_failed">Etwas ist schief gelaufen. Bitte versuche es erneut</string>
-    <string name="done">fertig</string>
-    <string name="add_note_hint">Füg ein Notiz hinzu</string>
-    <string name="add_title_hint">Füg ein Titel hinzu</string>
-    <string name="add_waypoint">Wegpunkt</string>
-    <string name="error">Fehler</string>
-    <string name="date">Datum</string>
-    <string name="delete_recordings">Alles Lösche Aufzeichnung</string>
-    <string name="stop_recording">Stoppen</string>
-    <string name="start">Beginnen</string>
-    <string name="title">Titel</string>
-    <string name="notification_recording_in_progress">Aufzeichnungstandort</string>
-    <string name="pause_recording">Pausieren</string>
-    <string name="privacy_policy">Datenschutz-Bestimmungen</string>
-    <string name="legal">Legal</string>
-    <string name="resume_recording">Fortsetzen</string>
-    <string name="new_recording">Neue Aufzeichnung</string>
-    <string name="distance_km">%.2f km</string>
-    <plurals name="waypoint_count">
-        <item quantity="one">%d Wegpunkt</item>
-        <item quantity="other">%d Wegpunkte</item>
-    </plurals>
-    <string name="shortcut_label">Starte die Aufnahme</string>
-    <string name="expand">Erweitern</string>
-    <string name="recording_in_progress">Derzeit aufnehmen</string>
-    <string name="save_to_device">Speichern</string>
-    <string name="share">Teilen</string>
-    <string name="okay">OK</string>
+<?xml version="1.0" encoding="UTF-8"?><resources>
+      
+  <plurals name="point_count">
+    <item quantity="one">%1$d Punkt</item>
+    <item quantity="other">%1$d Punkte</item>
+  </plurals>
+      
+  <plurals name="waypoint_count">
+    <item quantity="one">%d Wegpunkt</item>
+    <item quantity="other">%d Wegpunkte</item>
+  </plurals>
+
+  <!-- Alert stuff -->
+      
+  <string name="action_settings">Einstellungen</string>
+      
+  <string name="title_activity_recording_configuration">Neue Aufnahme</string>
+      
+  <string name="denied_alert_title">Berechtigungen erforderlich</string>
+      
+  <string name="denied_alert_message">GPX-Tracks können ohne Standortberechtigungen nicht aufgezeichnet werden</string>
+      
+  <string name="denied_alert_button">Berechtigungen erteilen</string>
+      
+  <!-- Strings related to Settings -->
+      
+  <string name="file_share_failed">Beim Versuch, die Datei zu teilen, ist ein Fehler aufgetreten.</string>
+      
+  <string name="file_save_failed">Beim Versuch, die Datei zu speichern, ist ein Fehler aufgetreten.</string>
+      
+  <string name="done">Erledigt</string>
+      
+  <string name="add_note_hint">Notiz hinzufügen…</string>
+      
+  <string name="add_title_hint">Titel hinzufügen…</string>
+      
+  <string name="add_waypoint">Wegpunkt hinzufügen</string>
+      
+  <string name="background_location_justification_desc">Diese App sammelt Standortdaten, um die Routenaufzeichnungsfunktion auch dann zu aktivieren, wenn die App geschlossen ist oder nicht verwendet wird. Die App versucht, bei jeder Datenerfassung eine Benachrichtigung anzuzeigen. Abhängig von den Benachrichtigungseinstellungen auf Ihrem Gerät wird diese jedoch möglicherweise nicht angezeigt.\n\n Ihr Standort wird NUR erfasst, während Sie eine Route aufzeichnen.</string>
+      
+  <string name="background_location_justification_title">Hintergrundstandortzugriff</string>
+      
+  <string name="background_permission_title">Erlaube die ganze Zeit</string>
+      
+  <string name="battery_drain_warning">Intervalle von weniger als 1 Minute können zu einer Batterieentladung führen</string>
+      
+  <string name="calculating_placeholder">berechnen..</string>
+      
+  <string name="cannot_create_waypoint">Der Wegpunkt kann derzeit nicht erstellt werden</string>
+      
+  <string name="channel_description">Steuern Sie die aktuelle Aufnahmesitzung</string>
+      
+  <string name="channel_name">Aufzeichnung</string>
+      
+  <string name="clear_all_alert_button">Alles löschen</string>
+      
+  <string name="clear_all_alert_message">Durch diese Aktion werden alle Aufzeichnungen entfernt und die aktuelle Aufzeichnung abgebrochen</string>
+      
+  <string name="clear_all_alert_title">Warnung</string>
+      
+  <string name="date">Datum</string>
+      
+  <string name="delete">Löschen</string>
+      
+  <string name="delete_recording_alert_message">Diese Aktion kann nicht rückgängig gemacht werden</string>
+      
+  <string name="delete_recording_alert_title">Sind Sie sicher, dass Sie diese Route löschen möchten?</string>
+      
+  <string name="delete_recordings">Aufnahmen löschen</string>
+      
+  <string name="denied_alert_message_background">Wenn \"%1$s\" Wenn keine Standortberechtigung erteilt wird, kann die App Ihre Route nicht aufzeichnen.   Die App greift nur dann auf Ihren Standort zu, wenn Sie eine Route aufzeichnen.</string>
+      
+  <string name="developer_contact">Entwicklerkontakt</string>
+      
+  <string name="distance_km">%.2f km</string>
+      
+  <string name="edit_title_content_description">Titel bearbeiten</string>
+      
+  <string name="enter_title">Geben Sie den Titel ein</string>
+      
+  <string name="error">Fehler</string>
+      
+  <string name="expand">Expandieren</string>
+      
+  <string name="failed_to_place_waypoint">Wegpunkt konnte nicht platziert werden</string>
+
+  <string name="how_often_to_record_track_points">Wie oft werden Trackpunkte aufgezeichnet? (Etwa)</string>
+      
+  <string name="init_error_message">Bitte überprüfen Sie die Dateiberechtigungen der Anwendung und versuchen Sie es erneut.   Hinweis: Diese App unterstützt keine gerooteten Geräte und muss über den Google Play Store installiert werden.  Wenn das Problem weiterhin besteht, wenden Sie sich an den Entwickler.  appdev.iboism\@gmail.com</string>
+      
+  <string name="init_error_title">Die lokale Datenbank konnte nicht initialisiert werden</string>
+      
+  <string name="interval_minutes">Intervall</string>
+      
+  <string name="legal">Legal</string>
+      
+  <string name="new_recording">Neue Aufnahme</string>
+      
+  <string name="notification_recording_in_progress">Standortaufzeichnung läuft</string>
+      
+  <string name="notification_recording_paused">Standortaufzeichnung pausiert</string>
+
+  <string name="okay">Okay</string>
+      
+  <string name="open_source_license_info">Informationen zur Open-Source-Lizenz</string>
+      
+  <string name="pause_recording">Pause</string>
+      
+  <string name="points">Punkte</string>
+      
+  <string name="privacy_policy">Datenschutz-Bestimmungen</string>
+      
+  <string name="recording_in_progress">Aufnahme läuft</string>
+      
+  <string name="resume_recording">Wieder aufnehmen</string>
+      
+  <string name="save_to_device">Auf Gerät speichern</string>
+      
+  <string name="share">Aktie</string>
+      
+  <string name="shortcut_label">Starte die Aufnahme</string>
+      
+  <string name="start">Start</string>
+      
+  <string name="stop_recording">Stoppen</string>
+      
+  <string name="title">Titel</string>
+      
+  <string name="email">Email</string>
+      
+  <string name="hour_initial">H</string>
+      
+  <string name="minute_initial">M</string>
+      
+  <string name="second_initial">S</string>
+      
+  <string name="export_file">Exportdatei</string>
+      
+  <string name="file_format">Datei Format</string>
+      
+  <string name="recorded_routes_will_show_up_here">Aufgezeichnete Routen werden hier angezeigt</string>
+      
+  <string name="start_recording_button">Schaltfläche „Aufnahme starten“.</string>
+      
+  <string name="route_deleted">Route gelöscht</string>
+      
+  <string name="tap_to_undo">Tippen Sie zum Rückgängigmachen</string>
+  
 </resources>

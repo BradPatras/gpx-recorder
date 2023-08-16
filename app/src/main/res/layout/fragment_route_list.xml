@@ -29,7 +29,7 @@
         android:layout_marginBottom="24dp"
         android:layout_marginEnd="26dp"
         android:layout_marginStart="26dp"
-        android:text="Recorded routes will show up here"
+        android:text="@string/recorded_routes_will_show_up_here"
         android:textAlignment="center"
         android:textColor="@color/md_onBackgroundTertiary"
         android:textSize="22sp"
@@ -64,7 +64,7 @@
         app:layout_constraintBottom_toTopOf="@id/toolbar_wrapper_layout"
         app:layout_constraintRight_toRightOf="parent"
         android:layout_marginEnd="12dp"
-        android:contentDescription="Start recording button" />
+        android:contentDescription="@string/start_recording_button" />
 
     <androidx.coordinatorlayout.widget.CoordinatorLayout android:id="@+id/toolbar_wrapper_layout"
         android:layout_height="wrap_content"
