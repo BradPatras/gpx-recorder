@@ -7,17 +7,11 @@
   </plurals>
       
   <plurals name="waypoint_count">
-    <item quantity="one">%d punto de ruta</item>
+    <item quantity="one">%d punto de referencia</item>
     <item quantity="many">%d puntos intermedios</item>
     <item quantity="other">%d puntos intermedios</item>
   </plurals>
-      
-  <string name="app_name" translatable="false">GPX Recorder</string>
-      
-  <string name="navigation_drawer_open" translatable="false">Open navigation drawer</string>
-      
-  <string name="navigation_drawer_close" translatable="false">Close navigation drawer</string>
-      
+
   <!-- Alert stuff -->
       
   <string name="action_settings">Ajustes</string>
@@ -91,11 +85,7 @@
   <string name="expand">Expandir</string>
       
   <string name="failed_to_place_waypoint">Error al colocar el waypoint</string>
-      
-  <string name="github" translatable="false">Github</string>
-      
-  <string name="gpx_recorder" translatable="false">GPX Recorder</string>
-      
+
   <string name="how_often_to_record_track_points">Con qué frecuencia registrar puntos de seguimiento. (Aproximadamente)</string>
       
   <string name="init_error_message">Verifique los permisos del archivo de la aplicación y vuelva a intentarlo.   Nota: esta aplicación no es compatible con dispositivos rooteados y debe instalarse desde Google Play Store.  Si este problema persiste, póngase en contacto con el desarrollador.  appdev.iboism\@gmail.com</string>
@@ -111,9 +101,7 @@
   <string name="notification_recording_in_progress">Grabación de ubicación en curso</string>
       
   <string name="notification_recording_paused">Grabación de ubicación en pausa</string>
-      
-  <string name="notification_title" translatable="false">GPX Recorder</string>
-      
+
   <string name="okay">Bueno</string>
       
   <string name="open_source_license_info">Información de licencia de código abierto</string>
@@ -144,7 +132,7 @@
       
   <string name="hour_initial">h</string>
       
-  <string name="minute_initial">metro</string>
+  <string name="minute_initial">m</string>
       
   <string name="second_initial">s</string>
       
