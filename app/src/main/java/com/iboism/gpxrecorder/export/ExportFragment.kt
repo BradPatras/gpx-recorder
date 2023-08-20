@@ -1,5 +1,7 @@
 package com.iboism.gpxrecorder.export
 
+import android.app.Activity
+import android.content.Context
 import android.content.Intent
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
@@ -9,11 +11,11 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ArrayAdapter
+import androidx.activity.result.contract.ActivityResultContract
 import androidx.fragment.app.DialogFragment
 import com.iboism.gpxrecorder.Keys
 import com.iboism.gpxrecorder.R
 import com.iboism.gpxrecorder.databinding.FragmentExportBinding
-import com.iboism.gpxrecorder.records.details.CREATE_FILE_INTENT_ID
 import com.iboism.gpxrecorder.util.FileHelper
 import com.iboism.gpxrecorder.util.Holder
 import io.reactivex.disposables.CompositeDisposable
@@ -27,6 +29,9 @@ class ExportFragment: DialogFragment() {
     private val fileHelper: FileHelper? by lazy { FileHelper() }
     private val uiScope = CoroutineScope(Dispatchers.Main)
     private val compositeDisposable = CompositeDisposable()
+    private val saveFileLauncher = registerForActivityResult(SaveFileContract()) { uri ->
+        onSaveLocationSelected(uri)
+    }
 
     private lateinit var binding: FragmentExportBinding
 
@@ -54,14 +59,6 @@ class ExportFragment: DialogFragment() {
         binding.exportProgressBar.isIndeterminate = true
     }
 
-    @Deprecated("Deprecated in Java")
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        super.onActivityResult(requestCode, resultCode, data)
-        when(requestCode) {
-            CREATE_FILE_INTENT_ID -> onSaveLocationSelected(data?.data)
-        }
-    }
-
     private fun setLoadingState(isLoading: Boolean) {
         binding.exportSaveBtn.visibility = if (isLoading) View.INVISIBLE else View.VISIBLE
         binding.exportShareBtn.visibility = if (isLoading) View.INVISIBLE else View.VISIBLE
@@ -77,7 +74,7 @@ class ExportFragment: DialogFragment() {
             getSelectedExportFormat()
         )?.subscribe {
             setLoadingState(false)
-            this@ExportFragment.dismiss()
+            dismiss()
         }
         export?.let { compositeDisposable.add(it) }
     }
@@ -87,21 +84,12 @@ class ExportFragment: DialogFragment() {
     }
 
     private fun showSystemFolderPicker() {
-        val context = context ?: return
-
         val filename = fileHelper?.getRouteFilename(
             gpxId.value,
             getSelectedExportFormat()
         ) ?: return
 
-        val intent = Intent(Intent.ACTION_CREATE_DOCUMENT).apply {
-            addCategory(Intent.CATEGORY_OPENABLE)
-            type = "text/xml"
-
-            putExtra(Intent.EXTRA_TITLE, filename)
-        }
-
-        startActivityForResult(intent, CREATE_FILE_INTENT_ID)
+        saveFileLauncher.launch(filename)
     }
 
     private fun onSaveLocationSelected(location: Uri?) {
@@ -120,7 +108,7 @@ class ExportFragment: DialogFragment() {
                     .subscribe {
                         uiScope.launch {
                         setLoadingState(false)
-                        this@ExportFragment.dismiss()
+                        dismiss()
                     }
                 }
             )
@@ -137,6 +125,21 @@ class ExportFragment: DialogFragment() {
     override fun onDetach() {
         super.onDetach()
         compositeDisposable.clear()
+    }
+
+    class SaveFileContract : ActivityResultContract<String, Uri?>() {
+        override fun createIntent(context: Context, input: String): Intent {
+            return Intent(Intent.ACTION_CREATE_DOCUMENT).apply {
+                addCategory(Intent.CATEGORY_OPENABLE)
+                type = "text/xml"
+
+                putExtra(Intent.EXTRA_TITLE, input)
+            }
+        }
+
+        override fun parseResult(resultCode: Int, intent: Intent?): Uri? {
+            return if (resultCode == Activity.RESULT_OK) intent?.data else null
+        }
     }
 
     companion object {
