@@ -37,6 +37,9 @@ The routes are all stored locally with a [Realm](https://www.realm.io) database.
 A Route is converted to the `gpx` or `geojson` file format on-demand and the app **only** knows how to do `Route` -> `.gpx`/`geojson` conversions.  Converting files back into `Route` objects is not currently a feature.
 
 ## Releases
+### - 2.10 |
+- Migrated from deprecated startActivityForResult
+<br><br>
 ### - 2.9 | Aug 16, 2023
 - Czech translations added (thanks to @pocitas for contributing!)
 - French, Spanish, German translations added (auto-generated)
