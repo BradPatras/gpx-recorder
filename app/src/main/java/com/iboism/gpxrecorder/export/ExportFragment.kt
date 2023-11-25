@@ -131,7 +131,7 @@ class ExportFragment: DialogFragment() {
         override fun createIntent(context: Context, input: String): Intent {
             return Intent(Intent.ACTION_CREATE_DOCUMENT).apply {
                 addCategory(Intent.CATEGORY_OPENABLE)
-                type = "text/xml"
+                type = "application/octet-stream"
 
                 putExtra(Intent.EXTRA_TITLE, input)
             }
