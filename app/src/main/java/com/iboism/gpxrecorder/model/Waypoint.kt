@@ -1,5 +1,6 @@
 package com.iboism.gpxrecorder.model
 
+import com.iboism.gpxrecorder.extensions.toElevationString
 import com.iboism.gpxrecorder.util.DateTimeFormatHelper
 import com.iboism.gpxrecorder.util.UUIDHelper
 import io.realm.RealmObject
@@ -20,7 +21,7 @@ open class Waypoint(
 ) : XmlSerializable, RealmObject() {
 
     override fun getXmlString(): String {
-        val eleXml = ele?.let { "<ele>$ele</ele>" } ?: ""
+        val eleXml = ele?.let { "<ele>${it.toElevationString()}</ele>" } ?: ""
         val timeXml = "<time>$time</time>"
         val nameXml = "<name>$title</name>"
         val descXml = "<desc>$desc</desc>"
