@@ -4,8 +4,10 @@ import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
+import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
+import android.widget.PopupMenu
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import com.iboism.gpxrecorder.Events
@@ -51,6 +53,20 @@ class RecorderFragment : Fragment(), RecorderServiceConnection.OnServiceConnecte
         binding.addWptBtn.setOnClickListener(this::addWaypointButtonClicked)
         binding.playpauseBtn.setOnClickListener(this::playPauseButtonClicked)
         binding.stopBtn.setOnClickListener(this::stopButtonClicked)
+
+        val moreMenu = PopupMenu(binding.root.context, binding.moreBtn)
+        val mapToggleMenuItem: MenuItem = moreMenu.menu.add("Toggle map type")
+
+        moreMenu.setOnMenuItemClickListener { menuItem ->
+            when (menuItem) {
+                mapToggleMenuItem -> mapController?.toggleMapType()
+                else -> return@setOnMenuItemClickListener false
+            }
+
+            return@setOnMenuItemClickListener true
+        }
+
+        binding.moreBtn.setOnClickListener { moreMenu.show() }
 
         updateUI(gpxId)
 
@@ -141,13 +157,13 @@ class RecorderFragment : Fragment(), RecorderServiceConnection.OnServiceConnecte
         }
 
         val update = Single.just(Pair(gpxContent.title, isPaused))
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe { pair ->
-                    binding.routeTitleTv.text = pair.first
-                    val pauseResumeString = if (pair.second) R.string.resume_recording else R.string.pause_recording
-                    binding.playpauseBtn.setText(pauseResumeString)
-                    mapController?.redraw()
-                }
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribe { pair ->
+                binding.routeTitleTv.text = pair.first
+                val pauseResumeString = if (pair.second) R.string.resume_recording else R.string.pause_recording
+                binding.playpauseBtn.setText(pauseResumeString)
+                mapController?.redraw()
+            }
         realm.close()
     }
 

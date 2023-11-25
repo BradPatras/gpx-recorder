@@ -46,6 +46,21 @@
         app:layout_constraintStart_toStartOf="@id/current_rec_header"
         app:layout_constraintTop_toBottomOf="@id/current_rec_header" />
 
+    <ImageButton android:id="@+id/more_btn"
+        android:alpha=".9"
+        android:layout_width="wrap_content"
+        android:layout_height="0dp"
+        android:padding="4dp"
+        android:src="@drawable/ic_more"
+        android:elevation="5dp"
+        android:background="@android:color/transparent"
+        android:layout_marginEnd="12dp"
+        app:layout_constraintBottom_toTopOf="@+id/map_view"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:tint="@color/on_nav_bar_surface"
+        android:contentDescription="More menu button" />
+
     <Button
         android:id="@+id/add_wpt_btn"
         style="@style/Widget.Material3.Button.TextButton"
