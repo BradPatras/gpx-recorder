@@ -1,17 +1,26 @@
 package com.iboism.gpxrecorder.recording.configurator
 
+import android.Manifest
+import android.annotation.SuppressLint
 import android.content.Context
+import android.content.pm.PackageManager
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.app.ActivityCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.preference.PreferenceManager
+import com.google.android.gms.location.LocationServices
 import com.iboism.gpxrecorder.R
 import com.iboism.gpxrecorder.extensions.hideSoftKeyBoard
+import com.iboism.gpxrecorder.model.LastLocation
 import com.iboism.gpxrecorder.model.RecordingConfiguration
+import com.iboism.gpxrecorder.util.PermissionHelper
 import com.iboism.gpxrecorder.util.circularRevealOnNextLayout
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
 
 
 const val REVEAL_ORIGIN_X_KEY = "kRevealXOrigin"
@@ -39,6 +48,7 @@ class RecordingConfiguratorModal : Fragment() {
                 isTitleEditable = readOnlyTitle.isNullOrEmpty(),
                 isResumingRoute = gpxId != null
             )
+
             configuratorView.restoreInstanceState(savedInstanceState)
             configuratorView.doneButton.setOnClickListener { clickedView ->
                 PreferenceManager.getDefaultSharedPreferences(context).edit()
@@ -64,6 +74,7 @@ class RecordingConfiguratorModal : Fragment() {
     override fun onAttach(context: Context) {
         super.onAttach(context)
         listener = context as Listener
+        cacheLastLocation()
     }
 
     override fun onDetach() {
@@ -75,7 +86,17 @@ class RecordingConfiguratorModal : Fragment() {
         super.onSaveInstanceState(outState)
         configuratorView.onSaveInstanceState(outState)
     }
-
+    @SuppressLint("MissingPermission")
+    private fun cacheLastLocation() {
+        PermissionHelper.getInstance(requireActivity()).checkLocationPermissions {
+            LocationServices
+                .getFusedLocationProviderClient(requireActivity())
+                .lastLocation
+                .addOnSuccessListener {
+                    LastLocation.put(lat = it.latitude, lon = it.longitude)
+                }
+        }
+    }
     interface Listener {
         fun configurationCreated(gpxId: Long?, configuration: RecordingConfiguration)
     }

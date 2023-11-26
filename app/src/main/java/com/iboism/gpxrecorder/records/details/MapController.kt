@@ -15,6 +15,7 @@ import com.google.android.gms.maps.model.*
 import com.google.android.gms.maps.model.JointType.ROUND
 import com.iboism.gpxrecorder.R
 import com.iboism.gpxrecorder.model.GpxContent
+import com.iboism.gpxrecorder.model.LastLocation
 import com.iboism.gpxrecorder.model.Track
 import com.iboism.gpxrecorder.model.Waypoint
 import com.iboism.gpxrecorder.util.DateTimeFormatHelper
@@ -66,6 +67,9 @@ class MapController(private val mapView: MapView, private val gpxId: Long): OnMa
         if (mapView.context.checkSelfPermission(Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
             map.isMyLocationEnabled = true
         }
+
+        val lastLocation = LastLocation.get()
+        map.moveCamera(CameraUpdateFactory.newLatLngZoom(LatLng(lastLocation.lat, lastLocation.lon), 17f))
 
         val realm = Realm.getDefaultInstance()
         GpxContent.withId(gpxId, realm)?.let { map.drawContent(realm.copyFromRealm(it), true) }

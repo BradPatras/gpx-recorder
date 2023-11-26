@@ -1,7 +1,7 @@
 package com.iboism.gpxrecorder.model
 
 import io.realm.RealmConfiguration
-private const val SCHEMA_VERSION: Long = 10
+private const val SCHEMA_VERSION: Long = 11
 
 const val REALM_SHARED_PREFERENCES_NAME = "kRealmSharedPrefs"
 const val REALM_INIT_FAILED_KEY = "kRealmInitialized"
