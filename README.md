@@ -37,6 +37,10 @@ The routes are all stored locally with a [Realm](https://www.realm.io) database.
 A Route is converted to the `gpx` or `geojson` file format on-demand and the app **only** knows how to do `Route` -> `.gpx`/`geojson` conversions.  Converting files back into `Route` objects is not currently a feature.
 
 ## Releases
+### - 2.11 | Dec 5, 2023
+- Fixed [#43](https://github.com/BradPatras/gpx-recorder/issues/43), [#44](https://github.com/BradPatras/gpx-recorder/issues/44), [#45](https://github.com/BradPatras/gpx-recorder/issues/45), [#46](https://github.com/BradPatras/gpx-recorder/issues/46)
+
+<br><br>
 ### - 2.10 | Sep 25, 2023
 - Migrated from deprecated startActivityForResult
 <br><br>
