@@ -30,11 +30,11 @@ class CreateWaypointDialogActivity : AppCompatActivity() {
     }
 
     private val locationConfiguration by lazy {
-        LocationRequest.create()
-                .setInterval(1) // 1 second
-                .setMaxWaitTime(5000) // 5 seconds
-                .setPriority(Priority.PRIORITY_HIGH_ACCURACY)
-                .setNumUpdates(1)
+        LocationRequest.Builder(1000)
+            .setPriority(Priority.PRIORITY_HIGH_ACCURACY)
+            .setMaxUpdates(1)
+            .setMaxUpdateDelayMillis(2500)
+            .build()
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
