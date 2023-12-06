@@ -9,7 +9,7 @@ import com.google.android.gms.location.Priority
  */
 
 class RecordingConfiguration(
-    var title: String = "Unititled Recording",
+    var title: String = "Untitled Recording",
     var interval: Long = REQUEST_INTERVAL,
     private var maxWait: Long = (interval * 1.25).toLong(),
     private var fastestInterval: Long = interval / 2
