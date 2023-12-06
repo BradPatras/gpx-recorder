@@ -1,6 +1,6 @@
 package com.iboism.gpxrecorder.util
 
-import java.util.*
+import java.util.UUID
 
 /**
  * Created by Brad on 11/18/2017.

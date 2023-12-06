@@ -11,7 +11,6 @@ import com.iboism.gpxrecorder.R
 import com.iboism.gpxrecorder.model.GpxContent
 import com.iboism.gpxrecorder.recording.LocationRecorderService
 import io.realm.Realm
-import java.lang.Exception
 
 /**
  * Created by Brad on 2/17/2018.

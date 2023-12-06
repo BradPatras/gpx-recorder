@@ -2,7 +2,6 @@ package com.iboism.gpxrecorder.recording
 
 import android.annotation.SuppressLint
 import android.app.NotificationManager
-import android.app.PendingIntent
 import android.app.Service
 import android.content.Context
 import android.content.Intent
@@ -10,7 +9,6 @@ import android.location.Location
 import android.os.Binder
 import android.os.Bundle
 import android.os.IBinder
-import android.util.Log
 import com.google.android.gms.location.LocationCallback
 import com.google.android.gms.location.LocationResult
 import com.google.android.gms.location.LocationServices
@@ -21,7 +19,6 @@ import com.iboism.gpxrecorder.model.RecordingConfiguration
 import com.iboism.gpxrecorder.model.TrackPoint
 import io.realm.Realm
 import org.greenrobot.eventbus.EventBus
-import java.lang.Exception
 
 /**
  * Created by Brad on 11/19/2017.

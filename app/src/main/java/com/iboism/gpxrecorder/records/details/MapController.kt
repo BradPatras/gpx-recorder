@@ -5,7 +5,6 @@ import android.annotation.SuppressLint
 import android.content.pm.PackageManager
 import android.graphics.Bitmap
 import android.graphics.Canvas
-import android.os.Build
 import android.view.ViewTreeObserver
 import androidx.annotation.DrawableRes
 import androidx.core.content.ContextCompat

@@ -13,7 +13,7 @@ import com.iboism.gpxrecorder.R
 class Alerts(val context: Context) {
     fun permissionDeniedAlert(action: () -> Unit): AlertDialog {
         val message = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
-            val permissionTitle = if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.R) {
+            val permissionTitle = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
                 context.packageManager.backgroundPermissionOptionLabel
             } else {
                 context.getString(R.string.background_permission_title)

@@ -1,14 +1,11 @@
 package com.iboism.gpxrecorder.recording.configurator
 
-import android.Manifest
 import android.annotation.SuppressLint
 import android.content.Context
-import android.content.pm.PackageManager
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.core.app.ActivityCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.preference.PreferenceManager
@@ -19,9 +16,6 @@ import com.iboism.gpxrecorder.model.LastLocation
 import com.iboism.gpxrecorder.model.RecordingConfiguration
 import com.iboism.gpxrecorder.util.PermissionHelper
 import com.iboism.gpxrecorder.util.circularRevealOnNextLayout
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.launch
-
 
 const val REVEAL_ORIGIN_X_KEY = "kRevealXOrigin"
 const val REVEAL_ORIGIN_Y_KEY = "kRevealYOrigin"
@@ -86,6 +80,7 @@ class RecordingConfiguratorModal : Fragment() {
         super.onSaveInstanceState(outState)
         configuratorView.onSaveInstanceState(outState)
     }
+
     @SuppressLint("MissingPermission")
     private fun cacheLastLocation() {
         PermissionHelper.getInstance(requireActivity()).checkLocationPermissions {

@@ -3,8 +3,6 @@ package com.iboism.gpxrecorder
 import android.app.Application
 import android.app.NotificationChannel
 import android.app.NotificationManager
-import android.os.Build
-import androidx.annotation.RequiresApi
 import com.getkeepsafe.relinker.MissingLibraryException
 import com.iboism.gpxrecorder.extensions.setRealmInitFailure
 import com.iboism.gpxrecorder.model.Schema
