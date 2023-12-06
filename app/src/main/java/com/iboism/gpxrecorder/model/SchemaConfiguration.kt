@@ -1,5 +1,6 @@
 package com.iboism.gpxrecorder.model
 
+import io.realm.FieldAttribute
 import io.realm.RealmConfiguration
 private const val SCHEMA_VERSION: Long = 11
 
@@ -30,6 +31,9 @@ class Schema {
                     // 10 -> 11
                     if (version == 10L) {
                         version++
+                        realm.schema.create("LastLocation")
+                            .addField("lat", Double::class.java, FieldAttribute.REQUIRED)
+                            .addField("lon", Double::class.java, FieldAttribute.REQUIRED)
                     }
                 }.build()
         }
