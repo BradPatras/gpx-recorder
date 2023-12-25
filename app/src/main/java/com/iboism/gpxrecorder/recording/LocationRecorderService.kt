@@ -9,6 +9,7 @@ import android.location.Location
 import android.os.Binder
 import android.os.Bundle
 import android.os.IBinder
+import android.os.SystemClock
 import com.google.android.gms.location.LocationCallback
 import com.google.android.gms.location.LocationResult
 import com.google.android.gms.location.LocationServices
@@ -17,8 +18,10 @@ import com.iboism.gpxrecorder.Keys
 import com.iboism.gpxrecorder.model.GpxContent
 import com.iboism.gpxrecorder.model.RecordingConfiguration
 import com.iboism.gpxrecorder.model.TrackPoint
+import com.iboism.gpxrecorder.util.DateTimeFormatHelper
 import io.realm.Realm
 import org.greenrobot.eventbus.EventBus
+import java.util.Date
 
 /**
  * Created by Brad on 11/19/2017.
@@ -124,7 +127,15 @@ class LocationRecorderService : Service() {
             if (loc.accuracy > 40) return
             val realm = Realm.getDefaultInstance()
             realm.executeTransaction { r ->
-                val point = TrackPoint(lat = loc.latitude, lon = loc.longitude, ele = loc.altitude)
+                val locAgeNanos = SystemClock.elapsedRealtimeNanos() - loc.elapsedRealtimeNanos
+                val locInstant = Date().toInstant().minusNanos(locAgeNanos)
+
+                val point = TrackPoint(
+                    lat = loc.latitude,
+                    lon = loc.longitude,
+                    ele = loc.altitude,
+                    time = DateTimeFormatHelper.formatDate(Date.from(locInstant))
+                )
                 r.copyToRealm(point)
                 GpxContent.withId(gpxId, r)?.let { gpx ->
                     gpx.trackList.last()?.segments?.last()?.addPoint(point)
