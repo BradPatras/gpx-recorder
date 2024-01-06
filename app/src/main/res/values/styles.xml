@@ -1,7 +1,7 @@
 <resources>
 
     <!-- Base application theme. -->
-    <style name="AppTheme" parent="Theme.MaterialComponents.DayNight">
+    <style name="AppTheme" parent="Theme.Material3.DayNight">
         <item name="colorPrimary">@color/md_primary</item>
         <item name="colorPrimaryDark">#4D6268</item>
         <item name="colorAccent">@color/md_secondary</item>
@@ -9,7 +9,7 @@
         <item name="android:windowContentOverlay">@null</item>
     </style>
 
-    <style name="Theme.MaterialComponents.NoActionBarDialog" parent="@style/Theme.MaterialComponents.DayNight.Dialog.Alert">
+    <style name="Theme.MaterialComponents.NoActionBarDialog" parent="@style/Theme.Material3.DayNight.Dialog.Alert">
         <item name="colorPrimary">@color/md_primary</item>
         <item name="colorSecondary">@color/md_secondary</item>
         <item name="colorPrimaryDark">@color/md_primary</item>
@@ -23,8 +23,8 @@
         <item name="windowNoTitle">true</item>
     </style>
 
-    <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.MaterialComponents.Dark.ActionBar"/>
+    <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.Material3.Dark.ActionBar"/>
 
-    <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.MaterialComponents.Light"/>
+    <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.Material3.Light"/>
 
 </resources>

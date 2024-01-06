@@ -87,6 +87,7 @@
             android:foregroundTint="@color/on_nav_bar_surface"
             app:backgroundTint="@color/nav_bar_surface"
             app:navigationIcon="@drawable/ic_menu"
+            app:navigationIconTint="@color/on_nav_bar_surface"
             />
 
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
