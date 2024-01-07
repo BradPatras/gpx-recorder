@@ -87,8 +87,10 @@ class RecordingConfiguratorModal : Fragment() {
             LocationServices
                 .getFusedLocationProviderClient(requireActivity())
                 .lastLocation
-                .addOnSuccessListener {
-                    LastLocation.put(lat = it.latitude, lon = it.longitude)
+                .addOnSuccessListener { loc ->
+                    loc?.let {
+                        LastLocation.put(lat = it.latitude, lon = it.longitude)
+                    }
                 }
         }
     }
