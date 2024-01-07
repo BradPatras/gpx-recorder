@@ -37,6 +37,10 @@ The routes are all stored locally with a [Realm](https://www.realm.io) database.
 A Route is converted to the `gpx` or `geojson` file format on-demand and the app **only** knows how to do `Route` -> `.gpx`/`geojson` conversions.  Converting files back into `Route` objects is not currently a feature.
 
 ## Releases
+Releases are now documented using this repo's `Releases` page.
+<details>
+<summary>Older releases</summary>
+
 ### - 2.11 | Dec 5, 2023
 - Fixed [#43](https://github.com/BradPatras/gpx-recorder/issues/43), [#44](https://github.com/BradPatras/gpx-recorder/issues/44), [#45](https://github.com/BradPatras/gpx-recorder/issues/45), [#46](https://github.com/BradPatras/gpx-recorder/issues/46)
 <br><br>
@@ -72,10 +76,6 @@ A Route is converted to the `gpx` or `geojson` file format on-demand and the app
 - Added licenses info
 - Migrated from Kotlin synthetics to view binding
 <br><br>
-
-<details>
-<summary>Older releases</summary>
-  
 ### - 2.3 | Aug 13, 2021
 - Fixed time zone issue - timestamps are always in UTC now
 - Reduced waypoint location max wait time to 5 seconds
