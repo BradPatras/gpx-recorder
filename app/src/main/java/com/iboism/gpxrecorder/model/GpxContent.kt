@@ -23,14 +23,14 @@ open class GpxContent(
         val titleXml = "<name>$title</name>"
         val descXml = "<desc>Recorded with GPX Recorder for Android</desc>"
         val metaDataXml = "<metadata>$titleXml$descXml</metadata>"
-        val contentXml = listOf(trackList, waypointList)
+        val contentXml = listOf(waypointList, trackList)
                 .flatten()
                 .asSequence()
                 .filterIsInstance(XmlSerializable::class.java)
                 .map { it.getXmlString() }
                 .fold("") { content, entity -> content + entity }
 
-        return "$metaDataXml$contentXml"
+        return "$metaDataXml\n$contentXml"
     }
 
     override fun getJsonString(): String {
