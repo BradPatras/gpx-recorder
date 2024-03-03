@@ -167,8 +167,9 @@ class FileHelper {
     }
 
     private fun String.getLegalFilename(): String {
-        return this.replace(Regex.fromLiteral("[^a-zA-Z0-9\\.\\-]"), "_")
-                .replace(" ", "_")
+        return this
+            .trim()
+            .replace("[#{}&\\\\<>*?/ \$!'\"`:|=,]".toRegex(), "_")
     }
 
     private fun String.withGpxExt(): String {

@@ -31,3 +31,9 @@ class DateTimeFormatHelper {
         }
     }
 }
+
+fun Date.toReadableString(): String {
+    return DateTimeFormatHelper.toReadableString(
+        DateTimeFormatHelper.formatDate(this)
+    )
+}

@@ -16,6 +16,8 @@ import com.iboism.gpxrecorder.model.LastLocation
 import com.iboism.gpxrecorder.model.RecordingConfiguration
 import com.iboism.gpxrecorder.util.PermissionHelper
 import com.iboism.gpxrecorder.util.circularRevealOnNextLayout
+import com.iboism.gpxrecorder.util.toReadableString
+import java.util.Date
 
 const val REVEAL_ORIGIN_X_KEY = "kRevealXOrigin"
 const val REVEAL_ORIGIN_Y_KEY = "kRevealYOrigin"
@@ -38,7 +40,7 @@ class RecordingConfiguratorModal : Fragment() {
             configuratorView = RecordingConfiguratorView(
                 this,
                 initialInterval,
-                routeTitle = readOnlyTitle,
+                routeTitle = readOnlyTitle ?: Date().toReadableString(),
                 isTitleEditable = readOnlyTitle.isNullOrEmpty(),
                 isResumingRoute = gpxId != null
             )
