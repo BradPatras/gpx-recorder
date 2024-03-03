@@ -14,7 +14,6 @@ import org.apache.commons.io.IOUtils
 import java.io.File
 import java.nio.charset.StandardCharsets
 
-
 /**
  * Created by Brad on 11/18/2017.
  */
@@ -24,34 +23,25 @@ private const val REPLACE_CONTENT_TAG = "replacemewithcontent"
 private const val GPX_FILE_EXTENSION = ".gpx"
 private const val GEOJSON_FILE_EXTENSION = ".geojson"
 
-private enum class FileDestinationType {
-    CACHE,
-}
-
 class FileHelper {
     enum class Format {
         Gpx,
         GeoJson
     }
 
-    private var exporting: Long? = null
-
-    fun isExporting() = exporting
-
     fun shareRouteFile(context: Context, gpxContentId: Long, format: Format): Completable {
         val sharedFilesDir = File(context.cacheDir, SHARE_PATH).apply { this.mkdirs() }
         val filename = getRouteFilename(gpxContentId, format)
-
         val sharedFile = File(sharedFilesDir, filename)
 
         return createFile(context, gpxContentId, sharedFile, format)
-                .observeOn(AndroidSchedulers.mainThread())
-                .map { file ->
-                    ShareHelper(context).shareFile(file)
-                }.ignoreElement().onErrorComplete {
-                    Alerts(context).genericError(R.string.file_share_failed).show()
-                    return@onErrorComplete true
-                }
+            .observeOn(AndroidSchedulers.mainThread())
+            .map { file ->
+                ShareHelper(context).shareFile(file)
+            }.ignoreElement().onErrorComplete {
+                Alerts(context).genericError(R.string.file_share_failed).show()
+                return@onErrorComplete true
+            }
     }
 
     fun saveRouteFile(
@@ -61,16 +51,17 @@ class FileHelper {
         format: Format
     ): Completable {
         return createFile(context, gpxContentId, destinationFileURI, format)
-                .observeOn(AndroidSchedulers.mainThread())
-                .ignoreElement().onErrorComplete {
-                    Alerts(context).genericError(R.string.file_save_failed).show()
-                    return@onErrorComplete true
-                }
+            .observeOn(AndroidSchedulers.mainThread())
+            .ignoreElement()
+            .onErrorComplete {
+                Alerts(context).genericError(R.string.file_save_failed).show()
+                return@onErrorComplete true
+            }
     }
 
     fun getRouteFilename(gpxContentId: Long, format: Format): String {
         val realm = Realm.getDefaultInstance()
-        val gpx = GpxContent.withId(gpxContentId, realm) ?: throw Exception()
+        val gpx = GpxContent.withId(gpxContentId, realm) ?: throw Exception("Failed to fetch gpx route")
 
         return when(format) {
             Format.Gpx -> gpx.title.getLegalFilename().withGpxExt()
@@ -84,20 +75,18 @@ class FileHelper {
         destFile: File,
         format: Format
     ): Single<File> {
-        exporting = gpxContentId
         return Single.just(gpxContentId)
-                .observeOn(Schedulers.io())
-                .map {
-                    val realm = Realm.getDefaultInstance()
-                    val gpx = GpxContent.withId(it, realm) ?: throw Exception()
-                    when(format) {
-                        Format.Gpx -> writeGpxToFile(context, gpx, destFile)
-                        Format.GeoJson -> writeGeoJSONToFile(gpx, destFile)
-                    }
-                    realm.close()
-                    return@map destFile
+            .observeOn(Schedulers.io())
+            .map {
+                val realm = Realm.getDefaultInstance()
+                val gpx = GpxContent.withId(it, realm) ?: throw Exception("Failed to fetch gpx route")
+                when(format) {
+                    Format.Gpx -> writeGpxToFile(context, gpx, destFile)
+                    Format.GeoJson -> writeGeoJSONToFile(gpx, destFile)
                 }
-                .doFinally { exporting = null }
+                realm.close()
+                return@map destFile
+            }
     }
 
     private fun createFile(
@@ -106,20 +95,18 @@ class FileHelper {
         uri: Uri,
         format: Format
     ): Single<Unit> {
-        exporting = gpxContentId
         return Single.just(gpxContentId)
-                .observeOn(Schedulers.io())
-                .map {
-                    val realm = Realm.getDefaultInstance()
-                    val gpx = GpxContent.withId(it, realm) ?: throw Exception()
-                    when(format) {
-                        Format.Gpx -> writeGpxToStream(context, gpx, uri)
-                        Format.GeoJson -> writeGeoJSONToStream(context, gpx, uri)
-                    }
-
-                    realm.close()
+            .observeOn(Schedulers.io())
+            .map {
+                val realm = Realm.getDefaultInstance()
+                val gpx = GpxContent.withId(it, realm) ?: throw Exception("Failed to fetch gpx route")
+                when(format) {
+                    Format.Gpx -> writeGpxToStream(context, gpx, uri)
+                    Format.GeoJson -> writeGeoJSONToStream(context, gpx, uri)
                 }
-                .doFinally { exporting = null }
+
+                realm.close()
+            }
     }
 
     private fun getGpxStub(context: Context): String {
@@ -144,26 +131,18 @@ class FileHelper {
 
     private fun writeGpxToStream(context: Context, gpx: GpxContent, uri: Uri) {
         val gpxFull = getGpxStub(context).replaceFirst(REPLACE_CONTENT_TAG, gpx.getXmlString())
-        val fileOutputStream = context.contentResolver.openOutputStream(uri) ?: return
-        try {
-            fileOutputStream.write(gpxFull.encodeToByteArray())
-            fileOutputStream.flush()
-            fileOutputStream.close()
-        } catch (e: java.lang.Exception) {
-            e.printStackTrace()
-        }
+        val fileOutputStream = context.contentResolver.openOutputStream(uri) ?: throw Exception("Failed to open output stream")
+        fileOutputStream.write(gpxFull.encodeToByteArray())
+        fileOutputStream.flush()
+        fileOutputStream.close()
     }
 
     private fun writeGeoJSONToStream(context: Context, content: GpxContent, uri: Uri) {
         val jsonString = content.getJsonString()
-        val fileOutputStream = context.contentResolver.openOutputStream(uri) ?: return
-        try {
-            fileOutputStream.write(jsonString.encodeToByteArray())
-            fileOutputStream.flush()
-            fileOutputStream.close()
-        } catch (e: java.lang.Exception) {
-            e.printStackTrace()
-        }
+        val fileOutputStream = context.contentResolver.openOutputStream(uri) ?: throw Exception("Failed to open output stream")
+        fileOutputStream.write(jsonString.encodeToByteArray())
+        fileOutputStream.flush()
+        fileOutputStream.close()
     }
 
     private fun String.getLegalFilename(): String {
