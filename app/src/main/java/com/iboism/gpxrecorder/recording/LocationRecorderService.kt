@@ -96,8 +96,8 @@ class LocationRecorderService : Service() {
         EventBus.getDefault().post(Events.RecordingResumedEvent(gpxId))
         notificationManager.notify(NOTIFICATION_ID, notificationHelper.setPaused(false).notification())
         fusedLocation.requestLocationUpdates(config.locationRequest(),
-                locationCallback,
-                mainLooper)
+            locationCallback,
+            mainLooper)
     }
 
     @SuppressLint("MissingPermission")
@@ -117,9 +117,11 @@ class LocationRecorderService : Service() {
             return@let RecordingConfiguration.fromBundle(it)
         } ?: RecordingConfiguration()
 
-        fusedLocation.requestLocationUpdates(config.locationRequest(),
-                locationCallback,
-                mainLooper)
+        fusedLocation.requestLocationUpdates(
+            config.locationRequest(),
+            locationCallback,
+            mainLooper
+        )
     }
 
     private fun onLocationChanged(location: Location?) {

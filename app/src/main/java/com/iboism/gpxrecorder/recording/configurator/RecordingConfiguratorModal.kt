@@ -28,9 +28,10 @@ class RecordingConfiguratorModal : Fragment() {
     private lateinit var configuratorView: RecordingConfiguratorView
     private var listener: Listener? = null
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
-                              savedInstanceState: Bundle?): View? {
-
+    override fun onCreateView(
+        inflater: LayoutInflater, container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
         return inflater.inflate(R.layout.config_dialog, container, false)?.apply {
             val prefs = PreferenceManager.getDefaultSharedPreferences(context)
             val initialInterval = prefs.getLong(RecordingConfiguration.intervalKey, RecordingConfiguration.REQUEST_INTERVAL)
@@ -48,15 +49,15 @@ class RecordingConfiguratorModal : Fragment() {
             configuratorView.restoreInstanceState(savedInstanceState)
             configuratorView.doneButton.setOnClickListener { clickedView ->
                 PreferenceManager.getDefaultSharedPreferences(context).edit()
-                        .putLong(RecordingConfiguration.intervalKey, configuratorView.getIntervalMillis())
-                        .apply()
+                    .putLong(RecordingConfiguration.intervalKey, configuratorView.getIntervalMillis())
+                    .apply()
                 context.hideSoftKeyBoard(clickedView)
                 listener?.configurationCreated (
-                        gpxId = gpxId,
-                        configuration = RecordingConfiguration(
-                                title = configuratorView.titleEditText.text.toString().takeIf { it.isNotEmpty() } ?: "Untitled",
-                                interval = configuratorView.getIntervalMillis()
-                        ))
+                    gpxId = gpxId,
+                    configuration = RecordingConfiguration(
+                        title = configuratorView.titleEditText.text.toString().takeIf { it.isNotEmpty() } ?: "Untitled",
+                        interval = configuratorView.getIntervalMillis()
+                    ))
                 this@RecordingConfiguratorModal.parentFragmentManager.popBackStack()
             }
 
@@ -96,6 +97,7 @@ class RecordingConfiguratorModal : Fragment() {
                 }
         }
     }
+
     interface Listener {
         fun configurationCreated(gpxId: Long?, configuration: RecordingConfiguration)
     }
@@ -119,10 +121,10 @@ class RecordingConfiguratorModal : Fragment() {
 
         fun show(fragmentManager: FragmentManager?, configFragment: RecordingConfiguratorModal = instance()) {
             fragmentManager?.beginTransaction()
-                    ?.setCustomAnimations(android.R.anim.fade_in, android.R.anim.fade_out, android.R.anim.fade_in, android.R.anim.fade_out)
-                    ?.add(R.id.content_container, configFragment)
-                    ?.addToBackStack(null)
-                    ?.commit()
+                ?.setCustomAnimations(android.R.anim.fade_in, android.R.anim.fade_out, android.R.anim.fade_in, android.R.anim.fade_out)
+                ?.add(R.id.content_container, configFragment)
+                ?.addToBackStack(null)
+                ?.commit()
         }
     }
 }

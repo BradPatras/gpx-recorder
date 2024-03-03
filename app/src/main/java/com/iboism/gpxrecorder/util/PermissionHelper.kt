@@ -25,17 +25,17 @@ class PermissionHelper private constructor(private val activity: Activity) {
 
     fun checkLocationPermissions(onAllowed: () -> Unit) {
         val hasShownJustification = activity
-                .getPreferences(Context.MODE_PRIVATE)
-                .getBoolean(Keys.HasShownLocationJustification, false)
+            .getPreferences(Context.MODE_PRIVATE)
+            .getBoolean(Keys.HasShownLocationJustification, false)
 
         // If we haven't shown background location access justification yet, do that before
         // requesting permission.
         if (!hasShownJustification) {
             Alerts(activity)
-                    .backgroundLocationJustificationAlert { checkLocationPermissions(onAllowed) }.show()
+                .backgroundLocationJustificationAlert { checkLocationPermissions(onAllowed) }.show()
             activity.getPreferences(Context.MODE_PRIVATE).edit()
-                    .putBoolean(Keys.HasShownLocationJustification, true)
-                    .apply()
+                .putBoolean(Keys.HasShownLocationJustification, true)
+                .apply()
             return
         }
 
@@ -52,17 +52,17 @@ class PermissionHelper private constructor(private val activity: Activity) {
         permissions.addAll(listOf(Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION))
 
         Dexter.withContext(activity)
-                .withPermissions(permissions)
-                .withListener(
-                        Listener(
-                                onAllowed,
-                                onDenied = {
-                                    Alerts(activity)
-                                            .permissionDeniedAlert { openApplicationSettings() }
-                                            .show()
-                                }
-                        )
-                ).check()
+            .withPermissions(permissions)
+            .withListener(
+                Listener(
+                    onAllowed,
+                    onDenied = {
+                        Alerts(activity)
+                            .permissionDeniedAlert { openApplicationSettings() }
+                            .show()
+                    }
+                )
+            ).check()
     }
 
     fun checkPermission(permissionName: String): Boolean {
@@ -77,8 +77,8 @@ class PermissionHelper private constructor(private val activity: Activity) {
     companion object : SingletonArgHolder<PermissionHelper, Activity>(::PermissionHelper)
 
     private class Listener(
-            val onAllowed: () -> Unit,
-            val onDenied: () -> Unit,
+        val onAllowed: () -> Unit,
+        val onDenied: () -> Unit,
     ) : MultiplePermissionsListener {
         override fun onPermissionsChecked(report: MultiplePermissionsReport?) {
             report?.let {

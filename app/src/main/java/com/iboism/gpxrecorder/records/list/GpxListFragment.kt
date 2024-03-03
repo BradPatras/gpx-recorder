@@ -41,7 +41,7 @@ class GpxListFragment : Fragment(), RecorderServiceConnection.OnServiceConnected
     private val compositeDisposable = CompositeDisposable()
     private var serviceConnection: RecorderServiceConnection = RecorderServiceConnection(this)
     private lateinit var binding: FragmentRouteListBinding
-    
+
     private val gpxChangeListener = { gpxContent: RealmResults<GpxContent> ->
         setPlaceholdersHidden(gpxContent.isNotEmpty())
     }
@@ -116,8 +116,8 @@ class GpxListFragment : Fragment(), RecorderServiceConnection.OnServiceConnected
     private fun onFabClicked(view: View) {
         PermissionHelper.getInstance(this.requireActivity()).checkLocationPermissions(onAllowed = {
             RecordingConfiguratorModal.circularReveal(
-                    originXY = Pair(view.x.toInt() + (view.width / 2), view.y.toInt() + (view.height / 2)),
-                    fragmentManager = parentFragmentManager
+                originXY = Pair(view.x.toInt() + (view.width / 2), view.y.toInt() + (view.height / 2)),
+                fragmentManager = parentFragmentManager
             )
         })
     }

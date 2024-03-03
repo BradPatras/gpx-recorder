@@ -17,7 +17,7 @@ class GpxDetailsView(
     val distanceText: String,
     val waypointsText: String,
     val dateText: String
-    ) {
+) {
 
     private var savedText = ""
     private val moreMenu: PopupMenu = PopupMenu(binding.root.context, binding.moreBtn)
@@ -86,12 +86,12 @@ class GpxDetailsView(
 
     private fun deletePressed() {
         AlertDialog.Builder(binding.root.context)
-                .setTitle(R.string.delete_recording_alert_title)
-                .setMessage(R.string.delete_recording_alert_message)
-                .setCancelable(true)
-                .setPositiveButton(R.string.delete) { _, _ ->
-                    deleteRouteObservable.onNext(Unit)
-                }.create().show()
+            .setTitle(R.string.delete_recording_alert_title)
+            .setMessage(R.string.delete_recording_alert_message)
+            .setCancelable(true)
+            .setPositiveButton(R.string.delete) { _, _ ->
+                deleteRouteObservable.onNext(Unit)
+            }.create().show()
     }
 
     private fun exportPressed() {

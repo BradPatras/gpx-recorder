@@ -11,11 +11,11 @@ import io.realm.annotations.PrimaryKey
  */
 
 open class TrackPoint(
-        @PrimaryKey var identifier: Long = UUIDHelper.random(),
-        var lat: Double = 0.0,
-        var lon: Double = 0.0,
-        var ele: Double? = null,
-        var time: String = DateTimeFormatHelper.formatDate()
+    @PrimaryKey var identifier: Long = UUIDHelper.random(),
+    var lat: Double = 0.0,
+    var lon: Double = 0.0,
+    var ele: Double? = null,
+    var time: String = DateTimeFormatHelper.formatDate()
 ) : RealmObject(), XmlSerializable {
     override fun getXmlString(): String {
         val eleXml = ele?.let { return@let "<ele>${it.toElevationString()}</ele>" } ?: ""

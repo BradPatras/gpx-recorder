@@ -23,28 +23,28 @@ class Alerts(val context: Context) {
             context.getString(R.string.denied_alert_message)
         }
         return MaterialAlertDialogBuilder(context)
-                .setTitle(context.getString(R.string.denied_alert_title))
-                .setMessage(message)
-                .setPositiveButton(context.getString(R.string.denied_alert_button)) { _, _ -> action.invoke() }
-                .setCancelable(true)
-                .create()
+            .setTitle(context.getString(R.string.denied_alert_title))
+            .setMessage(message)
+            .setPositiveButton(context.getString(R.string.denied_alert_button)) { _, _ -> action.invoke() }
+            .setCancelable(true)
+            .create()
     }
 
     fun genericError(messageResId: Int, onDismiss: (DialogInterface) -> Unit = {}): AlertDialog {
         return MaterialAlertDialogBuilder(context)
-                .setTitle(R.string.error)
-                .setMessage(messageResId)
-                .setCancelable(true)
-                .setOnDismissListener(onDismiss)
-                .create()
+            .setTitle(R.string.error)
+            .setMessage(messageResId)
+            .setCancelable(true)
+            .setOnDismissListener(onDismiss)
+            .create()
     }
 
     fun backgroundLocationJustificationAlert(onDismiss: (DialogInterface) -> Unit): AlertDialog {
         return MaterialAlertDialogBuilder(context)
-                .setTitle(context.getString(R.string.background_location_justification_title))
-                .setMessage(context.getString(R.string.background_location_justification_desc))
-                .setPositiveButton(R.string.okay) {_, _ -> }
-                .setOnDismissListener(onDismiss)
-                .create()
+            .setTitle(context.getString(R.string.background_location_justification_title))
+            .setMessage(context.getString(R.string.background_location_justification_desc))
+            .setPositiveButton(R.string.okay) {_, _ -> }
+            .setOnDismissListener(onDismiss)
+            .create()
     }
 }

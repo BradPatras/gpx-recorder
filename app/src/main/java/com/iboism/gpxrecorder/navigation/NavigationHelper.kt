@@ -31,17 +31,17 @@ class NavigationHelper(private val activity: Activity) : NavigationView.OnNaviga
 
             R.id.nav_delete_recordings -> {
                 AlertDialog.Builder(activity)
-                        .setTitle(R.string.clear_all_alert_title)
-                        .setMessage(R.string.clear_all_alert_message)
-                        .setCancelable(true)
-                        .setPositiveButton(R.string.clear_all_alert_button) { _, _ ->
-                          LocationRecorderService.requestStopRecording(activity)
-                            val realm = Realm.getDefaultInstance()
-                            realm.executeTransaction {
-                                it.delete(GpxContent::class.java)
-                            }
-                            realm.close()
-                        }.create().show()
+                    .setTitle(R.string.clear_all_alert_title)
+                    .setMessage(R.string.clear_all_alert_message)
+                    .setCancelable(true)
+                    .setPositiveButton(R.string.clear_all_alert_button) { _, _ ->
+                        LocationRecorderService.requestStopRecording(activity)
+                        val realm = Realm.getDefaultInstance()
+                        realm.executeTransaction {
+                            it.delete(GpxContent::class.java)
+                        }
+                        realm.close()
+                    }.create().show()
             }
 
             R.id.nav_privacy_policy ->
@@ -56,10 +56,10 @@ class NavigationHelper(private val activity: Activity) : NavigationView.OnNaviga
 
     // If the user's device is unable to launch the intent, fail silently
     private fun Activity.launchExternalIntent(intent: Intent) {
-       try {
-           this.startActivity(intent)
-       } catch (e: Exception) {
+        try {
+            this.startActivity(intent)
+        } catch (e: Exception) {
             return
-       }
+        }
     }
 }

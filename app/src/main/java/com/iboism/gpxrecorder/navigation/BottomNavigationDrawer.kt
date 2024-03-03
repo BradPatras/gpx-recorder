@@ -10,6 +10,7 @@ import com.iboism.gpxrecorder.databinding.BottomNavigationDrawerLayoutBinding
 class BottomNavigationDrawer: BottomSheetDialogFragment() {
     private val navigationHelper: NavigationHelper by lazy { NavigationHelper(requireActivity()) }
     private lateinit var binding: BottomNavigationDrawerLayoutBinding
+
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         binding = BottomNavigationDrawerLayoutBinding.inflate(inflater, container, false)
         return binding.root

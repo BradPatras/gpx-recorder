@@ -32,11 +32,11 @@ class CreateWaypointService : BroadcastReceiver()  {
         val loc = locationResult?.lastLocation ?: return null
 
         return Waypoint(
-                lat = loc.latitude,
-                lon = loc.longitude,
-                ele = loc.altitude.takeIf { loc.hasAltitude() },
-                title = title,
-                desc = note
+            lat = loc.latitude,
+            lon = loc.longitude,
+            ele = loc.altitude.takeIf { loc.hasAltitude() },
+            title = title,
+            desc = note
         )
     }
 
@@ -46,17 +46,17 @@ class CreateWaypointService : BroadcastReceiver()  {
         private const val waypointTitleKey = "kwaypointTitle"
         fun startServiceIntent(context: Context, gpxId: Long, title: String, note: String): Intent {
             return Intent(context, CreateWaypointService::class.java)
-                    .setData(serializeParameters(gpxId, title, note))
+                .setData(serializeParameters(gpxId, title, note))
         }
 
         private fun serializeParameters(gpxId: Long, title: String, note: String): Uri {
             return Uri.Builder().scheme("http")
-                    .authority("ugh.com")
-                    .appendPath("extra")
-                    .appendQueryParameter(gpxIdKey, gpxId.toString())
-                    .appendQueryParameter(waypointNoteKey, note)
-                    .appendQueryParameter(waypointTitleKey, title)
-                    .build()
+                .authority("ugh.com")
+                .appendPath("extra")
+                .appendQueryParameter(gpxIdKey, gpxId.toString())
+                .appendQueryParameter(waypointNoteKey, note)
+                .appendQueryParameter(waypointTitleKey, title)
+                .build()
         }
 
         private fun harvestParameters(intent: Intent): Triple<Long, String, String>? {

@@ -14,7 +14,6 @@ class RecordingConfiguration(
     private var maxWait: Long = (interval * 1.25).toLong(),
     private var fastestInterval: Long = interval / 2
 ) {
-
     fun locationRequest(): LocationRequest {
         return LocationRequest.Builder(interval)
             .setMinUpdateDistanceMeters(2f)

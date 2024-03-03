@@ -12,23 +12,23 @@ import org.json.JSONObject
  * Created by Brad on 11/19/2017.
  */
 open class GpxContent(
-        @PrimaryKey var identifier: Long = UUIDHelper.random(),
-        var trackList: RealmList<Track> = RealmList(),
-        var waypointList: RealmList<Waypoint> = RealmList(),
-        var title: String = "",
-        var date: String = DateTimeFormatHelper.formatDate()
-        ) : JsonSerializable, XmlSerializable, RealmObject() {
+    @PrimaryKey var identifier: Long = UUIDHelper.random(),
+    var trackList: RealmList<Track> = RealmList(),
+    var waypointList: RealmList<Waypoint> = RealmList(),
+    var title: String = "",
+    var date: String = DateTimeFormatHelper.formatDate()
+) : JsonSerializable, XmlSerializable, RealmObject() {
 
     override fun getXmlString(): String {
         val titleXml = "<name>$title</name>"
         val descXml = "<desc>Recorded with GPX Recorder for Android</desc>"
         val metaDataXml = "<metadata>$titleXml$descXml</metadata>"
         val contentXml = listOf(waypointList, trackList)
-                .flatten()
-                .asSequence()
-                .filterIsInstance(XmlSerializable::class.java)
-                .map { it.getXmlString() }
-                .fold("") { content, entity -> content + entity }
+            .flatten()
+            .asSequence()
+            .filterIsInstance(XmlSerializable::class.java)
+            .map { it.getXmlString() }
+            .fold("") { content, entity -> content + entity }
 
         return "$metaDataXml\n$contentXml"
     }
@@ -85,8 +85,8 @@ open class GpxContent(
             if (identifier == null) return null
 
             return realm.where(GpxContent::class.java)
-                    .equalTo(primaryKey, identifier)
-                    .findFirst()
+                .equalTo(primaryKey, identifier)
+                .findFirst()
         }
     }
 }

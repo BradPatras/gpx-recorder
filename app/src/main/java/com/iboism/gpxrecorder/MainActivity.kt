@@ -33,8 +33,8 @@ class MainActivity : AppCompatActivity(), RecordingConfiguratorModal.Listener {
 
         if (savedInstanceState == null) {
             supportFragmentManager.beginTransaction()
-                    .add(R.id.content_container, GpxListFragment.newInstance())
-                    .commit()
+                .add(R.id.content_container, GpxListFragment.newInstance())
+                .commit()
 
             // uncomment to create random track and add it to realm
 //            val lst = listOf("Weekend Trip", "Windy Hike", "Forest Trail", "Creek Hike", "Mushroom Hunting", "Taking it Easy", "Hiking Out", "Hill Trace")
@@ -65,7 +65,7 @@ class MainActivity : AppCompatActivity(), RecordingConfiguratorModal.Listener {
         }
 
         if (Keys.ShortcutAction == intent.action) {
-           handleStartRecordingAction()
+            handleStartRecordingAction()
         }
     }
 
@@ -101,12 +101,12 @@ class MainActivity : AppCompatActivity(), RecordingConfiguratorModal.Listener {
 
     private fun showSchemaFailure() {
         AlertDialog.Builder(this)
-                .setTitle(R.string.init_error_title)
-                .setMessage(R.string.init_error_message)
-                .setOnDismissListener {
-                    this.finishAfterTransition()
-                }.create()
-                .show()
+            .setTitle(R.string.init_error_title)
+            .setMessage(R.string.init_error_message)
+            .setOnDismissListener {
+                this.finishAfterTransition()
+            }.create()
+            .show()
     }
 
     @SuppressLint("MissingPermission")

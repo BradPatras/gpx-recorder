@@ -22,7 +22,6 @@ private const val DRAFT_TITLE_KEY = "CreateWaypointDialog_draftTitle"
 private const val DRAFT_NOTE_KEY = "CreateWaypointDialog_draftNote"
 
 class CreateWaypointDialogActivity : AppCompatActivity() {
-
     private lateinit var binding: ActivityCreateWaypointDialogBinding
 
     private val fusedLocation by lazy {
@@ -80,8 +79,8 @@ class CreateWaypointDialogActivity : AppCompatActivity() {
 
     private fun waypointError() {
         Alerts(applicationContext)
-                .genericError(R.string.cannot_create_waypoint) { finish() }
-                .show()
+            .genericError(R.string.cannot_create_waypoint) { finish() }
+            .show()
     }
 
     @SuppressLint("MissingPermission")
@@ -95,9 +94,9 @@ class CreateWaypointDialogActivity : AppCompatActivity() {
         val waypointIntent = CreateWaypointService.startServiceIntent(applicationContext, gpxId, title, note)
         val waypointPendingIntent = PendingIntent.getBroadcast(applicationContext, 0, waypointIntent, intentFlags)
         PermissionHelper.getInstance(this@CreateWaypointDialogActivity)
-                .checkLocationPermissions {
-                    fusedLocation.requestLocationUpdates(locationConfiguration, waypointPendingIntent)
-                    finish()
-                }
+            .checkLocationPermissions {
+                fusedLocation.requestLocationUpdates(locationConfiguration, waypointPendingIntent)
+                finish()
+            }
     }
 }

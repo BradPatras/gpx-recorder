@@ -16,16 +16,16 @@ import io.realm.annotations.PrimaryKey
  */
 
 open class Segment(
-        @PrimaryKey var identifier: Long = UUIDHelper.random(),
-        var points: RealmList<TrackPoint> = RealmList(),
-        var distance: Float = 0f
+    @PrimaryKey var identifier: Long = UUIDHelper.random(),
+    var points: RealmList<TrackPoint> = RealmList(),
+    var distance: Float = 0f
 ) : RealmObject(), XmlSerializable {
 
     override fun getXmlString(): String {
         val pointsList = points
-                .asSequence()
-                .map { it.getXmlString() }
-                .fold("") { xmlString: String, pointString: String -> xmlString + pointString }
+            .asSequence()
+            .map { it.getXmlString() }
+            .fold("") { xmlString: String, pointString: String -> xmlString + pointString }
 
         return "<trkseg>$pointsList</trkseg>"
     }
@@ -41,20 +41,20 @@ open class Segment(
     fun getLatLngPoints(thread: Scheduler = Schedulers.computation()): Single<List<LatLng>> {
         val identifier = this.identifier
         return Single.just(identifier)
-                .subscribeOn(thread)
-                .map {
-                    val realm = Realm.getDefaultInstance()
-                    val pts = realm
-                            .where(Segment::class.java)
-                            .equalTo(primaryKey, identifier)
-                            .findFirst()
-                            ?.points ?: emptyList<TrackPoint>()
-                    val ptsCopy = realm.copyFromRealm(pts)
-                    realm.close()
-                    return@map ptsCopy
-                }.map { points ->
-                    return@map points.map { LatLng(it.lat,it.lon) }
-                }
+            .subscribeOn(thread)
+            .map {
+                val realm = Realm.getDefaultInstance()
+                val pts = realm
+                    .where(Segment::class.java)
+                    .equalTo(primaryKey, identifier)
+                    .findFirst()
+                    ?.points ?: emptyList<TrackPoint>()
+                val ptsCopy = realm.copyFromRealm(pts)
+                realm.close()
+                return@map ptsCopy
+            }.map { points ->
+                return@map points.map { LatLng(it.lat,it.lon) }
+            }
     }
 
     companion object Keys {

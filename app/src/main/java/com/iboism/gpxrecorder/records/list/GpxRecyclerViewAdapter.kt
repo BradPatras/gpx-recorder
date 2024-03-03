@@ -32,10 +32,10 @@ private const val VIEW_TYPE_DELETED = 1
 private const val VIEW_TYPE_CURRENT = 2
 
 class GpxRecyclerViewAdapter(
-        val context: Context,
-        contentList: OrderedRealmCollection<GpxContent>,
+    val context: Context,
+    contentList: OrderedRealmCollection<GpxContent>,
 ) : RealmRecyclerViewAdapter<GpxContent, RecyclerView.ViewHolder>(contentList, true),
-        RecorderServiceConnection.OnServiceConnectedDelegate {
+    RecorderServiceConnection.OnServiceConnectedDelegate {
     private var hiddenRowIdentifiers: MutableList<Long> = mutableListOf()
     private var currentlyRecordingRouteId: Long? = null
     private var serviceConnection: RecorderServiceConnection = RecorderServiceConnection(this)
@@ -203,11 +203,11 @@ class GpxRecyclerViewAdapter(
         notifyItemChanged(position)
 
         val delayedDelete = Single.just(identifier)
-                .delay(3, TimeUnit.SECONDS)
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe { id: Long ->
-                    if (hiddenRowIdentifiers.contains(id)) deleteRow(id)
-                }
+            .delay(3, TimeUnit.SECONDS)
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribe { id: Long ->
+                if (hiddenRowIdentifiers.contains(id)) deleteRow(id)
+            }
     }
 
     private fun deleteRow(identifier: Long) {

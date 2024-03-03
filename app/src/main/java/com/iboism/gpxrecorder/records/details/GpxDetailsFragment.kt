@@ -79,18 +79,18 @@ class GpxDetailsFragment : Fragment() {
         fileHelper = FileHelper()
 
         val listener = RealmObjectChangeListener { _: GpxContent?, _: ObjectChangeSet? ->
-           mapController?.redraw()
+            mapController?.redraw()
         }
 
         gpxContent.addChangeListener(listener)
         val distance = gpxContent.trackList.first()?.segments?.first()?.distance ?: 0f
 
         detailsView = GpxDetailsView(
-                binding = binding,
-                titleText = gpxContent.title,
-                distanceText = resources.getString(R.string.distance_km, distance),
-                dateText = DateTimeFormatHelper.toReadableString(gpxContent.date),
-                waypointsText = resources.getQuantityString(R.plurals.waypoint_count, gpxContent.waypointList.size, gpxContent.waypointList.size)
+            binding = binding,
+            titleText = gpxContent.title,
+            distanceText = resources.getString(R.string.distance_km, distance),
+            dateText = DateTimeFormatHelper.toReadableString(gpxContent.date),
+            waypointsText = resources.getQuantityString(R.plurals.waypoint_count, gpxContent.waypointList.size, gpxContent.waypointList.size)
         )
 
         realm.close()
@@ -134,7 +134,7 @@ class GpxDetailsFragment : Fragment() {
 
     private fun resumeRecording() {
         PermissionHelper.getInstance(this.requireActivity()).checkLocationPermissions(onAllowed = {
-           showConfiguratorModal()
+            showConfiguratorModal()
         })
     }
 
