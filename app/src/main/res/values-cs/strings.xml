@@ -62,7 +62,7 @@
     <string name="privacy_policy">Podmínky ochrany osobních údajů</string>
     <string name="recording_in_progress">Probíhá záznam</string>
     <string name="resume_recording">Pokračovat</string>
-    <string name="save_to_device">Uložit do zařízení</string>
+    <string name="save">Uložit</string>
     <string name="share">Sdílet</string>
     <string name="shortcut_label">Spustit záznam</string>
     <string name="start">Začít</string>

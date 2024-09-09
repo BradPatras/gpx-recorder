@@ -71,7 +71,7 @@
     <string name="privacy_policy">Privacy Policy</string>
     <string name="recording_in_progress">Recording in progress</string>
     <string name="resume_recording">Resume</string>
-    <string name="save_to_device">Save to device</string>
+    <string name="save">Save</string>
     <string name="share">Share</string>
     <string name="shortcut_label">Start recording</string>
     <string name="start">Start</string>
@@ -87,5 +87,6 @@
     <string name="start_recording_button">Start recording</string>
     <string name="route_deleted">Route Deleted</string>
     <string name="tap_to_undo">Tap to Undo</string>
+    <string name="use_iso_date_for_filename">Use ISO date for filename</string>
 
 </resources>

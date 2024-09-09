@@ -21,7 +21,7 @@
 
     <TextView
         android:id="@+id/format_tv"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:textSize="16sp"
         android:text="@string/file_format"
@@ -29,13 +29,39 @@
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintTop_toTopOf="@id/format_selector_spinner"
         app:layout_constraintBottom_toBottomOf="@id/format_selector_spinner"
+        app:layout_constraintRight_toLeftOf="@id/center_x"
         android:layout_marginStart="16dp"
+        />
+
+    <TextView
+        android:id="@+id/filename_tv"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:textSize="16sp"
+        android:text="@string/use_iso_date_for_filename"
+        android:textColor="@color/md_onSurface"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toTopOf="@id/filename_checkbox"
+        app:layout_constraintBottom_toBottomOf="@id/filename_checkbox"
+        app:layout_constraintRight_toLeftOf="@id/filename_checkbox"
+        android:layout_marginStart="16dp"
+        />
+
+    <CheckBox
+        android:id="@+id/filename_checkbox"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        app:layout_constraintTop_toBottomOf="@id/format_selector_spinner"
+        app:layout_constraintRight_toRightOf="parent"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="16dp"
         />
 
     <Spinner
         android:id="@+id/format_selector_spinner"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:minHeight="48dp"
         android:layout_marginTop="12dp"
         android:foregroundGravity="right"
         android:gravity="end"
@@ -43,18 +69,19 @@
         app:layout_constraintEnd_toEndOf="parent"
         android:layout_marginEnd="16dp"
         app:layout_constraintHorizontal_bias="1.0"
-        app:layout_constraintStart_toEndOf="@id/format_tv"
+        app:layout_constraintStart_toEndOf="@id/center_x"
         app:layout_constraintTop_toBottomOf="@id/export_title_tv" />
 
     <Button
         android:id="@+id/export_share_btn"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/format_selector_spinner"
+        app:layout_constraintTop_toBottomOf="@id/filename_checkbox"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toRightOf="@id/center_x"
         android:layout_marginTop="16dp"
+        android:lines="1"
         android:textColor="@color/button_text_on_surface"
         style="@style/Widget.MaterialComponents.Button.TextButton"
         android:text="@string/share"
@@ -62,16 +89,17 @@
 
     <Button
         android:id="@+id/export_save_btn"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:lines="1"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toLeftOf="@id/center_x"
-        app:layout_constraintTop_toBottomOf="@id/format_selector_spinner"
+        app:layout_constraintTop_toBottomOf="@id/filename_checkbox"
         app:layout_constraintBottom_toBottomOf="parent"
         android:layout_marginTop="16dp"
         android:textColor="@color/button_text_on_surface"
         style="@style/Widget.MaterialComponents.Button.TextButton"
-        android:text="@string/save_to_device"
+        android:text="@string/save"
         />
 
     <ProgressBar
