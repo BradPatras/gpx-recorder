@@ -147,5 +147,6 @@
   <string name="route_deleted">Itinéraire supprimé</string>
       
   <string name="tap_to_undo">Appuyez pour annuler</string>
-  
+    <string name="use_iso_date_for_filename">Utiliser la date ISO pour le nom de fichier</string>
+
 </resources>
