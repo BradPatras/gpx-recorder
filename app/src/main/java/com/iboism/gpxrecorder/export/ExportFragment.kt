@@ -71,7 +71,8 @@ class ExportFragment: DialogFragment() {
         val export = fileHelper?.shareRouteFile(
             context,
             gpxId.value,
-            getSelectedExportFormat()
+            getSelectedExportFormat(),
+            binding.filenameCheckbox.isChecked
         )?.subscribe {
             setLoadingState(false)
             dismiss()
@@ -86,7 +87,8 @@ class ExportFragment: DialogFragment() {
     private fun showSystemFolderPicker() {
         val filename = fileHelper?.getRouteFilename(
             gpxId.value,
-            getSelectedExportFormat()
+            getSelectedExportFormat(),
+            binding.filenameCheckbox.isChecked
         ) ?: return
 
         saveFileLauncher.launch(filename)

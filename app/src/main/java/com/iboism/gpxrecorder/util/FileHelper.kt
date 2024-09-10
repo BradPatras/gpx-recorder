@@ -29,9 +29,9 @@ class FileHelper {
         GeoJson
     }
 
-    fun shareRouteFile(context: Context, gpxContentId: Long, format: Format): Completable {
+    fun shareRouteFile(context: Context, gpxContentId: Long, format: Format, shouldUseIsoDateFilename: Boolean): Completable {
         val sharedFilesDir = File(context.cacheDir, SHARE_PATH).apply { this.mkdirs() }
-        val filename = getRouteFilename(gpxContentId, format)
+        val filename = getRouteFilename(gpxContentId, format, shouldUseIsoDateFilename)
         val sharedFile = File(sharedFilesDir, filename)
 
         return createFile(context, gpxContentId, sharedFile, format)
@@ -59,13 +59,17 @@ class FileHelper {
             }
     }
 
-    fun getRouteFilename(gpxContentId: Long, format: Format): String {
+    fun getRouteFilename(gpxContentId: Long, format: Format, shouldUseIsoDate: Boolean): String {
         val realm = Realm.getDefaultInstance()
         val gpx = GpxContent.withId(gpxContentId, realm) ?: throw Exception("Failed to fetch gpx route")
-
+        val filename = if (shouldUseIsoDate) {
+            gpx.date
+        } else {
+            gpx.title
+        }
         return when(format) {
-            Format.Gpx -> gpx.title.getLegalFilename().withGpxExt()
-            Format.GeoJson -> gpx.title.getLegalFilename().withGeoJsonExt()
+            Format.Gpx -> filename.getLegalFilename().withGpxExt()
+            Format.GeoJson -> filename.getLegalFilename().withGeoJsonExt()
         }
     }
 
