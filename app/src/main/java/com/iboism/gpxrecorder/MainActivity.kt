@@ -90,7 +90,7 @@ class MainActivity : AppCompatActivity(), RecordingConfiguratorModal.Listener {
     }
 
     private fun handleStartRecordingAction() {
-        PermissionHelper.getInstance(this).checkLocationPermissions {
+        PermissionHelper.checkLocationPermissions(applicationContext) {
             RecordingConfiguratorModal.show(fragmentManager = supportFragmentManager)
         }
     }

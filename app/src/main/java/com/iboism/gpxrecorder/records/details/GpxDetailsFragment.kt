@@ -25,8 +25,6 @@ import io.realm.ObjectChangeSet
 import io.realm.Realm
 import io.realm.RealmObjectChangeListener
 
-const val CREATE_FILE_INTENT_ID = 1
-
 class GpxDetailsFragment : Fragment() {
     private lateinit var detailsView: GpxDetailsView
     private lateinit var gpxId: Holder<Long>
@@ -133,9 +131,9 @@ class GpxDetailsFragment : Fragment() {
     }
 
     private fun resumeRecording() {
-        PermissionHelper.getInstance(this.requireActivity()).checkLocationPermissions(onAllowed = {
+        PermissionHelper.checkLocationPermissions(this.requireActivity().applicationContext) {
             showConfiguratorModal()
-        })
+        }
     }
 
     private fun showConfiguratorModal() {

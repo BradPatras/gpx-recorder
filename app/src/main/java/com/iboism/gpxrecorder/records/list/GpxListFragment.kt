@@ -6,7 +6,9 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
 import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.ItemTouchHelper
@@ -28,10 +30,9 @@ import io.reactivex.disposables.CompositeDisposable
 import io.realm.Realm
 import io.realm.RealmResults
 import io.realm.Sort
+import kotlinx.coroutines.launch
 import org.greenrobot.eventbus.EventBus
 import org.greenrobot.eventbus.Subscribe
-
-const val CREATE_FILE_INTENT_ID = 1
 
 class GpxListFragment : Fragment(), RecorderServiceConnection.OnServiceConnectedDelegate {
     private val placeholderViews = listOf(R.id.placeholder_routes_text, R.id.placeholder_routes_icon)
@@ -80,8 +81,10 @@ class GpxListFragment : Fragment(), RecorderServiceConnection.OnServiceConnected
 
     override fun onServiceDisconnected() {
         currentlyRecordingRouteId = null
-        lifecycleScope.launchWhenResumed {
-            updateCurrentRecordingView(null)
+        lifecycleScope.launch {
+            lifecycle.repeatOnLifecycle(Lifecycle.State.RESUMED) {
+                updateCurrentRecordingView(null)
+            }
         }
     }
 
@@ -114,12 +117,12 @@ class GpxListFragment : Fragment(), RecorderServiceConnection.OnServiceConnected
     }
 
     private fun onFabClicked(view: View) {
-        PermissionHelper.getInstance(this.requireActivity()).checkLocationPermissions(onAllowed = {
+        PermissionHelper.checkLocationPermissions(this.requireActivity().applicationContext) {
             RecordingConfiguratorModal.circularReveal(
                 originXY = Pair(view.x.toInt() + (view.width / 2), view.y.toInt() + (view.height / 2)),
                 fragmentManager = parentFragmentManager
             )
-        })
+        }
     }
 
     private fun showContentViewerFragment(gpxId: Long) {
