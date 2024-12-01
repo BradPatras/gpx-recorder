@@ -1,6 +1,7 @@
 package com.iboism.gpxrecorder.util
 
 import android.Manifest
+import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.net.Uri
@@ -19,7 +20,8 @@ import com.karumi.dexter.listener.multi.MultiplePermissionsListener
  */
 class PermissionHelper {
     companion object {
-        fun checkLocationPermissions(context: Context, onAllowed: () -> Unit) {
+        fun checkLocationPermissions(activity: Activity, onAllowed: () -> Unit) {
+            val context = activity.applicationContext
             val hasShownJustification = Prefs
                 .getDefault(context)
                 .getBoolean(Keys.HasShownLocationJustification, false)
@@ -27,8 +29,8 @@ class PermissionHelper {
             // If we haven't shown background location access justification yet, do that before
             // requesting permission.
             if (!hasShownJustification) {
-                Alerts(context)
-                    .backgroundLocationJustificationAlert { checkLocationPermissions(context, onAllowed) }.show()
+                Alerts(activity)
+                    .backgroundLocationJustificationAlert { checkLocationPermissions(activity, onAllowed) }.show()
                 Prefs.getDefault(context).edit()
                     .putBoolean(Keys.HasShownLocationJustification, true)
                     .apply()
@@ -53,8 +55,8 @@ class PermissionHelper {
                     Listener(
                         onAllowed,
                         onDenied = {
-                            Alerts(context)
-                                .permissionDeniedAlert { openApplicationSettings(context) }
+                            Alerts(activity)
+                                .permissionDeniedAlert { openApplicationSettings(activity) }
                                 .show()
                         }
                     )

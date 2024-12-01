@@ -117,7 +117,7 @@ class GpxListFragment : Fragment(), RecorderServiceConnection.OnServiceConnected
     }
 
     private fun onFabClicked(view: View) {
-        PermissionHelper.checkLocationPermissions(this.requireActivity().applicationContext) {
+        PermissionHelper.checkLocationPermissions(this.requireActivity()) {
             RecordingConfiguratorModal.circularReveal(
                 originXY = Pair(view.x.toInt() + (view.width / 2), view.y.toInt() + (view.height / 2)),
                 fragmentManager = parentFragmentManager

@@ -86,7 +86,7 @@ class RecordingConfiguratorModal : Fragment() {
 
     @SuppressLint("MissingPermission")
     private fun cacheLastLocation() {
-        PermissionHelper.checkLocationPermissions(requireActivity().applicationContext) {
+        PermissionHelper.checkLocationPermissions(requireActivity()) {
             LocationServices
                 .getFusedLocationProviderClient(requireActivity())
                 .lastLocation

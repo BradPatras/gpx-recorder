@@ -131,7 +131,7 @@ class GpxDetailsFragment : Fragment() {
     }
 
     private fun resumeRecording() {
-        PermissionHelper.checkLocationPermissions(this.requireActivity().applicationContext) {
+        PermissionHelper.checkLocationPermissions(this.requireActivity()) {
             showConfiguratorModal()
         }
     }

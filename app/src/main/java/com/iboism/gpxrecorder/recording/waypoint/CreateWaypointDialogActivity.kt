@@ -94,7 +94,7 @@ class CreateWaypointDialogActivity : AppCompatActivity() {
         val waypointIntent = CreateWaypointService.startServiceIntent(applicationContext, gpxId, title, note)
         val waypointPendingIntent = PendingIntent.getBroadcast(applicationContext, 0, waypointIntent, intentFlags)
         PermissionHelper
-            .checkLocationPermissions(this@CreateWaypointDialogActivity.applicationContext) {
+            .checkLocationPermissions(this@CreateWaypointDialogActivity) {
                 fusedLocation.requestLocationUpdates(locationConfiguration, waypointPendingIntent)
                 finish()
             }
