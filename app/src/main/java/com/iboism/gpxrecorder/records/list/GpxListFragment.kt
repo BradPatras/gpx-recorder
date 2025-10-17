@@ -1,9 +1,11 @@
 package com.iboism.gpxrecorder.records.list
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.PopupMenu
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Lifecycle
@@ -19,7 +21,7 @@ import com.iboism.gpxrecorder.Events
 import com.iboism.gpxrecorder.R
 import com.iboism.gpxrecorder.databinding.FragmentRouteListBinding
 import com.iboism.gpxrecorder.model.GpxContent
-import com.iboism.gpxrecorder.navigation.BottomNavigationDrawer
+import com.iboism.gpxrecorder.navigation.NavigationHelper
 import com.iboism.gpxrecorder.recording.RecorderFragment
 import com.iboism.gpxrecorder.recording.RecorderServiceConnection
 import com.iboism.gpxrecorder.recording.configurator.RecordingConfiguratorModal
@@ -42,7 +44,6 @@ class GpxListFragment : Fragment(), RecorderServiceConnection.OnServiceConnected
     private val compositeDisposable = CompositeDisposable()
     private var serviceConnection: RecorderServiceConnection = RecorderServiceConnection(this)
     private lateinit var binding: FragmentRouteListBinding
-
     private val gpxChangeListener = { gpxContent: RealmResults<GpxContent> ->
         setPlaceholdersHidden(gpxContent.isNotEmpty())
     }
@@ -156,10 +157,16 @@ class GpxListFragment : Fragment(), RecorderServiceConnection.OnServiceConnected
         super.onViewCreated(view, savedInstanceState)
 
         val activity = (requireActivity() as AppCompatActivity)
-        activity.setSupportActionBar(binding.bottomAppBar)
-        binding.bottomAppBar.setNavigationOnClickListener {
-            val bottomNavDrawerFragment = BottomNavigationDrawer()
-            bottomNavDrawerFragment.show(parentFragmentManager, bottomNavDrawerFragment.tag)
+
+        val popup = PopupMenu(requireContext(), binding.listNavOverflowButton)
+        popup.menuInflater.inflate(R.menu.activity_main_drawer, popup.menu)
+        popup.setOnMenuItemClickListener {
+            val navHelper = NavigationHelper(activity)
+            navHelper.onNavigationItemSelected(it)
+        }
+
+        binding.listNavOverflowButton.setOnClickListener {
+            popup.show()
         }
 
         binding.fab.setOnClickListener(this::onFabClicked)
@@ -216,6 +223,14 @@ class GpxListFragment : Fragment(), RecorderServiceConnection.OnServiceConnected
                     }
                 }
             }
+        }
+    }
+
+    private fun launchExternalIntent(intent: Intent) {
+        try {
+            requireActivity().startActivity(intent)
+        } catch (e: Exception) {
+            // fail silently
         }
     }
 
