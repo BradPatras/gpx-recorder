@@ -10,3 +10,4 @@
 *.apk
 app/release/*
 *google_maps_api.xml
+local.properties
