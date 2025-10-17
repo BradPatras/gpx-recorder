@@ -28,7 +28,6 @@ import com.iboism.gpxrecorder.recording.configurator.RecordingConfiguratorModal
 import com.iboism.gpxrecorder.records.details.GpxDetailsFragment
 import com.iboism.gpxrecorder.util.DP
 import com.iboism.gpxrecorder.util.PermissionHelper
-import io.reactivex.disposables.CompositeDisposable
 import io.realm.Realm
 import io.realm.RealmResults
 import io.realm.Sort
@@ -41,7 +40,6 @@ class GpxListFragment : Fragment(), RecorderServiceConnection.OnServiceConnected
     private val gpxContentList = Realm.getDefaultInstance().where(GpxContent::class.java).findAll().sort("date", Sort.DESCENDING)
     private var adapter: GpxRecyclerViewAdapter? = null
     private var currentlyRecordingRouteId: Long? = null
-    private val compositeDisposable = CompositeDisposable()
     private var serviceConnection: RecorderServiceConnection = RecorderServiceConnection(this)
     private lateinit var binding: FragmentRouteListBinding
     private val gpxChangeListener = { gpxContent: RealmResults<GpxContent> ->
