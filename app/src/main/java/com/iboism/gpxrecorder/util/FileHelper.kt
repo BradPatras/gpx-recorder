@@ -1,7 +1,10 @@
 package com.iboism.gpxrecorder.util
 
+import android.content.ContentValues
 import android.content.Context
 import android.net.Uri
+import android.os.Environment
+import android.provider.MediaStore
 import com.iboism.gpxrecorder.R
 import com.iboism.gpxrecorder.model.GpxContent
 import io.reactivex.Completable
@@ -29,6 +32,62 @@ class FileHelper {
         GeoJson
     }
 
+    fun saveRouteFilesToDownloads(context: Context, gpxContentIds: List<Long>, format: Format, shouldUseIsoDateFilename: Boolean): Completable {
+        val saveFileSingles = gpxContentIds.map {
+            saveFileToDownloads(context, it, format, shouldUseIsoDateFilename)
+        }
+        
+        return Single.zip(saveFileSingles) { results ->
+            results.all { it as Boolean }
+        }.subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread())
+            .ignoreElement()
+            .onErrorComplete {
+                Alerts(context).genericError(R.string.file_save_failed).show()
+                true
+            }
+    }
+
+    private fun saveFileToDownloads(context: Context, gpxContentId: Long, format: Format, shouldUseIsoDateFilename: Boolean): Single<Boolean> {
+        return Single.fromCallable {
+            val realm = Realm.getDefaultInstance()
+            val gpx = GpxContent.withId(gpxContentId, realm) ?: throw Exception("Failed to fetch gpx route")
+            val filename = getRouteFilename(gpxContentId, format, shouldUseIsoDateFilename)
+            val content = when(format) {
+                Format.Gpx -> getGpxStub(context).replaceFirst(REPLACE_CONTENT_TAG, gpx.getXmlString())
+                Format.GeoJson -> gpx.getJsonString()
+            }
+            realm.close()
+            
+            saveToMediaStore(context, filename, content, format)
+        }.subscribeOn(Schedulers.io())
+    }
+
+    private fun saveToMediaStore(context: Context, fileName: String, content: String, format: Format): Boolean {
+        val mimeType = when(format) {
+            Format.Gpx -> "application/gpx+xml"
+            Format.GeoJson -> "application/json"
+        }
+        
+        val contentValues = ContentValues().apply {
+            put(MediaStore.MediaColumns.DISPLAY_NAME, fileName)
+            put(MediaStore.MediaColumns.MIME_TYPE, mimeType)
+            put(MediaStore.MediaColumns.RELATIVE_PATH, Environment.DIRECTORY_DOWNLOADS)
+        }
+        
+        return try {
+            val uri = context.contentResolver.insert(MediaStore.Downloads.EXTERNAL_CONTENT_URI, contentValues)
+            uri?.let {
+                context.contentResolver.openOutputStream(it)?.use { outputStream ->
+                    outputStream.write(content.toByteArray())
+                }
+                true
+            } ?: false
+        } catch (e: Exception) {
+            false
+        }
+    }
+
     fun shareRouteFiles(context: Context, gpxContentId: List<Long>, format: Format, shouldUseIsoDateFilename: Boolean): Completable {
         val filesSingles = gpxContentId.map {
             createShareRouteFile(context, it, format, shouldUseIsoDateFilename)
@@ -54,30 +113,6 @@ class FileHelper {
 
         return createFile(context, gpxContentId, sharedFile, format)
             .observeOn(AndroidSchedulers.mainThread())
-    }
-
-//    fun saveRouteFiles(
-//        context: Context,
-//        gpxContentId: List<Long>,
-//        destinationFileURI: Uri,
-//        format: Format
-//    ): Completable {
-//
-//    }
-
-    fun saveRouteFile(
-        context: Context,
-        gpxContentId: Long,
-        destinationFileURI: Uri,
-        format: Format
-    ): Completable {
-        return createFile(context, gpxContentId, destinationFileURI, format)
-            .observeOn(AndroidSchedulers.mainThread())
-            .ignoreElement()
-            .onErrorComplete {
-                Alerts(context).genericError(R.string.file_save_failed).show()
-                return@onErrorComplete true
-            }
     }
 
     fun getRouteFilename(gpxContentId: Long, format: Format, shouldUseIsoDate: Boolean): String {

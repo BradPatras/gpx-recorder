@@ -1,16 +1,11 @@
 package com.iboism.gpxrecorder.export
 
-import android.app.Activity
-import android.content.Context
-import android.content.Intent
 import android.graphics.Color
-import android.net.Uri
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ArrayAdapter
-import androidx.activity.result.contract.ActivityResultContract
 import androidx.core.graphics.drawable.toDrawable
 import androidx.fragment.app.DialogFragment
 import com.iboism.gpxrecorder.Keys
@@ -29,9 +24,6 @@ class ExportFragment: DialogFragment() {
     private val fileHelper: FileHelper? by lazy { FileHelper() }
     private val uiScope = CoroutineScope(Dispatchers.Main)
     private val compositeDisposable = CompositeDisposable()
-    private val saveFileLauncher = registerForActivityResult(SaveFileContract()) { uri ->
-        onSaveLocationSelected(uri)
-    }
 
     private lateinit var binding: FragmentExportBinding
 
@@ -68,7 +60,7 @@ class ExportFragment: DialogFragment() {
     private fun onShareClicked() {
         val context = context ?: return
         setLoadingState(true)
-        val export = fileHelper?.shareRouteFiles(
+        fileHelper?.shareRouteFiles(
             context,
             gpxIds.value,
             getSelectedExportFormat(),
@@ -76,43 +68,31 @@ class ExportFragment: DialogFragment() {
         )?.subscribe {
             setLoadingState(false)
             dismiss()
-        }
-        export?.let { compositeDisposable.add(it) }
+        }.also { it?.let { compositeDisposable.add(it) }}
     }
 
     private fun onSaveClicked() {
-        showSystemFolderPicker()
+        saveToDownloadsFolder()
     }
 
-    private fun showSystemFolderPicker() {
-        val filename = fileHelper?.getRouteFilename(
-            gpxIds.value.first(),
-            getSelectedExportFormat(),
-            binding.filenameCheckbox.isChecked
-        ) ?: return
-
-        saveFileLauncher.launch(filename)
-    }
-
-    private fun onSaveLocationSelected(location: Uri?) {
-        val destination = location ?: return
+    private fun saveToDownloadsFolder() {
         val context = context ?: return
         setLoadingState(true)
         fileHelper?.apply {
             compositeDisposable.add(
-                saveRouteFile(
+                saveRouteFilesToDownloads(
                     context,
-                    gpxIds.value.first(),
-                    destination,
-                    getSelectedExportFormat()
+                    gpxIds.value,
+                    getSelectedExportFormat(),
+                    binding.filenameCheckbox.isChecked
                 )
                     .delay(1, TimeUnit.SECONDS)
                     .subscribe {
                         uiScope.launch {
-                        setLoadingState(false)
-                        dismiss()
+                            setLoadingState(false)
+                            dismiss()
+                        }
                     }
-                }
             )
         }
     }
@@ -127,21 +107,6 @@ class ExportFragment: DialogFragment() {
     override fun onDetach() {
         super.onDetach()
         compositeDisposable.clear()
-    }
-
-    class SaveFileContract : ActivityResultContract<String, Uri?>() {
-        override fun createIntent(context: Context, input: String): Intent {
-            return Intent(Intent.ACTION_CREATE_DOCUMENT).apply {
-                addCategory(Intent.CATEGORY_OPENABLE)
-                type = "application/octet-stream"
-
-                putExtra(Intent.EXTRA_TITLE, input)
-            }
-        }
-
-        override fun parseResult(resultCode: Int, intent: Intent?): Uri? {
-            return if (resultCode == Activity.RESULT_OK) intent?.data else null
-        }
     }
 
     companion object {
