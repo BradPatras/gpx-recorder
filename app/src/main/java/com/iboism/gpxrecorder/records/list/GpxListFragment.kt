@@ -42,6 +42,8 @@ class GpxListFragment : Fragment(), RecorderServiceConnection.OnServiceConnected
     private var currentlyRecordingRouteId: Long? = null
     private var serviceConnection: RecorderServiceConnection = RecorderServiceConnection(this)
     private lateinit var binding: FragmentRouteListBinding
+    private var isSelecting: Boolean = false
+    private var didSelectall: Boolean = false
     private val gpxChangeListener = { gpxContent: RealmResults<GpxContent> ->
         setPlaceholdersHidden(gpxContent.isNotEmpty())
     }
@@ -151,10 +153,64 @@ class GpxListFragment : Fragment(), RecorderServiceConnection.OnServiceConnected
         setHasOptionsMenu(true)
     }
 
+    private fun onExportButtonClicked(button: View) {
+        // Enable select mode
+        isSelecting = true
+        binding.listNavOverflowButton.visibility = View.GONE
+        binding.gpxNavTitle.visibility = View.INVISIBLE
+        binding.exportButton.visibility = View.GONE
+        binding.cancelButton.visibility = View.VISIBLE
+        binding.selectAllButton.visibility = View.VISIBLE
+        binding.fab.hide()
+        binding.exportFab.show()
+        didSelectall = false
+        adapter?.selectModeChanged(isSelecting)
+    }
+
+    private fun onCancelButtonClicked(button: View) {
+        // disable select mode
+        isSelecting = false
+        binding.listNavOverflowButton.visibility = View.VISIBLE
+        binding.gpxNavTitle.visibility = View.VISIBLE
+        binding.exportButton.visibility = View.VISIBLE
+        binding.cancelButton.visibility = View.GONE
+        binding.selectAllButton.visibility = View.GONE
+        binding.fab.show()
+        binding.exportFab.hide()
+        adapter?.selectModeChanged(isSelecting)
+    }
+
+    fun onExportFabClicked(button: View) {
+
+    }
+
+    fun onSelectAllButtonClicked(view: View) {
+        if (didSelectall) {
+            binding.selectAllButton.text = getString(R.string.select_all)
+            adapter?.selectedIds = mutableListOf()
+            didSelectall = false
+        } else {
+            adapter?.selectedIds = adapter
+                ?.contentList
+                ?.map { it.identifier }
+                ?.toMutableList()
+                ?: mutableListOf()
+            binding.selectAllButton.text = getString(R.string.deselect_all)
+            didSelectall = true
+
+        }
+        adapter?.notifyDataSetChanged()
+    }
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
         val activity = (requireActivity() as AppCompatActivity)
+
+        binding.cancelButton.setOnClickListener(this::onCancelButtonClicked)
+        binding.exportFab.setOnClickListener(this::onExportFabClicked)
+        binding.exportButton.setOnClickListener(this::onExportButtonClicked)
+        binding.selectAllButton.setOnClickListener(this::onSelectAllButtonClicked)
 
         val popup = PopupMenu(requireContext(), binding.listNavOverflowButton)
         popup.menuInflater.inflate(R.menu.activity_main_drawer, popup.menu)

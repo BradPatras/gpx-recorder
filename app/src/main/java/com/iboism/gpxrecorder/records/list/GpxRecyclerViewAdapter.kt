@@ -33,7 +33,7 @@ private const val VIEW_TYPE_CURRENT = 2
 
 class GpxRecyclerViewAdapter(
     val context: Context,
-    contentList: OrderedRealmCollection<GpxContent>,
+    val contentList: OrderedRealmCollection<GpxContent>,
 ) : RealmRecyclerViewAdapter<GpxContent, RecyclerView.ViewHolder>(contentList, true),
     RecorderServiceConnection.OnServiceConnectedDelegate {
     private var hiddenRowIdentifiers: MutableList<Long> = mutableListOf()
@@ -41,9 +41,17 @@ class GpxRecyclerViewAdapter(
     private var serviceConnection: RecorderServiceConnection = RecorderServiceConnection(this)
     var contentViewerOpener: ((gpxId: Long) -> Unit)? = null
     var currentRecordingOpener: (() -> Unit)? = null
+    var isSelecting: Boolean = false
+    var selectedIds: MutableList<Long> = mutableListOf()
 
     init {
         setHasStableIds(true)
+    }
+
+    fun selectModeChanged(isSelecting: Boolean) {
+        this.isSelecting = isSelecting
+        notifyDataSetChanged()
+        selectedIds = mutableListOf()
     }
 
     override fun onServiceConnected(serviceConnection: RecorderServiceConnection) {
@@ -99,8 +107,16 @@ class GpxRecyclerViewAdapter(
         val binding = ListRowRouteBinding.inflate(LayoutInflater.from(parent.context), parent, false)
         val holder = RouteRowViewHolder(binding)
 
+        holder.checkbox.visibility = if (isSelecting) View.VISIBLE else View.GONE
         holder.rootView.setOnClickListener {
             contentViewerOpener?.invoke(holder.itemId)
+        }
+        holder.checkbox.setOnClickListener {
+            if (holder.checkbox.isChecked) {
+                selectedIds.add(holder.itemId)
+            } else {
+                selectedIds.remove(holder.itemId)
+            }
         }
 
         return holder
@@ -174,7 +190,8 @@ class GpxRecyclerViewAdapter(
         viewHolder.dateView.text = DateTimeFormatHelper.toReadableString(gpx.date)
         viewHolder.titleView.text = gpx.title
         viewHolder.waypointCountView.text = context.resources.getQuantityString(R.plurals.waypoint_count, gpx.waypointList.size, gpx.waypointList.size)
-
+        viewHolder.checkbox.isChecked = selectedIds.contains(gpx.identifier)
+        viewHolder.checkbox.visibility = if (isSelecting) View.VISIBLE else View.GONE
         val segment = gpx.trackList.firstOrNull()?.segments?.firstOrNull()
         val distance = segment?.distance ?: 0f
         viewHolder.distanceView.text = context.resources.getString(R.string.distance_km, distance)
