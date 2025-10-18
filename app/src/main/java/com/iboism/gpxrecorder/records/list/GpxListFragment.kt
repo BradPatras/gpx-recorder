@@ -20,6 +20,7 @@ import com.google.android.material.divider.MaterialDividerItemDecoration
 import com.iboism.gpxrecorder.Events
 import com.iboism.gpxrecorder.R
 import com.iboism.gpxrecorder.databinding.FragmentRouteListBinding
+import com.iboism.gpxrecorder.export.ExportFragment
 import com.iboism.gpxrecorder.model.GpxContent
 import com.iboism.gpxrecorder.navigation.NavigationHelper
 import com.iboism.gpxrecorder.recording.RecorderFragment
@@ -112,7 +113,7 @@ class GpxListFragment : Fragment(), RecorderServiceConnection.OnServiceConnected
     private fun updateCurrentRecordingView(gpxId: Long?) {
         if (gpxId != null) {
             binding.fab.hide()
-        } else {
+        } else if (!isSelecting) {
             binding.fab.show()
         }
     }
@@ -168,6 +169,10 @@ class GpxListFragment : Fragment(), RecorderServiceConnection.OnServiceConnected
     }
 
     private fun onCancelButtonClicked(button: View) {
+        disableSelectMode()
+    }
+
+    private fun disableSelectMode() {
         // disable select mode
         isSelecting = false
         binding.listNavOverflowButton.visibility = View.VISIBLE
@@ -181,7 +186,9 @@ class GpxListFragment : Fragment(), RecorderServiceConnection.OnServiceConnected
     }
 
     fun onExportFabClicked(button: View) {
-
+        adapter?.let {
+            ExportFragment.newInstance(it.selectedIds).show(parentFragmentManager, "export")
+        }
     }
 
     fun onSelectAllButtonClicked(view: View) {
@@ -252,9 +259,17 @@ class GpxListFragment : Fragment(), RecorderServiceConnection.OnServiceConnected
             override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
                 super.onScrolled(recyclerView, dx, dy)
                 if (dy > 0 && binding.fab.visibility == View.VISIBLE) {
-                    binding.fab.hide()
+                    if (isSelecting) {
+                        binding.exportFab.hide()
+                    } else {
+                        binding.fab.hide()
+                    }
                 } else if (dy < 0 && binding.fab.visibility != View.VISIBLE && currentlyRecordingRouteId == null) {
-                    binding.fab.show()
+                    if (isSelecting) {
+                        binding.exportFab.show()
+                    } else {
+                        binding.fab.show()
+                    }
                 }
             }
         })

@@ -127,7 +127,7 @@ class GpxDetailsFragment : Fragment() {
     }
 
     private fun exportPressed() {
-        ExportFragment.newInstance(gpxId.value).show(parentFragmentManager, "export")
+        ExportFragment.newInstance(listOf(gpxId.value)).show(parentFragmentManager, "export")
     }
 
     private fun resumeRecording() {

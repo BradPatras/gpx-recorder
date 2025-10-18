@@ -29,20 +29,41 @@ class FileHelper {
         GeoJson
     }
 
-    fun shareRouteFile(context: Context, gpxContentId: Long, format: Format, shouldUseIsoDateFilename: Boolean): Completable {
+    fun shareRouteFiles(context: Context, gpxContentId: List<Long>, format: Format, shouldUseIsoDateFilename: Boolean): Completable {
+        val filesSingles = gpxContentId.map {
+            createShareRouteFile(context, it, format, shouldUseIsoDateFilename)
+        }
+        return Single.zip(filesSingles) { files ->
+            files.filterIsInstance<File>()
+        }.subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread())
+            .doOnSuccess {
+                ShareHelper(context).shareFiles(it)
+            }
+            .ignoreElement()
+            .onErrorComplete {
+                Alerts(context).genericError(R.string.file_save_failed).show()
+                true
+            }
+    }
+
+    fun createShareRouteFile(context: Context, gpxContentId: Long, format: Format, shouldUseIsoDateFilename: Boolean): Single<File> {
         val sharedFilesDir = File(context.cacheDir, SHARE_PATH).apply { this.mkdirs() }
         val filename = getRouteFilename(gpxContentId, format, shouldUseIsoDateFilename)
         val sharedFile = File(sharedFilesDir, filename)
 
         return createFile(context, gpxContentId, sharedFile, format)
             .observeOn(AndroidSchedulers.mainThread())
-            .map { file ->
-                ShareHelper(context).shareFile(file)
-            }.ignoreElement().onErrorComplete {
-                Alerts(context).genericError(R.string.file_share_failed).show()
-                return@onErrorComplete true
-            }
     }
+
+//    fun saveRouteFiles(
+//        context: Context,
+//        gpxContentId: List<Long>,
+//        destinationFileURI: Uri,
+//        format: Format
+//    ): Completable {
+//
+//    }
 
     fun saveRouteFile(
         context: Context,
@@ -67,6 +88,7 @@ class FileHelper {
         } else {
             gpx.title
         }
+        realm.close()
         return when(format) {
             Format.Gpx -> filename.getLegalFilename().withGpxExt()
             Format.GeoJson -> filename.getLegalFilename().withGeoJsonExt()

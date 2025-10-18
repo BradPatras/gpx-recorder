@@ -4,7 +4,6 @@ import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.graphics.Color
-import android.graphics.drawable.ColorDrawable
 import android.net.Uri
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -12,6 +11,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ArrayAdapter
 import androidx.activity.result.contract.ActivityResultContract
+import androidx.core.graphics.drawable.toDrawable
 import androidx.fragment.app.DialogFragment
 import com.iboism.gpxrecorder.Keys
 import com.iboism.gpxrecorder.R
@@ -25,7 +25,7 @@ import kotlinx.coroutines.launch
 import java.util.concurrent.TimeUnit
 
 class ExportFragment: DialogFragment() {
-    private lateinit var gpxId: Holder<Long>
+    private lateinit var gpxIds: Holder<List<Long>>
     private val fileHelper: FileHelper? by lazy { FileHelper() }
     private val uiScope = CoroutineScope(Dispatchers.Main)
     private val compositeDisposable = CompositeDisposable()
@@ -36,14 +36,14 @@ class ExportFragment: DialogFragment() {
     private lateinit var binding: FragmentExportBinding
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
-        dialog?.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+        dialog?.window?.setBackgroundDrawable(Color.TRANSPARENT.toDrawable())
         binding = FragmentExportBinding.inflate(inflater, container, container != null)
         return binding.root
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        gpxId = Holder(requireArguments().get(Keys.GpxId) as Long)
+        gpxIds = Holder(requireArguments().getLongArray(Keys.GpxId)?.toList() ?: listOf())
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -68,9 +68,9 @@ class ExportFragment: DialogFragment() {
     private fun onShareClicked() {
         val context = context ?: return
         setLoadingState(true)
-        val export = fileHelper?.shareRouteFile(
+        val export = fileHelper?.shareRouteFiles(
             context,
-            gpxId.value,
+            gpxIds.value,
             getSelectedExportFormat(),
             binding.filenameCheckbox.isChecked
         )?.subscribe {
@@ -86,7 +86,7 @@ class ExportFragment: DialogFragment() {
 
     private fun showSystemFolderPicker() {
         val filename = fileHelper?.getRouteFilename(
-            gpxId.value,
+            gpxIds.value.first(),
             getSelectedExportFormat(),
             binding.filenameCheckbox.isChecked
         ) ?: return
@@ -102,7 +102,7 @@ class ExportFragment: DialogFragment() {
             compositeDisposable.add(
                 saveRouteFile(
                     context,
-                    gpxId.value,
+                    gpxIds.value.first(),
                     destination,
                     getSelectedExportFormat()
                 )
@@ -145,9 +145,9 @@ class ExportFragment: DialogFragment() {
     }
 
     companion object {
-        fun newInstance(gpxId: Long): ExportFragment {
+        fun newInstance(gpxIds: List<Long>): ExportFragment {
             val args = Bundle()
-            args.putLong(Keys.GpxId, gpxId)
+            args.putLongArray(Keys.GpxId, gpxIds.toLongArray())
 
             val fragment = ExportFragment()
             fragment.arguments = args
