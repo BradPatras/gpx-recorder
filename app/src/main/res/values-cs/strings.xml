@@ -85,4 +85,5 @@
     <string name="export_selected">Exportovat vybrané</string>
     <string name="select_all">Vybrat vše</string>
     <string name="deselect_all">Zrušit výběr všech</string>
+    <string name="save_location_info">Volba Uložit exportuje soubory do složky Stažené soubory tohoto zařízení.</string>
 </resources>

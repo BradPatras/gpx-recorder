@@ -154,5 +154,6 @@
     <string name="export_selected">Exportar seleccionados</string>
     <string name="select_all">Seleccionar todo</string>
     <string name="deselect_all">Deseleccionar todo</string>
+    <string name="save_location_info">Elegir Guardar exportará los archivos a la carpeta de Descargas de este dispositivo.</string>
 
 </resources>

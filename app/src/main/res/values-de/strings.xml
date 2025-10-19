@@ -152,5 +152,6 @@
     <string name="export_selected">Ausgewählte exportieren</string>
     <string name="select_all">Alle auswählen</string>
     <string name="deselect_all">Alle abwählen</string>
+    <string name="save_location_info">Wenn Sie auf „Speichern" klicken, werden die Dateien in den Downloads-Ordner dieses Geräts exportiert.</string>
 
 </resources>
