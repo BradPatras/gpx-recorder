@@ -1,7 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?><resources>
       
   <plurals name="point_count">
-    <item quantity="one">%1$d Punkt</item>
+    <item quantity="one">%1$      <string name="save">Speichern…</string>
+      
+  <string name="share">Teilen</string>unkt</item>
     <item quantity="other">%1$d Punkte</item>
   </plurals>
       
@@ -152,5 +154,10 @@
     <string name="export_selected">Ausgewählte exportieren</string>
     <string name="select_all">Alle auswählen</string>
     <string name="deselect_all">Alle abwählen</string>
+    <string name="download">Herunterladen</string>
+    <string name="download_location_info">Wenn Sie auf „Herunterladen" klicken, werden die Dateien in den Downloads-Ordner dieses Geräts exportiert.</string>
+    <string name="toggle_map_type">Kartentyp umschalten</string>
+    <string name="delete_route">Route löschen</string>
+    <string name="rename_route">Route umbenennen</string>
 
 </resources>

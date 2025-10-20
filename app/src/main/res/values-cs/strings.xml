@@ -85,4 +85,9 @@
     <string name="export_selected">Exportovat vybrané</string>
     <string name="select_all">Vybrat vše</string>
     <string name="deselect_all">Zrušit výběr všech</string>
+    <string name="download">Stáhnout</string>
+    <string name="download_location_info">Volba Stáhnout exportuje soubory do složky Stažené soubory tohoto zařízení.</string>
+    <string name="toggle_map_type">Přepnout typ mapy</string>
+    <string name="delete_route">Smazat cestu</string>
+    <string name="rename_route">Přejmenovat cestu</string>
 </resources>
