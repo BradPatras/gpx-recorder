@@ -1,7 +1,6 @@
 package com.iboism.gpxrecorder.records.details
 
 import android.os.Bundle
-import android.view.MenuItem
 import android.view.View
 import android.widget.PopupMenu
 import androidx.appcompat.app.AlertDialog
@@ -20,13 +19,10 @@ class GpxDetailsView(
 ) {
 
     private var savedText = ""
-    private val moreMenu: PopupMenu = PopupMenu(binding.root.context, binding.moreBtn)
-    private val exportMenuItem: MenuItem = moreMenu.menu.add("Export")
-    private val mapToggleMenuItem: MenuItem = moreMenu.menu.add("Toggle map type")
-    private val deleteMenuItem: MenuItem = moreMenu.menu.add("Delete route")
-    private val renameRouteMenuItem: MenuItem = moreMenu.menu.add("Rename route")
+    private val moreMenu: PopupMenu = PopupMenu(binding.root.context, binding.moreBtn, R.menu.details_overlfow_menu)
 
-    var exportTouchObservable: PublishSubject<Unit> = PublishSubject.create()
+    var saveTouchObservable: PublishSubject<Unit> = PublishSubject.create()
+    var shareTouchObservable: PublishSubject<Unit> = PublishSubject.create()
     var gpxTitleObservable: PublishSubject<String> = PublishSubject.create()
     var mapTypeToggleObservable: PublishSubject<Unit> = PublishSubject.create()
     var deleteRouteObservable: PublishSubject<Unit> = PublishSubject.create()
@@ -43,13 +39,15 @@ class GpxDetailsView(
         binding.resumeBtn.setOnClickListener { resumePressed() }
         binding.moreBtn.setOnClickListener { morePressed() }
         binding.addWptBtn.setOnClickListener { addWaypointObservable.onNext(Unit) }
+        moreMenu.menuInflater.inflate(R.menu.details_overlfow_menu, moreMenu.menu)
 
         moreMenu.setOnMenuItemClickListener { menuItem ->
-            when (menuItem) {
-                exportMenuItem -> exportPressed()
-                mapToggleMenuItem -> mapTypeToggleObservable.onNext(Unit)
-                deleteMenuItem -> deletePressed()
-                renameRouteMenuItem -> editPressed()
+            when (menuItem.itemId) {
+                R.id.save -> savePressed()
+                R.id.share -> sharePressed()
+                R.id.toggle_map_type -> mapTypeToggleObservable.onNext(Unit)
+                R.id.delete_route -> deletePressed()
+                R.id.rename_route -> editPressed()
                 else -> return@setOnMenuItemClickListener false
             }
 
@@ -94,8 +92,12 @@ class GpxDetailsView(
             }.create().show()
     }
 
-    private fun exportPressed() {
-        exportTouchObservable.onNext(Unit)
+    private fun sharePressed() {
+        shareTouchObservable.onNext(Unit)
+    }
+
+    private fun savePressed() {
+        saveTouchObservable.onNext(Unit)
     }
 
     private fun morePressed() {

@@ -44,7 +44,7 @@ class GpxListFragment : Fragment(), RecorderServiceConnection.OnServiceConnected
     private var serviceConnection: RecorderServiceConnection = RecorderServiceConnection(this)
     private lateinit var binding: FragmentRouteListBinding
     private var isSelecting: Boolean = false
-    private var didSelectall: Boolean = false
+    private var didSelectAll: Boolean = false
     private val gpxChangeListener = { gpxContent: RealmResults<GpxContent> ->
         setPlaceholdersHidden(gpxContent.isNotEmpty())
     }
@@ -157,6 +157,7 @@ class GpxListFragment : Fragment(), RecorderServiceConnection.OnServiceConnected
     private fun onExportButtonClicked(button: View) {
         // Enable select mode
         isSelecting = true
+        binding.selectAllButton.text = getString(R.string.select_all)
         binding.listNavOverflowButton.visibility = View.GONE
         binding.gpxNavTitle.visibility = View.INVISIBLE
         binding.exportButton.visibility = View.GONE
@@ -164,7 +165,7 @@ class GpxListFragment : Fragment(), RecorderServiceConnection.OnServiceConnected
         binding.selectAllButton.visibility = View.VISIBLE
         binding.fab.hide()
         binding.exportFab.show()
-        didSelectall = false
+        didSelectAll = false
         adapter?.selectModeChanged(isSelecting)
     }
 
@@ -175,6 +176,8 @@ class GpxListFragment : Fragment(), RecorderServiceConnection.OnServiceConnected
     private fun disableSelectMode() {
         // disable select mode
         isSelecting = false
+        didSelectAll = false
+        binding.selectAllButton.text = getString(R.string.select_all)
         binding.listNavOverflowButton.visibility = View.VISIBLE
         binding.gpxNavTitle.visibility = View.VISIBLE
         binding.exportButton.visibility = View.VISIBLE
@@ -187,15 +190,16 @@ class GpxListFragment : Fragment(), RecorderServiceConnection.OnServiceConnected
 
     fun onExportFabClicked(button: View) {
         adapter?.let {
-            ExportFragment.newInstance(it.selectedIds).show(parentFragmentManager, "export")
+            ExportFragment.newInstance(it.selectedIds, actions = listOf(ExportFragment.Action.Download,
+                ExportFragment.Action.Share)).show(parentFragmentManager, "export")
         }
     }
 
     fun onSelectAllButtonClicked(view: View) {
-        if (didSelectall) {
+        if (didSelectAll) {
             binding.selectAllButton.text = getString(R.string.select_all)
             adapter?.selectedIds = mutableListOf()
-            didSelectall = false
+            didSelectAll = false
         } else {
             adapter?.selectedIds = adapter
                 ?.contentList
@@ -203,7 +207,7 @@ class GpxListFragment : Fragment(), RecorderServiceConnection.OnServiceConnected
                 ?.toMutableList()
                 ?: mutableListOf()
             binding.selectAllButton.text = getString(R.string.deselect_all)
-            didSelectall = true
+            didSelectAll = true
 
         }
         adapter?.notifyDataSetChanged()

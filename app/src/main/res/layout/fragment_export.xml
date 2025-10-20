@@ -72,35 +72,60 @@
         app:layout_constraintStart_toEndOf="@id/center_x"
         app:layout_constraintTop_toBottomOf="@id/export_title_tv" />
 
-    <Button
-        android:id="@+id/export_share_btn"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/filename_checkbox"
-        app:layout_constraintLeft_toRightOf="@id/center_x"
-        android:layout_marginTop="12dp"
-        android:layout_marginEnd="16dp"
-        android:lines="1"
-        android:textColor="@color/button_text_on_surface"
-        style="@style/Widget.MaterialComponents.Button.TextButton"
-        android:text="@string/share"
-        />
 
-    <Button
-        android:id="@+id/export_save_btn"
+
+    <LinearLayout android:id="@+id/button_container"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:lines="1"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toLeftOf="@id/center_x"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@id/filename_checkbox"
         android:layout_marginTop="12dp"
-        android:layout_marginStart="16dp"
-        android:textColor="@color/button_text_on_surface"
-        style="@style/Widget.MaterialComponents.Button.TextButton"
-        android:text="@string/save"
-        />
+        android:orientation="horizontal"
+        android:gravity="center"
+        >
+        <Button
+            android:id="@+id/export_save_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:lines="1"
+            android:layout_marginHorizontal="8dp"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toLeftOf="@id/center_x"
+            app:layout_constraintTop_toBottomOf="@id/filename_checkbox"
+            android:textColor="@color/button_text_on_surface"
+            style="@style/Widget.MaterialComponents.Button.TextButton"
+            android:text="@string/save"
+            />
+
+        <Button
+            android:id="@+id/export_download_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:lines="1"
+            android:layout_marginHorizontal="8dp"
+            app:layout_constraintLeft_toRightOf="@id/export_save_btn"
+            app:layout_constraintRight_toLeftOf="@id/export_share_btn"
+            app:layout_constraintTop_toBottomOf="@id/filename_checkbox"
+            android:textColor="@color/button_text_on_surface"
+            style="@style/Widget.MaterialComponents.Button.TextButton"
+            android:text="@string/download"
+            />
+
+        <Button
+            android:id="@+id/export_share_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/filename_checkbox"
+            app:layout_constraintLeft_toRightOf="@id/center_x"
+            android:lines="1"
+            android:layout_marginHorizontal="8dp"
+            android:textColor="@color/button_text_on_surface"
+            style="@style/Widget.MaterialComponents.Button.TextButton"
+            android:text="@string/share"
+            />
+    </LinearLayout>
 
     <ProgressBar
         android:id="@+id/export_progress_bar"
@@ -128,7 +153,7 @@
         android:src="@drawable/outline_info_24"
         app:tint="@color/md_onSurface"
         app:layout_constraintStart_toStartOf="@id/format_tv"
-        app:layout_constraintTop_toBottomOf="@id/export_save_btn"
+        app:layout_constraintTop_toBottomOf="@id/button_container"
         app:layout_constraintBottom_toBottomOf="parent"
         />
 
@@ -138,11 +163,11 @@
         android:layout_height="wrap_content"
         android:textSize="12sp"
         android:textColor="@color/md_onSurface"
-        android:text="@string/save_location_info"
+        android:text="@string/download_location_info"
         android:layout_marginStart="8dp"
         app:layout_constraintStart_toEndOf="@+id/info_icon"
         app:layout_constraintEnd_toEndOf="@id/filename_checkbox"
-        app:layout_constraintTop_toBottomOf="@id/export_save_btn"
+        app:layout_constraintTop_toBottomOf="@id/button_container"
         app:layout_constraintBottom_toBottomOf="parent"
         android:layout_marginTop="12dp"
         android:layout_marginBottom="12dp"

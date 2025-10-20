@@ -62,7 +62,7 @@
     <string name="privacy_policy">Podmínky ochrany osobních údajů</string>
     <string name="recording_in_progress">Probíhá záznam</string>
     <string name="resume_recording">Pokračovat</string>
-    <string name="save">Uložit</string>
+    <string name="save">Uložit…</string>
     <string name="share">Sdílet</string>
     <string name="shortcut_label">Spustit záznam</string>
     <string name="start">Začít</string>
@@ -85,5 +85,4 @@
     <string name="export_selected">Exportovat vybrané</string>
     <string name="select_all">Vybrat vše</string>
     <string name="deselect_all">Zrušit výběr všech</string>
-    <string name="save_location_info">Volba Uložit exportuje soubory do složky Stažené soubory tohoto zařízení.</string>
 </resources>

@@ -38,8 +38,12 @@ class GpxDetailsFragment : Fragment() {
         updateGpxTitle(it)
     }
 
-    private val exportTouchConsumer = Consumer<Unit> {
-        exportPressed()
+    private val saveTouchConsumer = Consumer<Unit> {
+        savePressed()
+    }
+
+    private val shareTouchConsumer = Consumer<Unit> {
+        sharePressed()
     }
 
     private val mapLayerTouchConsumer = Consumer<Unit> {
@@ -97,7 +101,8 @@ class GpxDetailsFragment : Fragment() {
 
         compositeDisposable.addAll(
             detailsView.gpxTitleObservable.subscribe(gpxTitleConsumer),
-            detailsView.exportTouchObservable.subscribe(exportTouchConsumer),
+            detailsView.saveTouchObservable.subscribe(saveTouchConsumer),
+            detailsView.shareTouchObservable.subscribe(shareTouchConsumer),
             detailsView.mapTypeToggleObservable.subscribe(mapLayerTouchConsumer),
             detailsView.deleteRouteObservable.subscribe(deleteRouteTouchConsumer),
             detailsView.resumeRecordingObservable.subscribe(resumeRecordingTouchConsumer),
@@ -126,8 +131,12 @@ class GpxDetailsFragment : Fragment() {
         context?.startActivity(Intent(context, CreateWaypointDialogActivity::class.java).putExtra(Keys.GpxId, gpxId.value))
     }
 
-    private fun exportPressed() {
-        ExportFragment.newInstance(listOf(gpxId.value)).show(parentFragmentManager, "export")
+    private fun savePressed() {
+        ExportFragment.newInstance(listOf(gpxId.value), listOf(ExportFragment.Action.Save)).show(parentFragmentManager, "export")
+    }
+
+    private fun sharePressed() {
+        ExportFragment.newInstance(listOf(gpxId.value), listOf(ExportFragment.Action.Share)).show(parentFragmentManager, "export")
     }
 
     private fun resumeRecording() {

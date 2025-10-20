@@ -116,7 +116,7 @@
       
   <string name="resume_recording">CV</string>
       
-  <string name="save">Enregistrer</string>
+  <string name="save">Enregistrer…</string>
       
   <string name="share">Partager</string>
       
@@ -154,6 +154,5 @@
     <string name="export_selected">Exporter la sélection</string>
     <string name="select_all">Tout sélectionner</string>
     <string name="deselect_all">Tout désélectionner</string>
-    <string name="save_location_info">Choisir Enregistrer exportera les fichiers vers le dossier Téléchargements de cet appareil.</string>
 
 </resources>

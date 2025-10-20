@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:id="@+id/save" android:title="@string/save"/>
+    <item android:id="@+id/share" android:title="@string/share"/>
+    <item android:id="@+id/toggle_map_type" android:title="@string/toggle_map_type" />
+    <item android:id="@+id/delete_route" android:title="@string/delete_route" />
+    <item android:id="@+id/rename_route" android:title="@string/rename_route" />
+</menu>

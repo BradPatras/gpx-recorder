@@ -83,7 +83,7 @@ class FileHelper {
                 }
                 true
             } ?: false
-        } catch (e: Exception) {
+        } catch (_: Exception) {
             false
         }
     }
@@ -113,6 +113,22 @@ class FileHelper {
 
         return createFile(context, gpxContentId, sharedFile, format)
             .observeOn(AndroidSchedulers.mainThread())
+    }
+
+
+    fun saveRouteFile(
+        context: Context,
+        gpxContentId: Long,
+        destinationFileURI: Uri,
+        format: Format
+    ): Completable {
+        return createFile(context, gpxContentId, destinationFileURI, format)
+            .observeOn(AndroidSchedulers.mainThread())
+            .ignoreElement()
+            .onErrorComplete {
+                Alerts(context).genericError(R.string.file_save_failed).show()
+                return@onErrorComplete true
+            }
     }
 
     fun getRouteFilename(gpxContentId: Long, format: Format, shouldUseIsoDate: Boolean): String {

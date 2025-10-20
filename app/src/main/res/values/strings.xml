@@ -71,7 +71,7 @@
     <string name="privacy_policy">Privacy Policy</string>
     <string name="recording_in_progress">Recording in progress</string>
     <string name="resume_recording">Resume</string>
-    <string name="save">Save</string>
+    <string name="save">Save…</string>
     <string name="share">Share</string>
     <string name="shortcut_label">Start recording</string>
     <string name="start">Start</string>
@@ -94,6 +94,10 @@
     <string name="export_selected">Export Selected</string>
     <string name="select_all">Select All</string>
     <string name="deselect_all">Deselect All</string>
-    <string name="save_location_info">Choosing Save will export the files to the Downloads folder of this device.</string>
+    <string name="download">Download</string>
+    <string name="download_location_info">Choosing Download will export the files to the Downloads folder of this device.</string>
+    <string name="toggle_map_type">Toggle map type</string>
+    <string name="delete_route">Delete route</string>
+    <string name="rename_route">Rename route</string>
 
 </resources>
