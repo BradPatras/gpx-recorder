@@ -1,13 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?><resources>
-      
+
   <plurals name="point_count">
-    <item quantity="one">%1$d       <string name="save">Guardar…</string>
-      
-  <string name="share">Compartir</string>to</item>
+    <item quantity="one">%1$d punto</item>
     <item quantity="many">%1$d puntos</item>
     <item quantity="other">%1$d puntos</item>
   </plurals>
-      
+
   <plurals name="waypoint_count">
     <item quantity="one">%d punto de referencia</item>
     <item quantity="many">%d puntos intermedios</item>
@@ -15,151 +13,151 @@
   </plurals>
 
   <!-- Alert stuff -->
-      
+
   <string name="action_settings">Ajustes</string>
-      
+
   <string name="title_activity_recording_configuration">nueva grabación</string>
-      
+
   <string name="denied_alert_title">Permisos requeridos</string>
-      
+
   <string name="denied_alert_message">No se pueden grabar pistas GPX sin permisos de ubicación</string>
-      
+
   <string name="denied_alert_button">Otorgar permisos</string>
-      
+
   <!-- Strings related to Settings -->
-      
+
   <string name="file_share_failed">Algo salió mal al intentar compartir el archivo.</string>
-      
+
   <string name="file_save_failed">Algo salió mal al intentar guardar el archivo.</string>
-      
+
   <string name="done">hecho</string>
-      
+
   <string name="add_note_hint">Añadir la nota…</string>
-      
+
   <string name="add_title_hint">Añadir título…</string>
-      
+
   <string name="add_waypoint">Añadir punto de ruta</string>
-      
+
   <string name="background_location_justification_desc">Esta aplicación recopila datos de ubicación para habilitar la función de registro de ruta incluso cuando la aplicación está cerrada o no está en uso. La aplicación intentará mostrar una notificación cada vez que recopile datos, pero es posible que no aparezca según las preferencias de notificación de su dispositivo.\n\n Su ubicación SOLO se recopilará mientras esté grabando una ruta.</string>
-      
+
   <string name="background_location_justification_title">Acceso a la ubicación de fondo</string>
-      
+
   <string name="background_permission_title">Permitir todo el tiempo</string>
-      
+
   <string name="battery_drain_warning">Los intervalos de menos de 1 minuto pueden provocar la descarga de la batería</string>
-      
+
   <string name="calculating_placeholder">calculador..</string>
-      
+
   <string name="cannot_create_waypoint">No se puede crear un waypoint en este momento</string>
-      
+
   <string name="channel_description">Controlar la sesión de grabación actual</string>
-      
+
   <string name="channel_name">Grabación</string>
-      
+
   <string name="clear_all_alert_button">Limpiar todo</string>
-      
+
   <string name="clear_all_alert_message">Esta acción eliminará todas las grabaciones y cancelará la grabación actual.</string>
-      
+
   <string name="clear_all_alert_title">Advertencia</string>
-      
+
   <string name="date">Fecha</string>
-      
+
   <string name="delete">Borrar</string>
-      
+
   <string name="delete_recording_alert_message">Esta acción no se puede deshacer</string>
-      
+
   <string name="delete_recording_alert_title">¿Está seguro de que desea eliminar esta ruta?</string>
-      
+
   <string name="delete_recordings">Eliminar grabaciones</string>
-      
+
   <string name="denied_alert_message_background">Si \"%1$s\" no se otorga el permiso de ubicación, la aplicación no podrá registrar su ruta.   La aplicación solo accederá a tu ubicación cuando estés grabando una ruta.</string>
-      
+
   <string name="developer_contact">Contacto del desarrollador</string>
-      
+
   <string name="distance_km">%.2f kilómetros</string>
-      
+
   <string name="edit_title_content_description">Editar título</string>
-      
+
   <string name="enter_title">Ingrese el título</string>
-      
+
   <string name="error">Error</string>
-      
+
   <string name="expand">Expandir</string>
-      
+
   <string name="failed_to_place_waypoint">Error al colocar el waypoint</string>
 
   <string name="how_often_to_record_track_points">Con qué frecuencia registrar puntos de seguimiento. (Aproximadamente)</string>
-      
+
   <string name="init_error_message">Verifique los permisos del archivo de la aplicación y vuelva a intentarlo.   Nota: esta aplicación no es compatible con dispositivos rooteados y debe instalarse desde Google Play Store.  Si este problema persiste, póngase en contacto con el desarrollador.  appdev.iboism\@gmail.com</string>
-      
+
   <string name="init_error_title">Error al inicializar la base de datos local</string>
-      
+
   <string name="interval_minutes">Intervalo</string>
-      
+
   <string name="legal">Legal</string>
-      
+
   <string name="new_recording">nueva grabación</string>
-      
+
   <string name="notification_recording_in_progress">Grabación de ubicación en curso</string>
-      
+
   <string name="notification_recording_paused">Grabación de ubicación en pausa</string>
 
   <string name="okay">Bueno</string>
-      
+
   <string name="open_source_license_info">Información de licencia de código abierto</string>
-      
+
   <string name="pause_recording">Pausa</string>
-      
+
   <string name="points">puntos</string>
-      
+
   <string name="privacy_policy">política de privacidad</string>
-      
+
   <string name="recording_in_progress">Grabación en progreso</string>
-      
+
   <string name="resume_recording">Reanudar</string>
-      
+
   <string name="save">Guardar…</string>
-      
+
   <string name="share">Compartir</string>
-      
+
   <string name="shortcut_label">Empezar a grabar</string>
-      
+
   <string name="start">Comenzar</string>
-      
+
   <string name="stop_recording">Detener</string>
-      
+
   <string name="title">Título</string>
-      
+
   <string name="email">Correo electrónico</string>
-      
+
   <string name="hour_initial">h</string>
-      
+
   <string name="minute_initial">m</string>
-      
+
   <string name="second_initial">s</string>
-      
+
   <string name="export_file">Exportar archivo</string>
-      
+
   <string name="file_format">Formato de archivo</string>
-      
+
   <string name="recorded_routes_will_show_up_here">Las rutas registradas se mostrarán aquí.</string>
-      
+
   <string name="start_recording_button">botón Iniciar grabación</string>
-      
+
   <string name="route_deleted">Ruta eliminada</string>
-      
-      <string name="tap_to_undo">Toca para deshacer</string>
-    <string name="use_iso_date_for_filename">Utilice la fecha ISO para el nombre del archivo</string>
-    <string name="select">Seleccionar</string>
-    <string name="cancel">Cancelar</string>
-    <string name="export">Exportar</string>
-    <string name="export_selected">Exportar seleccionados</string>
-    <string name="select_all">Seleccionar todo</string>
-    <string name="deselect_all">Deseleccionar todo</string>
-    <string name="download">Descargar</string>
-    <string name="download_location_info">Elegir Descargar exportará los archivos a la carpeta de Descargas de este dispositivo.</string>
-    <string name="toggle_map_type">Cambiar tipo de mapa</string>
-    <string name="delete_route">Eliminar ruta</string>
-    <string name="rename_route">Renombrar ruta</string>
+
+  <string name="tap_to_undo">Toca para deshacer</string>
+  <string name="use_iso_date_for_filename">Utilice la fecha ISO para el nombre del archivo</string>
+  <string name="select">Seleccionar</string>
+  <string name="cancel">Cancelar</string>
+  <string name="export">Exportar</string>
+  <string name="export_selected">Exportar seleccionados</string>
+  <string name="select_all">Seleccionar todo</string>
+  <string name="deselect_all">Deseleccionar todo</string>
+  <string name="download">Descargar</string>
+  <string name="download_location_info">Elegir Descargar exportará los archivos a la carpeta de Descargas de este dispositivo.</string>
+  <string name="toggle_map_type">Cambiar tipo de mapa</string>
+  <string name="delete_route">Eliminar ruta</string>
+  <string name="rename_route">Renombrar ruta</string>
 
 </resources>

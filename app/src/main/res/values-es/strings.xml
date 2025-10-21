@@ -1,9 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?><resources>
-      
+
   <plurals name="point_count">
-    <item quantity="one">%1$d       <string name="save">Guardar…</string>
-      
-  <string name="share">Compartir</string>to</item>
+    <item quantity="one">%1$d punto</item>
     <item quantity="many">%1$d puntos</item>
     <item quantity="other">%1$d puntos</item>
   </plurals>

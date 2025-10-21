@@ -88,8 +88,8 @@ class FileHelper {
         }
     }
 
-    fun shareRouteFiles(context: Context, gpxContentId: List<Long>, format: Format, shouldUseIsoDateFilename: Boolean): Completable {
-        val filesSingles = gpxContentId.map {
+    fun shareRouteFiles(context: Context, gpxContentIds: List<Long>, format: Format, shouldUseIsoDateFilename: Boolean): Completable {
+        val filesSingles = gpxContentIds.map {
             createShareRouteFile(context, it, format, shouldUseIsoDateFilename)
         }
         return Single.zip(filesSingles) { files ->

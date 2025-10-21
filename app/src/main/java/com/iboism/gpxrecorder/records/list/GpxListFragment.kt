@@ -190,9 +190,18 @@ class GpxListFragment : Fragment(), RecorderServiceConnection.OnServiceConnected
 
     fun onExportFabClicked(button: View) {
         adapter?.let {
-            ExportFragment.newInstance(it.selectedIds, actions = listOf(ExportFragment.Action.Download,
-                ExportFragment.Action.Share)).show(parentFragmentManager, "export")
+            if (it.selectedIds.isEmpty()) return
+
+            ExportFragment.newInstance(
+                it.selectedIds,
+                listOf(
+                    ExportFragment.Action.Download,
+                    ExportFragment.Action.Share
+                )
+            ).show(parentFragmentManager, "export")
         }
+
+        disableSelectMode()
     }
 
     fun onSelectAllButtonClicked(view: View) {

@@ -12,7 +12,7 @@ android {
     compileSdk 36
 
     defaultConfig {
-        applicationId "com.iboism.gpxrecorder"
+        applicationId = "com.iboism.gpxrecorder"
         minSdkVersion 29
         targetSdkVersion 34
         versionCode 50
@@ -20,20 +20,20 @@ android {
     }
 
     buildFeatures {
-        viewBinding true
-        buildConfig true
+        viewBinding = true
+        buildConfig = true
     }
 
     buildTypes {
         debug {
-            minifyEnabled false
-            shrinkResources false
-            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            minifyEnabled = false
+            shrinkResources = false
+            proguardFiles = [getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro']
         }
         release {
-            minifyEnabled true
-            shrinkResources false
-            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            minifyEnabled = true
+            shrinkResources = false
+            proguardFiles = [getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro']
         }
     }
 
@@ -42,10 +42,10 @@ android {
     }
 
     compileOptions {
-        sourceCompatibility JavaVersion.VERSION_18
-        targetCompatibility JavaVersion.VERSION_18
+        sourceCompatibility = JavaVersion.VERSION_18
+        targetCompatibility = JavaVersion.VERSION_18
     }
-    namespace 'com.iboism.gpxrecorder'
+    namespace = 'com.iboism.gpxrecorder'
 }
 
 dependencies {
