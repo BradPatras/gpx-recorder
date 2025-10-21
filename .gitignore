@@ -9,5 +9,7 @@
 */google-services.json
 *.apk
 app/release/*
+app/aab/release/*
+app/apk/release/*
 *google_maps_api.xml
 local.properties
