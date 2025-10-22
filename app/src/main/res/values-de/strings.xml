@@ -157,6 +157,8 @@
   <string name="download_location_info">Wenn Sie auf „Herunterladen" klicken, werden die Dateien in den Downloads-Ordner dieses Geräts exportiert.</string>
   <string name="toggle_map_type">Kartentyp umschalten</string>
   <string name="delete_route">Route löschen</string>
-  <string name="rename_route">Route umbenennen</string>
+    <string name="rename_route">Route umbenennen</string>
+    <string name="recording_stopped">Aufzeichnung gestoppt</string>
+    <string name="recording_timeout_description">Der Aufzeichnungsdienst wurde vom Android-System gestoppt. Öffnen Sie die App, um die Aufzeichnung Ihrer Route fortzusetzen.</string>
 
 </resources>

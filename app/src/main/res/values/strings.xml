@@ -99,5 +99,7 @@
     <string name="toggle_map_type">Toggle map type</string>
     <string name="delete_route">Delete route</string>
     <string name="rename_route">Rename route</string>
+    <string name="recording_stopped">Recording Stopped</string>
+    <string name="recording_timeout_description">The recording service has been stopped by the Android system. Open the app to resume recording your route.</string>
 
 </resources>

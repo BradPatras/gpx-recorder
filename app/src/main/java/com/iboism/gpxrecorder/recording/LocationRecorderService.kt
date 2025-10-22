@@ -2,6 +2,7 @@ package com.iboism.gpxrecorder.recording
 
 import android.annotation.SuppressLint
 import android.app.NotificationManager
+import android.app.PendingIntent
 import android.app.Service
 import android.content.Context
 import android.content.Intent
@@ -10,11 +11,16 @@ import android.os.Binder
 import android.os.Bundle
 import android.os.IBinder
 import android.os.SystemClock
+import androidx.core.app.NotificationCompat
+import androidx.core.app.NotificationCompat.FOREGROUND_SERVICE_IMMEDIATE
+import androidx.core.app.NotificationCompat.PRIORITY_HIGH
 import com.google.android.gms.location.LocationCallback
 import com.google.android.gms.location.LocationResult
 import com.google.android.gms.location.LocationServices
 import com.iboism.gpxrecorder.Events
 import com.iboism.gpxrecorder.Keys
+import com.iboism.gpxrecorder.MainActivity
+import com.iboism.gpxrecorder.R
 import com.iboism.gpxrecorder.model.GpxContent
 import com.iboism.gpxrecorder.model.RecordingConfiguration
 import com.iboism.gpxrecorder.model.TrackPoint
@@ -28,6 +34,7 @@ import java.util.Date
  */
 class LocationRecorderService : Service() {
     private val NOTIFICATION_ID: Int = 180153
+    private val TIMEOUT_NOTIFICATION_ID: Int = 180154
     var gpxId: Long? = null
     var isPaused: Boolean = false
 
@@ -48,6 +55,24 @@ class LocationRecorderService : Service() {
                 onLocationChanged(locationResult.lastLocation)
             }
         }
+    }
+
+    override fun onTimeout(startId: Int, serviceType: Int) {
+        val intentFlags = PendingIntent.FLAG_IMMUTABLE or PendingIntent.FLAG_UPDATE_CURRENT
+        val openAppIntent = Intent(applicationContext, MainActivity::class.java)
+        val openAppPendingIntent = PendingIntent.getActivity(applicationContext, TIMEOUT_NOTIFICATION_ID, openAppIntent, intentFlags)
+        val notification = NotificationCompat.Builder(applicationContext, CHANNEL_ID)
+            .setContentTitle(getString(R.string.recording_stopped))
+            .setContentText(getString(R.string.recording_timeout_description))
+            .setContentIntent(openAppPendingIntent)
+            .setPriority(PRIORITY_HIGH)
+            .setForegroundServiceBehavior(FOREGROUND_SERVICE_IMMEDIATE)
+            .setSmallIcon(R.drawable.ic_gpx_notification)
+            .build()
+        notificationManager.notify(TIMEOUT_NOTIFICATION_ID, notification)
+
+        super.onTimeout(startId, serviceType)
+        stopSelf()
     }
 
     override fun onDestroy() {

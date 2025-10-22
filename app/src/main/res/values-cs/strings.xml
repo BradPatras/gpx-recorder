@@ -90,4 +90,6 @@
     <string name="toggle_map_type">Přepnout typ mapy</string>
     <string name="delete_route">Smazat cestu</string>
     <string name="rename_route">Přejmenovat cestu</string>
+    <string name="recording_stopped">Záznam zastaven</string>
+    <string name="recording_timeout_description">Služba záznamu byla zastavena systémem Android. Otevřete aplikaci pro obnovení záznamu vaší cesty.</string>
 </resources>

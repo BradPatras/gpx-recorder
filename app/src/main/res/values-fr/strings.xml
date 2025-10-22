@@ -160,5 +160,6 @@
   <string name="toggle_map_type">Changer le type de carte</string>
   <string name="delete_route">Supprimer l\'itinéraire</string>
   <string name="rename_route">Renommer l\'itinéraire</string>
-
+  <string name="recording_stopped">Enregistrement arrêté</string>
+  <string name="recording_timeout_description">Le service d\'enregistrement a été arrêté par le système Android. Ouvrez l\'application pour reprendre l\'enregistrement de votre itinéraire.</string>
 </resources>

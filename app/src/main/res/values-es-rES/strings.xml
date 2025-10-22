@@ -157,7 +157,9 @@
   <string name="download">Descargar</string>
   <string name="download_location_info">Elegir Descargar exportará los archivos a la carpeta de Descargas de este dispositivo.</string>
   <string name="toggle_map_type">Cambiar tipo de mapa</string>
-  <string name="delete_route">Eliminar ruta</string>
-  <string name="rename_route">Renombrar ruta</string>
+    <string name="delete_route">Eliminar ruta</string>
+    <string name="rename_route">Renombrar ruta</string>
+    <string name="recording_stopped">Grabación detenida</string>
+    <string name="recording_timeout_description">El servicio de grabación ha sido detenido por el sistema Android. Abra la aplicación para reanudar la grabación de su ruta.</string>
 
 </resources>
