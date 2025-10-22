@@ -5,6 +5,8 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.view.ViewCompat
+import androidx.core.view.WindowInsetsCompat
 import androidx.fragment.app.Fragment
 import com.iboism.gpxrecorder.Keys
 import com.iboism.gpxrecorder.R
@@ -70,6 +72,15 @@ class GpxDetailsFragment : Fragment() {
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View {
         binding = FragmentRouteDetailsBinding.inflate(layoutInflater, container, false)
+
+        // Handle bottom insets for this fragment's content
+        ViewCompat.setOnApplyWindowInsetsListener(binding.detailRoot) { view, insets ->
+            val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
+            // Apply bottom padding to ensure FABs and RecyclerView content aren't hidden
+            view.setPadding(0, 0, 0, systemBars.bottom)
+            insets
+        }
+
         return binding.root
     }
 

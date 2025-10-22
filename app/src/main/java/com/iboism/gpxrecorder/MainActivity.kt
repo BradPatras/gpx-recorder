@@ -3,8 +3,11 @@ package com.iboism.gpxrecorder
 import android.annotation.SuppressLint
 import android.content.Intent
 import android.os.Bundle
+import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.view.ViewCompat
+import androidx.core.view.WindowInsetsCompat
 import com.iboism.gpxrecorder.extensions.getRealmInitFailure
 import com.iboism.gpxrecorder.model.GpxContent
 import com.iboism.gpxrecorder.model.RecordingConfiguration
@@ -23,8 +26,18 @@ class MainActivity : AppCompatActivity(), RecordingConfiguratorModal.Listener {
     private val recorderFragmentTag = "recorder"
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        enableEdgeToEdge()
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+        
+        // Handle window insets for edge-to-edge
+        val mainLayout = findViewById<android.view.View>(R.id.content_container)
+        ViewCompat.setOnApplyWindowInsetsListener(mainLayout) { view, insets ->
+            val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
+            // Only apply top, left, and right padding - let specific UI components handle bottom insets as needed
+            view.setPadding(systemBars.left, systemBars.top, systemBars.right, 0)
+            insets
+        }
 
         if (applicationContext.getRealmInitFailure()) {
             showSchemaFailure()

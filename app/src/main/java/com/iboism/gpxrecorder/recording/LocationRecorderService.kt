@@ -43,7 +43,7 @@ class LocationRecorderService : Service() {
     private var notificationHelper: RecordingNotification? = null
 
     private val notificationManager: NotificationManager
-        get() = getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+        get() = getSystemService(NOTIFICATION_SERVICE) as NotificationManager
 
     private val fusedLocation by lazy {
         LocationServices.getFusedLocationProviderClient(this@LocationRecorderService)

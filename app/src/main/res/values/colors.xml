@@ -11,7 +11,7 @@
     <color name="on_nav_bar_surface_secondary">@color/md_primaryContainer</color>
     <color name="large_button_surface">@color/md_primary</color>
     <color name="on_large_button_surface">@color/md_onPrimary</color>
-
+    <color name="transparent">#00FFFFFF</color>
     <color name="seed">#62cfeb</color>
     <color name="md_primary">#00687B</color>
     <color name="md_onPrimary">#FFFFFF</color>

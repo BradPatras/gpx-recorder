@@ -7,6 +7,8 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.PopupMenu
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.view.ViewCompat
+import androidx.core.view.WindowInsetsCompat
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
@@ -128,6 +130,8 @@ class GpxListFragment : Fragment(), RecorderServiceConnection.OnServiceConnected
     }
 
     private fun showContentViewerFragment(gpxId: Long) {
+        if (isSelecting) return
+
         parentFragmentManager.beginTransaction()
             .setCustomAnimations(R.anim.slide_in_right, R.anim.none, R.anim.none, R.anim.slide_out_right)
             .replace(R.id.content_container, GpxDetailsFragment.newInstance(gpxId))
@@ -136,6 +140,8 @@ class GpxListFragment : Fragment(), RecorderServiceConnection.OnServiceConnected
     }
 
     private fun showRecordingFragment() {
+        if (isSelecting) return
+
         val gpxId = currentlyRecordingRouteId ?: return
         parentFragmentManager.beginTransaction()
             .setCustomAnimations(R.anim.slide_in_right, R.anim.none, R.anim.none, R.anim.slide_out_right)
@@ -146,6 +152,15 @@ class GpxListFragment : Fragment(), RecorderServiceConnection.OnServiceConnected
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         binding = FragmentRouteListBinding.inflate(inflater, container, false)
+
+        // Handle bottom insets for this fragment's content
+        ViewCompat.setOnApplyWindowInsetsListener(binding.gpxListView) { view, insets ->
+            val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
+            // Apply bottom padding to ensure FABs and RecyclerView content aren't hidden
+            view.setPadding(0, 0, 0, systemBars.bottom)
+            insets
+        }
+
         return binding.root
     }
 
