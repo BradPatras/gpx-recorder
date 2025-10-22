@@ -9,12 +9,12 @@ apply plugin: 'kotlin-kapt'
 apply plugin: 'realm-android'
 
 android {
-    compileSdk 36
+    compileSdk 35
 
     defaultConfig {
         applicationId = "com.iboism.gpxrecorder"
         minSdkVersion 29
-        targetSdkVersion 34
+        targetSdkVersion 35
         versionCode 50
         versionName "2.18"
     }
@@ -45,6 +45,11 @@ android {
         sourceCompatibility = JavaVersion.VERSION_18
         targetCompatibility = JavaVersion.VERSION_18
     }
+    
+    kotlinOptions {
+        jvmTarget = '18'
+    }
+    
     namespace = 'com.iboism.gpxrecorder'
 }
 
