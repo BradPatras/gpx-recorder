@@ -15,7 +15,7 @@ android {
         applicationId = "com.iboism.gpxrecorder"
         minSdkVersion 29
         targetSdkVersion 35
-        versionCode 50
+        versionCode 51
         versionName "2.18"
     }
 
