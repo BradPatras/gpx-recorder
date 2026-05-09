@@ -66,7 +66,7 @@ class GpxDetailsFragment : Fragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        gpxId = Holder(requireArguments().get(Keys.GpxId) as Long)
+        gpxId = Holder(requireArguments().getLong(Keys.GpxId))
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,

@@ -3,10 +3,10 @@ package com.iboism.gpxrecorder.recording.waypoint
 import android.annotation.SuppressLint
 import android.app.PendingIntent
 import android.graphics.Color
-import android.graphics.drawable.ColorDrawable
 import android.os.Build
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.graphics.drawable.toDrawable
 import com.google.android.gms.location.LocationRequest
 import com.google.android.gms.location.LocationServices
 import com.google.android.gms.location.Priority
@@ -40,9 +40,10 @@ class CreateWaypointDialogActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityCreateWaypointDialogBinding.inflate(layoutInflater)
         setContentView(binding.root)
-        window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+        window?.setBackgroundDrawable(Color.TRANSPARENT.toDrawable())
         val bundle = intent.extras ?: return waypointError()
-        val gpxId = checkNotNull(bundle[Keys.GpxId] as? Long) { waypointError() }
+        val gpxId = bundle.getLong(Keys.GpxId)
+        if (gpxId == 0L) { return waypointError() }
 
         binding.doneButton.setOnClickListener {
             startWaypointService(gpxId, binding.titleEditText.text.toString(), binding.noteEditText.text.toString())

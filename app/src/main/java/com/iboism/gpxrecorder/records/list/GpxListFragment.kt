@@ -162,11 +162,6 @@ class GpxListFragment : Fragment(), RecorderServiceConnection.OnServiceConnected
         return binding.root
     }
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        setHasOptionsMenu(true)
-    }
-
     private fun onExportButtonClicked(button: View) {
         // Enable select mode
         isSelecting = true

@@ -82,9 +82,9 @@ class MainActivity : AppCompatActivity(), RecordingConfiguratorModal.Listener {
         }
     }
 
-    override fun onNewIntent(intent: Intent?) {
+    override fun onNewIntent(intent: Intent) {
         super.onNewIntent(intent)
-        (intent?.extras?.get(Keys.GpxId) as? Long)?.let {
+        intent.extras?.getLong(Keys.GpxId)?.let {
             intent.extras?.remove(Keys.GpxId)
             handleOpenRecordingIntent(it)
         }

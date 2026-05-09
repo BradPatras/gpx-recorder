@@ -5,7 +5,7 @@ import android.content.Intent
 import android.net.Uri
 import android.view.MenuItem
 import androidx.appcompat.app.AlertDialog
-import com.google.android.gms.oss.licenses.OssLicensesMenuActivity
+import com.google.android.gms.oss.licenses.v2.OssLicensesMenuActivity
 import com.google.android.material.navigation.NavigationView
 import com.iboism.gpxrecorder.R
 import com.iboism.gpxrecorder.model.GpxContent

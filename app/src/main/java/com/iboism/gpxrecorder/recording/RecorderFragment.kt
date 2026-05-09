@@ -9,7 +9,9 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.PopupMenu
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
 import com.iboism.gpxrecorder.Events
 import com.iboism.gpxrecorder.Keys
 import com.iboism.gpxrecorder.R
@@ -22,6 +24,7 @@ import io.reactivex.Single
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.Disposable
 import io.realm.Realm
+import kotlinx.coroutines.launch
 import org.greenrobot.eventbus.EventBus
 import org.greenrobot.eventbus.Subscribe
 import java.util.concurrent.TimeUnit
@@ -36,7 +39,7 @@ class RecorderFragment : Fragment(), RecorderServiceConnection.OnServiceConnecte
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        gpxId = arguments?.get(Keys.GpxId) as? Long
+        gpxId = arguments?.getLong(Keys.GpxId)
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
@@ -172,8 +175,10 @@ class RecorderFragment : Fragment(), RecorderServiceConnection.OnServiceConnecte
     }
 
     override fun onServiceDisconnected() {
-        lifecycleScope.launchWhenResumed {
-            dismiss()
+        lifecycleScope.launch {
+            repeatOnLifecycle(Lifecycle.State.RESUMED) {
+                dismiss()
+            }
         }
     }
 
