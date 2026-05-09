@@ -154,7 +154,7 @@ class GpxListFragment : Fragment(), RecorderServiceConnection.OnServiceConnected
         binding = FragmentRouteListBinding.inflate(inflater, container, false)
 
         // Handle bottom insets for this fragment's content
-        ViewCompat.setOnApplyWindowInsetsListener(binding.gpxListView) { view, insets ->
+        ViewCompat.setOnApplyWindowInsetsListener(binding.root) { view, insets ->
             val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
             // Apply bottom padding to ensure FABs and RecyclerView content aren't hidden
             view.setPadding(0, 0, 0, systemBars.bottom)
